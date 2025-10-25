@@ -1,0 +1,164 @@
+/* ========== إعدادات عامة ========== */
+body {
+    font-family: 'Cairo', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #0e0e26, #1f1f3a);
+    color: #fff;
+    text-align: center;
+    line-height: 1.8;
+    overflow-x: hidden;
+}
+
+/* ========== قسم البداية ========== */
+.hero-section {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: radial-gradient(circle at top, #222255, #0e0e26);
+    padding: 40px;
+    animation: fadeIn 2s ease-in-out;
+}
+
+.hero-section h1 {
+    font-size: 2.4em;
+    font-weight: 900;
+    color: #00e5ff;
+    text-shadow: 0 0 15px #00e5ff;
+    min-height: 70px;
+}
+
+.tagline {
+    font-size: 1.2em;
+    color: #ccc;
+    margin-top: 15px;
+}
+
+.cta-button {
+    background-color: #00e5ff;
+    color: #000;
+    font-weight: bold;
+    border: none;
+    border-radius: 50px;
+    padding: 15px 35px;
+    cursor: pointer;
+    margin-top: 30px;
+    font-size: 1.1em;
+    transition: 0.3s;
+}
+
+.cta-button:hover {
+    background-color: #fff;
+    color: #00e5ff;
+    box-shadow: 0 0 20px #00e5ff;
+}
+
+/* ========== الأقسام الأخرى ========== */
+.section {
+    padding: 70px 30px;
+    background-color: #161636;
+    border-top: 3px solid #00e5ff44;
+}
+
+.section:nth-child(even) {
+    background-color: #1e1e45;
+}
+
+.section h2 {
+    color: #00e5ff;
+    font-size: 1.8em;
+    margin-bottom: 20px;
+}
+
+.concept-card {
+    max-width: 800px;
+    margin: auto;
+    background: #2a2a5a;
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 0 25px rgba(0, 229, 255, 0.2);
+    text-align: justify;
+}
+
+/* ========== مربعات الأمثلة ========== */
+.example-box {
+    background: rgba(0, 229, 255, 0.1);
+    border-left: 4px solid #00e5ff;
+    padding: 10px 15px;
+    margin-top: 15px;
+    border-radius: 10px;
+}
+
+/* ========== منطقة التفاعل ========== */
+.interactive-area {
+    background-color: rgba(255, 255, 255, 0.05);
+    margin-top: 25px;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0, 229, 255, 0.15);
+}
+
+.variable-creator {
+    margin: 20px 0;
+}
+
+.variable-creator input,
+.variable-creator select {
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    margin: 5px;
+    font-size: 1em;
+}
+
+.output-display {
+    margin-top: 15px;
+    background: #111;
+    border-radius: 10px;
+    padding: 15px;
+    text-align: left;
+    direction: ltr;
+}
+
+/* ========== الفوتر ========== */
+.footer {
+    background: #0e0e26;
+    padding: 25px;
+    font-size: 0.9em;
+    color: #aaa;
+}
+
+/* ========== تأثيرات الحركة ========== */
+.fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeIn 1s ease forwards;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ========== تأثير الكتابة الآلية ========== */
+.typewriter {
+    display: inline-block;
+    border-right: 3px solid #00e5ff;
+    white-space: nowrap;
+    overflow: hidden;
+    animation: typing 3.5s steps(40, end), blink 0.6s infinite step-end alternate;
+}
+
+@keyframes typing {
+    from { width: 0 }
+    to { width: 100% }
+}
+
+@keyframes blink {
+    50% { border-color: transparent }
+}

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>اختبار الدرس الأول - JavaScript</title>
+  <style>
+    body {
+      font-family: 'Cairo', sans-serif;
+      background: linear-gradient(135deg, #f9f9f9, #e0f7fa);
+      color: #222;
+      text-align: center;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #00796b;
+      font-size: 2em;
+    }
+
+    .quiz-container {
+      max-width: 800px;
+      margin: auto;
+      background: white;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+      text-align: right;
+    }
+
+    .question {
+      margin: 20px 0;
+      font-weight: bold;
+      color: #004d40;
+    }
+
+    .option {
+      background-color: #f1f8e9;
+      border: 2px solid #009688;
+      border-radius: 10px;
+      padding: 10px;
+      margin: 8px 0;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .option:hover {
+      background-color: #e0f2f1;
+      transform: scale(1.03);
+    }
+
+    .feedback {
+      margin-top: 8px;
+      font-size: 15px;
+      font-weight: bold;
+      color: #004d40;
+    }
+
+    .btn {
+      background: linear-gradient(90deg, #009688, #26a69a);
+      color: white;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      margin: 10px 5px;
+      transition: all 0.3s ease;
+      font-size: 16px;
+    }
+
+    .btn:hover {
+      transform: scale(1.05);
+      background: linear-gradient(90deg, #00796b, #004d40);
+    }
+
+    .result {
+      font-size: 18px;
+      margin-top: 20px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .footer {
+      margin-top: 30px;
+      font-size: 14px;
+      color: #555;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>📘 اختبار الدرس الأول - JavaScript</h1>
+
+  <div class="quiz-container" id="quiz">
+    <div id="questions"></div>
+    <div style="text-align:center;">
+      <button class="btn" onclick="submitQuiz()">عرض النتيجة</button>
+      <button class="btn" onclick="showCorrectAnswers()">اعرض الإجابات الصحيحة</button>
+    </div>
+    <div id="result" class="result"></div>
+    <br>
+    <div style="text-align:center;">
+      <button class="btn" onclick="location.href='lesson1.html'">🔙 رجوع للدرس</button>
+      <button class="btn" onclick="location.href='index.html'">🏠 الصفحة الرئيسية</button>
+      <button class="btn" onclick="location.href='lesson2.html'">📘 الدرس التاني</button>
+    </div>
+  </div>
+
+  <div class="footer">
+    تم التصميم بواسطة <strong>أحمد عزت</strong> ❤️
+  </div>
+
+  <script>
+    const quizData = [
+      { question: "يعني إيه برمجة؟", options: ["طريقة لتزيين المواقع", "أوامر بنكتبها للكمبيوتر علشان ينفذها", "لغة سرية بين الناس", "تصميم صور متحركة"], answer: 1, explanation: "البرمجة هي أوامر بنكتبها علشان الكمبيوتر ينفذها خطوة بخطوة." },
+      { question: "إيه وظيفة console.log() ؟", options: ["بتفتح نافذة جديدة", "بتطبع نتايج أو كلام في الكونسول", "بتوقف الكود", "بتحذف ملف"], answer: 1, explanation: "console.log() بتستخدم لعرض النتايج أو الكلام في الكونسول." },
+      { question: "يعني إيه متغير (Variable)؟", options: ["مكان نخزن فيه قيم زي الأرقام أو النصوص", "زر في الصفحة", "صورة في الكود", "اسم موقع"], answer: 0, explanation: "المتغير زي الصندوق اللي بنحط فيه بيانات نستخدمها بعد كده." },
+      { question: "يعني إيه نوع بيانات (Data Type)؟", options: ["شكل النص", "نوع القيمة (رقم - نص - منطقي)", "لون الخلفية", "الخط المستخدم"], answer: 1, explanation: "أنواع البيانات بتحدد نوع القيمة اللي بنتعامل معاها زي string أو number." },
+      { question: "إزاي أكتب تعليق في الكود؟", options: ["# تعليق", "// تعليق", "<!-- تعليق -->", "/* تعليق */"], answer: 1, explanation: "في JavaScript بنكتب التعليق بـ // علشان الكمبيوتر يتجاهله." },
+      { question: "لو كتبت console.log(5 + 3); النتيجة هتكون؟", options: ["53", "8", "خطأ", "undefined"], answer: 1, explanation: "5 + 3 عملية جمع، فالنتيجة 8." },
+      { question: "String يعني إيه؟", options: ["رقم", "نص", "كود برمجي", "رمز"], answer: 1, explanation: "String يعني نص، زي 'أحمد' أو 'مرحبا'." },
+      { question: "Boolean يعني إيه؟", options: ["نوع بيحتوي أرقام", "نوع بيحتوي صح أو غلط", "نوع بيخزن جمل", "نوع من الصور"], answer: 1, explanation: "Boolean بيكون إما true أو false، يعني صح أو غلط." },
+      { question: "يعني إيه let في JavaScript؟", options: ["أداة تعريف متغير", "كود تشغيل البرنامج", "أداة حذف", "أداة مقارنة"], answer: 0, explanation: "let بنستخدمها لتعريف متغير جديد." },
+      { question: "إيه الفرق بين + و * ؟", options: ["الاتنين للجمع", "+ للجمع و * للضرب", "+ للطباعة و * للقسمة", "الاتنين بيطبعوا النصوص"], answer: 1, explanation: "+ للجمع و * للضرب." },
+
+      // الأسئلة الجديدة ↓
+      { question: "لو كتبت console.log('5' + 5); النتيجة؟", options: ["10", "55", "خطأ", "5"], answer: 1, explanation: "الكمبيوتر هيحول الرقم لنص ويجمعهم كنص، فالنتيجة '55'." },
+      { question: "typeof 123 هتطبع إيه؟", options: ["string", "number", "boolean", "undefined"], answer: 1, explanation: "typeof 123 هتطلع 'number' لأنه رقم." },
+      { question: "لو كتبت // ده كود، الكمبيوتر هيعمل إيه؟", options: ["ينفذه", "يتجاهله", "يطبع خطأ", "يكرر السطر"], answer: 1, explanation: "الكمبيوتر بيتجاهل التعليقات لأنها مش أوامر تنفيذية." },
+      { question: "لو عايز أضرب رقمين أستخدم؟", options: ["-", "+", "*", "/"], answer: 2, explanation: "* هي الرمز المستخدم للضرب في JavaScript." },
+      { question: "console.log(10 / 2); الناتج؟", options: ["12", "8", "5", "20"], answer: 2, explanation: "10 ÷ 2 = 5." },
+      { question: "يعني إيه undefined؟", options: ["قيمة مش محددة", "كلمة محجوزة", "خطأ في الكود", "رقم"], answer: 0, explanation: "undefined معناها إن المتغير اتعرف بس لسه ماخدش قيمة." },
+      { question: "إيه اللي بيعمله الكود let name = 'Ahmed'; ؟", options: ["بيجمع رقمين", "بيعرف متغير اسمه name ويحط فيه نص", "يطبع الاسم", "ينشئ دالة"], answer: 1, explanation: "بيعرف متغير اسمه name ويحفظ فيه النص 'Ahmed'." },
+      { question: "إيه النتيجة لو كتبت console.log(typeof true); ؟", options: ["boolean", "number", "string", "true"], answer: 0, explanation: "true نوعها boolean لأنها قيمة منطقية." },
+      { question: "إيه اللي بيعمله الكود console.log(2 * 3 + 4); ؟", options: ["يطبع 10", "يطبع 14", "يطبع 24", "يطبع 6"], answer: 0, explanation: "الأولوية للضرب، 2*3=6 وبعدين +4 يبقى الناتج 10." },
+      { question: "لو كتبت console.log('Hello' + ' Ahmed'); هتطبع إيه؟", options: ["HelloAhmed", "Hello Ahmed", "خطأ", "Ahmed Hello"], answer: 1, explanation: "هيجمع النصين ويضيف مسافة بينهم، فهتطبع Hello Ahmed." }
+    ];
+
+    const questionsDiv = document.getElementById("questions");
+    let selectedAnswers = new Array(quizData.length).fill(null);
+
+    quizData.forEach((q, i) => {
+      const div = document.createElement("div");
+      div.classList.add("question-block");
+      div.innerHTML = `
+        <p class="question">${i + 1}. ${q.question}</p>
+        ${q.options.map((opt, index) => `
+          <div class="option" onclick="selectOption(${i}, ${index}, this)">${opt}</div>
+        `).join('')}
+        <div id="feedback-${i}" class="feedback"></div>
+      `;
+      questionsDiv.appendChild(div);
+    });
+
+    function selectOption(qIndex, optIndex, el) {
+      const questionBlock = el.parentNode;
+      const options = questionBlock.querySelectorAll(".option");
+      const feedback = questionBlock.querySelector(`#feedback-${qIndex}`);
+
+      options.forEach(opt => opt.style.backgroundColor = "#f1f8e9");
+
+      selectedAnswers[qIndex] = optIndex;
+
+      if (optIndex === quizData[qIndex].answer) {
+        el.style.backgroundColor = "#a5d6a7";
+        feedback.innerHTML = `✅ صح! ${quizData[qIndex].explanation}`;
+        feedback.style.color = "#2e7d32";
+      } else {
+        el.style.backgroundColor = "#ef9a9a";
+        feedback.innerHTML = `❌ غلط! ${quizData[qIndex].explanation}`;
+        feedback.style.color = "#c62828";
+      }
+    }
+
+    function submitQuiz() {
+      let score = 0;
+      quizData.forEach((q, i) => {
+        if (selectedAnswers[i] === q.answer) score++;
+      });
+      const resultDiv = document.getElementById("result");
+      const total = quizData.length;
+
+      if (score === total) {
+        resultDiv.innerHTML = `🎉 ممتاز يا مبرمج المستقبل! جبت <b>${score}</b> من <b>${total}</b> ✅`;
+      } else if (score >= total / 2) {
+        resultDiv.innerHTML = `👏 نتيجتك حلوة! جبت <b>${score}</b> من <b>${total}</b>، كمل وراجع الدرس تاني 💪`;
+      } else {
+        resultDiv.innerHTML = `💪 محتاج مراجعة بسيطة، جبت <b>${score}</b> من <b>${total}</b>، شد حيلك المرة الجاية!`;
+      }
+    }
+
+    function showCorrectAnswers() {
+      quizData.forEach((q, i) => {
+        const feedback = document.getElementById(`feedback-${i}`);
+        feedback.innerHTML = `✅ الإجابة الصحيحة: <b>${q.options[q.answer]}</b> - ${q.explanation}`;
+        feedback.style.color = "#2e7d32";
+      });
+    }
+  </script>
+
+</body>
+</html>

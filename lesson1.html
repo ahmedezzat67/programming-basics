@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>الدرس الأول - مقدمة في البرمجة بلغة JavaScript</title>
+  <style>
+    body {
+      font-family: 'Cairo', sans-serif;
+      background: linear-gradient(135deg, #f9f9f9, #e0f7fa);
+      color: #222;
+      text-align: center;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #00796b;
+      font-size: 2em;
+    }
+
+    .content {
+      max-width: 850px;
+      margin: auto;
+      background: white;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+      text-align: right;
+    }
+
+    .code-editor {
+      width: 100%;
+      height: 150px;
+      font-family: "Courier New", monospace;
+      font-size: 15px;
+      direction: ltr;
+      text-align: left;
+      border: 2px solid #009688;
+      border-radius: 10px;
+      padding: 10px;
+      background-color: #f1f8e9;
+      color: #000;
+      transition: 0.3s;
+    }
+
+    .code-editor:focus {
+      background-color: #e0f2f1;
+      box-shadow: 0 0 10px #26a69a;
+    }
+
+    .btn {
+      background: linear-gradient(90deg, #009688, #26a69a);
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: all 0.3s ease;
+    }
+
+    .btn:hover {
+      transform: scale(1.05);
+      background: linear-gradient(90deg, #00796b, #004d40);
+    }
+
+    .output {
+      margin-top: 10px;
+      background-color: #e0f7fa;
+      border-radius: 8px;
+      padding: 10px;
+      font-family: "Courier New", monospace;
+      color: #004d40;
+      direction: ltr;
+      text-align: left;
+      white-space: pre-wrap;
+    }
+
+    .note {
+      background-color: #fff3cd;
+      color: #856404;
+      padding: 10px;
+      border-radius: 8px;
+      margin: 10px 0;
+    }
+
+    .footer {
+      margin-top: 30px;
+      font-size: 14px;
+      color: #555;
+    }
+
+    hr {
+      border: 1px solid #ccc;
+      margin: 30px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>💻 الدرس الأول: مقدمة في البرمجة بلغة JavaScript</h1>
+
+  <div class="content">
+    <p>
+      قبل ما نبدأ في الأكواد، تعال نفهم يعني إيه برمجة ببساطة.  
+      تخيل إنك بتدي أوامر لصاحبك يعمل حاجات معينة زي: "هات كباية المية"،  
+      "افتح النور"، "اقفل الباب"… البرمجة هي نفس الفكرة،  
+      بس بدل ما بتكلم صاحبك، بتكلم **الكمبيوتر**!
+    </p>
+
+    <div class="note">
+      🧠 الكمبيوتر مش بيفهم غير لغة الأوامر، وإحنا اللي بنعلمه إزاي يتصرف خطوة بخطوة.
+    </div>
+
+    <h3>🔹 أولًا: الطباعة في الكونسول</h3>
+    <p>
+      الكونسول ده زي المكان اللي الكمبيوتر بيكلمك فيه وبيطبعلك النتايج.  
+      يعني لو قولتله "اطبعلي كلمة مرحبًا"، هتظهرلك هناك.
+    </p>
+
+    <pre class="code-editor" readonly>
+console.log("مرحبًا بيك في عالم البرمجة!");
+    </pre>
+
+    <p>جرب بنفسك 👇</p>
+    <textarea id="userCode1" class="code-editor" placeholder='اكتب هنا زي console.log("أنا بدأت أتعلم!");'></textarea><br>
+    <button class="btn" onclick="runCode('userCode1', 'output1')">عرض النتيجة</button>
+    <div id="output1" class="output"></div>
+
+    <hr>
+
+    <h3>🔹 ثانيًا: التعليقات في الكود</h3>
+    <p>
+      أوقات بتحتاج تكتب ملاحظات في الكود علشان تفتكرها بعدين.  
+      التعليقات دي الكمبيوتر بيتجاهلها تمامًا، بس بتفيدك انت!  
+      زي لما تكتب على ورقة "ما تنساش تعمل كذا".
+    </p>
+
+    <pre class="code-editor" readonly>
+// ده تعليق مش بيتنفذ
+console.log("أهلاً!");
+    </pre>
+
+    <p>جرب تعمل تعليق بنفسك 👇</p>
+    <textarea id="userCode2" class="code-editor" placeholder='اكتب كود فيه تعليق'></textarea><br>
+    <button class="btn" onclick="runCode('userCode2', 'output2')">عرض النتيجة</button>
+    <div id="output2" class="output"></div>
+
+    <hr>
+
+    <h3>🔹 ثالثًا: أنواع البيانات</h3>
+    <p>
+      زي ما في حياتنا عندنا حاجات مختلفة (أسماء، أرقام، آراء)،  
+      في البرمجة برضه في أنواع بيانات:  
+      <strong>string</strong> يعني نص، <strong>number</strong> يعني رقم،  
+      و<strong>boolean</strong> يعني صح أو غلط.
+    </p>
+
+    <pre class="code-editor" readonly>
+let name = "أحمد";
+let age = 20;
+let isStudent = true;
+
+console.log(name);
+console.log(age);
+console.log(isStudent);
+    </pre>
+
+    <p>جرب تكتب بياناتك 👇</p>
+    <textarea id="userCode3" class="code-editor" placeholder='جرب تكتب كود فيه اسمك وسنك'></textarea><br>
+    <button class="btn" onclick="runCode('userCode3', 'output3')">عرض النتيجة</button>
+    <div id="output3" class="output"></div>
+
+    <hr>
+
+    <h3>🔹 رابعًا: العمليات الحسابية</h3>
+    <p>
+      الكمبيوتر بيقدر يحسب زي الآلة الحاسبة.  
+      تقدر تجمع، تطرح، تضرب وتقسم بكل سهولة.
+    </p>
+
+    <pre class="code-editor" readonly>
+let x = 10;
+let y = 3;
+console.log(x + y); // جمع
+console.log(x - y); // طرح
+console.log(x * y); // ضرب
+console.log(x / y); // قسمة
+    </pre>
+
+    <p>جرب تحسب حاجة بنفسك 👇</p>
+    <textarea id="userCode4" class="code-editor" placeholder='اكتب كود فيه عمليات حسابية'></textarea><br>
+    <button class="btn" onclick="runCode('userCode4', 'output4')">عرض النتيجة</button>
+    <div id="output4" class="output"></div>
+
+    <hr>
+
+    <h3>🧭 ملخص الدرس</h3>
+    <ul>
+      <li>البرمجة = أوامر للكمبيوتر.</li>
+      <li>console.log() بتطبع الكلام أو النتايج.</li>
+      <li>التعليقات بتساعدك تفتكر وتشرح الكود.</li>
+      <li>في أنواع بيانات مختلفة (نصوص - أرقام - منطقية).</li>
+      <li>تقدر تعمل عمليات حسابية زي الجمع والطرح والضرب.</li>
+    </ul>
+
+    <button class="btn" onclick="location.href='quiz1.html'">📘 اختبار الدرس</button>
+    <button class="btn" onclick="location.href='index.html'">🏠 الرجوع للصفحة الرئيسية</button>
+  </div>
+
+  <div class="footer">
+    تم التصميم بواسطة <strong>أحمد عزت</strong> ❤️
+  </div>
+
+  <script>
+    function runCode(inputId, outputId) {
+      const code = document.getElementById(inputId).value;
+      const outputDiv = document.getElementById(outputId);
+      try {
+        const result = eval(code);
+        outputDiv.textContent = result !== undefined ? result : "✅ الكود اشتغل بنجاح!";
+      } catch (error) {
+        outputDiv.textContent = "❌ في خطأ في الكود: " + error.message;
+      }
+    }
+  </script>
+
+</body>
+</html>

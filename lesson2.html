@@ -1,89 +1,763 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>💻 الدرس الثاني - قيد التحضير</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>الدرس التاني - المتغيرات والجمل الشرطية في JavaScript</title>
   <style>
-    body {
-      font-family: 'Cairo', sans-serif;
-      background: linear-gradient(135deg, #f9f9f9, #e0f7fa);
-      color: #222;
-      text-align: center;
-      padding: 20px;
+    /* ستايل مطابق ومحسّن */
+    @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap');
+    :root{
+      --primary:#00796b;
+      --green1:#009688;
+      --green2:#26a69a;
+      --bg1: #f9f9f9;
+      --bg2: #e0f7fa;
+      --card:#fff;
+      --code-bg:#f1f8e9;
+      --accent:#ffe227;
+    }
+    *{box-sizing:border-box}
+    body{
+      font-family:'Cairo',sans-serif;
+      background: linear-gradient(135deg,var(--bg1),var(--bg2));
+      color:#222;
+      margin:0;
+      padding:20px;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
     }
 
-    h1 {
-      color: #00796b;
-      font-size: 2em;
-    }
+    /* خطوط وعناوين أثقل وأكثر ظهورًا */
+    h1{color:var(--primary); text-align:center; font-size:2rem; margin-bottom:8px; font-weight:900;}
+    h3{color:var(--green1); margin:16px 0; font-weight:800;}
+    h4{margin:10px 0; font-weight:800;}
 
-    .content {
-      max-width: 800px;
-      margin: auto;
-      background: white;
-      padding: 25px;
-      border-radius: 15px;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-      text-align: right;
+    .content{
+      max-width:980px; margin:12px auto; background:var(--card); padding:24px; border-radius:14px;
+      box-shadow:0 6px 24px rgba(0,0,0,0.08); text-align:right;
     }
-
-    .btn {
-      background: linear-gradient(90deg, #009688, #26a69a);
-      color: white;
-      padding: 12px 25px;
-      border: none;
-      border-radius: 12px;
-      cursor: pointer;
-      margin-top: 15px;
-      transition: all 0.3s ease;
-      font-size: 16px;
+    .lead{color:#333; line-height:1.8; margin-bottom:12px; font-weight:700;}
+    .explain{color:#333; line-height:1.6; margin-bottom:8px; font-weight:600;}
+    .note{background:#fff3cd; color:#856404; padding:12px; border-radius:8px; margin:12px 0; font-weight:700;}
+    hr{border:none;border-top:1px solid #eee;margin:26px 0}
+    pre.display-code{
+      background:var(--code-bg); border:2px solid var(--green1); padding:12px; border-radius:10px;
+      font-family: "Courier New", monospace; direction:ltr; text-align:left; white-space:pre-wrap; margin:8px 0;
+      font-weight:700;
     }
-
-    .btn:hover {
-      transform: scale(1.05);
-      background: linear-gradient(90deg, #00796b, #004d40);
+    textarea.editor{
+      width:100%; min-height:130px; font-family:monospace; font-size:15px; direction:ltr; text-align:left;
+      border-radius:10px; padding:12px; border:2px solid #d6eae6; background:#fff; resize:vertical;
     }
-
-    .note {
-      background-color: #fff3cd;
-      color: #856404;
-      padding: 15px;
-      border-radius: 10px;
-      margin: 20px 0;
-      text-align: center;
+    .controls{display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;}
+    .btn{
+      background:linear-gradient(90deg,var(--green1),var(--green2)); color:#fff; border:none; padding:10px 16px;
+      border-radius:12px; cursor:pointer; font-weight:800; transition:all .18s; box-shadow:0 6px 14px rgba(0,0,0,0.06);
     }
-
-    .footer {
-      margin-top: 30px;
-      font-size: 14px;
-      color: #555;
+    .btn:hover{transform:translateY(-3px)}
+    .btn.ghost{background:#fff; color:var(--green1); border:2px solid var(--green2); font-weight:800}
+    .output{margin-top:10px; background:#e0f7fa; padding:12px; border-radius:8px; font-family:monospace; direction:ltr; text-align:left; white-space:pre-wrap; min-height:48px; color:#004d40; font-weight:700;}
+    .output.error{background:#fff0f0;color:#a00}
+    .solution{margin-top:8px; background:#fff6e6; padding:10px; border-radius:8px; font-family:monospace; direction:ltr; text-align:left; white-space:pre-wrap; display:none; font-weight:700}
+    .summary{background:#f7fff7; border:1px solid #d1f5d1; padding:14px; border-radius:10px; text-align:right; margin-top:16px; font-weight:700}
+    .navs{display:flex; gap:10px; justify-content:center; margin-top:16px; flex-wrap:wrap}
+    .footer{text-align:center; margin-top:18px; color:#555; font-weight:700}
+    .small{padding:8px 10px; font-size:14px}
+    /* responsive */
+    @media(max-width:720px){
+      .controls{flex-direction:column}
     }
+    /* ستايل تظليل الخطأ */
+    .highlight-error { background: rgba(255, 0, 0, 0.08) !important; outline: 2px solid rgba(255,0,0,0.18); }
   </style>
 </head>
 <body>
-
-  <h1>💻 الدرس الثاني</h1>
+  <h1>💻 الدرس التاني: المتغيرات والجمل الشرطية في JavaScript</h1>
 
   <div class="content">
-    <div class="note">
-      🔧 الدرس ده لسه تحت التحضير يا نجم 😄  
-      استنى شوية وهتلاقيه متاح قريب جدًا إن شاء الله.
+    <p class="lead">النهارده هنتدرّب على المتغيّرات (إعلان، إسناد، تحديث) وكمان على الجمل الشرطية <code>if</code> و<code>if/else</code>. كل مثال ليه شرح طويل وتوضيح، وبعده محرّر كود مستقل تكتب فيه تجربة بنفسك، وزرين: تشغيل و"عرض الحل".</p>
+
+    <div class="note">نصيحة مهمة: اكتب الكود بنفسك قبل ما تبص على الحل — هتفهم أسرع وتثبت المعلومة أحسن.</div>
+
+    <hr>
+    <h3>1) المتغيّر وإضافة قيم عليه — مثالين</h3>
+
+    <h4>أ) مثال 1 — زيادة بالقيمة العادية</h4>
+    <p class="explain">
+      الفكرة بسيطة: المتغير عبارة عن مكان في الذاكرة بتحط فيه قيمة، زي علبة مكتوب عليها "apple". 
+      لما تقول <code>let apple = 0;</code> معناها: "هبدأ بصفر تفاح". بعدين لو كتبت <code>apple = apple + 5;</code> انت بتقول: "خد اللي في العلبة وضيف عليه 5"، نفس الكلام بعدين مع 8. 
+      الهدف من المثال ده إنك تفهم ازاي المتغير بيتغير مع الزمن وإزاي نقدر نضيف قيم عليه خطوة خطوة. دايمًا افتكر: لو عايز تحتفظ بالقيمة القديمة وتعدل عليها استخدم الصيغة دي.
+    </p>
+
+    <pre class="display-code">// المرجع
+let apple = 0;
+apple = apple + 5;
+apple = apple + 8;
+console.log(apple); // متوقع: 13
+</pre>
+
+    <label>اكتب الكود بتاعك هنا (محرّر مستقل):</label>
+    <textarea id="editor_1a" class="editor">let apple = 0;
+apple = apple + 5;
+apple = apple + 8;
+console.log(apple);</textarea>
+    <div class="controls">
+      <button class="btn" onclick="runAndCompare('editor_1a','out_1a','ref_1a','sol_1a')">▶ تشغيل</button>
+      <button class="btn ghost" onclick="toggle('sol_1a')">👀 عرض الحل</button>
+    </div>
+    <div id="out_1a" class="output"></div>
+    <pre id="sol_1a" class="solution">// الحل
+let apple = 0;
+apple = apple + 5;
+apple = apple + 8;
+console.log(13); // الناتج: 13
+</pre>
+
+    <h4>ب) مثال 2 — نفس الفكرة بثلاث خطوات منفصلة</h4>
+    <p class="explain">
+      بدل ما نستخدم الاختصار <code>+=</code>، هنستخدم طريقة الإسناد التقليدية في ثلاث خطوات منفصلة، عشان نتدرّب على تتبع قيمة المتغير خطوة بخطوة. كل سطر هنا يقوم بإعادة إسناد قيمة جديدة للمتغير <code>apple</code> بناءً على قيمته السابقة.
+    </p>
+
+    <pre class="display-code">// المرجع
+let apple = 0;
+apple = apple + 5;
+apple = apple + 8;
+console.log(apple); // متوقع: 13
+</pre>
+    <textarea id="editor_1b" class="editor">let apple = 0;
+apple = apple + 5;
+apple = apple + 8;
+console.log(apple);</textarea>
+    <div class="controls">
+      <button class="btn" onclick="runAndCompare('editor_1b','out_1b','ref_1b','sol_1b')">▶ تشغيل</button>
+      <button class="btn ghost" onclick="toggle('sol_1b')">👀 عرض الحل</button>
+    </div>
+    <div id="out_1b" class="output"></div>
+    <pre id="sol_1b" class="solution">// الحل
+let apple = 0;
+apple = apple + 5;
+apple = apple + 8;
+console.log(13);</pre>
+
+    <hr>
+    <h3>2) إعادة الإسناد — مثالين</h3>
+
+    <h4>أ) مثال 1 — استبدال القيمة</h4>
+    <p class="explain">
+      هنا الفرق إنك مش بتزود على القديم، انت بتكتب قيمة جديدة وتستبدل القديمة — زي لما تكتب رقم جديد في حسابك بدل القديم. المثال ده يوضح إن الإسناد له تأثير فوري على محتوى المتغير.
+    </p>
+
+    <pre class="display-code">// المرجع
+let allowance = 700;
+allowance = 1500;
+console.log(allowance); // متوقع: 1500
+</pre>
+    <textarea id="editor_2a" class="editor">let allowance = 700;
+allowance = 1500;
+console.log(allowance);</textarea>
+    <div class="controls">
+      <button class="btn" onclick="runAndCompare('editor_2a','out_2a','ref_2a','sol_2a')">▶ تشغيل</button>
+      <button class="btn ghost" onclick="toggle('sol_2a')">👀 عرض الحل</button>
+    </div>
+    <div id="out_2a" class="output"></div>
+    <pre id="sol_2a" class="solution">// الحل
+let allowance = 700;
+allowance = 1500;
+console.log(1500);</pre>
+
+    <h4>ب) مثال 2 — إضافة بدل الاستبدال</h4>
+    <p class="explain">
+      لو عايز تحافظ على القيمة القديمة وتضيف عليها، ممكن تستخدم متغير تاني أو تجمع عليها مباشرة. دي طريقة مفيدة لو بتتبع مجموعات أو مصروفات متعددة.
+    </p>
+
+    <pre class="display-code">// المرجع
+let allowance = 700;
+let extra = 800;
+allowance = allowance + extra;
+console.log(allowance); // متوقع: 1500
+</pre>
+    <textarea id="editor_2b" class="editor">let allowance = 700;
+let extra = 800;
+allowance = allowance + extra;
+console.log(allowance);</textarea>
+    <div class="controls">
+      <button class="btn" onclick="runAndCompare('editor_2b','out_2b','ref_2b','sol_2b')">▶ تشغيل</button>
+      <button class="btn ghost" onclick="toggle('sol_2b')">👀 عرض الحل</button>
+    </div>
+    <div id="out_2b" class="output"></div>
+    <pre id="sol_2b" class="solution">// الحل
+let allowance = 700;
+let extra = 800;
+allowance = allowance + extra;
+console.log(1500);</pre>
+
+    <hr>
+    <h3>3) إعلان وطباعة — مثالين</h3>
+
+    <h4>أ) مثال 1 — طباعة القيمة كما هي</h4>
+    <p class="explain">
+      هنا بنجرب حاجة أساسية: نعلن عن متغير ونطبعه — الخطوة دي بتعلمك تتأكد إن المتغير موجود والقيمة بتاعته اللي مفروض تظهر.
+    </p>
+
+    <pre class="display-code">// المرجع
+let fish = 0;
+console.log(fish); // متوقع: 0
+</pre>
+    <textarea id="editor_3a" class="editor">let fish = 0;
+console.log(fish);</textarea>
+    <div class="controls">
+      <button class="btn" onclick="runAndCompare('editor_3a','out_3a','ref_3a','sol_3a')">▶ تشغيل</button>
+      <button class="btn ghost" onclick="toggle('sol_3a')">👀 عرض الحل</button>
+    </div>
+    <div id="out_3a" class="output"></div>
+    <pre id="sol_3a" class="solution">// الحل
+let fish = 0;
+console.log(0);</pre>
+
+    <h4>ب) مثال 2 — تعديل قبل الطباعة</h4>
+    <p class="explain">
+      لو عايز تعدّل قيمة قبل ما تطبعها، اعمل عملية تعديل وبعد كده اطبع. دي ممارسة مهمة علشان تفهم ترتيب الأوامر.
+    </p>
+
+    <pre class="display-code">// المرجع
+let fish = 0;
+fish = fish + 3;
+console.log(fish); // متوقع: 3
+</pre>
+    <textarea id="editor_3b" class="editor">let fish = 0;
+fish = fish + 3;
+console.log(fish);</textarea>
+    <div class="controls">
+      <button class="btn" onclick="runAndCompare('editor_3b','out_3b','ref_3b','sol_3b')">▶ تشغيل</button>
+      <button class="btn ghost" onclick="toggle('sol_3b')">👀 عرض الحل</button>
+    </div>
+    <div id="out_3b" class="output"></div>
+    <pre id="sol_3b" class="solution">// الحل
+let fish = 0;
+fish = fish + 3;
+console.log(3);</pre>
+
+    <hr>
+    <h3>4) مثال الالتزام بـ 3 سطور</h3>
+    <p class="explain">
+      هنا تدريب على الالتزام بصيغة معينة: البرنامج لازم يكون مكتوب في 3 سطور غير فارغة — دي مفيدة لعادات التنظيم وفهم إنك تقدر تلخّص خطواتك.
+    </p>
+    <pre class="display-code">// المرجع (3 سطور)
+let apple = 0;
+apple = apple + 10;
+console.log(apple); // متوقع: 10
+</pre>
+    <textarea id="editor_4" class="editor">let apple = 0;
+apple = apple + 10;
+console.log(apple);</textarea>
+    <div class="controls">
+      <button class="btn" onclick="checkThreeLinesAndCompare('editor_4','out_4','ref_4','sol_4')">▶ تشغيل (تحقق 3 سطور)</button>
+      <button class="btn ghost" onclick="toggle('sol_4')">👀 عرض الحل</button>
+    </div>
+    <div id="out_4" class="output"></div>
+    <pre id="sol_4" class="solution">// الحل في 3 سطور
+let apple = 0;
+apple = apple + 10;
+console.log(10);</pre>
+
+    <hr>
+    <h3>5) المقارنات: <code>==</code> و<code>===</code> (أمثلة)</h3>
+
+    <h4>أ) مثال 1</h4>
+    <p class="explain">
+      الفرق الأساسي: <code>==</code> ممكن يعمل تحويل ضمني (مثلاً "100" و100 ممكن يعدّهم متساويين)، أما <code>===</code> بتتأكد إن النوع والقيمة متساويين مع بعض — وده أفضل لو عايز تتجنب مفارقات مطبعية.
+    </p>
+
+    <pre class="display-code">// المرجع
+let science = 100;
+console.log(science == 100);   // true
+console.log(science === 100);  // true
+console.log(science === "100"); // false
+</pre>
+    <textarea id="editor_5a" class="editor">let science = 100;
+console.log(science == 100);
+console.log(science === 100);
+console.log(science === "100");</textarea>
+    <div class="controls">
+      <button class="btn" onclick="runAndCompare('editor_5a','out_5a','ref_5a','sol_5a')">▶ تشغيل</button>
+      <button class="btn ghost" onclick="toggle('sol_5a')">👀 عرض الحل</button>
+    </div>
+    <div id="out_5a" class="output"></div>
+    <pre id="sol_5a" class="solution">// الحل
+let science = 100;
+console.log(true);
+console.log(true);
+console.log(false);</pre>
+
+    <h4>ب) مثال 2</h4>
+    <pre class="display-code">// المرجع
+let s = "100";
+console.log(s == 100);   // true (تحويل ضمني)
+console.log(s === 100);  // false (النوع مختلف)
+</pre>
+    <textarea id="editor_5b" class="editor">let s = "100";
+console.log(s == 100);
+console.log(s === 100);</textarea>
+    <div class="controls">
+      <button class="btn" onclick="runAndCompare('editor_5b','out_5b','ref_5b','sol_5b')">▶ تشغيل</button>
+      <button class="btn ghost" onclick="toggle('sol_5b')">👀 عرض الحل</button>
+    </div>
+    <div id="out_5b" class="output"></div>
+    <pre id="sol_5b" class="solution">// الحل
+let s = "100";
+console.log(true);
+console.log(false);</pre>
+
+    <hr>
+    <h3>6) if / else — حالات تطبيقية</h3>
+
+    <h4>أ) مثال أساسي</h4>
+    <p class="explain">
+      هنا بنطبّق شرط بسيط: لو قيمة المتغير بالضبط 100 نفّذ حاجة، وإلا نفّذ حاجة تانية. مهمة لفهم التحكم في سريان البرنامج.
+    </p>
+    <pre class="display-code">// المرجع
+let science = 80;
+if (science === 100) {
+  console.log("Increased allowance!");
+} else {
+  console.log("Weeding the garden");
+}
+</pre>
+    <textarea id="editor_6a" class="editor">let science = 80;
+if (science === 100) {
+  console.log("Increased allowance!");
+} else {
+  console.log("Weeding the garden");
+}</textarea>
+    <div class="controls">
+      <button class="btn" onclick="runAndCompare('editor_6a','out_6a','ref_6a','sol_6a')">▶ تشغيل</button>
+      <button class="btn ghost" onclick="toggle('sol_6a')">👀 عرض الحل</button>
+    </div>
+    <div id="out_6a" class="output"></div>
+    <pre id="sol_6a" class="solution">// الحل
+Weeding the garden (لو science مش 100)
+// لو غيرت science إلى 100 هتطبع: Increased allowance!
+</pre>
+
+    <h4>ب) مثال تعديل قيمة قبل الشرط</h4>
+    <p class="explain">
+      في بعض الحالات بتعمل تعديل على المتغير قبل ما تبص عليه — زي لما تزود درجات الطالب وبعدين تحدد لو نجح ولا لأ. المثال ده يورّيك ازاي الاختبارات ممكن تبقى بعد تعديلات.
+    </p>
+    <pre class="display-code">// المرجع
+let science = 90;
+science += 10;
+if (science === 100) {
+  console.log("Increased allowance!");
+} else {
+  console.log("Weeding the garden");
+}
+</pre>
+    <textarea id="editor_6b" class="editor">let science = 90;
+science += 10;
+if (science === 100) {
+  console.log("Increased allowance!");
+} else {
+  console.log("Weeding the garden");
+}</textarea>
+    <div class="controls">
+      <button class="btn" onclick="runAndCompare('editor_6b','out_6b','ref_6b','sol_6b')">▶ تشغيل</button>
+      <button class="btn ghost" onclick="toggle('sol_6b')">👀 عرض الحل</button>
+    </div>
+    <div id="out_6b" class="output"></div>
+    <pre id="sol_6b" class="solution">// الحل
+Increased allowance!
+</pre>
+
+    <hr>
+    <h3>📘 مراجعة سريعة</h3>
+    <div class="summary">
+      <ul style="direction:rtl; text-align:right; line-height:1.8; margin:0; padding-right:10px;">
+        <li>المتغير بتعرفه بـ <code>let</code> أو <code>var</code> أو <code>const</code>. <code>let</code> مناسب لمعظم الاستخدامات الأولية.</li>
+        <li>الإسناد الأساسي: <code>name = value</code>. لو عايز تزود قيمة المتغير على نفسه استخدم <code>+=</code>.</li>
+        <li><code>==</code> بتقارن القيم (ممكن تعمل تحويل ضمني)، أما <code>===</code> بتقارن القيمة والنوع معاً.</li>
+        <li>قاعدة <code>if</code> بتختبر شرط بين قوسين (<code>(...)</code>)، والأكواد اللي هتتنفّذ بتحطها بين الأقواس المعقوفة <code>{ ... }</code>. استخدم <code>else</code> للحالة التانية.</li>
+        <li>لو الكود طلع لك خطأ، اقرا رسالة الخطأ وحاول تشوف رقم السطر التقريبي — غالبًا هتلاقي المشكلة نحوية أو اسم متغير مش معرف.</li>
+      </ul>
     </div>
 
-    <button class="btn" onclick="goBack()">🔙 الرجوع للدرس الأول</button>
+    <h3>💡 معلومات مهمة ونصايح (ضمن سياق الدرس)</h3>
+    <div class="summary">
+      <ul style="direction:rtl; text-align:right; line-height:1.8; margin:0; padding-right:10px;">
+        <li>لو بتتعامل مع أرقام استخدم <code>number</code>؛ لو مع نصوص استخدم <code>string</code>. فكر في نوع البيانات قبل ما تختار اسم المتغير.</li>
+        <li>اختار أسماء متغيرات واضحة (مثلاً <code>score</code> أو <code>balance</code>) — ده يسهل عليك فهم الكود بعدين.</li>
+        <li>لو عايز تتأكد من نوع قيمة قبل المقارنة استعمل <code>typeof</code> علشان تتجنب مفاجآت المقارنة.</li>
+        <li>نفّذ أجزاء صغيرة من الكود وجربها أول بأول بدل ما تنفذ كل الصفقة مرة واحدة.</li>
+      </ul>
+    </div>
+
+    <hr>
+    <div style="text-align:center; margin-top:12px;">
+      <button class="btn" onclick="location.href='quiz2.html'">اختبر نفسك</button>
+    </div>
+
+    <div class="navs">
+      <button class="btn" onclick="location.href='lesson1.html'">⬅️ الدرس الأول</button>
+      <button class="btn" onclick="location.href='index.html'">🏠 الصفحة الرئيسية</button>
+      <button class="btn" onclick="location.href='lesson3.html'">➡️ الدرس الثالث</button>
+    </div>
+
+    <div class="footer">تصميم بواسطه <strong>Ahmed Ezzat</strong> ❤️</div>
+
   </div>
 
-  <div class="footer">
-    تم التصميم بواسطة <strong>Ahmed Ezzat</strong> ❤️
-  </div>
+<script>
+/* ===========================
+  SCRIPT مصحح بالكامل
+  =========================== */
 
-  <script>
-    function goBack() {
-      window.location.href = 'lesson1.html';
+/* ----- تخزين الأكواد المرجعية في متغيرات Global لتجنب أخطاء HTML/JS Quoting ----- */
+window.REF_CODES = {
+  // Example 1
+  'ref_1a': `let apple = 0;\napple = apple + 5;\napple = apple + 8;\nconsole.log(apple);`,
+'ref_1b': `let apple = 0;\napple = apple + 5;\napple = apple + 8;\nconsole.log(apple);`,
+  // Example 2
+  'ref_2a': `let allowance = 700;\nallowance = 1500;\nconsole.log(allowance);`,
+  'ref_2b': `let allowance = 700;\nlet extra = 800;\nallowance = allowance + extra;\nconsole.log(allowance);`,
+  // Example 3
+  'ref_3a': `let fish = 0;\nconsole.log(fish);`,
+  'ref_3b': `let fish = 0;\nfish = fish + 3;\nconsole.log(fish);`,
+  // Example 4 (for 3 lines check)
+  'ref_4': `let apple = 0;\napple = apple + 10;\nconsole.log(apple);`,
+  // Example 5
+  'ref_5a': `let science = 100;\nconsole.log(science == 100);\nconsole.log(science === 100);\nconsole.log(science === "100");`,
+  'ref_5b': `let s = "100";\nconsole.log(s == 100);\nconsole.log(s === 100);`,
+  // Example 6
+  'ref_6a': `let science = 80;\nif (science === 100) {\n  console.log("Increased allowance!");\n} else {\n  console.log("Weeding the garden");\n}`,
+  'ref_6b': `let science = 90;\nscience += 10;\nif (science === 100) {\n  console.log("Increased allowance!");\n} else {\n  console.log("Weeding the garden");\n}`
+};
+
+
+/* ----- إعدادات سلوك الفحص ----- */
+const REQUIRE_SEMICOLON = false; 
+const ALLOW_LOOSE_SYNTAX = true; 
+window._EDU_SETTINGS = { REQUIRE_SEMICOLON, ALLOW_LOOSE_SYNTAX };
+
+/* ----- مساعدة: إزالة التعليقات (مصححة) ----- */
+function removeComments(code) {
+  let result = code.replace(/\/\*[\s\S]*?\*\//g, ''); 
+  result = result.replace(/\/\/.*$/gm, ''); 
+  return result;
+}
+window.removeComments = removeComments;
+
+/* ----- محلل الأخطاء البنيوية (أقواس - اقتباسات - فاصلة منقوطة) (مصحح) ----- */
+function analyzeCodeErrors(code) {
+  const lines = code.split('\n');
+  const stack = [];
+  
+  for (let i = 0; i < lines.length; i++) {
+    const raw = lines[i];
+    const noComment = raw.replace(/\/\*[\s\S]*?\*\//g,'').replace(/\/\/.*$/g,'').trim(); 
+    if (noComment === '') continue;
+
+    let inSingleQuote = false;
+    let inDoubleQuote = false;
+    for (let j = 0; j < raw.length; j++) {
+      const ch = raw[j];
+
+      if (ch === "'" && !inDoubleQuote) {
+        inSingleQuote = !inSingleQuote;
+        continue;
+      }
+      if (ch === '"' && !inSingleQuote) {
+        inDoubleQuote = !inDoubleQuote;
+        continue;
+      }
+
+      if (inSingleQuote || inDoubleQuote) continue;
+
+      if (ch === '(' || ch === '{' || ch === '[') {
+        stack.push({ch, i});
+      } else if (ch === ')' || ch === '}' || ch === ']') {
+        const last = stack.pop();
+        if (!last) {
+          return { valid:false, line: i+1, message: '❌ قوس إغلاق بدون قوس فتح قبله.' };
+        }
+        if ((ch === ')' && last.ch !== '(') ||
+            (ch === '}' && last.ch !== '{') ||
+            (ch === ']' && last.ch !== '[')) {
+          return { valid:false, line: i+1, message: '❌ الأقواس غير متطابقة (مثلاً: قوس } أغلق قوس ().' };
+        }
+      }
     }
-  </script>
+    
+    if (inSingleQuote || inDoubleQuote) {
+      return { valid:false, line: i+1, message: '❌ علامة اقتباس مفردة أو مزدوجة غير مغلقة في السطر.' };
+    }
+
+    if (REQUIRE_SEMICOLON && !ALLOW_LOOSE_SYNTAX) {
+      const trimmed = noComment;
+      const keywordStarts = /^(if|else|for|while|switch|function|class|try|catch|return)\b/;
+      const endsWith = s => s.endsWith(';') || s.endsWith('{') || s.endsWith('}'); 
+
+      if (!endsWith(trimmed) && !keywordStarts.test(trimmed)) {
+        if (/\=.*|console\.log\s*\(|\w+\s*\(.*\)/.test(trimmed)) {
+          if (!/(let|const|var)\b/.test(trimmed)) {
+             return { valid:false, line: i+1, message: '❌ مطلوب \';\' في نهاية السطر.' };
+          }
+        }
+      }
+    }
+  }
+
+  if (stack.length > 0) {
+    const last = stack[stack.length-1];
+    return { valid:false, line: last.i+1, message: `❌ في أقواس مفتوحة غير مقفولة. (فتح عند سطر ${last.i+1})` };
+  }
+
+  return { valid:true };
+}
+window.analyzeCodeErrors = analyzeCodeErrors;
+
+/* ----- قواعد تحقق خاصة بالتمرين (مصححة) ----- */
+function validateCode(inputId, code) {
+  const m = inputId.match(/(\d+)([a-zA-Z]?)$/);
+  const base = m ? m[1] : null;
+  const cleaned = removeComments(code).trim();
+  const hasConsoleLog = /console\.log\s*\(/.test(code);
+  const hasDeclaration = /(let|const|var)\s+\w+\s*=/.test(cleaned);
+
+  if (!base) return { valid:true };
+
+  switch (base) {
+    case '1':
+      if (!hasConsoleLog) return { valid:false, message: "❌ لازم تستخدم console.log() لعرض النتيجة." };
+      break;
+    case '2':
+      if (!hasDeclaration && !hasConsoleLog) return { valid:false, message: "❌ لازم تعرف متغير أو تستخدم console.log()." };
+      break;
+    case '3':
+      if (!hasDeclaration) return { valid:false, message: "❌ لازم تعرف متغير زي let fish = 0;" };
+      break;
+    case '4':
+      if (!/(\+|\-|\*|\/)/.test(cleaned)) return { valid:false, message: "❌ لازم تعمل عملية حسابية (+ - * /)." };
+      break;
+    case '5':
+      if (!/(==|===)/.test(cleaned)) return { valid:false, message: "❌ هذا التمرين عن المقارنات (== أو ===)." };
+      break;
+    case '6':
+      if (!/if\s*\(.*\)\s*\{/i.test(cleaned)) return { valid:false, message: "❌ هذا التمرين عن الجمل الشرطية (if)." };
+      break;
+    default:
+      break;
+  }
+  return { valid:true };
+}
+window.validateCode = validateCode;
+
+/* ----- تنفيذ الكود والتقاط console.log + أخطاء التنفيذ (مصحح) ----- */
+function executeAndCapture(codeStr){
+  const logs = [];
+  const origConsole = window.console.log; 
+
+  window.console.log = function(...args){
+    const line = args.map(a=>{
+      if (typeof a === 'object' && a !== null) {
+        try { return JSON.stringify(a, null, 2); } catch(e){ return String(a); } 
+      }
+      return String(a);
+    }).join(' ');
+    logs.push(line);
+    try { origConsole.apply(window.console, args); } catch(e){}
+  };
+
+  let error = null;
+  try {
+    const codeToExecute = `'use strict';\n${codeStr}`;
+    const fn = new Function(codeToExecute);
+    fn();
+  } catch (err) {
+    let ln = null;
+    if (err && err.stack) {
+      const lines = err.stack.split('\n');
+      for (let l of lines){
+        let m = l.match(/<anonymous>:(\d+):\d+/) || l.match(/new Function:(\d+):\d+/);
+        if (m && m[1]) { 
+            const foundLine = Number(m[1]) - 1; 
+            if(foundLine > 0) ln = foundLine; 
+            break; 
+        }
+      }
+    }
+    let msg = err && err.message ? err.message : String(err);
+    msg = msg.replace(/\n/g,' ').replace(/\s+/g,' ').trim();
+    error = { msg, line: ln };
+  } finally {
+    window.console.log = origConsole;
+  }
+  return { logs, error };
+}
+window.executeAndCapture = executeAndCapture;
+
+/* ----- مساعدة: مقارنة أول سطر مختلف (مصححة) ----- */
+function firstDiffLine(expected, actual){
+  const exp = expected.split('\n');
+  const act = actual.split('\n');
+  const max = Math.max(exp.length, act.length);
+  for (let i=0;i<max;i++){
+    const e = (exp[i]||'').trim(); 
+    const a = (act[i]||'').trim();
+    if (e !== a) return i+1;
+  }
+  return null;
+}
+window.firstDiffLine = firstDiffLine;
+
+/* ----- تظليل سطر الخطأ داخل textarea (مصححة) ----- */
+function highlightErrorLine(textarea, lineNumber) {
+  try {
+    textarea.classList.remove('highlight-error');
+    if (!lineNumber || lineNumber < 1) return;
+    const lines = textarea.value.split('\n');
+    const safeLine = Math.min(lineNumber, lines.length);
+    let start = 0;
+    for(let i = 0; i < safeLine - 1; i++){
+        start += lines[i].length + 1; 
+    }
+    
+    const end = start + (lines[safeLine - 1] ? lines[safeLine - 1].length : 0);
+    
+    textarea.focus();
+    if (textarea.setSelectionRange) textarea.setSelectionRange(start, end);
+    textarea.classList.add('highlight-error');
+  } catch(e){
+    //console.warn('highlightErrorLine failed', e);
+  }
+}
+window.highlightErrorLine = highlightErrorLine;
+
+/* ----- الدالة الأساسية: تشغيل، تحليل، تنفيذ، مقارنة (مصححة) ----- */
+function runAndCompare(editorId, outId, refCodeId, solId){
+  const textarea = document.getElementById(editorId);
+  const outEl = document.getElementById(outId);
+  // استدعاء الكود المرجعي من المتغيرات العامة الجديدة
+  const expectedCode = window.REF_CODES[refCodeId]; 
+
+  if (!textarea || !outEl || !expectedCode) return;
+  
+  textarea.classList.remove('highlight-error');
+  outEl.classList.remove('error');
+  outEl.textContent = '... جاري التنفيذ والتحليل ...';
+
+  const code = textarea.value || '';
+  if (!code.trim()) {
+    outEl.textContent = '⚠️ اكتب الكود قبل الضغط على تشغيل.';
+    return;
+  }
+
+  // 1) تحليل بنيوي للأخطاء (أقواس، اقتباسات، ;)
+  const analysis = analyzeCodeErrors(code);
+  if (!analysis.valid) {
+    outEl.classList.add('error');
+    outEl.textContent = `${analysis.message}\n📍 السطر رقم: ${analysis.line || '?'}`;
+    highlightErrorLine(textarea, analysis.line || 1);
+    return;
+  }
+
+  // 2) تحقق حسب متطلبات المثال
+  const validation = validateCode(editorId, code);
+  if (!validation.valid) {
+    outEl.classList.add('error');
+    outEl.textContent = validation.message;
+    return;
+  }
+
+  // 3) تنفيذ كود الطالب
+  const studentRes = executeAndCapture(code);
+  if (studentRes.error) {
+    outEl.classList.add('error');
+    const ln = studentRes.error.line ? `، تقريبًا عند السطر ${studentRes.error.line}` : '';
+    outEl.textContent = `❌ فيه خطأ وقت التنفيذ: ${studentRes.error.msg}${ln}\n(الخطأ من كودك)`;
+    if (studentRes.error.line) highlightErrorLine(textarea, studentRes.error.line);
+    return;
+  }
+
+  // 4) تنفيذ الحل المرجعي
+  let expectedRes = { logs: [], error: null };
+  try {
+    expectedRes = executeAndCapture(expectedCode);
+    if (expectedRes.error) {
+      outEl.classList.add('error');
+      outEl.textContent = `❌ في مشكلة في كود الحل المرجعي: ${expectedRes.error.msg}`;
+      return;
+    }
+  } catch(e){
+    outEl.classList.add('error');
+    outEl.textContent = `❌ خطأ داخلي أثناء تنفيذ الحل المرجعي: ${e.message || e}`;
+    return;
+  }
+
+  const studentText = (studentRes.logs || []).join('\n');
+  const expectedText = (expectedRes.logs || []).join('\n');
+
+  const sNorm = studentText.split('\n').map(l=>l.trim()).filter(l=>l!=='').join('\n');
+  const eNorm = expectedText.split('\n').map(l=>l.trim()).filter(l=>l!=='').join('\n');
+
+  if (!studentText) {
+    outEl.textContent = '✅ نفّذ الكود لكن مفيش console.log مطبوع. لو المفروض يكون في إخراج استخدم console.log().';
+  } else {
+    outEl.textContent = studentText;
+  }
+
+  // 5) مقارنة النتائج
+  if (sNorm === eNorm) {
+    outEl.textContent += '\n\n✅ ممتاز — الناتج مظبوط بالظبط! 🎉';
+    showToast('برافو! الناتج مظبوط 💪', true);
+  } else {
+    outEl.classList.add('error');
+    outEl.textContent += '\n\n❌ الناتج مش زي المتوقع.';
+    const diffLine = firstDiffLine(eNorm, sNorm);
+    if (diffLine !== null) outEl.textContent += `\nأول اختلاف في السطر: ${diffLine}`;
+    outEl.textContent += `\n\nالناتج اللي طلع (بعد تنظيف): \n${sNorm || '(مفيش نتايج)'}\n\nالناتج المتوقع (بعد تنظيف):\n${eNorm || '(مفيش نتايج متوقعة)'}`;
+    if (solId) { const solEl = document.getElementById(solId); if (solEl) solEl.style.display='block'; }
+    showToast('قريب جدًا — راجع الاختلاف وعدّل كودك ✍️', false);
+  }
+}
+window.runAndCompare = runAndCompare;
+
+/* ----- تحقق قيد الـ 3 أسطر (مصححة) ----- */
+function checkThreeLinesAndCompare(editorId, outId, refCodeId, solId){
+  const code = document.getElementById(editorId).value;
+  const nonEmptyLines = code.split(/\r?\n/).filter(l=>l.trim()!=='').length; 
+  const outEl = document.getElementById(outId);
+  outEl.classList.remove('error');
+  outEl.textContent = '';
+  
+  if (nonEmptyLines !== 3){
+    outEl.classList.add('error');
+    outEl.textContent = `❌ مطلوب 3 سطور بالظبط. أنت كاتب ${nonEmptyLines} سطر غير فارغ.`;
+    return;
+  }
+  // نمرر الـ refCodeId لـ runAndCompare
+  runAndCompare(editorId, outId, refCodeId, solId); 
+}
+window.checkThreeLinesAndCompare = checkThreeLinesAndCompare;
+
+/* ----- تبديل الحل ----- */
+function toggle(id){ const el=document.getElementById(id); if(!el) return; el.style.display = el.style.display==='block'?'none':'block'; }
+window.toggle = toggle;
+
+/* ----- Toast ----- */
+function showToast(text, ok){
+  const t = document.createElement('div');
+  t.style.position='fixed'; t.style.left='50%'; t.style.transform='translateX(-50%)';
+  t.style.bottom='26px'; t.style.padding='10px 14px'; t.style.borderRadius='999px';
+  t.style.color='#fff'; t.style.fontWeight='700'; t.style.zIndex=9999;
+  t.style.boxShadow='0 8px 20px rgba(0,0,0,0.2)';
+  t.style.background = ok? 'rgba(6,125,70,0.95)' : 'rgba(150,20,20,0.95)';
+  t.textContent = text;
+  document.body.appendChild(t);
+  setTimeout(()=>{ t.style.transition='all .4s'; t.style.opacity='0'; setTimeout(()=>t.remove(),420)},1400);
+}
+window.showToast = showToast;
+
+</script>
 
 </body>
 </html>
-

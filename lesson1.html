@@ -213,19 +213,174 @@ console.log(x / y); // قسمة
   </div>
 
   <script>
-    function runCode(inputId, outputId) {
-      const code = document.getElementById(inputId).value;
-      const outputDiv = document.getElementById(outputId);
-      try {
-        const result = eval(code);
-        outputDiv.textContent = result !== undefined ? result : "✅ الكود اشتغل بنجاح!";
-      } catch (error) {
-        outputDiv.textContent = "❌ في خطأ في الكود: " + error.message;
+  // ** دالة إزالة التعليقات **
+  function removeComments(code) {
+    return code
+      .replace(/\/\*[\s\S]*?\*\//g, '')
+      .replace(/\/\/.*$/gm, '');
+  }
+
+  // ** محلّل ذكي لتحديد الأخطاء بدقة **
+  function analyzeCodeErrors(code) {
+    const lines = code.split('\n');
+    const stack = [];
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i].trim();
+      if (line === '' || line.startsWith('//')) continue;
+
+      // ✅ فحص الأقواس
+      for (let ch of line) {
+        if (ch === '(' || ch === '{' || ch === '[') stack.push(ch);
+        else if (ch === ')' || ch === '}' || ch === ']') {
+          const last = stack.pop();
+          if (
+            (ch === ')' && last !== '(') ||
+            (ch === '}' && last !== '{') ||
+            (ch === ']' && last !== '[')
+          ) {
+            return {
+              valid: false,
+              line: i + 1,
+              message: '❌ الأقواس غير متطابقة أو مغلقة بشكل خاطئ.'
+            };
+          }
+        }
+      }
+
+      // ✅ فحص الفاصلة المنقوطة
+      if (
+        !line.endsWith(';') &&
+        !line.endsWith('{') &&
+        !line.endsWith('}') &&
+        !line.includes('function') &&
+        !line.includes('if') &&
+        !line.includes('for')
+      ) {
+        if (!line.startsWith('//') && line !== '') {
+          return {
+            valid: false,
+            line: i + 1,
+            message: '❌ ناقص فاصلة منقوطة (;) في نهاية السطر.'
+          };
+        }
+      }
+
+      // ✅ فحص علامات الاقتباس
+      const quotes = (line.match(/["']/g) || []).length;
+      if (quotes % 2 !== 0) {
+        return {
+          valid: false,
+          line: i + 1,
+          message: '❌ في علامة اقتباس مفقودة في السطر.'
+        };
       }
     }
-  </script>
+
+    if (stack.length > 0) {
+      return {
+        valid: false,
+        line: lines.length,
+        message: '❌ في أقواس مفتوحة غير مغلقة.'
+      };
+    }
+
+    return { valid: true };
+  }
+
+  // ** التحقق من متطلبات التمرين **
+  function validateCode(inputId, code) {
+    const id = inputId.slice(-1);
+    const cleaned = removeComments(code).trim();
+
+    switch (id) {
+      case '1':
+        if (!/console\.log\(.+\)/.test(cleaned))
+          return { valid: false, message: "❌ لازم تستخدم console.log() في الطباعة." };
+        break;
+      case '2':
+        if (!/(\/\/|\/\*)/.test(code))
+          return { valid: false, message: "❌ لازم تكتب تعليق في الكود باستخدام // أو /* */." };
+        break;
+      case '3':
+        if (!/(let|const|var)\s+\w+\s*=/.test(cleaned))
+          return { valid: false, message: "❌ لازم تعرف متغير زي let name = 'أحمد';" };
+        break;
+      case '4':
+        if (!/(\+|\-|\*|\/)/.test(cleaned))
+          return { valid: false, message: "❌ لازم تعمل عملية حسابية (+ - * /)." };
+        break;
+    }
+    return { valid: true };
+  }
+
+  // ** تنفيذ الكود مع تحليل السطر الخطأ **
+  function runCode(inputId, outputId) {
+    const textarea = document.getElementById(inputId);
+    const code = textarea.value;
+    const output = document.getElementById(outputId);
+
+    output.textContent = '';
+    output.style.color = '#004d40';
+    textarea.classList.remove('highlight-error');
+
+    // 1️⃣ تحليل الأخطاء قبل التنفيذ
+    const analysis = analyzeCodeErrors(code);
+    if (!analysis.valid) {
+      output.style.color = '#dc3545';
+      output.textContent = `${analysis.message}\n📍 السطر رقم: ${analysis.line}`;
+      highlightErrorLine(textarea, analysis.line);
+      return;
+    }
+
+    // 2️⃣ التحقق من متطلبات الدرس
+    const validation = validateCode(inputId, code);
+    if (!validation.valid) {
+      output.style.color = '#dc3545';
+      output.textContent = validation.message;
+      return;
+    }
+
+    // 3️⃣ تنفيذ الكود
+    try {
+      let result = '';
+      const originalLog = console.log;
+      console.log = (...args) => (result += args.join(' ') + '\n');
+      eval(code);
+      console.log = originalLog;
+
+      output.style.color = '#00796b';
+      output.textContent = result.trim()
+        ? "✅ صح! ناتج الكود:\n" + result.trim()
+        : "✅ صح! الكود سليم واشتغل بنجاح.";
+    } catch (err) {
+      output.style.color = '#dc3545';
+      output.textContent = "❌ غلط في التنفيذ: " + err.message;
+    }
+  }
+
+  // ** تظليل السطر الخطأ بدون تعديل النص **
+  function highlightErrorLine(textarea, lineNumber) {
+    const lines = textarea.value.split('\n');
+    const before = lines.slice(0, lineNumber - 1).join('\n').length;
+    const start = before + (lineNumber > 1 ? 1 : 0);
+    const end = start + lines[lineNumber - 1].length;
+
+    textarea.focus();
+    textarea.setSelectionRange(start, end);
+    textarea.classList.add('highlight-error');
+  }
+</script>
+
+<style>
+  .highlight-error {
+    background: rgba(255, 0, 0, 0.08);
+    transition: background 0.3s;
+  }
+</style>
+
 
 </body>
 </html>
+
 
 

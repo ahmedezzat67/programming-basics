@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اختبار الدرس الثالث - الشروط المعقدة والمعاملات المنطقية</title>
+    <style>
+        /* (الأنماط كما كانت في كود الدرس للتناسق) */
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap');
+        
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(135deg, #f9f9f9, #e0f7fa);
+            color: #222;
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #00796b;
+            font-size: 2em;
+        }
+        h2 {
+            color: #004d40;
+            font-size: 1.5em;
+            margin-top: 30px;
+            border-bottom: 2px solid #e0f7fa;
+            padding-bottom: 10px;
+        }
+
+        .quiz-container {
+            max-width: 900px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            text-align: right;
+        }
+
+        .question {
+            margin: 20px 0;
+            font-weight: bold;
+            color: #004d40;
+            white-space: pre-wrap;
+            text-align: right;
+        }
+        
+        .code-snippet {
+            display: block;
+            background-color: #f1f8e9;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            direction: ltr;
+            text-align: left;
+            overflow-x: auto;
+            font-weight: 700;
+        }
+
+        .option {
+            background-color: #f1f8e9;
+            border: 2px solid #009688;
+            border-radius: 10px;
+            padding: 10px;
+            margin: 8px 0;
+            cursor: pointer;
+            transition: 0.3s;
+            text-align: right;
+        }
+
+        .option:hover {
+            background-color: #e0f2f1;
+            transform: scale(1.01);
+        }
+        /* أنماط للإجابة الصحيحة والخاطئة */
+        .option.correct {
+            background-color: #a5d6a7 !important; /* أخضر فاتح */
+        }
+        .option.wrong {
+            background-color: #ef9a9a !important; /* أحمر فاتح */
+        }
+
+
+        .feedback {
+            margin-top: 8px;
+            font-size: 15px;
+            font-weight: bold;
+            color: #004d40;
+            min-height: 20px; 
+            line-height: 1.6;
+        }
+
+        .btn {
+            background: linear-gradient(90deg, #009688, #26a69a);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            margin: 10px 5px;
+            transition: all 0.3s ease;
+            font-size: 16px;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            background: linear-gradient(90deg, #00796b, #004d40);
+        }
+
+        .result {
+            font-size: 20px;
+            margin-top: 25px;
+            font-weight: bold;
+            text-align: center;
+            padding: 15px;
+            border: 2px solid #009688;
+            border-radius: 10px;
+            background-color: #e0f7fa;
+        }
+
+        .footer {
+            margin-top: 30px;
+            font-size: 14px;
+            color: #555;
+            text-align: center;
+        }
+
+        /* أنماط المشروع التطبيقي */
+        .project-section {
+            border: 2px solid #009688;
+            padding: 20px;
+            border-radius: 15px;
+            background-color: #f7fff7;
+            margin-top: 20px;
+        }
+        .project-explanation {
+            line-height: 1.7;
+            font-weight: 600;
+        }
+        .project-output {
+            margin-top: 10px;
+            background:#fff;
+            padding:12px;
+            border-radius:8px;
+            font-family:monospace;
+            direction:ltr;
+            text-align:left;
+            white-space:pre-wrap;
+            min-height:50px;
+            color:#004d40;
+            font-weight:700;
+            border: 1px solid #ccc;
+        }
+        .project-output.error {
+            background:#fff0f0;
+            color:#a00;
+            border-color: #a00;
+        }
+        .project-output.success {
+            background: #e6ffe6;
+            color: #0a0;
+            border-color: #0a0;
+        }
+        .editor {
+            width:100%;
+            min-height:150px;
+            font-family:monospace;
+            font-size:15px;
+            direction:ltr;
+            text-align:left;
+            border-radius:10px;
+            padding:12px;
+            border:2px solid #d6eae6;
+            background:#fff;
+            resize:vertical;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>📘 اختبار الدرس الثالث - الشروط المعقدة والمعاملات المنطقية</h1>
+
+    <div class="quiz-container" id="quiz">
+        <div id="questions"></div>
+        
+        <div style="text-align:center; margin-top: 20px;">
+            <button class="btn" onclick="submitQuiz()">عرض مجموع النقاط</button>
+            <button class="btn" onclick="showCorrectAnswers()">اعرض الإجابات الصحيحة</button>
+        </div>
+        <div id="result" class="result"></div>
+        
+        <h2>🚀 المشروع التطبيقي الأول: نظام تحديد التقديرات (`else if` + المقارنات)</h2>
+        <div class="project-section">
+            <p class="project-explanation">
+                <strong>المهمة:</strong> اكتب كود JavaScript لتقييم درجة طالب (<code>grade</code>) وطباعة التقدير المقابل:
+                <ol style="text-align: right;">
+                    <li>إذا كانت الدرجة **أكبر من أو تساوي 90**: اطبع "A".</li>
+                    <li>إذا كانت الدرجة **أكبر من أو تساوي 80**: اطبع "B" (استخدم <code>else if</code>).</li>
+                    <li>إذا كانت الدرجة **أقل من 80**: اطبع "C" (استخدم <code>else</code>).</li>
+                </ol>
+            </p>
+            <label>اكتب الكود بتاعك هنا (جرب الدرجات 95، 85، 75):</label>
+            <textarea id="project_editor_1" class="editor">let grade = 85;
+
+// ابدأ هنا بجملة if الشرطية ...
+
+</textarea>
+            <div style="text-align:center;">
+                <button class="btn" onclick="runProjectTest(1)">▶ تشغيل الكود واختبار النتيجة</button>
+            </div>
+            <div id="project_output_1" class="project-output">الناتج سيظهر هنا...</div>
+        </div>
+        
+        <h2>🎯 المشروع التطبيقي الثاني: التحقق من الأهلية (`&&` و `||`)</h2>
+        <div class="project-section">
+            <p class="project-explanation">
+                <strong>المهمة:</strong> اكتب كود JavaScript لتحديد أهلية الموظف للحصول على علاوة، مع الأخذ في الاعتبار الشروط المعقدة التالية:
+                <ol style="text-align: right;">
+                    <li>يتم منح العلاوة إذا كان الموظف يعمل لمدة **أكثر من 5 سنوات** **و** (إذا كان تقييمه **5 نجوم** **أو** كان **مديراً**).</li>
+                    <li>استخدم المعاملات المنطقية <code>&&</code> و <code>||</code> والأقواس.</li>
+                    <li>إذا كانت الأهلية صحيحة، اطبع "Bonus Approved"، وإلا اطبع "Bonus Denied".</li>
+                </ol>
+            </p>
+            <label>اكتب الكود بتاعك هنا:</label>
+            <textarea id="project_editor_2" class="editor">let yearsOfService = 6;
+let isManager = false;
+let rating = 5;
+
+// اكتب جملة if هنا باستخدام && و || والأقواس
+if ( ) {
+    console.log("Bonus Approved");
+} else {
+    console.log("Bonus Denied");
+}</textarea>
+            <div style="text-align:center;">
+                <button class="btn" onclick="runProjectTest(2)">▶ تشغيل الكود واختبار النتيجة</button>
+            </div>
+            <div id="project_output_2" class="project-output">الناتج سيظهر هنا...</div>
+        </div>
+        
+        <br>
+        <div style="text-align:center;">
+            <button class="btn" onclick="location.href='lesson3.html'">🔙 رجوع للدرس</button> 
+            <button class="btn" onclick="location.href='index.html'">🏠 الصفحة الرئيسية</button>
+            <button class="btn" onclick="location.href='review.html'">📚 درس مراجعة (1-3)</button>
+        </div>       
+     </div>
+    </div>
+
+    <div class="footer">
+        تم التصميم بواسطة <strong>Ahmed Ezzat</strong> ❤️
+    </div>
+
+    <script>
+        const quizData = [
+            // 20 سؤالاً تغطي المقارنات الجديدة، else if، و && / ||
+            { 
+                question: "إذا كانت قيمة المتغير <code>age</code> تساوي 18، ما هي نتيجة الشرط؟\n<span class='code-snippet'>if (age >= 18) { ... }</span>", 
+                options: ["صحيح (True)", "خطأ (False)", "يحدث خطأ في الكود", "يساوي فقط (==)"], 
+                answer: 0, 
+                explanation: "الشرط <code>>=</code> يعني أكبر من أو يساوي، وبما أن 18 تساوي 18، فالشرط صحيح." 
+            },
+            { 
+                question: "ماذا سيتم طباعته في هذا الكود؟\n<span class='code-snippet'>let x = 10;\nif (x < 10) {\n  console.log('A');\n} else {\n  console.log('B');\n}</span>", 
+                options: ["A", "B", "لن يطبع شيء", "خطأ"], 
+                answer: 1, 
+                explanation: "الشرط <code>x < 10</code> خاطئ لأن 10 ليست أقل من 10، وبالتالي يتم تنفيذ جزء <code>else</code> وطباعة 'B'." 
+            },
+            { 
+                question: "متى يتم تنفيذ جملة <code>else if</code> في سلسلة الشروط؟", 
+                options: ["إذا كان الشرط الذي قبلها صحيحاً", "إذا كان الشرط الذي قبلها خاطئاً وشرط <code>else if</code> نفسه صحيح", "في جميع الأحوال", "فقط إذا لم يكن هناك <code>else</code>"], 
+                answer: 1, 
+                explanation: "يتم التحقق من <code>else if</code> فقط عندما يكون الشرط السابق (<code>if</code> أو <code>else if</code> قبله) خاطئاً، وبشرط أن يكون شرط <code>else if</code> هذا صحيحاً." 
+            },
+            { 
+                question: "ما النتيجة النهائية؟\n<span class='code-snippet'>let score = 75;\nif (score > 80) {\n  console.log('Excellent');\n} else if (score >= 70) {\n  console.log('Good');\n} else {\n  console.log('Pass');\n}</span>", 
+                options: ["Excellent", "Good", "Pass", "خطأ"], 
+                answer: 1, 
+                explanation: "الشرط الأول (75 > 80) خاطئ. الشرط الثاني (75 >= 70) صحيح، لذا يتم طباعة 'Good' ويتوقف التنفيذ." 
+            },
+            { 
+                question: "ما هو المعامل المنطقي الذي يتطلب أن تكون جميع الشروط صحيحة ليكون الناتج الكلي صحيحاً؟", 
+                options: ["|| (OR)", "! (NOT)", "&& (AND)", "=="], 
+                answer: 2, 
+                explanation: "المعامل <code>&&</code> يتطلب أن يكون كل شرط مرتبط به صحيحاً." 
+            },
+            { 
+                question: "ماذا سيتم طباعته إذا كانت <code>isStudent = true</code> و <code>isRich = false</code>؟\n<span class='code-snippet'>if (isStudent || isRich) {\n  console.log('Access');\n} else {\n  console.log('Denied');\n}</span>", 
+                options: ["Access", "Denied", "خطأ", "True"], 
+                answer: 0, 
+                explanation: "المعامل <code>||</code> (OR) يكفي أن يكون أحد الطرفين صحيحاً. وبما أن <code>isStudent</code> صحيح، يتم طباعة 'Access'." 
+            },
+            { 
+                question: "إذا كانت <code>temp = 20</code>، ما هي نتيجة الشرط؟\n<span class='code-snippet'>if (temp > 25 && temp < 30) { ... }</span>", 
+                options: ["صحيح (True)", "خطأ (False)", "خطأ في الكود", "غير محدد"], 
+                answer: 1, 
+                explanation: "الشرط الأول (20 > 25) خاطئ، وبما أنه مرتبط بـ <code>&&</code>، يصبح الشرط الكلي خاطئاً فوراً (Short-circuiting)." 
+            },
+            { 
+                question: "ما النتيجة النهائية؟\n<span class='code-snippet'>let age = 65;\nif (age >= 18 && age <= 60) {\n  console.log('Working Age');\n} else {\n  console.log('Not Working Age');\n}</span>", 
+                options: ["Working Age", "Not Working Age", "خطأ", "65"], 
+                answer: 1, 
+                explanation: "الشرط الأول (65 >= 18) صحيح، لكن الشرط الثاني (65 <= 60) خاطئ. <code>&&</code> يتطلب أن يكون كلاهما صحيحاً، لذا يتم تنفيذ <code>else</code>." 
+            },
+            { 
+                question: "أي تعبير مما يلي يمثل 'القيمة <code>x</code> أكبر من 5 ولا تساوي 10'؟", 
+                options: ["x > 5 || x != 10", "x > 5 && x != 10", "x >= 5 && x == 10", "x < 5 || x != 10"], 
+                answer: 1, 
+                explanation: "يجب أن يكون كلا الشرطين صحيحين، لذلك نستخدم <code>&&</code>." 
+            },
+            { 
+                question: "أي من المعاملات التالية يعني 'أصغر من'؟", 
+                options: ["<=", ">=", "<", "=="], 
+                answer: 2, 
+                explanation: "الرمز <code><</code> يعني 'أصغر من'." 
+            },
+            { 
+                question: "ماذا سيتم طباعته؟\n<span class='code-snippet'>let level = 10;\nif (level > 20) {\n  console.log('A');\n} else if (level > 5) {\n  console.log('B');\n} else {\n  console.log('C');\n}</span>", 
+                options: ["A", "B", "C", "خطأ"], 
+                answer: 1, 
+                explanation: "الشرط الأول (10 > 20) خاطئ. الشرط الثاني (10 > 5) صحيح، لذا يتم طباعة 'B'." 
+            },
+            { 
+                question: "لماذا نستخدم الأقواس <code>()</code> داخل الشروط المعقدة التي تحتوي على <code>&&</code> و <code>||</code> معاً؟", 
+                options: ["لجعل الكود أبطأ", "لتنظيم الشروط وتحديد أولوية التنفيذ (ترتيب الشروط)", "لأنها مطلوبة دائماً في JavaScript", "فقط للمقارنات الرقمية"], 
+                answer: 1, 
+                explanation: "الأقواس تحدد أي جزء من الشرط يجب تقييمه أولاً، تماماً مثل الرياضيات." 
+            },
+            { 
+                question: "إذا كانت <code>loggedIn = true</code> و <code>isAdmin = false</code>، ما هي نتيجة الشرط؟\n<span class='code-snippet'>if (loggedIn && isAdmin) { ... }</span>", 
+                options: ["صحيح (True)", "خطأ (False)", "خطأ في الكود", "غير محدد"], 
+                answer: 1, 
+                explanation: "المعامل <code>&&</code> يتطلب أن يكون كلا الطرفين صحيحين. بما أن <code>isAdmin</code> خاطئ، الشرط الكلي خاطئ." 
+            },
+            { 
+                question: "ما هو التعبير الصحيح لتمثيل: 'إذا كانت قيمة <code>day</code> هي 6 **أو** 7'؟", 
+                options: ["day == 6 && day == 7", "day == 6 || day == 7", "day > 6", "day < 7"], 
+                answer: 1, 
+                explanation: "المعامل <code>||</code> هو الذي يمثل 'أو' (OR)." 
+            },
+            { 
+                question: "ماذا سيتم طباعته إذا كانت <code>isRaining = true</code> و <code>hasUmbrella = false</code>؟\n<span class='code-snippet'>if (isRaining && hasUmbrella) {\n  console.log('Go out');\n} else {\n  console.log('Stay in');\n}</span>", 
+                options: ["Go out", "Stay in", "خطأ", "True"], 
+                answer: 1, 
+                explanation: "<code>true && false</code> يساوي <code>false</code>، لذا يتم تنفيذ جزء <code>else</code>." 
+            },
+            { 
+                question: "ماذا سيتم طباعته؟\n<span class='code-snippet'>let price = 50;\nif (price > 100) {\n  console.log('Expensive');\n} else if (price > 40) {\n  console.log('Mid-Range');\n} else {\n  console.log('Cheap');\n}</span>", 
+                options: ["Expensive", "Mid-Range", "Cheap", "خطأ"], 
+                answer: 1, 
+                explanation: "الشرط الأول خاطئ. الشرط الثاني (50 > 40) صحيح، لذا يتم طباعة 'Mid-Range'." 
+            },
+            { 
+                question: "في سلسلة <code>if / else if / else</code>، كم كتلة كود يتم تنفيذها كحد أقصى؟", 
+                options: ["كلها", "اثنين فقط", "واحدة فقط", "ثلاثة فقط"], 
+                answer: 2, 
+                explanation: "عندما يتحقق أي شرط، يتوقف الكود ويتخطى باقي السلسلة، مما يضمن تنفيذ كتلة واحدة كحد أقصى." 
+            },
+            { 
+                question: "ماذا يعني التعبير <code>x <= 0</code>؟", 
+                options: ["x أصغر من صفر فقط", "x أكبر من صفر أو يساويه", "x يساوي صفر فقط", "x أصغر من صفر أو يساويه"], 
+                answer: 3, 
+                explanation: "الرمز <code><=</code> يعني 'أصغر من أو يساوي'." 
+            },
+            { 
+                question: "لتحديد إذا كانت القيمة <code>y</code> في المدى من 50 إلى 100 (شاملاً 50 و 100)، أي تعبير صحيح؟", 
+                options: ["y > 50 && y < 100", "y >= 50 || y <= 100", "y >= 50 && y <= 100", "y > 50 || y < 100"], 
+                answer: 2, 
+                explanation: "يجب أن تكون أكبر من أو تساوي 50 **و** أصغر من أو تساوي 100. نستخدم <code>&&</code> لضمان وقوعها داخل المدى." 
+            },
+            { 
+                question: "ماذا سيتم طباعته؟\n<span class='code-snippet'>let a = 10, b = 5;\nif (a > 20 || b < 7) {\n  console.log('OK');\n} else {\n  console.log('No');\n}</span>", 
+                options: ["OK", "No", "خطأ", "10"], 
+                answer: 0, 
+                explanation: "الشرط الأول (10 > 20) خاطئ. الشرط الثاني (5 < 7) صحيح. <code>||</code> يكفي أن يكون أحد الطرفين صحيحاً، لذا يتم طباعة 'OK'." 
+            }
+        ];
+
+        const questionsDiv = document.getElementById("questions");
+        let selectedAnswers = new Array(quizData.length).fill(null);
+
+        quizData.forEach((q, i) => {
+            const div = document.createElement("div");
+            div.classList.add("question-block");
+            div.id = `q-${i}`; 
+            
+            div.innerHTML = `
+                <p class="question">${i + 1}. ${q.question}</p>
+                ${q.options.map((opt, index) => `
+                    <div class="option" data-q-index="${i}" data-opt-index="${index}" onclick="selectOption(${i}, ${index}, this)">${opt}</div>
+                `).join('')}
+                <div id="feedback-${i}" class="feedback"></div>
+            `;
+            questionsDiv.appendChild(div);
+        });
+
+        // ------------------------------------------------------------------------------------------------
+        // وظائف الاختبار والإجابات الفورية والنتائج (كما كانت في الكود السابق)
+        // ------------------------------------------------------------------------------------------------
+
+        function selectOption(qIndex, optIndex, el) {
+            const questionBlock = el.parentNode;
+            const options = questionBlock.querySelectorAll(".option");
+            const feedback = questionBlock.querySelector(`#feedback-${qIndex}`);
+            const q = quizData[qIndex];
+
+            options.forEach(opt => {
+                opt.classList.remove('correct', 'wrong');
+                opt.style.backgroundColor = "#f1f8e9";
+            });
+
+            selectedAnswers[qIndex] = optIndex;
+            
+            if (optIndex === q.answer) {
+                el.classList.add('correct');
+                feedback.innerHTML = `✅ **صحيح!** ${q.explanation}`;
+                feedback.style.color = "#2e7d32";
+            } else {
+                el.classList.add('wrong');
+                feedback.innerHTML = `❌ **خطأ!** الإجابة الصحيحة: <b>${q.options[q.answer]}</b> - ${q.explanation}`;
+                feedback.style.color = "#c62828";
+            }
+        }
+
+        function submitQuiz() {
+            let score = 0;
+            let total = quizData.length;
+            let unanswered = 0;
+            
+            quizData.forEach((q, i) => {
+                if (selectedAnswers[i] === null) {
+                    unanswered++;
+                } else if (selectedAnswers[i] === q.answer) {
+                    score++;
+                }
+            });
+
+            const resultDiv = document.getElementById("result");
+            
+            if (unanswered > 0) {
+                resultDiv.innerHTML = `🚫 لم تجب على ${unanswered} سؤال. `;
+            } else {
+                resultDiv.innerHTML = "";
+            }
+
+            if (score === total) {
+                resultDiv.innerHTML += `🎉 ممتاز يا مبرمج المستقبل! جبت <b>${score}</b> من <b>${total}</b> ✅`;
+            } else if (score >= total * 0.7) {
+                resultDiv.innerHTML += `👏 نتيجتك رائعة! جبت <b>${score}</b> من <b>${total}</b>، شوية مراجعة بسيطة. 💪`;
+            } else if (score >= total / 2) {
+                resultDiv.innerHTML += `🙂 نتيجتك جيدة! جبت <b>${score}</b> من <b>${total}</b>، راجع الأجزاء اللي أخطأت فيها.`;
+            } else {
+                resultDiv.innerHTML += `🤔 محتاج مراجعة بسيطة، جبت <b>${score}</b> من <b>${total}</b>. لا تيأس، كرر المحاولة!`;
+            }
+        }
+
+        function showCorrectAnswers() {
+            quizData.forEach((q, i) => {
+                const questionBlock = document.getElementById(`q-${i}`);
+                const options = questionBlock.querySelectorAll(".option"); 
+                const feedback = questionBlock.querySelector(`#feedback-${i}`);
+
+                options.forEach(opt => {
+                    opt.classList.remove('correct', 'wrong');
+                    opt.style.backgroundColor = "#f1f8e9";
+                });
+
+                options[q.answer].classList.add('correct');
+                feedback.innerHTML = `✅ الإجابة الصحيحة: <b>${q.options[q.answer]}</b> - ${q.explanation}`;
+                feedback.style.color = "#2e7d32";
+            });
+            document.getElementById("result").innerHTML = "تم تظليل الإجابات الصحيحة. راجع الشرح في كل سؤال.";
+        }
+
+        // ------------------------------------------------------------------------------------------------
+        // وظائف تنفيذ واختبار المشاريع التطبيقية (محدثة لدعم المنطق الجديد)
+        // ------------------------------------------------------------------------------------------------
+
+        function executeAndCapture(codeStr){
+            const logs = [];
+            const origConsole = window.console.log; 
+
+            // إعادة توجيه console.log لملء المصفوفة logs
+            window.console.log = function(...args){
+                const line = args.map(a=>{
+                    if (typeof a === 'object' && a !== null) {
+                        try { return JSON.stringify(a); } catch(e){ return String(a); } 
+                    }
+                    return String(a);
+                }).join(' ');
+                logs.push(line);
+                try { origConsole.apply(window.console, args); } catch(e){}
+            };
+
+            let error = null;
+            try {
+                const codeToExecute = `'use strict';\n${codeStr}`;
+                const fn = new Function(codeToExecute);
+                fn();
+            } catch (err) {
+                let msg = err && err.message ? err.message : String(err);
+                msg = msg.replace(/\n/g,' ').replace(/\s+/g,' ').trim();
+                error = { msg };
+            } finally {
+                window.console.log = origConsole;
+            }
+            return { logs, error };
+        }
+
+        function runProjectTest(projectNumber){
+            const editor = document.getElementById(`project_editor_${projectNumber}`);
+            const outputEl = document.getElementById(`project_output_${projectNumber}`);
+            const code = editor.value || '';
+            const cleanedCode = code.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\/\/.*$/gm, '').trim();
+
+            outputEl.classList.remove('success', 'error');
+            outputEl.textContent = '... جاري التنفيذ والتحقق ...';
+
+            if (!cleanedCode) {
+                outputEl.classList.add('error');
+                outputEl.textContent = '⚠️ اكتب الكود أولاً.';
+                return;
+            }
+
+            const studentRes = executeAndCapture(code);
+
+            if (studentRes.error) {
+                outputEl.classList.add('error');
+                outputEl.textContent = `❌ خطأ في الكود: ${studentRes.error.msg}`;
+                return;
+            }
+
+            const studentOutput = studentRes.logs.join('\n').trim();
+
+            // ------------------------------------
+            // منطق التحقق للمشروع 1 (نظام التقديرات)
+            // ------------------------------------
+            if (projectNumber === 1) {
+                const testGrades = [
+                    { value: 95, expected: "A" },
+                    { value: 85, expected: "B" },
+                    { value: 75, expected: "C" },
+                    { value: 90, expected: "A" },
+                    { value: 80, expected: "B" },
+                    { value: 79, expected: "C" }
+                ];
+                
+                let allCorrect = true;
+                let testOutput = '';
+
+                // فحص بنية else if والمقارنات
+                if (!/else\s*if/i.test(cleanedCode) || !/>=/i.test(cleanedCode) || !/if/i.test(cleanedCode)) {
+                    outputEl.classList.add('error');
+                    outputEl.textContent = '❌ خطأ في البنية: تأكد من استخدام if / else if / else والمقارنات (>=).';
+                    return;
+                }
+
+                for(const test of testGrades){
+                    let testCode = `let grade = ${test.value};\n` + cleanedCode;
+                    let res = executeAndCapture(testCode);
+                    let result = (res.logs || []).join('\n').trim();
+                    
+                    if (result !== test.expected) {
+                        allCorrect = false;
+                        testOutput += `❌ فشل الاختبار: الدرجة ${test.value}. المتوقع: "${test.expected}". الناتج: "${result || '(لا شيء)'}"\n`;
+                    } else {
+                        testOutput += `✅ نجح الاختبار: الدرجة ${test.value}. الناتج: "${result}"\n`;
+                    }
+                }
+
+                if (allCorrect) {
+                    outputEl.classList.add('success');
+                    outputEl.textContent = `✅ ممتاز! الكود يعمل بشكل صحيح لجميع الدرجات المختبرة.\n\n${testOutput}`;
+                } else {
+                    outputEl.classList.add('error');
+                    outputEl.textContent = `❌ الكود لم يعمل بشكل صحيح في جميع الاختبارات. راجع منطق المقارنات و else if.\n\n${testOutput}`;
+                }
+            } 
+            
+            // ------------------------------------
+            // منطق التحقق للمشروع 2 (التحقق من الأهلية)
+            // ------------------------------------
+            else if (projectNumber === 2) {
+                const testCases = [
+                    // years, isManager, rating, expected
+                    [6, false, 5, "Bonus Approved"], // (T && (T || F)) -> T
+                    [4, true, 5, "Bonus Denied"],    // (F && (T || T)) -> F (سنوات أقل من 5)
+                    [6, true, 3, "Bonus Approved"],  // (T && (F || T)) -> T
+                    [6, false, 3, "Bonus Denied"],   // (T && (F || F)) -> F (تقييم قليل وليس مدير)
+                    [1, false, 1, "Bonus Denied"]    // (F && (F || F)) -> F
+                ];
+
+                let allCorrect = true;
+                let testOutput = '';
+
+                // فحص بنية && و ||
+                if (!/&&/i.test(cleanedCode) || !/\|\|/i.test(cleanedCode) || !/\(|\)/.test(cleanedCode)) {
+                    outputEl.classList.add('error');
+                    outputEl.textContent = '❌ خطأ في البنية: تأكد من استخدام المعاملات المنطقية (&& و ||) والأقواس () في الشرط.';
+                    return;
+                }
+
+                for (const [years, isManager, rating, expected] of testCases) {
+                    let testCode = `let yearsOfService = ${years};\nlet isManager = ${isManager};\nlet rating = ${rating};\n` + cleanedCode;
+                    let res = executeAndCapture(testCode);
+                    let result = (res.logs || []).join('\n').trim();
+
+                    if (result !== expected) {
+                        allCorrect = false;
+                        testOutput += `❌ فشل الاختبار (سنوات: ${years}, مدير: ${isManager}, تقييم: ${rating}). المتوقع: "${expected}". الناتج: "${result || '(لا شيء)'}"\n`;
+                    } else {
+                        testOutput += `✅ نجح الاختبار (سنوات: ${years}, مدير: ${isManager}, تقييم: ${rating}). الناتج: "${result}"\n`;
+                    }
+                }
+
+                if (allCorrect) {
+                    outputEl.classList.add('success');
+                    outputEl.textContent = `✅ ممتاز! تم بناء الشرط المعقد بشكل صحيح ونجح في جميع الاختبارات.\n\n${testOutput}`;
+                } else {
+                    outputEl.classList.add('error');
+                    outputEl.textContent = `❌ الكود لم يعمل بشكل صحيح في جميع الاختبارات. راجع منطق && و || والأقواس.\n\n${testOutput}`;
+                }
+            }
+        }
+    </script>
+
+</body>
+</html>

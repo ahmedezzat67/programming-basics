@@ -3,8 +3,9 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>الدرس الثالث - قيد التحضير</title>
+  <title>الدرس الثالث - المقارنات المعقدة و Else If والمعاملات المنطقية</title>
   <style>
+    /* ستايل مطابق ومحسّن - نفس الستايل اللي بعته */
     @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap');
     :root{
       --primary:#00796b;
@@ -13,8 +14,8 @@
       --bg1: #f9f9f9;
       --bg2: #e0f7fa;
       --card:#fff;
+      --code-bg:#f1f8e9;
       --accent:#ffe227;
-      --whatsapp:#25D366;
     }
     *{box-sizing:border-box}
     body{
@@ -25,119 +26,779 @@
       padding:20px;
       -webkit-font-smoothing:antialiased;
       -moz-osx-font-smoothing:grayscale;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
     }
 
-    .container{
-      max-width:600px; 
-      margin: auto; 
-      background:var(--card); 
-      padding:30px; 
-      border-radius:14px;
-      box-shadow:0 6px 24px rgba(0,0,0,0.1); 
-      text-align:center;
-    }
-    
-    h1{
-      color:var(--primary); 
-      font-size:2.5rem; 
-      margin-bottom:10px; 
-      font-weight:900;
-    }
-    
-    p{
-      font-size:1.1rem;
-      color:#555;
-      line-height:1.6;
-      margin-bottom:25px;
-      font-weight: 600;
-    }
+    /* خطوط وعناوين أثقل وأكثر ظهورًا */
+    h1{color:var(--primary); text-align:center; font-size:2rem; margin-bottom:8px; font-weight:900;}
+    h3{color:var(--green1); margin:16px 0; font-weight:800;}
+    h4{margin:10px 0; font-weight:800;}
 
+    .content{
+      max-width:980px; margin:12px auto; background:var(--card); padding:24px; border-radius:14px;
+      box-shadow:0 6px 24px rgba(0,0,0,0.08); text-align:right;
+    }
+    .lead{color:#333; line-height:1.8; margin-bottom:12px; font-weight:700;}
+    .explain{color:#333; line-height:1.6; margin-bottom:8px; font-weight:600;}
+    .note{background:#fff3cd; color:#856404; padding:12px; border-radius:8px; margin:12px 0; font-weight:700;}
+    hr{border:none;border-top:1px solid #eee;margin:26px 0}
+    pre.display-code{
+      background:var(--code-bg); border:2px solid var(--green1); padding:12px; border-radius:10px;
+      font-family: "Courier New", monospace; direction:ltr; text-align:left; white-space:pre-wrap; margin:8px 0;
+      font-weight:700;
+    }
+    textarea.editor{
+      width:100%; min-height:130px; font-family:monospace; font-size:15px; direction:ltr; text-align:left;
+      border-radius:10px; padding:12px; border:2px solid #d6eae6; background:#fff; resize:vertical;
+    }
+    .controls{display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;}
     .btn{
-      background:linear-gradient(90deg,var(--green1),var(--green2)); 
-      color:#fff; 
-      border:none; 
-      padding:12px 20px;
-      border-radius:12px; 
-      cursor:pointer; 
-      font-weight:800; 
-      transition:all .18s; 
-      box-shadow:0 4px 12px rgba(0,0,0,0.1);
-      text-decoration: none; /* لإزالة خطوط الروابط */
-      display: inline-block;
-      margin-top: 10px;
+      background:linear-gradient(90deg,var(--green1),var(--green2)); color:#fff; border:none; padding:10px 16px;
+      border-radius:12px; cursor:pointer; font-weight:800; transition:all .18s; box-shadow:0 6px 14px rgba(0,0,0,0.06);
     }
-    .btn:hover{
-      transform:translateY(-2px);
+    .btn:hover{transform:translateY(-3px)}
+    .btn.ghost{background:#fff; color:var(--green1); border:2px solid var(--green2); font-weight:800}
+    .output{margin-top:10px; background:#e0f7fa; padding:12px; border-radius:8px; font-family:monospace; direction:ltr; text-align:left; white-space:pre-wrap; min-height:48px; color:#004d40; font-weight:700;}
+    .output.error{background:#fff0f0;color:#a00}
+    .solution{margin-top:8px; background:#fff6e6; padding:10px; border-radius:8px; font-family:monospace; direction:ltr; text-align:left; white-space:pre-wrap; display:none; font-weight:700}
+    .summary{background:#f7fff7; border:1px solid #d1f5d1; padding:14px; border-radius:10px; text-align:right; margin-top:16px; font-weight:700}
+    .navs{display:flex; gap:10px; justify-content:center; margin-top:16px; flex-wrap:wrap}
+    .footer{text-align:center; margin-top:18px; color:#555; font-weight:700}
+    .small{padding:8px 10px; font-size:14px}
+    /* responsive */
+    @media(max-width:720px){
+      .controls{flex-direction:column}
     }
-    
-    .btn.whatsapp{
-        background: var(--whatsapp);
-        font-size: 1.1rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-        padding: 15px 30px;
-    }
-    
-    .navs{
-      display:flex; 
-      gap:10px; 
-      justify-content:center; 
-      margin-top:20px; 
-      flex-wrap:wrap;
-    }
-    .navs .btn {
-        background: #ccc;
-        color: #333;
-        box-shadow: none;
-        padding: 10px 15px;
-    }
-    .navs .btn:hover {
-        background: #bbb;
-    }
-
-    /* أيقونة واتساب بسيطة */
-    .whatsapp-icon::before {
-        content: "📱";
-        font-size: 1.2em;
-    }
-
+    /* ستايل تظليل الخطأ */
+    .highlight-error { background: rgba(255, 0, 0, 0.08) !important; outline: 2px solid rgba(255,0,0,0.18); }
   </style>
 </head>
 <body>
+  <h1>💻 الدرس الثالث: المقارنات، `else if`، والمعاملات المنطقية</h1>
 
-  <div class="container">
-    <h1>🚧 الدرس الثالث قيد التحضير! 🚧</h1>
-    
-    <p>
-      شكرًا لحماسك! نعمل الآن بجد على تجهيز محتوى الدرس الثالث ليكون مفيدًا وشاملاً.
-      نتمنى لك الاستمتاع ومراجعة الدروس السابقة حتى يكون كل شيء جاهزًا.
+  <div class="content">
+    <p class="lead">الدرس ده هو اللي بيكمل بناء القرارات في البرمجة. دلوقتي هنشوف إزاي نعمل مقارنات على مدى من القيم، وإزاي نختبر أكتر من شرط بالترتيب باستخدام <code>else if</code>، وأخيراً ندمج الشروط دي كلها مع بعض بـ <code>&&</code> و <code>||</code>. ركز معايا في الأمثلة الكتير اللي جاية عشان تفهم كل حالة لوحدها.</p>
+
+    <div class="note">دايماً افتكر إننا بنستخدم <code>==</code> للمقارنة على القيمة فقط.</div>
+
+    <hr>
+    <h3>1) المقارنات اللي بتحدد مدى (Range Operators)</h3>
+
+    <p class="explain">المقارنات دي بتساعدنا نشوف لو قيمة المتغير في مجال معين (أكبر من كذا، أصغر من كذا، أو بيساوي واحد منهم كمان).</p>
+
+    <h4>أ) مثال 1: أقل من أو يساوي (`<=`) مع الـ `else`</h4>
+    <p class="explain">
+      هذا هو المثال الأساسي. لو درجة الطالب <code>math</code> **أقل من أو تساوي 50**، هيطبع "Add homework". لو الدرجة أكتر من 50 (زي 70 في الكود اللي تحت)، هينفذ الـ <code>else</code> ويطبع "No homework!".
     </p>
 
-    <div style="margin-top: 30px;">
-        <p style="margin-bottom: 10px; font-weight: 700; color: #00796b;">
-            لو عندك أي أسئلة أو استفسارات حول الدروس السابقة، ابعتلي على واتساب!
-        </p>
+    <pre class="display-code">// المرجع
+let math = 70;
+if (math <= 50) {
+  console.log("Add homework");
+} else {
+  console.log("No homework!");
+} // متوقع: No homework!
+</pre>
 
-        <a href="https://wa.me/201003090216?text=مرحباً، لدي استفسار بخصوص دروس الـ JavaScript." 
-           target="_blank" 
-           class="btn whatsapp">
-            <span class="whatsapp-icon"></span>
-            تواصل معي عبر واتساب (01003090216)
-        </a>
+    <label>اكتب الكود بتاعك هنا (حاول تغير قيمة math لـ 49 وشغّل):</label>
+    <textarea id="editor_1a" class="editor">let math = 70;
+if (math <= 50) {
+  console.log("Add homework");
+} else {
+  console.log("No homework!");
+}</textarea>
+    <div class="controls">
+      <button class="btn" onclick="runAndCompare('editor_1a','out_1a','ref_1a','sol_1a')">▶ تشغيل</button>
+      <button class="btn ghost" onclick="toggleSolution('editor_1a', 'sol_1a', 'ref_1a')">👀 عرض الحل</button>
+    </div>
+    <div id="out_1a" class="output"></div>
+    <pre id="sol_1a" class="solution">// هنا سيظهر الحل (سواء كودك أو الكود المرجعي) بعد التشغيل</pre>
+
+    <h4>ب) مثال 2: أكبر من أو يساوي (`>=`)</h4>
+    <p class="explain">
+      بنستخدم <code>&gt;=</code> عشان نحدد إن السعر <code>price</code> لازم يكون 1000 أو أكتر عشان يطبع "Premium Product". لو كان 999 مثلاً، مش هينفذ الـ <code>if</code>.
+    </p>
+
+    <pre class="display-code">// المرجع
+let price = 1000;
+if (price >= 1000) {
+  console.log("Premium Product");
+} else {
+  console.log("Standard Product");
+} // متوقع: Premium Product
+</pre>
+    <textarea id="editor_1b" class="editor">let price = 1000;
+if (price >= 1000) {
+  console.log("Premium Product");
+} else {
+  console.log("Standard Product");
+}</textarea>
+    <div class="controls">
+      <button class="btn" onclick="runAndCompare('editor_1b','out_1b','ref_1b','sol_1b')">▶ تشغيل</button>
+      <button class="btn ghost" onclick="toggleSolution('editor_1b', 'sol_1b', 'ref_1b')">👀 عرض الحل</button>
+    </div>
+    <div id="out_1b" class="output"></div>
+    <pre id="sol_1b" class="solution">// هنا سيظهر الحل (سواء كودك أو الكود المرجعي) بعد التشغيل</pre>
+    
+    <h4>ج) مثال 3: أقل من (`<`)</h4>
+    <p class="explain">
+      لو درجة الحرارة <code>temp</code> **أقل من 15** (مش بتساويها)، الشرط هيكون صح وهيطبع "It's cold!". لو كانت 15 بالظبط، الشرط ده هيكون غلط.
+    </p>
+
+    <pre class="display-code">// المرجع
+let temp = 14;
+if (temp < 15) {
+  console.log("It's cold!");
+} else {
+  console.log("Nice weather");
+} // متوقع: It's cold!
+</pre>
+    <textarea id="editor_1c" class="editor">let temp = 14;
+if (temp < 15) {
+  console.log("It's cold!");
+} else {
+  console.log("Nice weather");
+}</textarea>
+    <div class="controls">
+      <button class="btn" onclick="runAndCompare('editor_1c','out_1c','ref_1c','sol_1c')">▶ تشغيل</button>
+      <button class="btn ghost" onclick="toggleSolution('editor_1c', 'sol_1c', 'ref_1c')">👀 عرض الحل</button>
+    </div>
+    <div id="out_1c" class="output"></div>
+    <pre id="sol_1c" class="solution">// هنا سيظهر الحل (سواء كودك أو الكود المرجعي) بعد التشغيل</pre>
+    
+    <h4>د) مثال 4: أكبر من (`>`)</h4>
+    <p class="explain">
+      هنا بنختبر لو عدد القطع المشتراة <code>items</code> **أكبر من 10**. لو أكبر من 10 (زي 11)، هيطبع "Bulk order!". لو 10 بالظبط، الشرط غلط وهينفذ الـ <code>else</code>.
+    </p>
+
+    <pre class="display-code">// المرجع
+let items = 12;
+if (items > 10) {
+  console.log("Bulk order!");
+} else {
+  console.log("Standard order");
+} // متوقع: Bulk order!
+</pre>
+    <textarea id="editor_1d" class="editor">let items = 12;
+if (items > 10) {
+  console.log("Bulk order!");
+} else {
+  console.log("Standard order");
+} </textarea>
+    <div class="controls">
+      <button class="btn" onclick="runAndCompare('editor_1d','out_1d','ref_1d','sol_1d')">▶ تشغيل</button>
+      <button class="btn ghost" onclick="toggleSolution('editor_1d', 'sol_1d', 'ref_1d')">👀 عرض الحل</button>
+    </div>
+    <div id="out_1d" class="output"></div>
+    <pre id="sol_1d" class="solution">// هنا سيظهر الحل (سواء كودك أو الكود المرجعي) بعد التشغيل</pre>
+
+    <hr>
+    <h3>2) الشروط المتعددة: `else if` (لتحديد خيارات مرتبة)</h3>
+
+    <div class="note">الـ `else if` بتخلي البرنامج يختبر الشروط بالترتيب، ولما يلاقي شرط واحد بس صح، بيوقف ويطنش كل اللي بعده. ده مفيد جداً في نظام التقييمات أو التصنيفات.</div>
+
+    <h4>أ) مثال 5: نظام الجوائز (المثال الأصلي)</h4>
+    <p class="explain">
+      هنا بنشوف قيمة المتغير <code>num</code>، لو كانت 1 هياخد جايزة، لو كانت 2 هياخد جايزة تانية، ولو 3 هيتنفذ الشرط بتاعها. لاحظ إننا بنستخدم `==` زي ما طلبت.
+    </p>
+    <pre class="display-code">// المرجع
+let num = 3;
+if (num == 1){
+  console.log("New bicycle");
+} else if (num == 2){
+  console.log("Pair of tickets to the aquarium");
+} else if (num == 3){
+  console.log("10 bags of potato chips");
+} // متوقع: 10 bags of potato chips
+</pre>
+    <textarea id="editor_2a" class="editor">let num = 3;
+if (num == 1){
+  console.log("New bicycle");
+} else if (num == 2){
+  console.log("Pair of tickets to the aquarium");
+} else if (num == 3){
+  console.log("10 bags of potato chips");
+}</textarea>
+    <div class="controls">
+      <button class="btn" onclick="runAndCompare('editor_2a','out_2a','ref_2a','sol_2a')">▶ تشغيل</button>
+      <button class="btn ghost" onclick="toggleSolution('editor_2a', 'sol_2a', 'ref_2a')">👀 عرض الحل</button>
+    </div>
+    <div id="out_2a" class="output"></div>
+    <pre id="sol_2a" class="solution">// هنا سيظهر الحل (سواء كودك أو الكود المرجعي) بعد التشغيل</pre>
+
+    <h4>ب) مثال 6: الجوائز مع الـ `else` (شبكة الأمان)</h4>
+    <p class="explain">
+      لو قيمة <code>num</code> مش 1 ولا 2 ولا 3 ولا 4 (زي 10 في المثال ده)، مفيش ولا شرط من الأربعة هيتحقق، وبالتالي البرنامج هيروح لشبكة الأمان الأخيرة وهي الـ <code>else</code> وهيطبع "Stickers".
+    </p>
+
+    <pre class="display-code">// المرجع
+let num = 10;
+if (num == 1) {
+  console.log("New bicycle");
+} else if (num == 2) {
+  console.log("Pair of tickets to the aquarium");
+} else if (num == 3) {
+  console.log("10 bags of potato chips");
+} else if (num == 4) {
+  console.log("Illustrated book of sea creatures");
+} else {
+  console.log("Stickers");
+} // متوقع: Stickers
+</pre>
+    <textarea id="editor_2b" class="editor">let num = 10;
+if (num == 1) {
+  console.log("New bicycle");
+} else if (num == 2) {
+  console.log("Pair of tickets to the aquarium");
+} else if (num == 3) {
+  console.log("10 bags of potato chips");
+} else if (num == 4) {
+  console.log("Illustrated book of sea creatures");
+} else {
+  console.log("Stickers");
+}</textarea>
+    <div class="controls">
+      <button class="btn" onclick="runAndCompare('editor_2b','out_2b','ref_2b','sol_2b')">▶ تشغيل</button>
+      <button class="btn ghost" onclick="toggleSolution('editor_2b', 'sol_2b', 'ref_2b')">👀 عرض الحل</button>
+    </div>
+    <div id="out_2b" class="output"></div>
+    <pre id="sol_2b" class="solution">// هنا سيظهر الحل (سواء كودك أو الكود المرجعي) بعد التشغيل</pre>
+
+    <h4>ج) مثال 7: تطبيق عملي على الخصومات (المثال اللي طلبته)</h4>
+    <p class="explain">
+      هنا بنحدد الخصم حسب عدد الأشخاص <code>people</code>:
+      <ol>
+        <li>لو العدد **يساوي 2**: خصم 10%.</li>
+        <li>لو العدد **أكبر من أو يساوي 3**: خصم 20%.</li>
+        <li>غير كده (يعني لو شخص واحد): سعر التجزئة العادي.</li>
+      </ol>
+      بما أن <code>people = 4</code> في الكود، الشرط الأول هيكون غلط، الشرط الثاني هيكون صح، وبالتالي هيتنفذ!
+    </p>
+
+    <pre class="display-code">// المرجع
+let people = 4;
+if (people == 2) {
+  console.log("10% off");
+} else if (people >= 3) {
+  console.log("20% off");
+} else {
+  console.log("retail price");
+} // متوقع: 20% off
+</pre>
+    <textarea id="editor_2c" class="editor">let people = 4;
+if (people == 2) {
+  console.log("10% off");
+} else if (people >= 3) {
+  console.log("20% off");
+} else {
+  console.log("retail price");
+}</textarea>
+    <div class="controls">
+      <button class="btn" onclick="runAndCompare('editor_2c','out_2c','ref_2c','sol_2c')">▶ تشغيل</button>
+      <button class="btn ghost" onclick="toggleSolution('editor_2c', 'sol_2c', 'ref_2c')">👀 عرض الحل</button>
+    </div>
+    <div id="out_2c" class="output"></div>
+    <pre id="sol_2c" class="solution">// هنا سيظهر الحل (سواء كودك أو الكود المرجعي) بعد التشغيل</pre>
+
+    <hr>
+    <h3>3) المعاملات المنطقية: دمج الشروط</h3>
+
+    <div class="note">المعاملات دي (<code>&&</code> و <code>||</code>) بتخليك تحط أكتر من شرط في نفس القوس بتاع الـ <code>if</code> عشان تحدد شروط دخول معقدة.</div>
+
+    <h4>أ) المعامل المنطقي: `&&` (AND - و) - الشروط الصارمة</h4>
+    <p class="explain">
+      رمز الـ <code>&&</code> معناه "و" (And). عشان الشرط كله يشتغل، **لازم كل الأجزاء اللي حوالين الـ `&&` تكون صحيحة**. لو في شرط واحد بس غلط، كل الشرط بيعتبر غلط.
+      <br>المثال بيقول: عشان تاخد خصم 20%، لازم يكون: 1) عدد الأشخاص <code>numberOfPeople</code> أكبر من أو يساوي 2، **و** 2) الفاتورة <code>fee</code> أكبر من أو تساوي 3000.
+    </p>
+
+    <pre class="display-code">// المرجع
+let numberOfPeople = 3;
+let fee = 3500;
+if (numberOfPeople >= 2 && fee >= 3000) {
+  console.log("20% off");
+} // متوقع: 20% off
+</pre>
+    <textarea id="editor_3a" class="editor">let numberOfPeople = 3;
+let fee = 3500;
+if (numberOfPeople >= 2 && fee >= 3000) {
+  console.log("20% off");
+}</textarea>
+    <div class="controls">
+      <button class="btn" onclick="runAndCompare('editor_3a','out_3a','ref_3a','sol_3a')">▶ تشغيل</button>
+      <button class="btn ghost" onclick="toggleSolution('editor_3a', 'sol_3a', 'ref_3a')">👀 عرض الحل</button>
+    </div>
+    <div id="out_3a" class="output"></div>
+    <pre id="sol_3a" class="solution">// هنا سيظهر الحل (سواء كودك أو الكود المرجعي) بعد التشغيل</pre>
+
+    <h4>ب) مثال 9: `&&` (فشل الشرط بسبب متغير واحد)</h4>
+    <p class="explain">
+      هنا عدد الأشخاص بقى 1. الشرط الأول (1 >= 2) غلط. بما إن الـ <code>&&</code> عايزة كل حاجة تكون صح، فـ الكود مش هيشتغل ومش هيطبع "Free mug".
+    </p>
+
+    <pre class="display-code">// المرجع
+let numberOfPeople = 1;
+let fee = 3500;
+if (numberOfPeople >= 2 && fee >= 3000) {
+  console.log("Free mug");
+} // متوقع: مفيش حاجة هتتطبع
+</pre>
+    <textarea id="editor_3b" class="editor">let numberOfPeople = 1;
+let fee = 3500;
+if (numberOfPeople >= 2 && fee >= 3000) {
+  console.log("Free mug");
+}</textarea>
+    <div class="controls">
+      <button class="btn" onclick="runAndCompare('editor_3b','out_3b','ref_3b','sol_3b')">▶ تشغيل</button>
+      <button class="btn ghost" onclick="toggleSolution('editor_3b', 'sol_3b', 'ref_3b')">👀 عرض الحل</button>
+    </div>
+    <div id="out_3b" class="output"></div>
+    <pre id="sol_3b" class="solution">// هنا سيظهر الحل (سواء كودك أو الكود المرجعي) بعد التشغيل</pre>
+
+    <h4>ج) المعامل المنطقي: `||` (OR - أو) - الشروط المرنة</h4>
+    <p class="explain">
+      رمز الـ <code>||</code> معناه "أو". عشان الشرط كله يشتغل، **يكفي شرط واحد بس يكون صحيح**. ده زي ما تقول: "يا إما ده، يا إما ده".
+      <br>المثال بيقول: عشان تاخد "Approved" لازم: 1) الرصيد <code>balance</code> أكبر من 10000، **أو** 2) يكون من عملاء VIP. بما إن الرصيد 5000 (غلط)، لكنه عميل VIP (صح)، فالشرط الكلي صح.
+    </p>
+
+    <pre class="display-code">// المرجع
+let balance = 5000;
+let isVIP = true;
+if (balance > 10000 || isVIP == true) {
+  console.log("Transaction Approved");
+} else {
+  console.log("Transaction Denied");
+} // متوقع: Transaction Approved
+</pre>
+    <textarea id="editor_3c" class="editor">let balance = 5000;
+let isVIP = true;
+if (balance > 10000 || isVIP == true) {
+  console.log("Transaction Approved");
+} else {
+  console.log("Transaction Denied");
+}</textarea>
+    <div class="controls">
+      <button class="btn" onclick="runAndCompare('editor_3c','out_3c','ref_3c','sol_3c')">▶ تشغيل</button>
+      <button class="btn ghost" onclick="toggleSolution('editor_3c', 'sol_3c', 'ref_3c')">👀 عرض الحل</button>
+    </div>
+    <div id="out_3c" class="output"></div>
+    <pre id="sol_3c" class="solution">// هنا سيظهر الحل (سواء كودك أو الكود المرجعي) بعد التشغيل</pre>
+    
+    <h4>د) مثال 11: دمج `&&` و `||` في شرط واحد (مستوى متقدم)</h4>
+    <p class="explain">
+      ممكن نستخدم الـ <code>&&</code> والـ <code>||</code> مع بعض! بس دايماً بنحط أقواس زيادة عشان نفصل بين الشروط.
+      <br>الشرط بيقول: عشان تاخد الترقية لازم تكون: 1) الأقدمية <code>years</code> أكبر من 5، **و** 2) يا إما (التقييم <code>rating</code> أكبر من 4) **أو** (عدد المشاريع <code>projects</code> أكبر من 15).
+      <br>في الكود ده: الأقدمية صح (8 > 5)، والتقييم غلط (3 > 4)، لكن عدد المشاريع صح (20 > 15). بما أن **شرط واحد** من شروط الـ `||` صح، الشرط كله بتاع الـ <code>if</code> بيكون صح.
+    </p>
+
+    <pre class="display-code">// المرجع
+let years = 8;
+let rating = 3;
+let projects = 20;
+
+if (years > 5 && (rating > 4 || projects > 15)) {
+  console.log("Promotion Approved");
+} else {
+  console.log("Promotion Denied");
+} // متوقع: Promotion Approved
+</pre>
+    <textarea id="editor_3d" class="editor">let years = 8;
+let rating = 3;
+let projects = 20;
+
+if (years > 5 && (rating > 4 || projects > 15)) {
+  console.log("Promotion Approved");
+} else {
+  console.log("Promotion Denied");
+}</textarea>
+    <div class="controls">
+      <button class="btn" onclick="runAndCompare('editor_3d','out_3d','ref_3d','sol_3d')">▶ تشغيل</button>
+      <button class="btn ghost" onclick="toggleSolution('editor_3d', 'sol_3d', 'ref_3d')">👀 عرض الحل</button>
+    </div>
+    <div id="out_3d" class="output"></div>
+    <pre id="sol_3d" class="solution">// هنا سيظهر الحل (سواء كودك أو الكود المرجعي) بعد التشغيل</pre>
+
+    <hr>
+    <h3>📘 خلاصة الدرس الثالث</h3>
+    <div class="summary">
+      <ul style="direction:rtl; text-align:right; line-height:1.8; margin:0; padding-right:10px;">
+        <li>**المقارنات الجديدة:** استخدم **&lt;، &gt;، &lt;=، &gt;=** لتحديد مدى للقيم.</li>
+        <li>**اختبار اختيارات متعددة:** استخدم **if / else if / else** عشان البرنامج يختار شرط واحد بس من مجموعة شروط مرتبة.</li>
+        <li>**`&&` (و):** لما تحتاج **كل** الشروط تكون صحيحة عشان الكود يشتغل (زي: لازم تنجح في مادة أ **و** مادة ب).</li>
+        <li>**`||` (أو):** لما يكفي **شرط واحد بس** يكون صحيح عشان الكود يشتغل (زي: يا إما معاك فيزا **أو** معاك كاش).</li>
+      </ul>
+    </div>
+
+    <hr>
+    <div style="text-align:center; margin-top:12px;">
+      <button class="btn" onclick="location.href='quiz3.html'">اختبر نفسك</button>
     </div>
 
     <div class="navs">
-      <a href="lesson2.html" class="btn">⬅️ الدرس الثاني</a>
-      <a href="index.html" class="btn">🏠 الصفحة الرئيسية</a>
+      <button class="btn" onclick="location.href='lesson2.html'">⬅️ الدرس الثاني</button>
+      <button class="btn" onclick="location.href='index.html'">🏠 الصفحة الرئيسية</button>
+      <button class="btn" onclick="alert('الدرس الرابع لسه بيتجهز يا بطل 💪')">➡️ الدرس الرابع</button>
     </div>
 
+    <div class="footer">تصميم بواسطه <strong>Ahmed Ezzat</strong> ❤️</div>
+
   </div>
+
+<script>
+/* ===========================
+  SCRIPT مصحح ومحدث لكافة الأمثلة الجديدة (12 مثال)
+  تم تعديل آلية عمل زر عرض الحل
+  =========================== */
+
+/* ----- تخزين الأكواد المرجعية في متغيرات Global ----- */
+window.REF_CODES = {
+  // Example 1: <= and >= and < and >
+  'ref_1a': `let math = 70;\nif (math <= 50) {\n  console.log("Add homework");\n} else {\n  console.log("No homework!");\n}`,
+  'ref_1b': `let price = 1000;\nif (price >= 1000) {\n  console.log("Premium Product");\n} else {\n  console.log("Standard Product");\n}`,
+  'ref_1c': `let temp = 14;\nif (temp < 15) {\n  console.log("It's cold!");\n} else {\n  console.log("Nice weather");\n}`,
+  'ref_1d': `let items = 12;\nif (items > 10) {\n  console.log("Bulk order!");\n} else {\n  console.log("Standard order");\n}`,
+  // Example 2: else if
+  'ref_2a': `let num = 3;\nif (num == 1){\n  console.log("New bicycle");\n} else if (num == 2){\n  console.log("Pair of tickets to the aquarium");\n} else if (num == 3){\n  console.log("10 bags of potato chips");\n}`,
+  'ref_2b': `let num = 10;\nif (num == 1) {\n  console.log("New bicycle");\n} else if (num == 2) {\n  console.log("Pair of tickets to the aquarium");\n} else if (num == 3) {\n  console.log("10 bags of potato chips");\n} else if (num == 4) {\n  console.log("Illustrated book of sea creatures");\n} else {\n  console.log("Stickers");\n}`,
+  'ref_2c': `let people = 4;\nif (people == 2) {\n  console.log("10% off");\n} else if (people >= 3) {\n  console.log("20% off");\n} else {\n  console.log("retail price");\n}`,
+  // Example 3: && and ||
+  'ref_3a': `let numberOfPeople = 3;\nlet fee = 3500;\nif (numberOfPeople >= 2 && fee >= 3000) {\n  console.log("20% off");\n}`,
+  'ref_3b': `let numberOfPeople = 1;\nlet fee = 3500;\nif (numberOfPeople >= 2 && fee >= 3000) {\n  console.log("Free mug");\n}`,
+  'ref_3c': `let balance = 5000;\nlet isVIP = true;\nif (balance > 10000 || isVIP == true) {\n  console.log("Transaction Approved");\n} else {\n  console.log("Transaction Denied");\n}`,
+  'ref_3d': `let years = 8;\nlet rating = 3;\nlet projects = 20;\n\nif (years > 5 && (rating > 4 || projects > 15)) {\n  console.log("Promotion Approved");\n} else {\n  console.log("Promotion Denied");\n}`
+};
+
+// متغير جديد لتخزين حالة صحة الحل لكل تمرين (جدول Hash Map)
+window.SOLUTION_STATUS = {}; 
+
+
+/* ----- إعدادات سلوك الفحص ----- */
+const REQUIRE_SEMICOLON = false; 
+const ALLOW_LOOSE_SYNTAX = true; 
+window._EDU_SETTINGS = { REQUIRE_SEMICOLON, ALLOW_LOOSE_SYNTAX };
+
+/* ----- مساعدة: إزالة التعليقات ----- */
+function removeComments(code) {
+  let result = code.replace(/\/\*[\s\S]*?\*\//g, ''); 
+  result = result.replace(/\/\/.*$/gm, ''); 
+  return result;
+}
+window.removeComments = removeComments;
+
+/* ----- محلل الأخطاء البنيوية (أقواس - اقتباسات) ----- */
+function analyzeCodeErrors(code) {
+  const lines = code.split('\n');
+  const stack = [];
+  
+  for (let i = 0; i < lines.length; i++) {
+    const raw = lines[i];
+    const noComment = raw.replace(/\/\*[\s\S]*?\*\//g,'').replace(/\/\/.*$/g,'').trim(); 
+    if (noComment === '') continue;
+
+    let inSingleQuote = false;
+    let inDoubleQuote = false;
+    for (let j = 0; j < raw.length; j++) {
+      const ch = raw[j];
+
+      if (ch === "'" && !inDoubleQuote) {
+        inSingleQuote = !inSingleQuote;
+        continue;
+      }
+      if (ch === '"' && !inSingleQuote) {
+        inDoubleQuote = !inDoubleQuote;
+        continue;
+      }
+
+      if (inSingleQuote || inDoubleQuote) continue;
+
+      if (ch === '(' || ch === '{' || ch === '[') {
+        stack.push({ch, i});
+      } else if (ch === ')' || ch === '}' || ch === ']') {
+        const last = stack.pop();
+        if (!last) {
+          return { valid:false, line: i+1, message: '❌ قوس إغلاق بدون قوس فتح قبله.' };
+        }
+        if ((ch === ')' && last.ch !== '(') ||
+            (ch === '}' && last.ch !== '{') ||
+            (ch === ']' && last.ch !== '[')) {
+          return { valid:false, line: i+1, message: '❌ الأقواس غير متطابقة.' };
+        }
+      }
+    }
+    
+    if (inSingleQuote || inDoubleQuote) {
+      return { valid:false, line: i+1, message: '❌ علامة اقتباس مفردة أو مزدوجة غير مغلقة في السطر.' };
+    }
+  }
+
+  if (stack.length > 0) {
+    const last = stack[stack.length-1];
+    return { valid:false, line: last.i+1, message: `❌ في أقواس مفتوحة غير مقفولة. (فتح عند سطر ${last.i+1})` };
+  }
+
+  return { valid:true };
+}
+window.analyzeCodeErrors = analyzeCodeErrors;
+
+/* ----- قواعد تحقق خاصة بالتمرين ----- */
+function validateCode(inputId, code) {
+  const m = inputId.match(/(\d+)([a-zA-Z]?)$/);
+  const base = m ? m[1] : null;
+  const cleaned = removeComments(code).trim();
+  const hasConsoleLog = /console\.log\s*\(/.test(code);
+  const hasIf = /if\s*\(.*\)\s*\{/i.test(cleaned);
+
+  if (!base) return { valid:true };
+
+  switch (base) {
+    case '1':
+      if (!/(\<|\>|\<=|\>=)/.test(cleaned)) return { valid:false, message: "❌ هذا التمرين عن المقارنات (< > <= >=)." };
+      if (!hasConsoleLog) return { valid:false, message: "❌ لازم تستخدم console.log() لعرض النتيجة." };
+      break;
+    case '2':
+      if (!/else\s*if/i.test(cleaned)) return { valid:false, message: "❌ هذا التمرين يركز على استخدام else if." };
+      if (!hasIf) return { valid:false, message: "❌ يجب أن تبدأ الجملة بـ if." };
+      break;
+    case '3':
+      if (!/(\&\&|\|\|)/.test(cleaned)) return { valid:false, message: "❌ هذا التمرين عن المعاملات المنطقية (&& أو ||)." };
+      if (!hasIf) return { valid:false, message: "❌ يجب أن تبدأ الجملة بـ if." };
+      break;
+    default:
+      break;
+  }
+  return { valid:true };
+}
+window.validateCode = validateCode;
+
+/* ----- تنفيذ الكود والتقاط console.log + أخطاء التنفيذ ----- */
+function executeAndCapture(codeStr){
+  const logs = [];
+  const origConsole = window.console.log; 
+
+  window.console.log = function(...args){
+    const line = args.map(a=>{
+      if (typeof a === 'object' && a !== null) {
+        try { return JSON.stringify(a, null, 2); } catch(e){ return String(a); } 
+      }
+      return String(a);
+    }).join(' ');
+    logs.push(line);
+    try { origConsole.apply(window.console, args); } catch(e){}
+  };
+
+  let error = null;
+  try {
+    const codeToExecute = `'use strict';\n${codeStr}`;
+    const fn = new Function(codeToExecute);
+    fn();
+  } catch (err) {
+    let ln = null;
+    if (err && err.stack) {
+      const lines = err.stack.split('\n');
+      for (let l of lines){
+        let m = l.match(/<anonymous>:(\d+):\d+/) || l.match(/new Function:(\d+):\d+/);
+        if (m && m[1]) { 
+            const foundLine = Number(m[1]) - 1; 
+            if(foundLine > 0) ln = foundLine; 
+            break; 
+        }
+      }
+    }
+    let msg = err && err.message ? err.message : String(err);
+    msg = msg.replace(/\n/g,' ').replace(/\s+/g,' ').trim();
+    error = { msg, line: ln };
+  } finally {
+    window.console.log = origConsole;
+  }
+  return { logs, error };
+}
+window.executeAndCapture = executeAndCapture;
+
+/* ----- مساعدة: مقارنة أول سطر مختلف ----- */
+function firstDiffLine(expected, actual){
+  const exp = expected.split('\n');
+  const act = actual.split('\n');
+  const max = Math.max(exp.length, act.length);
+  for (let i=0;i<max;i++){
+    const e = (exp[i]||'').trim(); 
+    const a = (act[i]||'').trim();
+    if (e !== a) return i+1;
+  }
+  return null;
+}
+window.firstDiffLine = firstDiffLine;
+
+/* ----- تظليل سطر الخطأ داخل textarea ----- */
+function highlightErrorLine(textarea, lineNumber) {
+  try {
+    textarea.classList.remove('highlight-error');
+    if (!lineNumber || lineNumber < 1) return;
+    const lines = textarea.value.split('\n');
+    const safeLine = Math.min(lineNumber, lines.length);
+    let start = 0;
+    for(let i = 0; i < safeLine - 1; i++){
+        start += lines[i].length + 1; 
+    }
+    
+    const end = start + (lines[safeLine - 1] ? lines[safeLine - 1].length : 0);
+    
+    textarea.focus();
+    if (textarea.setSelectionRange) textarea.setSelectionRange(start, end);
+    textarea.classList.add('highlight-error');
+  } catch(e){}
+}
+window.highlightErrorLine = highlightErrorLine;
+
+/* ----- الدالة الأساسية: تشغيل، تحليل، تنفيذ، مقارنة (معدلة) ----- */
+function runAndCompare(editorId, outId, refCodeId, solId){
+  const textarea = document.getElementById(editorId);
+  const outEl = document.getElementById(outId);
+  const expectedCode = window.REF_CODES[refCodeId]; 
+  const currentCode = textarea.value; // احتفظ بالكود الحالي
+
+  if (!textarea || !outEl || !expectedCode) return;
+  
+  // نضف حالة الخطأ والإخراج
+  textarea.classList.remove('highlight-error');
+  outEl.classList.remove('error');
+  outEl.textContent = '... جاري التنفيذ والتحليل ...';
+
+  const code = currentCode || '';
+  if (!code.trim()) {
+    outEl.textContent = '⚠️ اكتب الكود قبل الضغط على تشغيل.';
+    // مسح حالة الحل
+    window.SOLUTION_STATUS[solId] = null; 
+    return;
+  }
+
+  // 1) تحليل بنيوي للأخطاء
+  const analysis = analyzeCodeErrors(code);
+  if (!analysis.valid) {
+    outEl.classList.add('error');
+    outEl.textContent = `${analysis.message}\n📍 السطر رقم: ${analysis.line || '?'}`;
+    highlightErrorLine(textarea, analysis.line || 1);
+    // مسح حالة الحل وتخزين الكود المرجعي للعرض
+    window.SOLUTION_STATUS[solId] = { correct: false, code: expectedCode };
+    return;
+  }
+
+  // 2) تحقق حسب متطلبات المثال
+  const validation = validateCode(editorId, code);
+  if (!validation.valid) {
+    outEl.classList.add('error');
+    outEl.textContent = validation.message;
+    // مسح حالة الحل وتخزين الكود المرجعي للعرض
+    window.SOLUTION_STATUS[solId] = { correct: false, code: expectedCode };
+    return;
+  }
+
+  // 3) تنفيذ كود الطالب
+  const studentRes = executeAndCapture(code);
+  if (studentRes.error) {
+    outEl.classList.add('error');
+    const ln = studentRes.error.line ? `، تقريبًا عند السطر ${studentRes.error.line}` : '';
+    outEl.textContent = `❌ فيه خطأ وقت التنفيذ: ${studentRes.error.msg}${ln}\n(الخطأ من كودك)`;
+    if (studentRes.error.line) highlightErrorLine(textarea, studentRes.error.line);
+    // مسح حالة الحل وتخزين الكود المرجعي للعرض
+    window.SOLUTION_STATUS[solId] = { correct: false, code: expectedCode };
+    return;
+  }
+
+  // 4) تنفيذ الحل المرجعي
+  let expectedRes = { logs: [], error: null };
+  try {
+    expectedRes = executeAndCapture(expectedCode);
+    if (expectedRes.error) {
+      outEl.classList.add('error');
+      outEl.textContent = `❌ في مشكلة في كود الحل المرجعي: ${expectedRes.error.msg}`;
+      // مسح حالة الحل
+      window.SOLUTION_STATUS[solId] = null; 
+      return;
+    }
+  } catch(e){
+    outEl.classList.add('error');
+    outEl.textContent = `❌ خطأ داخلي أثناء تنفيذ الحل المرجعي: ${e.message || e}`;
+    // مسح حالة الحل
+    window.SOLUTION_STATUS[solId] = null; 
+    return;
+  }
+
+  const studentText = (studentRes.logs || []).join('\n');
+  const expectedText = (expectedRes.logs || []).join('\n');
+
+  const sNorm = studentText.split('\n').map(l=>l.trim()).filter(l=>l!=='').join('\n');
+  const eNorm = expectedText.split('\n').map(l=>l.trim()).filter(l=>l!=='').join('\n');
+
+  if (!studentText) {
+    outEl.textContent = '✅ نفّذ الكود لكن مفيش console.log مطبوع. لو المفروض يكون في إخراج استخدم console.log().';
+  } else {
+    outEl.textContent = studentText;
+  }
+  
+  // 5) مقارنة النتائج وتحديث حالة الحل (SOLUTION_STATUS)
+  if (sNorm === eNorm) {
+    outEl.textContent += '\n\n✅ ممتاز — الناتج مظبوط بالظبط! 🎉';
+    window.SOLUTION_STATUS[solId] = { correct: true, code: currentCode }; // الحل صحيح، نخزن كود الطالب
+    showToast('برافو! الناتج مظبوط 💪', true);
+  } else {
+    outEl.classList.add('error');
+    outEl.textContent += '\n\n❌ الناتج مش زي المتوقع.';
+    const diffLine = firstDiffLine(eNorm, sNorm);
+    if (diffLine !== null) outEl.textContent += `\nأول اختلاف في السطر: ${diffLine}`;
+    outEl.textContent += `\n\nالناتج اللي طلع (بعد تنظيف): \n${sNorm || '(مفيش نتايج)'}\n\nالناتج المتوقع (بعد تنظيف):\n${eNorm || '(مفيش نتايج متوقعة)'}`;
+    
+    window.SOLUTION_STATUS[solId] = { correct: false, code: expectedCode }; // الحل غير صحيح، نخزن الكود المرجعي
+    showToast('قريب جدًا — راجع الاختلاف وعدّل كودك ✍️', false);
+  }
+}
+window.runAndCompare = runAndCompare;
+
+/* ----- دالة عرض الحل الجديدة (تعتمد على حالة SOLUTION_STATUS) ----- */
+function toggleSolution(editorId, solId, refCodeId){
+  const solEl = document.getElementById(solId);
+  if(!solEl) return;
+  
+  if (solEl.style.display === 'block') {
+    // لو الحل مفتوح، اقفله
+    solEl.style.display = 'none';
+    return;
+  }
+  
+  // الحل مش مفتوح، لازم نعرضه
+  const status = window.SOLUTION_STATUS[solId];
+  const editorCode = document.getElementById(editorId).value;
+
+  if (status && status.code) {
+    // فيه نتيجة سابقة بعد التشغيل (سواء صح أو غلط)
+    solEl.textContent = status.code;
+    solEl.style.display = 'block';
+    if(status.correct){
+       solEl.textContent = `// ✅ الحل بتاعك ده صح:\n` + status.code;
+    } else {
+       solEl.textContent = `// ❌ الحل المرجعي (شوف الفرق بينه وبين كودك):\n` + status.code;
+    }
+  } else {
+    // لم يتم تشغيل الكود بعد، نعرض الكود المرجعي وننبه المستخدم
+    const expectedCode = window.REF_CODES[refCodeId];
+    solEl.textContent = `// ⚠️ لازم تشغّل الكود الأول عشان نحدد هل كودك صح ولا غلط.\n` + expectedCode;
+    solEl.style.display = 'block';
+  }
+}
+window.toggleSolution = toggleSolution;
+
+/* ----- Toast ----- */
+function showToast(text, ok){
+  const t = document.createElement('div');
+  t.style.position='fixed'; t.style.left='50%'; t.style.transform='translateX(-50%)';
+  t.style.bottom='26px'; t.style.padding='10px 14px'; t.style.borderRadius='999px';
+  t.style.color='#fff'; t.style.fontWeight='700'; t.style.zIndex=9999;
+  t.style.boxShadow='0 8px 20px rgba(0,0,0,0.2)';
+  t.style.background = ok? 'rgba(6,125,70,0.95)' : 'rgba(150,20,20,0.95)';
+  t.textContent = text;
+  document.body.appendChild(t);
+  setTimeout(()=>{ t.style.transition='all .4s'; t.style.opacity='0'; setTimeout(()=>t.remove(),420)},1400);
+}
+window.showToast = showToast;
+
+</script>
 
 </body>
 </html>

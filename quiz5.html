@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اختبار الدرس الخامس - المصفوفات (Arrays) وخواص الدوال المتقدمة</title>
+    <style>
+        /* (CSS الأنماط يبقى كما هو للحفاظ على التصميم التفاعلي الجذاب) */
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap');
+        
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(135deg, #f9f9f9, #e0f7fa);
+            color: #222;
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #00796b;
+            font-size: 2.2em;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+        }
+        h2 {
+            color: #004d40;
+            font-size: 1.6em;
+            margin-top: 35px;
+            border-bottom: 3px solid #009688;
+            padding-bottom: 10px;
+            display: inline-block;
+        }
+
+        .quiz-container {
+            max-width: 950px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15); 
+            text-align: right;
+        }
+
+        .question {
+            margin: 25px 0 15px 0;
+            font-weight: 700;
+            color: #004d40;
+            white-space: pre-wrap;
+            text-align: right;
+            border-right: 4px solid #009688;
+            padding-right: 15px;
+        }
+        
+        .code-snippet {
+            display: block;
+            background-color: #f1f8e9;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            direction: ltr;
+            text-align: left;
+            overflow-x: auto;
+            font-weight: 700;
+            border: 1px solid #dcdcdc;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .option {
+            background-color: #f1f8e9;
+            border: 2px solid #009688;
+            border-radius: 12px;
+            padding: 12px;
+            margin: 10px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: right;
+            position: relative;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .option:hover {
+            background-color: #e0f2f1;
+            transform: translateY(-2px); 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+        
+        .option.correct {
+            background-color: #a5d6a7 !important; 
+            border-color: #2e7d32;
+            box-shadow: 0 0 10px rgba(46, 125, 50, 0.5); 
+        }
+        .option.wrong {
+            background-color: #ef9a9a !important; 
+            border-color: #c62828;
+            box-shadow: 0 0 10px rgba(198, 40, 40, 0.5); 
+        }
+
+        .feedback {
+            margin-top: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #004d40;
+            min-height: 25px; 
+            line-height: 1.6;
+            padding: 5px;
+            border-radius: 5px;
+        }
+
+        .btn {
+            background: linear-gradient(90deg, #009688, #26a69a);
+            color: white;
+            padding: 14px 30px;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            margin: 10px 7px;
+            transition: all 0.3s ease;
+            font-size: 18px;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            background: linear-gradient(90deg, #00796b, #004d40);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .result {
+            font-size: 22px;
+            margin-top: 30px;
+            font-weight: bold;
+            text-align: center;
+            padding: 20px;
+            border: 3px solid #009688;
+            border-radius: 15px;
+            background-color: #e0f7fa;
+            color: #004d40;
+            animation: fadeIn 1s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+        .result.pulse {
+            animation: pulse 0.5s ease-in-out;
+        }
+
+        .project-section {
+            border: 2px solid #009688;
+            padding: 25px;
+            border-radius: 15px;
+            background-color: #f7fff7;
+            margin-top: 25px;
+        }
+        .project-explanation {
+            line-height: 1.8;
+            font-weight: 600;
+            text-align: right;
+            color: #333;
+        }
+        .editor {
+            width:100%;
+            min-height:150px;
+            font-family:monospace;
+            font-size:15px;
+            direction:ltr;
+            text-align:left;
+            border-radius:10px;
+            padding:12px;
+            border:2px solid #d6eae6;
+            background:#fff;
+            resize:vertical;
+        }
+        .project-output {
+            margin-top: 10px;
+            background:#fff;
+            padding:12px;
+            border-radius:8px;
+            font-family:monospace;
+            direction:ltr;
+            text-align:left;
+            white-space:pre-wrap;
+            min-height:50px;
+            color:#004d40;
+            font-weight:700;
+            border: 1px solid #ccc;
+        }
+        .project-output.error {
+             background:#fff0f0;
+             color:#a00;
+             border-color: #a00;
+        }
+        .project-output.success {
+             background: #e6ffe6;
+             color: #0a0;
+             border-color: #0a0;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>📦 اختبار الدرس الخامس - المصفوفات والدوال المتقدمة</h1>
+
+    <div class="quiz-container" id="quiz">
+        <div id="questions"></div>
+        
+        <div style="text-align:center; margin-top: 25px;">
+            <button class="btn" onclick="submitQuiz()">عرض مجموع النقاط</button>
+            <button class="btn" onclick="showCorrectAnswers()">اعرض الإجابات الصحيحة</button>
+        </div>
+        <div id="result" class="result"></div>
+        
+        <hr style="margin: 40px 0; border-color: #eee;">
+        
+        <h2>🔢 المشروع التطبيقي الأول: دالة مضاعفة عناصر المصفوفة</h2>
+        <div class="project-section">
+            <p class="project-explanation">
+                <strong>المهمة:</strong> اكتب دالة تسمى <code>doubleArray</code> تقبل مصفوفة من الأرقام (<code>nums</code>). يجب أن تستخدم هذه الدالة حلقة **For** لتكرار على عناصر المصفوفة وتغيير كل عنصر ليصبح **ضعف قيمته** (أي مضروباً في 2)، ثم إرجاع **نفس المصفوفة** بعد التعديل.
+                <ol style="text-align: right;">
+                    <li>عرّف الدالة بالشكل: <code>function doubleArray(nums) { ... }</code>.</li>
+                    <li>استخدم حلقة <code>for</code> مع الفهرس (Index) للتكرار.</li>
+                    <li>داخل الحلقة، قم بتحديث العنصر: <code>nums[i] = nums[i] * 2;</code>.</li>
+                    <li>أعد المصفوفة بعد التعديل: <code>return nums;</code>.</li>
+                </ol>
+            </p>
+            <label>اكتب الكود بتاعك هنا:</label>
+            <textarea id="project_editor_1" class="editor">function doubleArray(nums) {
+    // استخدم حلقة For للتعديل على المصفوفة
+    for (let i = 0; i < nums.length; i++) {
+        // ضاعف قيمة العنصر في موقعه
+        nums[i] = nums[i] * 2; 
+    }
+    return nums;
+}
+
+const originalArr = [2, 4, 1];
+console.log(doubleArray(originalArr)); // المتوقع: [4, 8, 2]
+</textarea>
+            <div style="text-align:center;">
+                <button class="btn" onclick="runProjectTest(1)">▶ تشغيل الكود واختبار النتيجة</button>
+            </div>
+            <div id="project_output_1" class="project-output">الناتج سيظهر هنا...</div>
+        </div>
+        
+        <h2>⭐ المشروع التطبيقي الثاني: دالة الجذر التربيعي لعددين</h2>
+        <div class="project-section">
+            <p class="project-explanation">
+                <strong>المهمة:</strong> اكتب دالة تسمى <code>calculateRoots</code> تقبل رقمين موجبين (<code>a, b</code>). يجب أن تستخدم هذه الدالة <code>Math.sqrt()</code> لإيجاد الجذر التربيعي لكل من الرقمين، ثم تُرجع **مجموع** هذين الجذرين.
+                <ol style="text-align: right;">
+                    <li>عرّف الدالة بالشكل: <code>function calculateRoots(a, b) { ... }</code>.</li>
+                    <li>استخدم <code>Math.sqrt(a)</code> و <code>Math.sqrt(b)</code>.</li>
+                    <li>قم بجمع النتيجتين.</li>
+                    <li>أعد قيمة المجموع.</li>
+                </ol>
+            </p>
+            <label>اكتب الكود بتاعك هنا:</label>
+            <textarea id="project_editor_2" class="editor">function calculateRoots(a, b) {
+    // احسب الجذر التربيعي لكل رقم
+    const rootA = Math.sqrt(a);
+    const rootB = Math.sqrt(b);
+
+    // أعد مجموع الجذرين
+    return rootA + rootB;
+}
+
+console.log(calculateRoots(4, 9)); // المتوقع: 5 (2 + 3)
+</textarea>
+            <div style="text-align:center;">
+                <button class="btn" onclick="runProjectTest(2)">▶ تشغيل الكود واختبار النتيجة</button>
+            </div>
+            <div id="project_output_2" class="project-output">الناتج سيظهر هنا...</div>
+        </div>
+        
+        <br>
+        <div style="text-align:center;">
+            <button class="btn" onclick="location.href='lesson4.html'">⬅️ الدرس الرابع</button> 
+            <button class="btn" onclick="location.href='index.html'">🏠 الصفحة الرئيسية</button>
+            <button class="btn" onclick="location.href='lesson6.html'">📚 الدرس السادس ➡️</button>
+        </div>
+    </div>
+
+    <div class="footer">
+        تم التصميم بواسطة <strong>Ahmed Ezzat</strong> ❤️
+    </div>
+
+    <script>
+        // ------------------------------------------------------------------------------------------------
+        // (أسئلة الاختيار من متعدد كما هي)
+        // ------------------------------------------------------------------------------------------------
+        const quizData = [
+             { question: "ما هي الطريقة الصحيحة لتعريف مصفوفة (Array) فارغة في JavaScript؟", options: ["let arr = {};", "let arr = [];", "let arr = array();", "let arr = new list();"], answer: 1, explanation: "يتم تعريف المصفوفة باستخدام الأقواس المعقوفة المربعة <code>[]</code>." },
+             { question: "ما هو الفهرس (Index) لعنصر 'Banana' في المصفوفة؟\n<span class='code-snippet'>const fruits = ['Apple', 'Banana', 'Orange'];</span>", options: ["0", "1", "2", "3"], answer: 1, explanation: "فهرسة المصفوفات تبدأ دائماً من الصفر." },
+             { question: "لإضافة عنصر جديد في نهاية مصفوفة 'list'، نستخدم الدالة:", options: ["list.push('item')", "list.add('item')", "list.insertLast('item')", "list.pop('item')"], answer: 0, explanation: "دالة <code>.push()</code> تُستخدم لإضافة عنصر أو أكثر إلى نهاية المصفوفة." },
+             { question: "ماذا ترجع الخاصية <code>names.length</code> للمصفوفة؟\n<span class='code-snippet'>const names = ['Ali', 'Samir', 'Fahad'];</span>", options: ["2", "3", "4", "القيمة الأولى في المصفوفة"], answer: 1, explanation: "ترجع الخاصية <code>.length</code> عدد العناصر الموجودة في المصفوفة، وهي هنا 3." },
+             { question: "ماذا سيتم طباعته بواسطة <code>console.log(cars.pop())</code>؟\n<span class='code-snippet'>const cars = ['BMW', 'Honda', 'Tesla'];</span>", options: ["BMW", "Honda", "Tesla", "Array ['BMW', 'Honda']"], answer: 2, explanation: "دالة <code>.pop()</code> تزيل آخر عنصر في المصفوفة وتُرجعه. آخر عنصر هو 'Tesla'." },
+             { question: "ما هي القيمة التي ترجعها الدالة <code>Math.abs(-10.5)</code>؟", options: ["10.5", "-10.5", "10", "11"], answer: 0, explanation: "دالة <code>Math.abs()</code> ترجع القيمة المطلقة (Absolute Value) للرقم." },
+             { question: "للوصول إلى العنصر الأول في مصفوفة اسمها <code>data</code>، نستخدم الكود:", options: ["data(1)", "data[1]", "data[0]", "data.first"], answer: 2, explanation: "يتم الوصول للعناصر باستخدام اسم المصفوفة والأقواس المربعة والفهرس، والفهرس الأول هو 0." },
+             { question: "ماذا سيتم طباعته؟\n<span class='code-snippet'>const arr = [5, 10];\narr[1] = 20;\nconsole.log(arr[1]);</span>", options: ["5", "10", "20", "خطأ"], answer: 2, explanation: "تم تحديث قيمة العنصر في الفهرس 1 من 10 إلى 20." },
+             { question: "أي من الحلقات التالية تُستخدم تحديداً للتكرار على عناصر المصفوفات بسهولة؟", options: ["حلقة While", "حلقة Do...While", "حلقة For", "دالة forEach()"], answer: 3, explanation: "دالة <code>.forEach()</code> هي الأسلوب الأكثر شيوعاً للتكرار على عناصر المصفوفة مباشرة." },
+             { question: "لإزالة العنصر الأول من مصفوفة واسترجاعه، نستخدم الدالة:", options: ["pop()", "shift()", "push()", "unshift()"], answer: 1, explanation: "دالة <code>.shift()</code> تزيل العنصر الأول وتعيده." },
+             { question: "ما هي القيمة التي ترجعها الدالة <code>Math.pow(2, 3)</code>؟", options: ["6", "8", "9", "5"], answer: 1, explanation: "دالة <code>Math.pow(base, exponent)</code> تحسب الأساس مرفوعاً للأس (2 أس 3 = 8)." },
+             { question: "ماذا سيتم طباعته؟\n<span class='code-snippet'>let x = [1, 2, 3];\nfunction changeArr(arr) {\n  arr[0] = 99;\n}\nchangeArr(x);\nconsole.log(x[0]);</span>", options: ["1", "99", "خطأ", "undefined"], answer: 1, explanation: "المصفوفات تُمرَّر بالمرجع (by reference)، لذا أي تعديل داخل الدالة يؤثر على المصفوفة الأصلية." },
+             { question: "أي خاصية تُستخدم لمعرفة عدد المعاملات (Parameters) المتوقعة في تعريف دالة ما؟", options: ["function.arguments", "function.name", "function.length", "function.params"], answer: 2, explanation: "تُستخدم الخاصية <code>.length</code> على الدالة لترجع عدد الـ Parameters المعلنة في تعريفها." },
+             { question: "لإضافة عنصر جديد إلى **بداية** مصفوفة 'list'، نستخدم الدالة:", options: ["list.push('item')", "list.shift('item')", "list.unshift('item')", "list.addFirst('item')"], answer: 2, explanation: "دالة <code>.unshift()</code> تُستخدم لإضافة عنصر أو أكثر إلى بداية المصفوفة." },
+             { question: "ما هو الخطأ في محاولة الوصول للعنصر الثالث في مصفوفة طولها 3؟", options: ["يجب استخدام <code>arr[3]</code>", "يجب استخدام <code>arr[2]</code>", "لا يوجد خطأ", "يجب استخدام <code>arr.get(3)</code>"], answer: 1, explanation: "العنصر الثالث هو <code>arr[2]</code>. الفهرس 3 هو خارج حدود المصفوفة." },
+             { question: "ماذا تعني كلمة <code>arguments</code> داخل الدالة؟", options: ["مصفوفة بجميع المتغيرات الخارجية", "مصفوفة بجميع القيم المُمررة للدالة عند استدعائها", "الكلمة المفتاحية <code>return</code>", "اسم الدالة"], answer: 1, explanation: "<code>arguments</code> هو كائن شبيه بالمصفوفة يحتوي على جميع المعطيات المُمررة عند الاستدعاء." },
+             { question: "في دالة السهم <code>const x = (a) => a * 2;</code>، ما هي القيمة التي تُرجعها الدالة عند استدعائها بالشكل <code>x(10)</code>؟", options: ["10", "20", "a * 2", "خطأ"], answer: 1, explanation: "في دالة السهم ذات السطر الواحد، يتم إرجاع القيمة تلقائياً دون الحاجة لكلمة <code>return</code>." },
+             { question: "لإرجاع القيمة العشوائية الصحيحة (Integer) بين 0 و 9 (شاملة)، نستخدم:", options: ["Math.random() * 10", "Math.round(Math.random() * 10)", "Math.floor(Math.random() * 10)", "Math.ceil(Math.random() * 9)"], answer: 2, explanation: "يتم استخدام <code>Math.floor(Math.random() * 10)</code>." },
+             { question: "إذا كانت لدينا مصفوفة <code>arr</code>، للتكرار عليها باستخدام <code>forEach</code>، نستخدم الكود:", options: ["<code>arr.forEach(element)</code>", "<code>arr.forEach(function(el) { ... })</code>", "<code>for (let el of arr)</code>", "<code>arr.for(el)</code>"], answer: 1, explanation: "دالة <code>.forEach()</code> تستقبل دالة (Callback Function) كمعامل لها." },
+             { question: "ما هي القيمة التي ترجعها الدالة <code>Math.sqrt(49)</code>؟", options: ["7", "6", "24.5", "49"], answer: 0, explanation: "دالة <code>Math.sqrt()</code> تحسب الجذر التربيعي للرقم." }
+        ];
+
+        // ------------------------------------------------------------------------------------------------
+        // (وظائف واجهة المستخدم وبناء الأسئلة تبقى كما هي)
+        // ------------------------------------------------------------------------------------------------
+        const questionsDiv = document.getElementById("questions");
+        let selectedAnswers = new Array(quizData.length).fill(null);
+        
+        quizData.forEach((q, i) => {
+            const div = document.createElement("div");
+            div.classList.add("question-block");
+            div.id = `q-${i}`; 
+            
+            div.innerHTML = `
+                <p class="question">${i + 1}. ${q.question}</p>
+                ${q.options.map((opt, index) => `
+                    <div class="option" data-q-index="${i}" data-opt-index="${index}" onclick="selectOption(${i}, ${index}, this)">${opt}</div>
+                `).join('')}
+                <div id="feedback-${i}" class="feedback"></div>
+            `;
+            questionsDiv.appendChild(div);
+        });
+
+        function selectOption(qIndex, optIndex, el) {
+            const questionBlock = el.parentNode;
+            const options = questionBlock.querySelectorAll(".option");
+            const feedback = questionBlock.querySelector(`#feedback-${qIndex}`);
+            const q = quizData[qIndex];
+
+            options.forEach(opt => {
+                opt.classList.remove('correct', 'wrong');
+                opt.style.backgroundColor = "#f1f8e9";
+                opt.style.boxShadow = "0 2px 5px rgba(0,0,0,0.1)"; 
+            });
+
+            selectedAnswers[qIndex] = optIndex;
+            
+            if (optIndex === q.answer) {
+                el.classList.add('correct');
+                feedback.innerHTML = `✅ **صحيح!** ${q.explanation}`;
+                feedback.style.color = "#2e7d32";
+            } else {
+                el.classList.add('wrong');
+                feedback.innerHTML = `❌ **خطأ!** الإجابة الصحيحة: <b>${q.options[q.answer]}</b> - ${q.explanation}`;
+                feedback.style.color = "#c62828";
+            }
+        }
+
+        function submitQuiz() {
+            let score = 0;
+            let total = quizData.length;
+            let unanswered = 0;
+            
+            quizData.forEach((q, i) => {
+                if (selectedAnswers[i] === null) {
+                    unanswered++;
+                } else if (selectedAnswers[i] === q.answer) {
+                    score++;
+                }
+            });
+
+            const resultDiv = document.getElementById("result");
+            resultDiv.classList.remove('pulse'); 
+            
+            if (unanswered > 0) {
+                resultDiv.innerHTML = `🚫 لم تجب على ${unanswered} سؤال. `;
+            } else {
+                resultDiv.innerHTML = "";
+            }
+
+            if (score === total) {
+                resultDiv.innerHTML += `🎉 ممتاز يا مبرمج المستقبل! جبت <b>${score}</b> من <b>${total}</b>. مراجعتك كانت رائعة! ✅`;
+            } else if (score >= total * 0.7) {
+                resultDiv.innerHTML += `👏 نتيجتك رائعة! جبت <b>${score}</b> من <b>${total}</b>، شوية مراجعة بسيطة. 💪`;
+            } else if (score >= total / 2) {
+                resultDiv.innerHTML += `🙂 نتيجتك جيدة! جبت <b>${score}</b> من <b>${total}</b>، راجع الأجزاء اللي أخطأت فيها.`;
+            } else {
+                resultDiv.innerHTML += `🤔 محتاج مراجعة بسيطة، جبت <b>${score}</b> من <b>${total}</b>. لا تيأس، كرر المحاولة!`;
+            }
+            setTimeout(() => {
+                 resultDiv.classList.add('pulse');
+            }, 10);
+        }
+
+        function showCorrectAnswers() {
+            quizData.forEach((q, i) => {
+                const questionBlock = document.getElementById(`q-${i}`);
+                const options = questionBlock.querySelectorAll(".option"); 
+                const feedback = questionBlock.querySelector(`#feedback-${i}`);
+
+                options.forEach(opt => {
+                    opt.classList.remove('correct', 'wrong');
+                    opt.style.backgroundColor = "#f1f8e9";
+                    opt.style.boxShadow = "0 2px 5px rgba(0,0,0,0.1)"; 
+                });
+
+                options[q.answer].classList.add('correct');
+                feedback.innerHTML = `✅ الإجابة الصحيحة: <b>${q.options[q.answer]}</b> - ${q.explanation}`;
+                feedback.style.color = "#2e7d32";
+            });
+            document.getElementById("result").innerHTML = "تم تظليل الإجابات الصحيحة. راجع الشرح في كل سؤال.";
+        }
+
+
+        // ------------------------------------------------------------------------------------------------
+        // (وظائف تنفيذ واختبار المشاريع التطبيقية - مُعدَّلة)
+        // ------------------------------------------------------------------------------------------------
+        
+        // دالة التنفيذ الأساسية (لا تغيير)
+        function executeAndCapture(codeStr){
+            const logs = [];
+            const origConsole = window.console.log; 
+            const timeoutDuration = 3000; 
+
+            window.console.log = function(...args){
+                const line = args.map(a=>{
+                    if (typeof a === 'object' && a !== null) {
+                        try { return JSON.stringify(a); } catch(e){ return String(a); } 
+                    }
+                    return String(a);
+                }).join(' ');
+                logs.push(line);
+                try { origConsole.apply(window.console, args); } catch(e){}
+            };
+
+            let error = null;
+            let startTime = Date.now(); 
+            try {
+                const codeToExecute = `'use strict';\n${codeStr}`;
+                const fn = new Function(codeToExecute);
+                
+                let isTimeout = false;
+                const runLoop = setTimeout(() => {
+                    isTimeout = true;
+                    throw new Error("Execution timed out (Possible Infinite Loop).");
+                }, timeoutDuration);
+
+                fn();
+
+                clearTimeout(runLoop); 
+
+                if (Date.now() - startTime > timeoutDuration || isTimeout) {
+                    error = { msg: "Execution timed out (Possible Infinite Loop)." };
+                    logs.length = 0; 
+                }
+
+            } catch (err) {
+                let msg = err && err.message ? err.message : String(err);
+                msg = msg.replace(/\n/g,' ').replace(/\s+/g,' ').trim();
+                error = { msg };
+            } finally {
+                window.console.log = origConsole;
+            }
+            return { logs, error };
+        }
+
+
+        function runProjectTest(projectNumber){
+            const editor = document.getElementById(`project_editor_${projectNumber}`);
+            const outputEl = document.getElementById(`project_output_${projectNumber}`);
+            const code = editor.value || '';
+            const cleanedCode = code.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\/\/.*$/gm, '').trim();
+
+            outputEl.classList.remove('success', 'error');
+            outputEl.textContent = '... جاري التنفيذ والتحقق ...';
+
+            if (!cleanedCode) {
+                outputEl.classList.add('error');
+                outputEl.textContent = '⚠️ اكتب الكود أولاً.';
+                return;
+            }
+
+            const studentRes = executeAndCapture(code);
+
+            if (studentRes.error) {
+                outputEl.classList.add('error');
+                outputEl.textContent = `❌ خطأ في الكود: ${studentRes.error.msg}`;
+                return;
+            }
+
+            // ------------------------------------
+            // منطق التحقق للمشروع 1 (مضاعفة عناصر المصفوفة)
+            // ------------------------------------
+            if (projectNumber === 1) {
+                const testCases = [
+                    [[2, 4, 1], JSON.stringify([4, 8, 2])], 
+                    [[10, 0, 5], JSON.stringify([20, 0, 10])], 
+                    [[1], JSON.stringify([2])],
+                    [[], JSON.stringify([])]
+                ];
+                
+                let allCorrect = true;
+                let testOutput = '';
+
+                // فحص بنية الدالة
+                if (!/function\s+doubleArray\s*\(\s*nums\s*\)/i.test(cleanedCode) || !/for\s*\(.*\)/i.test(cleanedCode) || !/return/i.test(cleanedCode)) {
+                    outputEl.classList.add('error');
+                    outputEl.textContent = '❌ خطأ في البنية: تأكد من تعريف الدالة function doubleArray(nums)، واستخدام حلقة for، وكلمة return.';
+                    return;
+                }
+
+                for(const [originalArr, expectedResultStr] of testCases){
+                    // يجب نسخ المصفوفة الأصلية لتجنب تغييرها في استدعاءات الاختبار المتعددة
+                    const arrCopy = JSON.parse(JSON.stringify(originalArr)); 
+                    const arrCopyStr = JSON.stringify(arrCopy); 
+                    
+                    const testCode = cleanedCode + `\nconsole.log(doubleArray(${arrCopyStr}));`; 
+                    
+                    let res = executeAndCapture(testCode);
+                    let result = (res.logs || []).map(l => l.trim()).filter(l => l !== '').pop() || ''; 
+                    
+                    // تنظيف النتيجة من Console.log (يجب أن تكون مصفوفة JSON)
+                    if(result.startsWith('[') && result.endsWith(']')) {
+                         result = result.replace(/(\s|,)/g, '');
+                    }
+                    const expectedClean = expectedResultStr.replace(/(\s|,)/g, '');
+
+                    if (result !== expectedClean) {
+                        allCorrect = false;
+                        testOutput += `❌ فشل الاختبار: المصفوفة الأصلية ${arrCopyStr}. المتوقع: ${expectedResultStr}. الناتج: ${result || '(لا شيء)'}\n`;
+                    } else {
+                        testOutput += `✅ نجح الاختبار: المصفوفة الأصلية ${arrCopyStr}. الناتج: ${result}\n`;
+                    }
+                }
+
+                if (allCorrect) {
+                    outputEl.classList.add('success');
+                    outputEl.textContent = `✅ ممتاز! الدالة تعمل بشكل صحيح وتُضاعف جميع عناصر المصفوفة.\n\n${testOutput}`;
+                } else {
+                    outputEl.classList.add('error');
+                    outputEl.textContent = `❌ الدالة لم تعد المصفوفة الصحيحة والمعدلة. راجع منطق حلقة for وتعديل العناصر باستخدام الفهرس.\n\n${testOutput}`;
+                }
+            } 
+            
+            // ------------------------------------
+            // منطق التحقق للمشروع 2 (دالة الجذر التربيعي لعددين)
+            // ------------------------------------
+            else if (projectNumber === 2) {
+                const testCases = [
+                    [4, 9, 5], // sqrt(4) + sqrt(9) = 2 + 3 = 5
+                    [1, 16, 5], // sqrt(1) + sqrt(16) = 1 + 4 = 5
+                    [25, 100, 15], // 5 + 10 = 15
+                    [0, 81, 9] // 0 + 9 = 9
+                ];
+
+                let allCorrect = true;
+                let testOutput = '';
+
+                // فحص بنية الدالة واستخدام Math.sqrt
+                if (!/function\s+calculateRoots\s*\(\s*a\s*,\s*b\s*\)/i.test(cleanedCode) || !/Math\.sqrt/i.test(cleanedCode) || !/return/i.test(cleanedCode)) {
+                    outputEl.classList.add('error');
+                    outputEl.textContent = '❌ خطأ في البنية: تأكد من تعريف الدالة function calculateRoots(a, b)، واستخدام Math.sqrt، وكلمة return.';
+                    return;
+                }
+
+                for (const [a, b, expected] of testCases) {
+                    const testCode = cleanedCode + `\nconsole.log(calculateRoots(${a}, ${b}));`; 
+                    
+                    let res = executeAndCapture(testCode);
+                    let resultStr = (res.logs || []).map(l => l.trim()).filter(l => l !== '').pop() || ''; 
+                    
+                    let result = parseFloat(resultStr);
+                    const expectedFloat = parseFloat(expected);
+
+                    if (Math.abs(result - expectedFloat) > 0.001) { // مقارنة الأرقام العشرية
+                        allCorrect = false;
+                        testOutput += `❌ فشل الاختبار (الأرقام: ${a}, ${b}). المتوقع: "${expected}". الناتج: "${resultStr || '(لا شيء)'}"\n`;
+                    } else {
+                        testOutput += `✅ نجح الاختبار (الأرقام: ${a}, ${b}). الناتج: "${resultStr}"\n`;
+                    }
+                }
+
+                if (allCorrect) {
+                    outputEl.classList.add('success');
+                    outputEl.textContent = `✅ ممتاز! تم استخدام Math.sqrt وحساب المجموع بشكل صحيح.\n\n${testOutput}`;
+                } else {
+                    outputEl.classList.add('error');
+                    outputEl.textContent = `❌ الدالة لم تعد القيمة الصحيحة لمجموع الجذور التربيعية. راجع استخدام Math.sqrt و return.\n\n${testOutput}`;
+                }
+            }
+        }
+    </script>
+
+</body>
+</html>

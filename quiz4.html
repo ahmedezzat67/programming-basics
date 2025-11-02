@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اختبار الدرس الرابع - الحلقات (Loops) والدوال (Functions)</title>
+    <style>
+        /* (الأنماط تبقى كما هي) */
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap');
+        
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(135deg, #f9f9f9, #e0f7fa);
+            color: #222;
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #00796b;
+            font-size: 2em;
+        }
+        h2 {
+            color: #004d40;
+            font-size: 1.5em;
+            margin-top: 30px;
+            border-bottom: 2px solid #e0f7fa;
+            padding-bottom: 10px;
+        }
+
+        .quiz-container {
+            max-width: 900px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            text-align: right;
+        }
+
+        .question {
+            margin: 20px 0;
+            font-weight: bold;
+            color: #004d40;
+            white-space: pre-wrap;
+            text-align: right;
+        }
+        
+        .code-snippet {
+            display: block;
+            background-color: #f1f8e9;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            direction: ltr;
+            text-align: left;
+            overflow-x: auto;
+            font-weight: 700;
+        }
+
+        .option {
+            background-color: #f1f8e9;
+            border: 2px solid #009688;
+            border-radius: 10px;
+            padding: 10px;
+            margin: 8px 0;
+            cursor: pointer;
+            transition: 0.3s;
+            text-align: right;
+        }
+
+        .option:hover {
+            background-color: #e0f2f1;
+            transform: scale(1.01);
+        }
+        /* أنماط للإجابة الصحيحة والخاطئة */
+        .option.correct {
+            background-color: #a5d6a7 !important; /* أخضر فاتح */
+        }
+        .option.wrong {
+            background-color: #ef9a9a !important; /* أحمر فاتح */
+        }
+
+
+        .feedback {
+            margin-top: 8px;
+            font-size: 15px;
+            font-weight: bold;
+            color: #004d40;
+            min-height: 20px; 
+            line-height: 1.6;
+        }
+
+        .btn {
+            background: linear-gradient(90deg, #009688, #26a69a);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            margin: 10px 5px;
+            transition: all 0.3s ease;
+            font-size: 16px;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            background: linear-gradient(90deg, #00796b, #004d40);
+        }
+
+        .result {
+            font-size: 20px;
+            margin-top: 25px;
+            font-weight: bold;
+            text-align: center;
+            padding: 15px;
+            border: 2px solid #009688;
+            border-radius: 10px;
+            background-color: #e0f7fa;
+        }
+
+        .footer {
+            margin-top: 30px;
+            font-size: 14px;
+            color: #555;
+            text-align: center;
+        }
+
+        /* أنماط المشروع التطبيقي */
+        .project-section {
+            border: 2px solid #009688;
+            padding: 20px;
+            border-radius: 15px;
+            background-color: #f7fff7;
+            margin-top: 20px;
+        }
+        .project-explanation {
+            line-height: 1.7;
+            font-weight: 600;
+        }
+        .project-output {
+            margin-top: 10px;
+            background:#fff;
+            padding:12px;
+            border-radius:8px;
+            font-family:monospace;
+            direction:ltr;
+            text-align:left;
+            white-space:pre-wrap;
+            min-height:50px;
+            color:#004d40;
+            font-weight:700;
+            border: 1px solid #ccc;
+        }
+        .project-output.error {
+            background:#fff0f0;
+            color:#a00;
+            border-color: #a00;
+        }
+        .project-output.success {
+            background: #e6ffe6;
+            color: #0a0;
+            border-color: #0a0;
+        }
+        .editor {
+            width:100%;
+            min-height:150px;
+            font-family:monospace;
+            font-size:15px;
+            direction:ltr;
+            text-align:left;
+            border-radius:10px;
+            padding:12px;
+            border:2px solid #d6eae6;
+            background:#fff;
+            resize:vertical;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>🔁 اختبار الدرس الرابع - الحلقات (Loops) والدوال (Functions)</h1>
+
+    <div class="quiz-container" id="quiz">
+        <div id="questions"></div>
+        
+        <div style="text-align:center; margin-top: 20px;">
+            <button class="btn" onclick="submitQuiz()">عرض مجموع النقاط</button>
+            <button class="btn" onclick="showCorrectAnswers()">اعرض الإجابات الصحيحة</button>
+        </div>
+        <div id="result" class="result"></div>
+        
+        <h2>🔢 المشروع التطبيقي الأول: دالة حساب مجموع الأرقام (حلقة For)</h2>
+        <div class="project-section">
+            <p class="project-explanation">
+                <strong>المهمة:</strong> اكتب دالة تسمى <code>sumRange</code> تقبل عدداً واحداً <code>n</code>. يجب أن تستخدم هذه الدالة حلقة <code>for</code> لحساب مجموع الأرقام من 1 إلى <code>n</code> ثم **إرجاع** القيمة (<code>return</code>).
+                <ol style="text-align: right;">
+                    <li>عرّف الدالة بالشكل: <code>function sumRange(n) { ... }</code>.</li>
+                    <li>استخدم حلقة <code>for</code> تبدأ من 1 وتستمر حتى <code>n</code>.</li>
+                    <li>يجب أن تعيد الدالة القيمة النهائية للمجموع.</li>
+                </ol>
+            </p>
+            <label>اكتب الكود بتاعك هنا:</label>
+            <textarea id="project_editor_1" class="editor">function sumRange(n) {
+  let total = 0;
+  // ابدأ حلقة for هنا
+  for (let i = 1; i <= n; i++) {
+    total = total + i; // أو total += i;
+  }
+  return total;
+}
+
+console.log(sumRange(5)); // المتوقع: 15 (1+2+3+4+5)
+</textarea>
+            <div style="text-align:center;">
+                <button class="btn" onclick="runProjectTest(1)">▶ تشغيل الكود واختبار النتيجة</button>
+            </div>
+            <div id="project_output_1" class="project-output">الناتج سيظهر هنا...</div>
+        </div>
+        
+        <h2>⭐ المشروع التطبيقي الثاني: دالة إخراج القيمة الأكبر (Math.max)</h2>
+        <div class="project-section">
+            <p class="project-explanation">
+                <strong>المهمة:</strong> اكتب دالة تسمى <code>findMax</code> تقبل ثلاثة أرقام (<code>a, b, c</code>). يجب أن تستخدم هذه الدالة الدالة المدمجة <code>Math.max</code> لإرجاع القيمة الأكبر بين الأرقام الثلاثة.
+                <ol style="text-align: right;">
+                    <li>عرّف الدالة بالشكل: <code>function findMax(a, b, c) { ... }</code>.</li>
+                    <li>استخدم <code>return Math.max(...)</code> داخل الدالة.</li>
+                    <li>اطبع ناتج استدعاء الدالة.</li>
+                </ol>
+            </p>
+            <label>اكتب الكود بتاعك هنا:</label>
+            <textarea id="project_editor_2" class="editor">function findMax(a, b, c) {
+  // استخدم Math.max لإرجاع الأكبر
+  return Math.max(a, b, c);
+}
+
+console.log(findMax(15, 80, 42)); // المتوقع: 80
+</textarea>
+            <div style="text-align:center;">
+                <button class="btn" onclick="runProjectTest(2)">▶ تشغيل الكود واختبار النتيجة</button>
+            </div>
+            <div id="project_output_2" class="project-output">الناتج سيظهر هنا...</div>
+        </div>
+        
+        <br>
+        <div style="text-align:center;">
+            <button class="btn" onclick="location.href='lesson4.html'">🔙 رجوع للدرس</button> 
+            <button class="btn" onclick="location.href='index.html'">🏠 الصفحة الرئيسية</button>
+            <button class="btn" onclick="location.href='lesson5.html'">📚 الدرس الخامس</button>
+        </div>
+     </div>
+
+    <div class="footer">
+        تم التصميم بواسطة <strong>Ahmed Ezzat</strong> ❤️
+    </div>
+
+    <script>
+        // ------------------------------------------------------------------------------------------------
+        // بيانات أسئلة الدرس الرابع (الحلقات والدوال) - تم زيادة العدد إلى 20 سؤال
+        // ------------------------------------------------------------------------------------------------
+        const quizData = [
+            // 10 أسئلة أساسية
+            { 
+                question: "ما هو الجزء المسؤول عن زيادة أو إنقاص المتغير في حلقة <code>for</code>؟", 
+                options: ["الجزء الأول (التهيئة)", "الجزء الثاني (الشرط)", "الجزء الثالث (الزيادة/الإنقاص)", "كلمة <code>console.log</code>"], 
+                answer: 2, 
+                explanation: "الجزء الثالث (مثل <code>i++</code> أو <code>count = count + 1</code>) هو المسؤول عن تحديث المتغير بعد كل دورة." 
+            },
+            { 
+                question: "ماذا سيتم طباعته في هذا الكود؟\n<span class='code-snippet'>for (let i = 0; i < 3; i++) {\n  console.log('Hello');\n}</span>", 
+                options: ["Hello مرة واحدة", "Hello مرتين", "Hello ثلاث مرات", "لن يتم طباعة شيء"], 
+                answer: 2, 
+                explanation: "تبدأ <code>i</code> من 0، وتتكرر عندما تكون 0 و 1 و 2، أي 3 مرات." 
+            },
+            { 
+                question: "ما هي الكلمة المفتاحية المستخدمة لتعريف دالة مخصصة (Custom Function) في JavaScript؟", 
+                options: ["def", "function", "routine", "method"], 
+                answer: 1, 
+                explanation: "يتم تعريف الدوال باستخدام الكلمة المفتاحية <code>function</code>." 
+            },
+            { 
+                question: "إذا كانت الدالة لا تحتوي على كلمة <code>return</code>، فما هي القيمة التي ترجعها بشكل افتراضي؟", 
+                options: ["0", "null", "undefined", "خطأ"], 
+                answer: 2, 
+                explanation: "الدوال التي لا تحتوي على <code>return</code> أو تحتوي على <code>return</code> بدون قيمة، ترجع <code>undefined</code> بشكل افتراضي." 
+            },
+            { 
+                question: "ماذا تعني الدالة <code>Math.round(4.7)</code>؟", 
+                options: ["تقريب القيمة للأعلى (5)", "تقريب القيمة للأدنى (4)", "إرجاع القيمة كما هي (4.7)", "إرجاع القيمة الأكبر (4.7)"], 
+                answer: 0, 
+                explanation: "دالة <code>Math.round()</code> تقرّب لأقرب عدد صحيح. 4.7 أقرب لـ 5." 
+            },
+            { 
+                question: "ماذا سيتم طباعته إذا كانت <code>j = 5</code>؟\n<span class='code-snippet'>for (let j = 5; j > 2; j--) {\n  console.log(j);\n}</span>", 
+                options: ["5, 4, 3", "5, 4, 3, 2", "5, 4", "4, 3"], 
+                answer: 0, 
+                explanation: "تبدأ <code>j</code> من 5، وتتكرر عندما تكون 5 و 4 و 3. عندما تصل لـ 2 يتوقف الشرط (2 > 2 خاطئ)." 
+            },
+            { 
+                question: "ما هو الغرض الأساسي من استخدام الدوال (Functions)؟", 
+                options: ["جعل الكود معقداً", "تكرار الكود (Duplication)", "تنظيم الكود وتجنب التكرار (Reusability)", "تغيير إعدادات المتصفح"], 
+                answer: 2, 
+                explanation: "الدوال تساعد على تجميع الأوامر في كتلة واحدة يمكن استدعاؤها مرات عديدة (إعادة الاستخدام)." 
+            },
+            { 
+                question: "إذا كانت الدالة تقبل معطيات (Arguments) لكي تعمل، فما هو الاسم الذي يطلق على هذه المعطيات داخل تعريف الدالة؟", 
+                options: ["Variables", "Returns", "Parameters", "Logs"], 
+                answer: 2, 
+                explanation: "تسمى المعطيات داخل تعريف الدالة (بين الأقواس) بالـ 'Parameters' أو المعاملات." 
+            },
+            { 
+                question: "ما هي القيمة التي ترجعها الدالة <code>Math.max(10, 50, 5, 20)</code>؟", 
+                options: ["10", "5", "50", "20"], 
+                answer: 2, 
+                explanation: "دالة <code>Math.max()</code> ترجع القيمة الأكبر بين جميع المعطيات المدخلة." 
+            },
+            { 
+                question: "في أي جزء من حلقة <code>for</code> نضع شرط التوقف؟", 
+                options: ["الجزء الأول (التهيئة)", "الجزء الثاني (الشرط)", "الجزء الثالث (الزيادة)", "في أي مكان باستخدام <code>break</code>"], 
+                answer: 1, 
+                explanation: "الجزء الثاني في حلقة <code>for</code> هو الشرط، وطالما كان صحيحاً تستمر الحلقة." 
+            },
+            
+            // 10 أسئلة إضافية (مفاهيم متقدمة وبنية)
+            {
+                question: "لإيقاف حلقة تكرارية (Loop) بشكل فوري والخروج منها بالكامل، نستخدم الكلمة المفتاحية:",
+                options: ["continue", "stop", "break", "exit"],
+                answer: 2,
+                explanation: "تُستخدم <code>break</code> لإنهاء الحلقة فوراً ومتابعة تنفيذ الكود الذي يليها."
+            },
+            {
+                question: "ماذا تفعل الكلمة المفتاحية <code>continue</code> داخل حلقة التكرار؟",
+                options: ["توقف الحلقة نهائياً", "تبدأ الحلقة من جديد", "تتخطى الدورة الحالية وتنتقل للدورة التالية", "تُرجع قيمة من الحلقة"],
+                answer: 2,
+                explanation: "<code>continue</code> تتخطى الأوامر المتبقية في الدورة الحالية وتبدأ الدورة التالية للحلقة مباشرة."
+            },
+            {
+                question: "أي من أنواع الحلقات التالية هو الأنسب عندما لا نعرف عدد التكرارات مسبقاً، بل يتوقف التكرار على شرط معين؟",
+                options: ["حلقة For", "حلقة While", "جملة If", "دالة Function"],
+                answer: 1,
+                explanation: "تُستخدم حلقة <code>while</code> عندما يعتمد التوقف على شرط يتم التحقق منه في بداية كل دورة."
+            },
+            {
+                question: "ما هو الخطأ في هذا الكود؟\n<span class='code-snippet'>function calculate() {\n  let x = 5;\n  return x * 2;\n}\n\nlet result = x;</span>",
+                options: ["كلمة <code>function</code> خاطئة", "لا يمكن استخدام <code>return</code>", "المتغير <code>x</code> غير معروف خارج الدالة (Scope)", "يجب أن تكون الدالة باسم <code>calc</code>"],
+                answer: 2,
+                explanation: "المتغير <code>x</code> تم تعريفه داخل الدالة، وبالتالي فإن نطاق رؤيته (Scope) لا يسمح بالوصول إليه من الخارج."
+            },
+            {
+                question: "في حلقة <code>for</code>، إذا قمنا بإغفال الجزء الثالث (الزيادة/الإنقاص)، فماذا يحدث عادةً؟",
+                options: ["تنفذ الحلقة مرة واحدة فقط", "تنفذ الحلقة بشكل طبيعي", "تحدث حلقة لا نهائية (Infinite Loop)", "يحدث خطأ برمجي (Syntax Error)"],
+                answer: 2,
+                explanation: "إذا لم يتغير عداد الحلقة، يبقى شرط التوقف صحيحاً باستمرار، مما يؤدي إلى حلقة لا نهائية."
+            },
+            {
+                question: "ما هي القيمة التي ترجعها الدالة <code>Math.floor(9.9)</code>؟",
+                options: ["10", "9", "9.5", "خطأ"],
+                answer: 1,
+                explanation: "دالة <code>Math.floor()</code> تقرّب العدد دائماً للأسفل (أكبر عدد صحيح أصغر من القيمة)."
+            },
+            {
+                question: "أي مما يلي يمثل الطريقة الصحيحة لتعريف واستدعاء دالة لا تقبل معطيات وتطبع رسالة؟",
+                options: ["<code>function hello() { console.log('H'); }</code> واستدعاء <code>hello;</code>", "<code>function hello() { console.log('H'); }</code> واستدعاء <code>hello();</code>", "<code>func hello: console.log('H');</code>", "<code>hello() => console.log('H')</code>"],
+                answer: 1,
+                explanation: "يجب استدعاء الدالة بوضع الأقواس <code>()</code> بعد اسمها: <code>hello()</code>."
+            },
+            {
+                question: "كم مرة سيتم طباعة 'Loop'؟\n<span class='code-snippet'>let count = 0;\nwhile (count < 4) {\n  console.log('Loop');\n  count = count + 2;\n}</span>",
+                options: ["4 مرات", "مرتين", "3 مرات", "مرة واحدة"],
+                answer: 1,
+                explanation: "تبدأ <code>count</code> من 0، وتتكرر عندما تكون 0 و 2. عندما تصل لـ 4 يتوقف الشرط (4 < 4 خاطئ). أي مرتين."
+            },
+            {
+                question: "لماذا نستخدم الدوال المدمجة (Built-in Functions) مثل <code>Math</code>؟",
+                options: ["لتجنب كتابة الكود بنفسنا لوظائف شائعة", "لأنها أبطأ من الدوال العادية", "لأنها تجعل الكود أطول", "لأنه يجب علينا دائماً إعادة كتابة هذه الدوال"],
+                answer: 0,
+                explanation: "تُستخدم لتنفيذ وظائف شائعة (مثل العمليات الرياضية) بكفاءة دون الحاجة لإعادة اختراع العجلة."
+            },
+            {
+                question: "في تعريف الدالة <code>function greet(name)</code>، ماذا يمثل <code>name</code>؟",
+                options: ["القيمة المرجعة", "الجسم (Body) للدالة", "الـ Argument (المعطى)", "الـ Parameter (المعامل) للدالة"],
+                answer: 3,
+                explanation: "الـ 'Parameter' هو الاسم الذي يُعطى للمدخل المطلوب أثناء تعريف الدالة."
+            }
+        ];
+
+        const questionsDiv = document.getElementById("questions");
+        let selectedAnswers = new Array(quizData.length).fill(null);
+
+        // بناء الأسئلة (لا تغيير)
+        quizData.forEach((q, i) => {
+            const div = document.createElement("div");
+            div.classList.add("question-block");
+            div.id = `q-${i}`; 
+            
+            div.innerHTML = `
+                <p class="question">${i + 1}. ${q.question}</p>
+                ${q.options.map((opt, index) => `
+                    <div class="option" data-q-index="${i}" data-opt-index="${index}" onclick="selectOption(${i}, ${index}, this)">${opt}</div>
+                `).join('')}
+                <div id="feedback-${i}" class="feedback"></div>
+            `;
+            questionsDiv.appendChild(div);
+        });
+
+        // ------------------------------------------------------------------------------------------------
+        // وظائف الاختبار والإجابات الفورية والنتائج (لا تغيير)
+        // ------------------------------------------------------------------------------------------------
+
+        function selectOption(qIndex, optIndex, el) {
+            const questionBlock = el.parentNode;
+            const options = questionBlock.querySelectorAll(".option");
+            const feedback = questionBlock.querySelector(`#feedback-${qIndex}`);
+            const q = quizData[qIndex];
+
+            options.forEach(opt => {
+                opt.classList.remove('correct', 'wrong');
+                opt.style.backgroundColor = "#f1f8e9";
+            });
+
+            selectedAnswers[qIndex] = optIndex;
+            
+            if (optIndex === q.answer) {
+                el.classList.add('correct');
+                feedback.innerHTML = `✅ **صحيح!** ${q.explanation}`;
+                feedback.style.color = "#2e7d32";
+            } else {
+                el.classList.add('wrong');
+                feedback.innerHTML = `❌ **خطأ!** الإجابة الصحيحة: <b>${q.options[q.answer]}</b> - ${q.explanation}`;
+                feedback.style.color = "#c62828";
+            }
+        }
+
+        function submitQuiz() {
+            let score = 0;
+            let total = quizData.length;
+            let unanswered = 0;
+            
+            quizData.forEach((q, i) => {
+                if (selectedAnswers[i] === null) {
+                    unanswered++;
+                } else if (selectedAnswers[i] === q.answer) {
+                    score++;
+                }
+            });
+
+            const resultDiv = document.getElementById("result");
+            
+            if (unanswered > 0) {
+                resultDiv.innerHTML = `🚫 لم تجب على ${unanswered} سؤال. `;
+            } else {
+                resultDiv.innerHTML = "";
+            }
+
+            if (score === total) {
+                resultDiv.innerHTML += `🎉 ممتاز يا مبرمج المستقبل! جبت <b>${score}</b> من <b>${total}</b> ✅`;
+            } else if (score >= total * 0.7) {
+                resultDiv.innerHTML += `👏 نتيجتك رائعة! جبت <b>${score}</b> من <b>${total}</b>، شوية مراجعة بسيطة. 💪`;
+            } else if (score >= total / 2) {
+                resultDiv.innerHTML += `🙂 نتيجتك جيدة! جبت <b>${score}</b> من <b>${total}</b>، راجع الأجزاء اللي أخطأت فيها.`;
+            } else {
+                resultDiv.innerHTML += `🤔 محتاج مراجعة بسيطة، جبت <b>${score}</b> من <b>${total}</b>. لا تيأس، كرر المحاولة!`;
+            }
+        }
+
+        function showCorrectAnswers() {
+            quizData.forEach((q, i) => {
+                const questionBlock = document.getElementById(`q-${i}`);
+                const options = questionBlock.querySelectorAll(".option"); 
+                const feedback = questionBlock.querySelector(`#feedback-${i}`);
+
+                options.forEach(opt => {
+                    opt.classList.remove('correct', 'wrong');
+                    opt.style.backgroundColor = "#f1f8e9";
+                });
+
+                options[q.answer].classList.add('correct');
+                feedback.innerHTML = `✅ الإجابة الصحيحة: <b>${q.options[q.answer]}</b> - ${q.explanation}`;
+                feedback.style.color = "#2e7d32";
+            });
+            document.getElementById("result").innerHTML = "تم تظليل الإجابات الصحيحة. راجع الشرح في كل سؤال.";
+        }
+
+        // ------------------------------------------------------------------------------------------------
+        // وظائف تنفيذ واختبار المشاريع التطبيقية (مُعدَّلة للدرس الرابع)
+        // ------------------------------------------------------------------------------------------------
+
+        function executeAndCapture(codeStr){
+            const logs = [];
+            const origConsole = window.console.log; 
+            const timeoutDuration = 3000; // حماية من Infinite Loop
+
+            window.console.log = function(...args){
+                const line = args.map(a=>{
+                    if (typeof a === 'object' && a !== null) {
+                        try { return JSON.stringify(a); } catch(e){ return String(a); } 
+                    }
+                    return String(a);
+                }).join(' ');
+                logs.push(line);
+                try { origConsole.apply(window.console, args); } catch(e){}
+            };
+
+            let error = null;
+            let startTime = Date.now(); 
+            try {
+                const codeToExecute = `'use strict';\n${codeStr}`;
+                const fn = new Function(codeToExecute);
+                
+                let isTimeout = false;
+                const runLoop = setTimeout(() => {
+                    isTimeout = true;
+                    throw new Error("Execution timed out (Possible Infinite Loop).");
+                }, timeoutDuration);
+
+                fn();
+
+                clearTimeout(runLoop); 
+
+                if (Date.now() - startTime > timeoutDuration || isTimeout) {
+                    error = { msg: "Execution timed out (Possible Infinite Loop)." };
+                    logs.length = 0; 
+                }
+
+            } catch (err) {
+                let msg = err && err.message ? err.message : String(err);
+                msg = msg.replace(/\n/g,' ').replace(/\s+/g,' ').trim();
+                error = { msg };
+            } finally {
+                window.console.log = origConsole;
+            }
+            return { logs, error };
+        }
+
+
+        function runProjectTest(projectNumber){
+            const editor = document.getElementById(`project_editor_${projectNumber}`);
+            const outputEl = document.getElementById(`project_output_${projectNumber}`);
+            const code = editor.value || '';
+            const cleanedCode = code.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\/\/.*$/gm, '').trim();
+
+            outputEl.classList.remove('success', 'error');
+            outputEl.textContent = '... جاري التنفيذ والتحقق ...';
+
+            if (!cleanedCode) {
+                outputEl.classList.add('error');
+                outputEl.textContent = '⚠️ اكتب الكود أولاً.';
+                return;
+            }
+
+            const studentRes = executeAndCapture(code);
+
+            if (studentRes.error) {
+                outputEl.classList.add('error');
+                outputEl.textContent = `❌ خطأ في الكود: ${studentRes.error.msg}`;
+                return;
+            }
+
+            const studentOutput = studentRes.logs.join('\n').trim();
+
+            // ------------------------------------
+            // منطق التحقق للمشروع 1 (دالة مجموع الأرقام)
+            // ------------------------------------
+            if (projectNumber === 1) {
+                const testNumbers = [5, 10, 0, 1, 3]; // المتوقع: 15, 55, 0, 1, 6
+                const expectedResults = [15, 55, 0, 1, 6];
+                
+                let allCorrect = true;
+                let testOutput = '';
+
+                // فحص بنية الدالة والحلقة
+                if (!/function\s+sumRange\s*\(\s*n\s*\)/i.test(cleanedCode) || !/for\s*\(.*\)/i.test(cleanedCode) || !/return/i.test(cleanedCode)) {
+                    outputEl.classList.add('error');
+                    outputEl.textContent = '❌ خطأ في البنية: تأكد من تعريف الدالة function sumRange(n)، واستخدام حلقة for، وكلمة return.';
+                    return;
+                }
+
+                // تنفيذ كود الطالب مع الأرقام التجريبية
+                for(let i=0; i < testNumbers.length; i++){
+                    const n = testNumbers[i];
+                    const expected = String(expectedResults[i]);
+                    // نستخدم كود الطالب مع استدعاء صريح للدالة للحصول على النتيجة
+                    const testCode = cleanedCode + `\nconsole.log(sumRange(${n}));`; 
+                    
+                    let res = executeAndCapture(testCode);
+                    let result = (res.logs || []).map(l => l.trim()).filter(l => l !== '').pop() || ''; // ناخد آخر نتيجة طباعة
+                    
+                    if (result !== expected) {
+                        allCorrect = false;
+                        testOutput += `❌ فشل الاختبار: الرقم ${n}. المتوقع: "${expected}". الناتج: "${result || '(لا شيء)'}"\n`;
+                    } else {
+                        testOutput += `✅ نجح الاختبار: الرقم ${n}. الناتج: "${result}"\n`;
+                    }
+                }
+
+                if (allCorrect) {
+                    outputEl.classList.add('success');
+                    outputEl.textContent = `✅ ممتاز! الدالة تعمل بشكل صحيح لحساب مجموع الأرقام.\n\n${testOutput}`;
+                } else {
+                    outputEl.classList.add('error');
+                    outputEl.textContent = `❌ الدالة لم تعد القيمة الصحيحة في جميع الاختبارات. راجع منطق حلقة for والمجموع.\n\n${testOutput}`;
+                }
+            } 
+            
+            // ------------------------------------
+            // منطق التحقق للمشروع 2 (دالة Math.max)
+            // ------------------------------------
+            else if (projectNumber === 2) {
+                const testCases = [
+                    [15, 80, 42, "80"], 
+                    [100, 10, 5, "100"], 
+                    [1, 5, 20, "20"],
+                    [-1, -5, -2, "-1"],
+                    [7, 7, 7, "7"]
+                ];
+
+                let allCorrect = true;
+                let testOutput = '';
+
+                // فحص بنية الدالة واستخدام Math.max
+                if (!/function\s+findMax\s*\(\s*a\s*,\s*b\s*,\s*c\s*\)/i.test(cleanedCode) || !/Math\.max/i.test(cleanedCode) || !/return/i.test(cleanedCode)) {
+                    outputEl.classList.add('error');
+                    outputEl.textContent = '❌ خطأ في البنية: تأكد من تعريف الدالة function findMax(a, b, c)، واستخدام Math.max، وكلمة return.';
+                    return;
+                }
+
+                for (const [a, b, c, expected] of testCases) {
+                    // نستخدم كود الطالب مع استدعاء صريح للدالة للحصول على النتيجة
+                    const testCode = cleanedCode + `\nconsole.log(findMax(${a}, ${b}, ${c}));`; 
+                    
+                    let res = executeAndCapture(testCode);
+                    let result = (res.logs || []).map(l => l.trim()).filter(l => l !== '').pop() || ''; 
+
+                    if (result !== expected) {
+                        allCorrect = false;
+                        testOutput += `❌ فشل الاختبار (الأرقام: ${a}, ${b}, ${c}). المتوقع: "${expected}". الناتج: "${result || '(لا شيء)'}"\n`;
+                    } else {
+                        testOutput += `✅ نجح الاختبار (الأرقام: ${a}, ${b}, ${c}). الناتج: "${result}"\n`;
+                    }
+                }
+
+                if (allCorrect) {
+                    outputEl.classList.add('success');
+                    outputEl.textContent = `✅ ممتاز! تم استخدام دالة Math.max بشكل صحيح.\n\n${testOutput}`;
+                } else {
+                    outputEl.classList.add('error');
+                    outputEl.textContent = `❌ الدالة لم تعد القيمة الأكبر بشكل صحيح. راجع طريقة استخدام Math.max و return.\n\n${testOutput}`;
+                }
+            }
+        }
+    </script>
+
+</body>
+</html>

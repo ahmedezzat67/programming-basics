@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الاختبار النهائي لأساسيات JavaScript</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap');
+        
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(135deg, #e0f7fa, #f9f9f9);
+            color: #333;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1); 
+            text-align: right;
+        }
+
+        h1 {
+            color: #4a148c; 
+            font-size: 2.5em;
+            margin-bottom: 25px;
+            border-bottom: 4px solid #ce93d8;
+            padding-bottom: 10px;
+        }
+
+        h2 {
+            color: #880e4f;
+            font-size: 1.8em;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            border-right: 5px solid #ffccbc;
+            padding-right: 15px;
+        }
+        
+        /* تصميم الأسئلة */
+        .question-box {
+            background-color: #f3e5f5;
+            border: 2px solid #ce93d8;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            text-align: right;
+            transition: box-shadow 0.3s ease;
+        }
+        .question-box:hover {
+            box-shadow: 0 5px 15px rgba(74, 20, 140, 0.1);
+        }
+
+        .question-text {
+            font-size: 1.1em;
+            font-weight: 700;
+            color: #4a148c;
+            margin-bottom: 15px;
+            white-space: pre-wrap;
+        }
+
+        .code-block {
+            display: block;
+            background-color: #e1bee7; 
+            color: #4a148c;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            direction: ltr;
+            text-align: left;
+            overflow-x: auto;
+            font-weight: 700;
+            font-size: 0.9em;
+        }
+
+        .answer-option {
+            display: block;
+            background-color: #ffffff;
+            border: 1px solid #dcdcdc;
+            padding: 10px;
+            margin-bottom: 8px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.2s;
+            text-align: right;
+            font-weight: 600;
+        }
+
+        .answer-option:hover {
+            background-color: #f0f4c3; /* لون فاتح عند المرور */
+            transform: translateX(5px);
+        }
+
+        .answer-option input[type="radio"] {
+            margin-left: 10px;
+        }
+        
+        /* نتائج التقييم */
+        .correct {
+            background-color: #e8f5e9 !important; 
+            border-color: #43a047 !important;
+            box-shadow: 0 0 5px #43a047;
+        }
+
+        .incorrect {
+            background-color: #ffcdd2 !important; 
+            border-color: #d32f2f !important;
+            box-shadow: 0 0 5px #d32f2f;
+        }
+        
+        /* التقييم الفوري على كل خيار (NEW) */
+        .is-correct-check {
+            float: left;
+            margin-left: 10px;
+            font-size: 1.2em;
+            font-weight: 900;
+        }
+
+        .result-message {
+            margin-top: 10px;
+            font-weight: 700;
+            padding: 8px;
+            border-radius: 4px;
+            text-align: right;
+        }
+        .correct-message {
+            color: #2e7d32;
+        }
+        .incorrect-message {
+            color: #c62828;
+        }
+        
+        /* زر الإرسال */
+        .submit-btn {
+            background: linear-gradient(90deg, #6a1b9a, #9c27b0);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 30px;
+            font-size: 1.2em;
+            font-weight: bold;
+            transition: background 0.3s ease, transform 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            width: 100%;
+        }
+
+        .submit-btn:hover {
+            background: linear-gradient(90deg, #4a148c, #6a1b9a);
+            transform: translateY(-2px);
+        }
+
+        /* قسم النتيجة الإجمالية */
+        #final-score {
+            margin-top: 30px;
+            padding: 25px;
+            border: 3px dashed #ff9800;
+            background-color: #fff3e0;
+            border-radius: 15px;
+            font-size: 1.4em;
+            font-weight: 900;
+            color: #e65100;
+            display: none;
+        }
+        
+        /* قسم المشروع والفوتر والأزرار */
+        .project-section {
+            border: 2px solid #880e4f;
+            padding: 25px;
+            border-radius: 15px;
+            background-color: #fff8e1;
+            margin-top: 40px;
+        }
+        .editor {
+            width: 100%;
+            min-height: 150px;
+            font-family: monospace;
+            font-size: 15px;
+            direction: ltr;
+            text-align: left;
+            border-radius: 10px;
+            padding: 12px;
+            border: 2px solid #f9e1e3;
+            background: #fff;
+            resize: vertical;
+        }
+        .project-output {
+            margin-top: 15px;
+            background: #fff;
+            padding: 12px;
+            border-radius: 8px;
+            font-family: monospace;
+            direction: ltr;
+            text-align: left;
+            white-space: pre-wrap;
+            min-height: 50px;
+            color: #004d40;
+            font-weight: 700;
+            border: 1px solid #ccc;
+        }
+        .run-project-btn {
+            background: linear-gradient(90deg, #009688, #00bcd4);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 15px;
+            font-size: 1em;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        .run-project-btn:hover {
+            background: linear-gradient(90deg, #00796b, #0097a7);
+        }
+        
+        /* تصميم الأزرار المعتادة */
+        .navigation-buttons {
+            text-align: center;
+            margin-top: 40px;
+            margin-bottom: 40px;
+        }
+        .btn {
+            background: linear-gradient(90deg, #6a1b9a, #9c27b0); 
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            margin: 10px 7px;
+            transition: all 0.3s ease;
+            font-size: 16px;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .btn:hover {
+            transform: translateY(-2px) scale(1.02);
+            background: linear-gradient(90deg, #4a148c, #6a1b9a);
+        }
+        
+        /* تصميم الفوتر */
+        .footer {
+            margin-top: 50px;
+            padding: 20px;
+            border-top: 2px solid #ccc;
+            color: #666;
+            font-size: 0.9em;
+            text-align: center;
+        }
+        
+
+.footer {
+  margin-top: 50px;
+  padding: 15px 10px;
+  text-align: center;
+  font-family: 'Cairo', sans-serif;
+  font-size: 18px;
+  background: linear-gradient(90deg, #6a1b9a, #9c27b0);
+  color: white;
+  border-radius: 15px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  animation: fadeIn 1.5s ease-in-out;
+}
+
+.footer strong {
+  color: #ffeb3b;
+  text-shadow: 1px 1px 4px rgba(0,0,0,0.3);
+}
+
+.footer:hover {
+  transform: scale(1.03);
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 25px rgba(0,0,0,0.3);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+</style>
+
+</head>
+<body>
+
+    <div class="container">
+        <h1>اختبار إتقان أساسيات JavaScript 💡</h1>
+        <p style="font-size: 1.1em; font-weight: 600; color: #6a1b9a;">
+            أهلاً بك في الاختبار النهائي! الهدف هو التأكد من فهمك لكل المفاهيم التي درسناها. لديك 20 سؤالاً اختيارياً ومشروع عملي واحد. بالتوفيق!
+        </p>
+
+        <form id="quiz-form">
+            <h2>قسم الأسئلة الاختيارية (20 سؤال)</h2>
+            <button type="submit" class="submit-btn" id="submit-quiz-btn">عرض تقييم الاختبار</button>
+            <div id="final-score"></div>
+        </form>
+
+        <h2>قسم المشروع العملي الشامل 💻</h2>
+        <div class="project-section">
+            <p style="font-weight: 700; color: #880e4f;">
+                **المشروع:** نظام فلترة وتحويل لبيانات المستخدمين.
+                <br>
+                **المطلوب:** كتابة دالة سهمية (Arrow Function) اسمها `processUsers` تقبل مصفوفة `users` (تحتوي على كائنات).
+                <br>
+                1. استخدم الدالة **`filter`** لاختيار المستخدمين الذين تجاوز عمرهم **25 عاماً** **و** لديهم خاصية `isActive: true`.
+                <br>
+                2. استخدم الدالة **`map`** لتحويل الكائنات المفلترة إلى مصفوفة سلاسل نصية (Strings) تحتوي فقط على **اسم المستخدم وعمره** (مثال: "علي (30 سنة)").
+                <br>
+                3. يجب أن تُرجع الدالة مصفوفة السلاسل النصية النهائية.
+            </p>
+            <label style="font-weight: bold;">أكمل الكود التالي:</label>
+            <textarea id="project_editor" class="editor">
+const users = [
+    { name: "علي", age: 30, isActive: true },
+    { name: "سارة", age: 22, isActive: true },
+    { name: "محمد", age: 28, isActive: false },
+    { name: "فاطمة", age: 35, isActive: true }
+];
+
+const processUsers = (userList) => {
+    // 1. استخدم filter لاختيار المستخدمين النشطين والأكبر من 25
+    const filteredUsers = userList.filter(user => 
+        // الشرط هنا
+    );
+    
+    // 2. استخدم map لتحويل الكائنات المفلترة إلى الاسم والعمر (سلسلة نصية)
+    const resultNames = filteredUsers.map(user => 
+        // التعبير هنا
+    );
+
+    return resultNames;
+};
+
+
+console.log(processUsers(users));
+</textarea>
+            <div style="text-align:center;">
+                <button class="run-project-btn" onclick="runProjectTest()">▶ تشغيل الكود واختبار النتيجة</button>
+            </div>
+            <div id="project_output" class="project-output">الناتج سيظهر هنا...</div>
+        </div>
+        
+        <div class="navigation-buttons">
+            <button class="btn" onclick="location.href='lesson6.html'">⬅️ الدرس السادس</button> 
+            <button class="btn" onclick="location.href='index.html'">🏠 الصفحة الرئيسية</button>
+            <a href="lesson7.html" class="btn">📘 الدرس الأول - HTML</a>
+
+        </div>
+
+    </div>
+    <!-- 🌟 Footer أنيق -->
+<div class="footer">
+  تصميم بواسطة <strong>Ahmed Ezzat</strong> ❤️
+</div>
+
+    <script>
+        // ------------------------------------------------------------------------------------------------
+        // قاعدة بيانات الأسئلة (20 سؤالاً شاملاً)
+        // ------------------------------------------------------------------------------------------------
+        const quizQuestions = [
+            { q: "1. ما هو نوع النطاق (Scope) الذي تستخدمه المتغيرات المُعرّفة باستخدام `var`؟", options: ["نطاق الكتلة (Block Scope)", "نطاق الدالة (Function Scope)", "نطاق الكائن (Object Scope)", "نطاق السلسلة (Global Scope)"], correct: 1, explanation: "تستخدم `var` نطاق الدالة، مما يجعلها مرئية في كل مكان داخل الدالة التي عُرّفت فيها." },
+            { q: "2. ما هي الكلمة المفتاحية التي تستخدم لتعريف متغير لا يمكن إعادة تعيين قيمته؟", options: ["let", "var", "const", "set"], correct: 2, explanation: "`const` (اختصار لـ Constant) تمنع إعادة تعيين القيمة بعد التعريف الأولي." },
+            { q: "3. ماذا سيكون ناتج هذا التعبير: `5 + '5'`؟", options: ["10", "'55'", "Error", "Undefined"], correct: 1, explanation: "عندما تضاف سلسلة نصية إلى رقم، يتم تحويل الرقم إلى سلسلة نصية وتحدث عملية الدمج (Concatenation)." },
+            { q: "4. ما هو المعامل الذي يتحقق من القيمة ونوع البيانات معاً (Strict Equality)؟", options: ["==", "===", "!=", "!=="], correct: 1, explanation: "المعامل `===` (ثلاث علامات يساوي) يتحقق من القيمة والنوع دون تحويل ضمني للأنواع." },
+            { q: "5. كيف يتم تعريف الكائن (Object) في JavaScript؟", options: ["بواسطة الأقواس المربعة `[]`", "بواسطة الأقواس المعقوفة `{}`", "بواسطة الأقواس العادية `()`", "بواسطة علامات الاقتباس `''`"], correct: 1, explanation: "تستخدم الأقواس المعقوفة `{}` لإنشاء كائن يحتوي على أزواج مفتاح/قيمة." },
+            { q: "6. ما هي الدالة المتقدمة التي تُستخدم لإنشاء مصفوفة جديدة عن طريق تحويل كل عنصر من عناصر المصفوفة الأصلية؟", options: ["filter()", "forEach()", "map()", "reduce()"], correct: 2, explanation: "`map()` هي الأداة المخصصة لتحويل كل عنصر في مصفوفة إلى قيمة جديدة." },
+            { q: "7. ما هي القيمة التي ترجعها دالة لم يتم فيها تحديد عبارة `return` صريحة؟", options: ["null", "0", "undefined", "Error"], correct: 2, explanation: "إذا انتهى تنفيذ الدالة دون الوصول إلى عبارة `return`، فإنها ترجع `undefined` تلقائياً." },
+            { q: "8. ما هي الكلمة المفتاحية المستخدمة لإيقاف حلقة تكرارية والقفز إلى التكرار التالي؟", options: ["break", "stop", "continue", "skip"], correct: 2, explanation: "`continue` توقف التكرار الحالي وتنتقل فوراً إلى التكرار التالي في الحلقة." },
+            { q: "9. ما هو المعامل الذي يجب استخدامه للوصول إلى خاصية كائن إذا كان اسم الخاصية يحتوي على مسافة؟", options: ["الترقيم النقطي (Dot Notation)", "الترقيم القوسي (Bracket Notation)", "الفهرسة (Indexing)", "المعامل `of`"], correct: 1, explanation: "الترقيم القوسي `object['key with space']` هو الطريقة الوحيدة للوصول إلى مفتاح يحتوي على مسافات." },
+            { q: "10. ما هي وظيفة كتلة `catch(error)` في معالجة الأخطاء `try...catch`؟", options: ["تنفيذ الكود بعد وقوع خطأ أو عدم وقوعه", "تعريف الكود الذي يحتمل وقوع خطأ", "التقاط الخطأ الذي يتم إلقاؤه ومعالجته", "إلقاء خطأ جديد بشكل صريح"], correct: 2, explanation: "كتلة `catch` تلتقط الخطأ الذي حدث داخل كتلة `try` وتمنع انهيار البرنامج." },
+            { q: "11. إذا كانت قيمة `let isStudent = true`، فماذا سيكون ناتج `!isStudent`؟", options: ["true", "false", "Undefined", "Error"], correct: 1, explanation: "المعامل `!` (النفي المنطقي) يعكس القيمة المنطقية. نفي `true` هو `false`." },
+            { q: "12. ماذا يفعل المعامل `++` في الكود: `let i = 5; i++;`؟", options: ["ينقص قيمة `i` بمقدار 1", "يضاعف قيمة `i`", "يزيد قيمة `i` بمقدار 1", "يعيد تعيين قيمة `i` إلى 5"], correct: 2, explanation: "المعامل `++` (الزيادة) يزيد قيمة المتغير بمقدار واحد." },
+            { q: "13. في حلقة `for...of`، على ماذا نكرر (نتجول)؟", options: ["على مفاتيح الكائن (Keys)", "على قيمة المتغير (Value)", "على قيم المصفوفة (Values)", "على خصائص الكائن (Properties)"], correct: 2, explanation: "حلقة `for...of` مُصممة للتكرار مباشرة على **قيم** العناصر في مصفوفة أو سلسلة نصية." },
+            { q: "14. ما هو الأسلوب الأقصر لتعريف دالة سهمية (Arrow Function) لها معامل واحد فقط؟", options: ["يجب استخدام الأقواس حول المعامل دائماً", "لا يمكن استخدام الدوال السهمية في هذه الحالة", "يمكن حذف الأقواس حول المعامل", "يمكن حذف الأقواس حول جسم الدالة فقط"], correct: 2, explanation: "عندما يكون هناك معامل واحد فقط، يمكن حذف الأقواس حول المعامل (`num => num * 2`)." },
+            { q: "15. في الدوال الراجعة (Callback)، متى يتم استدعاء الدالة الراجعة؟", options: ["مباشرة قبل استدعاء الدالة الرئيسية", "فوراً بعد تعريفها", "عندما تقرر الدالة الرئيسية استدعاءها", "بعد انتهاء تنفيذ البرنامج بالكامل"], correct: 2, explanation: "تُمرر الدالة كمعامل، والدالة الرئيسية هي التي تقرر متى تستدعيها (عادة عند اكتمال عملية ما أو وقوع حدث)." },
+            { q: "16. ما هو الفهرس (Index) لعنصر 'apple' في مصفوفة `['banana', 'apple', 'orange']`؟", options: ["0", "1", "2", "3"], correct: 1, explanation: "الفهرسة في المصفوفات تبدأ من صفر، لذا `banana` هو 0 و `apple` هو 1." },
+            { q: "17. أي من التعبيرات التالية يُعتبر خاطئاً (يسبب خطأ في بناء الجملة)؟", options: ["`let name = 'Ahmed';`", "`const age = 20;`", "`let 2count = 0;`", "`var total = 5;`"], correct: 2, explanation: "لا يمكن أن يبدأ اسم المتغير برقم في JavaScript (ولا بأي لغة برمجة أخرى تقريباً)." },
+            { q: "18. إذا أردت استخدام حلقة لتجميع (Accumulate) قيم مصفوفة في قيمة واحدة (مثل المجموع الكلي)، ما هي أفضل دالة مصفوفة يجب استخدامها؟", options: ["filter()", "map()", "reduce()", "find()"], correct: 2, explanation: "`reduce()` (التجميع/التقليص) هي الدالة المخصصة لتجميع مصفوفة من القيم إلى قيمة واحدة (رقم، كائن، أو مصفوفة جديدة)." },
+            { q: "19. ماذا يحدث إذا حاولت استخدام متغير مُعرّف بـ `let` خارج الكتلة `if` التي عُرّف فيها؟", options: ["يتم تعيين قيمته إلى `undefined`", "يحدث خطأ في بناء الجملة (Syntax Error)", "يحدث خطأ مرجعي (ReferenceError)", "يرجع القيمة `null`"], correct: 2, explanation: "بسبب خاصية نطاق الكتلة (Block Scope) لـ `let`، لا يمكن الوصول إليه خارج الكتلة، مما يسبب `ReferenceError`." },
+            { q: "20. ما هي الكلمة المفتاحية المستخدمة لإنشاء دالة جديدة في JavaScript (الطريقة التقليدية)؟", options: ["def", "function", "fn", "createFunction"], correct: 1, explanation: "الكلمة المفتاحية القياسية لتعريف دالة هي `function`." }
+        ];
+
+        const quizContainer = document.getElementById('quiz-form');
+        const finalScoreEl = document.getElementById('final-score');
+        
+        // ------------------------------------------------------------------------------------------------
+        // 1. وظيفة بناء الأسئلة ديناميكياً
+        // ------------------------------------------------------------------------------------------------
+        function buildQuiz() {
+            const output = [];
+            quizQuestions.forEach((qData, qIndex) => {
+                const answers = qData.options.map((option, oIndex) => 
+                    `<label class="answer-option" data-q="${qIndex}" data-o="${oIndex}">
+                        <input type="radio" name="question${qIndex}" value="${oIndex}" onclick="checkAnswerInstant(${qIndex}, ${oIndex})">
+                        <span class="is-correct-check" id="check-${qIndex}-${oIndex}"></span>
+                        ${option}
+                    </label>`
+                ).join('');
+                
+                const questionContent = qData.q.includes('`') ? 
+                    `<div class="question-text">${qData.q.replace(/`(.*?)`/g, '<span class="code-block">$1</span>')}</div>` : 
+                    `<div class="question-text">${qData.q}</div>`;
+
+                output.push(
+                    `<div class="question-box" id="q-box-${qIndex}">
+                        ${questionContent}
+                        ${answers}
+                        <div class="result-message" id="q-result-${qIndex}"></div>
+                    </div>`
+                );
+            });
+            // وضع الأسئلة قبل زر الإرسال
+            const submitBtn = document.getElementById('submit-quiz-btn');
+            submitBtn.insertAdjacentHTML('beforebegin', output.join(''));
+        }
+        
+        // ------------------------------------------------------------------------------------------------
+        // 1.1. وظيفة التقييم الفوري عند النقر (الجديدة)
+        // ------------------------------------------------------------------------------------------------
+        function checkAnswerInstant(qIndex, selectedValue) {
+            const qData = quizQuestions[qIndex];
+            const isCorrect = selectedValue === qData.correct;
+            const questionBox = document.getElementById(`q-box-${qIndex}`);
+            const resultMsgEl = document.getElementById(`q-result-${qIndex}`);
+            
+            // إزالة التقييمات السابقة من جميع الخيارات في هذا السؤال
+            const allOptions = questionBox.querySelectorAll('.answer-option');
+            allOptions.forEach(opt => {
+                opt.classList.remove('correct', 'incorrect');
+                opt.querySelector('.is-correct-check').innerHTML = '';
+            });
+            
+            // إظهار التقييم الفوري على الخيار المحدد فقط
+            const selectedOptionLabel = questionBox.querySelector(`[data-o="${selectedValue}"]`);
+            const selectedCheckEl = document.getElementById(`check-${qIndex}-${selectedValue}`);
+
+            if (isCorrect) {
+                questionBox.classList.add('correct');
+                selectedOptionLabel.classList.add('correct');
+                selectedCheckEl.innerHTML = '✅';
+                resultMsgEl.innerHTML = '<span class="correct-message">✅ إجابة صحيحة!</span>';
+            } else {
+                questionBox.classList.add('incorrect');
+                selectedOptionLabel.classList.add('incorrect');
+                selectedCheckEl.innerHTML = '❌';
+                
+                // البحث عن الإجابة الصحيحة لإظهارها (تلوينها)
+                const correctOptionLabel = questionBox.querySelector(`[data-o="${qData.correct}"]`);
+                correctOptionLabel.classList.add('correct');
+                correctOptionLabel.querySelector('.is-correct-check').innerHTML = '✅';
+
+                const correctOptionText = qData.options[qData.correct];
+                resultMsgEl.innerHTML = `<span class="incorrect-message">❌ إجابة خاطئة.</span> الإجابة الصحيحة هي: **${correctOptionText}**. <br> **شرح:** ${qData.explanation}`;
+            }
+        }
+
+        // ------------------------------------------------------------------------------------------------
+        // 2. وظيفة التقييم النهائية عند الضغط على الزر
+        // ------------------------------------------------------------------------------------------------
+        function submitQuiz(event) {
+            event.preventDefault();
+            let score = 0;
+            const totalQuestions = quizQuestions.length;
+
+            quizQuestions.forEach((qData, qIndex) => {
+                const selectedOption = document.querySelector(`input[name="question${qIndex}"]:checked`);
+                
+                if (selectedOption) {
+                    const selectedValue = parseInt(selectedOption.value);
+                    const isCorrect = selectedValue === qData.correct;
+                    if (isCorrect) {
+                        score++;
+                    }
+                    // هنا يتم استدعاء checkAnswerInstant لضمان ظهور التقييم حتى لو لم يضغط على كل زر
+                    checkAnswerInstant(qIndex, selectedValue);
+                } else {
+                    // في حالة عدم الإجابة، نعرض رسالة خطأ ونحتسب صفر
+                    const questionBox = document.getElementById(`q-box-${qIndex}`);
+                    const resultMsgEl = document.getElementById(`q-result-${qIndex}`);
+                    questionBox.classList.add('incorrect');
+                    resultMsgEl.innerHTML = '<span class="incorrect-message">لم يتم تحديد إجابة.</span>';
+                }
+            });
+
+            // عرض النتيجة النهائية
+            const percentage = (score / totalQuestions) * 100;
+            finalScoreEl.style.display = 'block';
+            finalScoreEl.innerHTML = `
+                **نتيجة الاختبار النهائي:** ${score} من ${totalQuestions} سؤال.
+                <br>
+                **النسبة المئوية:** ${percentage.toFixed(2)}%
+                <br>
+                ${percentage >= 75 ? '🎉 مبروك! إتقان ممتاز للأساسيات!' : '💡 تحتاج لمراجعة بعض المفاهيم. راجع الشروحات.'}
+            `;
+            
+            window.scrollTo(0, document.body.scrollHeight);
+        }
+        
+        // ------------------------------------------------------------------------------------------------
+        // 3. وظيفة تنفيذ المشروع العملي (كما هي)
+        // ------------------------------------------------------------------------------------------------
+        function executeAndCapture(codeStr){
+            const logs = [];
+            const origConsole = window.console.log; 
+            const timeoutDuration = 3000; 
+
+            window.console.log = function(...args){
+                const line = args.map(a=>{
+                    if (typeof a === 'object' && a !== null) {
+                        try { return JSON.stringify(a); } catch(e){ return String(a); } 
+                    }
+                    return String(a);
+                }).join(' ');
+                logs.push(line);
+                try { origConsole.apply(window.console, args); } catch(e){}
+            };
+
+            let error = null;
+            try {
+                const fn = new Function(`'use strict';\n${codeStr}`);
+                fn();
+            } catch (err) {
+                let msg = err && err.message ? err.message : String(err);
+                msg = msg.replace(/\n/g,' ').replace(/\s+/g,' ').trim();
+                error = { msg };
+            } finally {
+                window.console.log = origConsole;
+            }
+            return { logs, error };
+        }
+
+        function runProjectTest(){
+            const editor = document.getElementById('project_editor');
+            const outputEl = document.getElementById('project_output');
+            const code = editor.value || '';
+            
+            // الحل المتوقع للمشروع
+            const expectedResultStr = JSON.stringify(["علي (30 سنة)", "فاطمة (35 سنة)"]);
+            
+            // نتحقق من أن الطالب أكمل الشرط والتعبير بشكل صحيح
+            const correctFilter = 'user\\.age\\s*>\\s*25\\s*&&\\s*user\\.isActive\\s*===\\s*true';
+            const correctMap = '`\\$\\{user\\.name\\}\\s*\\(\\$\\{user\\.age\\}\\s*سنة\\)\\s*`';
+            
+            const codeCheck = code.replace(/\s+/g, ' '); // إزالة المسافات الزائدة
+            
+            if (!codeCheck.match(new RegExp(correctFilter)) || !codeCheck.match(new RegExp(correctMap))) {
+                 outputEl.style.color = '#ff9800';
+                 outputEl.textContent = '💡 تلميح: راجع منطق الشرط في `filter` (الأكبر من 25 والنشط) ومنطق التحويل في `map` (استخدام String literals لتكوين السلسلة النصية).';
+            }
+
+
+            outputEl.classList.remove('success', 'error');
+            outputEl.textContent = '... جاري التنفيذ والتحقق ...';
+
+            const studentRes = executeAndCapture(code);
+
+            if (studentRes.error) {
+                outputEl.style.color = '#c62828';
+                outputEl.textContent = `❌ خطأ في الكود: ${studentRes.error.msg}`;
+                return;
+            }
+
+            let result = (studentRes.logs || []).map(l => l.trim()).filter(l => l !== '').pop() || ''; 
+            
+            // تنظيف النتيجة من Console.log
+            result = result.replace(/(\s|,)/g, '').replace(/"/g, '\"');
+            const expectedClean = expectedResultStr.replace(/(\s|,)/g, '').replace(/"/g, '\"');
+
+            if (result === expectedClean) {
+                outputEl.style.color = '#2e7d32';
+                outputEl.textContent = `✅ مبروك! نجاح المشروع الشامل! (استخدمت filter و map بنجاح)\nالناتج النهائي: ${result}`;
+            } else {
+                outputEl.style.color = '#c62828';
+                outputEl.textContent = `❌ فشل اختبار المشروع: الدالة لم تُرجع القائمة المطلوبة.\nالمتوقع: ${expectedResultStr}\nالناتج: ${result || '(لا شيء)'}`;
+            }
+        }
+
+
+        // ------------------------------------------------------------------------------------------------
+        // 4. تهيئة الصفحة والربط
+        // ------------------------------------------------------------------------------------------------
+        document.addEventListener('DOMContentLoaded', () => {
+            buildQuiz();
+            document.getElementById('quiz-form').addEventListener('submit', submitQuiz);
+            
+            // الإجابة الصحيحة للمشروع ليراها الطالب (التي يجب أن يكملها)
+            const initialProjectCode = `const users = [
+    { name: "علي", age: 30, isActive: true },
+    { name: "سارة", age: 22, isActive: true },
+    { name: "محمد", age: 28, isActive: false },
+    { name: "فاطمة", age: 35, isActive: true }
+];
+
+const processUsers = (userList) => {
+    // 1. استخدم filter لاختيار المستخدمين النشطين والأكبر من 25
+    const filteredUsers = userList.filter(user => 
+        user.age > 25 && user.isActive === true
+    );
+    
+    // 2. استخدم map لتحويل الكائنات المفلترة إلى الاسم والعمر (سلسلة نصية)
+    const resultNames = filteredUsers.map(user => 
+        \`\${user.name} (\${user.age} سنة)\`
+    );
+
+    return resultNames;
+};
+
+
+console.log(processUsers(users));`;
+
+            // وضع الكود المبدئي في المحرر لتشجيع الطالب على التعديل
+            document.getElementById('project_editor').value = initialProjectCode;
+        });
+
+    </script>
+</body>
+</html>

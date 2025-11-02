@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الدرس السادس: الملخص الشامل لأساسيات JavaScript</title>
+    <style>
+        /* (CSS الأنماط كما هي للحفاظ على التصميم التفاعلي الجذاب) */
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap');
+        
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(135deg, #f9f9f9, #e0f7fa);
+            color: #222;
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #880e4f; 
+            font-size: 2.2em;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+        }
+        h2 {
+            color: #4a148c; /* لون بنفسجي عميق */
+            font-size: 1.8em;
+            margin-top: 35px;
+            border-bottom: 3px solid #ab47bc; 
+            padding-bottom: 10px;
+            display: inline-block;
+        }
+        h3 {
+            color: #6a1b9a;
+            font-size: 1.4em;
+            margin-top: 25px;
+            text-align: right;
+            border-right: 4px solid #ce93d8;
+            padding-right: 10px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15); 
+            text-align: right;
+        }
+
+        .concept-box {
+            border: 2px solid #ce93d8;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            background-color: #f3e5f5;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+
+        .explanation {
+            line-height: 1.8;
+            font-weight: 600;
+            color: #333;
+            text-align: right;
+        }
+        
+        .code-snippet {
+            display: block;
+            background-color: #e1bee7; 
+            color: #4a148c;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            direction: ltr;
+            text-align: left;
+            overflow-x: auto;
+            font-weight: 700;
+            border: 1px solid #dcdcdc;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            font-size: 0.95em;
+        }
+
+        .btn {
+            background: linear-gradient(90deg, #6a1b9a, #9c27b0); 
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            margin: 10px 7px;
+            transition: all 0.3s ease;
+            font-size: 16px;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px) scale(1.02);
+            background: linear-gradient(90deg, #4a148c, #6a1b9a);
+        }
+        
+        /* زر الاختبار النهائي */
+        .test-btn {
+             background: linear-gradient(90deg, #ff9800, #ff5722);
+             box-shadow: 0 4px 15px rgba(255,152,0,0.4);
+        }
+        .test-btn:hover {
+             background: linear-gradient(90deg, #e65100, #ff9800);
+        }
+
+        .output {
+            margin-top: 15px;
+            background: #fdfdfd;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            direction: ltr;
+            text-align: left;
+            white-space: pre-wrap;
+            min-height: 50px;
+            color: #333;
+            font-weight: 700;
+            border: 1px dashed #9c27b0;
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.05);
+        }
+        .output.error {
+             background:#fff0f0;
+             color:#a00;
+             border-color: #a00;
+        }
+
+        /* أنماط المشاريع النهائية */
+        .project-section {
+            border: 2px solid #880e4f;
+            padding: 25px;
+            border-radius: 15px;
+            background-color: #fff8e1;
+            margin-top: 30px;
+            margin-bottom: 30px; 
+        }
+        .project-explanation {
+            line-height: 1.8;
+            font-weight: 600;
+            text-align: right;
+            color: #333;
+        }
+        .editor {
+            width:100%;
+            min-height:150px;
+            font-family:monospace;
+            font-size:15px;
+            direction:ltr;
+            text-align:left;
+            border-radius:10px;
+            padding:12px;
+            border:2px solid #f9e1e3;
+            background:#fff;
+            resize:vertical;
+        }
+        .project-output {
+            margin-top: 10px;
+            background:#fff;
+            padding:12px;
+            border-radius:8px;
+            font-family:monospace;
+            direction:ltr;
+            text-align:left;
+            white-space:pre-wrap;
+            min-height:50px;
+            color:#004d40;
+            font-weight:700;
+            border: 1px solid #ccc;
+        }
+        .new-concept {
+            background-color: #e8f5e9; 
+            border-color: #43a047;
+        }
+        .new-concept h3 {
+             border-right-color: #a5d6a7;
+             color: #2e7d32;
+        }
+        .congratulations {
+            background-color: #ffe0b2;
+            border: 2px solid #ff9800;
+            padding: 20px;
+            margin: 20px auto;
+            border-radius: 15px;
+            color: #e65100;
+            font-size: 1.5em;
+            font-weight: 900;
+            text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .footer {
+  margin-top: 50px;
+  padding: 15px 15px;
+  text-align: center;
+  font-family: 'Cairo', sans-serif;
+  font-size: 18px;
+  background: linear-gradient(90deg, #6a1b9a, #9c27b0);
+  color: white;
+  border-radius: 15px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  animation: fadeIn 1.5s ease-in-out;
+}
+
+.footer strong {
+  color: #ffeb3b;
+  text-shadow: 1px 1px 4px rgba(0,0,0,0.3);
+}
+
+.footer:hover {
+  transform: scale(1.03);
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 25px rgba(0,0,0,0.3);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+    </style>
+</head>
+<body>
+
+    <div class="congratulations">
+        🎉 تهنئة! لقد وصلت إلى نهاية أساسيات JavaScript! 🎉
+        <p style="font-size: 0.8em; margin-top: 10px;">هذا الدرس يجمع كل ما تعلمته ويجهزك للمرحلة القادمة.</p>
+    </div>
+
+    <h1>🌟 الدرس السادس: الملخص الشامل لأساسيات JavaScript 🌟</h1>
+
+    <div class="container">
+        
+        <h2>⚙️ القسم الأول: الكائنات (Objects) - التنظيم الهيكلي للبيانات</h2>
+        <p class="explanation">
+            **تفصيل الشرح:** الكائنات هي حاويات تخزن البيانات المنظمة في هيئة **أزواج من المفاتيح والقيم (Key-Value Pairs)**. فكّر فيها كنموذج يصف كياناً حقيقياً (مثل كتاب، سيارة، طالب).
+            **المفاتيح** (الخصائص/Properties) يجب أن تكون سلاسل نصية أو رموز، و**القيم** يمكن أن تكون أي نوع من البيانات (نص، رقم، مصفوفة، أو حتى دالة). هذه الهيكلية هي أساس كل شيء في JavaScript.
+        </p>
+
+        <div class="concept-box">
+            <h3>1. إنشاء واستخدام الكائنات (Object Literal)</h3>
+            <p class="explanation">
+                نستخدم الأقواس المعقوفة **<code>{}</code>** لتعريف الكائن. للوصول إلى البيانات، نستخدم إما الترقيم النقطي (Dot Notation) لسهولته، أو الترقيم القوسي (Bracket Notation) عندما يكون المفتاح يحتوي على مسافات أو يتم تخزينه في متغير.
+            </p>
+            <div class="code-snippet">
+                const book = {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;title: "فن البرمجة",<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;author: "أحمد",<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;pages: 350,<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;"publish year": 2023 // مفتاح يحتوي على مسافة<br>
+                };<br>
+                <br>
+                console.log(book.author); // الوصول بالنقطة: أحمد<br>
+                <br>
+                const keyName = 'pages';<br>
+                console.log(book[keyName]); // الوصول بالقوس: 350 (باستخدام متغير)<br>
+                console.log(book['publish year']); // الوصول بالقوس: 2023 (بسبب المسافة)
+            </div>
+            <button class="btn" onclick="runObjectExample()">▶ تشغيل مثال الكائن</button>
+            <div id="object_output" class="output"></div>
+            
+            <h3 style="margin-top: 30px;">2. التعديل والإضافة والتكرار</h3>
+            <p class="explanation">
+                يمكننا التعديل والإضافة بمجرد تعيين قيمة جديدة لخاصية موجودة أو غير موجودة. للتكرار على جميع الخواص، تعتبر حلقة **<code>for...in</code>** هي الطريقة الكلاسيكية للحصول على **مفاتيح** الكائن.
+            </p>
+            <div class="code-snippet">
+                const book = { title: "فن البرمجة", author: "أحمد" };<br>
+                book.pages = 400; // إضافة خاصية جديدة أو تعديل<br>
+                delete book.author; // حذف خاصية<br>
+                <br>
+                let info = 'الخواص بعد التعديل: ';<br>
+                for (let key in book) {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;info += `${key}: ${book[key]} | `;<br>
+                }<br>
+                console.log(info); // المتوقع: title: فن البرمجة | pages: 400 |
+            </div>
+            <button class="btn" onclick="runObjectLoopExample()">▶ تشغيل مثال التعديل والتكرار</button>
+            <div id="object_loop_output" class="output"></div>
+        </div>
+        
+        <hr>
+
+        <h2>🧱 القسم الثاني: نطاق المتغيرات والدوال الراجعة - التحكم في الكود</h2>
+        
+        <div class="concept-box">
+            <h3>1. النطاق (Scope): الفرق بين let/const و var</h3>
+            <p class="explanation">
+                **تفصيل الشرح:** تحديد نطاق المتغيرات هو أمر حاسم لتجنب الأخطاء.
+                <ul>
+                    <li>**<code>var</code> (نطاق الدالة/Function Scope):** المتغيرات المُعرّفة به تكون مرئية في أي مكان داخل الدالة التي عُرّفت فيها، حتى لو عُرّفت داخل كتلة شرطية `if` أو حلقة `for`. هذا يسبب مشاكل التداخل (Hoisting).</li>
+                    <li>**<code>let</code> و <code>const</code> (نطاق الكتلة/Block Scope):** المتغيرات تكون مرئية فقط داخل أقرب كتلة `{}`, مما يجعل الكود أكثر أماناً، ويمنع الوصول العشوائي للمتغيرات. <strong>استخدمهما دائماً!</strong></li>
+                </ul>
+            </p>
+            <div class="code-snippet">
+                function testScope() {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;if (true) {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var oldVar = "أنا Var! (نطاقي دالة)";<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let newLet = "أنا Let! (نطاقي كتلة)";<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;console.log("Var من الخارج:", oldVar); // ✅ يعمل<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;// الوصول لـ newLet يسبب خطأ "ReferenceError"<br>
+                }<br>
+                console.log(testScope());
+            </div>
+            <button class="btn" onclick="runScopeExample()">▶ تشغيل مثال نطاق المتغيرات</button>
+            <div id="scope_output" class="output"></div>
+            
+            <h3 style="margin-top: 30px;">2. الدوال الراجعة (Callback Functions)</h3>
+            <p class="explanation">
+                **تفصيل الشرح:** الدالة الراجعة هي دالة يتم تمريرها كمعامل (Argument) لدالة أخرى، وتتوقع الدالة الأخرى أن تقوم بتنفيذها (استدعائها) في وقت لاحق، عند حدوث حدث معين أو عند الانتهاء من عملية ما. هذا المفهوم هو أساس البرمجة غير المتزامنة (Asynchronous) في JavaScript.
+            </p>
+            <div class="code-snippet">
+                // الدالة الرئيسية التي تستدعي الـ callback<br>
+                function processNumbers(arr, callback) {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;console.log("بدء المعالجة...");<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;for (let i = 0; i < arr.length; i++) {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;callback(arr[i]); // الاستدعاء يحدث هنا<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                }<br>
+                <br>
+                // دالة الـ Callback<br>
+                function logDouble(number) {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;console.log(`العدد ${number} وضِعفه ${number * 2}`);<br>
+                }<br>
+                <br>
+                processNumbers([1, 5, 10], logDouble); // تمرير logDouble كدالة راجعة
+            </div>
+            <button class="btn" onclick="runCallbackExample()">▶ تشغيل مثال الدوال الراجعة</button>
+            <div id="callback_output" class="output"></div>
+        </div>
+        
+        <hr>
+
+        <h2>🚀 القسم الثالث: الدوال السهمية والمصفوفات المتقدمة - البرمجة الوظيفية (Functional)</h2>
+        
+        <div class="concept-box new-concept">
+            <h3>1. الدوال السهمية (Arrow Functions)</h3>
+            <p class="explanation">
+                **تفصيل الشرح:** الدوال السهمية هي إضافة حديثة (ES6) تسمح بكتابة دوال أقصر. إذا كانت الدالة تتكون من سطر واحد، يمكن حذف الأقواس المعقوفة `{}` وكلمة `return`، مما يختصر الكود بشكل كبير. وهي تُستخدم بشكل مكثف كدوال راجعة.
+            </p>
+            <div class="code-snippet">
+                // دالة سهمية قصيرة (Implicit return)<br>
+                const add = (a, b) => a + b;<br>
+                console.log("الجمع:", add(10, 5)); // المتوقع: 15<br>
+                <br>
+                // دالة سهمية متعددة الأسطر (Explicit return)<br>
+                const isEven = num => {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;if (num % 2 === 0) {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return true;<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;return false;<br>
+                };<br>
+                console.log("هل 8 زوجي؟", isEven(8)); // المتوقع: true
+            </div>
+            <button class="btn" onclick="runArrowFunctionExample()">▶ تشغيل مثال الدوال السهمية</button>
+            <div id="arrow_output" class="output"></div>
+
+            <h3 style="margin-top: 30px;">2. دوال المصفوفات المتقدمة: map، filter، reduce</h3>
+            <p class="explanation">
+                **تفصيل الشرح:** هذه الدوال تجعل التعامل مع المصفوفات أسهل وأوضح بكثير من استخدام حلقات `for` التقليدية. إنها جوهر البرمجة الوظيفية (Functional Programming) في JavaScript.
+            </p>
+            <ul style="text-align: right; margin-right: 20px; color: #2e7d32; font-weight: 600;">
+                <li>**`filter(callback)`:** تُرجع مصفوفة جديدة تحتوي فقط على العناصر التي حققت الشرط الموجود في الدالة الراجعة (الـ callback).</li>
+                <li>**`map(callback)`:** تُرجع مصفوفة جديدة بنفس الطول، ولكن مع تحويل كل عنصر بناءً على ما تُرجعه الدالة الراجعة.</li>
+            </ul>
+            <div class="code-snippet">
+                const numbers = [10, 50, 5, 80];<br>
+                <br>
+                // filter: يختار فقط الأرقام الأكبر من 20<br>
+                const filtered = numbers.filter(num => num > 20);<br>
+                console.log("الأكبر من 20:", filtered); // المتوقع: [50, 80]<br>
+                <br>
+                // map: يحول كل رقم إلى مضاعفه<br>
+                const doubled = numbers.map(num => num * 2);<br>
+                console.log("المضاعفات:", doubled); // المتوقع: [20, 100, 10, 160]
+            </div>
+            <button class="btn" onclick="runArrayFunctionsExample()">▶ تشغيل مثال دوال المصفوفات</button>
+            <div id="array_functions_output" class="output"></div>
+        </div>
+        
+        <hr>
+
+        <h2>🛡️ القسم الرابع: معالجة الأخطاء (try...catch) - الصيانة والاستمرارية</h2>
+        
+        <div class="concept-box">
+            <h3>1. استخدام try...catch</h3>
+            <p class="explanation">
+                **تفصيل الشرح:** يستخدم لمنع البرنامج من الانهيار (Crashing) عند حدوث خطأ غير متوقع. نضع الكود الذي يحتمل الفشل داخل كتلة **<code>try</code>**. إذا فشل الكود، يتم "إلقاء" الخطأ، ويلتقطه البرنامج في كتلة **<code>catch (error)</code>**. هذا يسمح لك بمعالجة الخطأ وعرض رسالة مناسبة دون إيقاف باقي البرنامج.
+            </p>
+            <div class="code-snippet">
+                function safeDivision(a, b) {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;try {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (b === 0) {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;throw new Error("لا يمكن القسمة على صفر!"); // إلقاء خطأ<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return a / b;<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;} catch (error) {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;console.log("تم التقاط الخطأ. الرسالة:", error.message);<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return "حدث خطأ (تمت معالجته).";<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                }<br>
+                <br>
+                console.log("النتيجة الأولى:", safeDivision(10, 2));<br>
+                console.log("النتيجة الثانية:", safeDivision(10, 0)); 
+            </div>
+            <button class="btn" onclick="runTryCatchExample()">▶ تشغيل مثال معالجة الأخطاء</button>
+            <div id="try_catch_output" class="output"></div>
+        </div>
+
+        <hr style="margin: 40px 0;">
+
+        <h2>⭐ مشروع التخرج النهائي (1): نظام تسجيل الطلاب التقليدي</h2>
+        <div class="project-section">
+            <p class="project-explanation">
+                **المهمة:** إيجاد الطلاب الناجحين باستخدام حلقة `forEach` التقليدية.
+                <ol style="text-align: right;">
+                    <li>مصفوفة <code>students</code> تحتوي على <strong>كائنات</strong> (<code>name</code>, <code>id</code>, <code>grade</code>).</li>
+                    <li>دالة <code>findPassed</code> تستخدم حلقة **`forEach`** للبحث عن الطلاب الذين درجاتهم **أعلى من أو تساوي 60**.</li>
+                    <li>الدالة يجب أن تُرجع **مصفوفة جديدة** تحتوي فقط على أسماء الطلاب الناجحين.</li>
+                </ol>
+            </p>
+            <label>اكتب الكود بتاعك هنا:</label>
+            <textarea id="project_editor_1" class="editor">
+const students = [
+    { name: "علي", id: 1, grade: 85 },
+    { name: "سارة", id: 2, grade: 55 },
+    { name: "محمد", id: 3, grade: 92 },
+    { name: "خالد", id: 4, grade: 40 }
+];
+
+function findPassed(studentList) {
+    const passedStudents = [];
+    
+    // استخدم حلقة للتكرار على مصفوفة الكائنات
+    studentList.forEach(student => {
+        // الوصول إلى خاصية grade داخل الكائن
+        if (student.grade >= 60) {
+            // إضافة اسم الطالب الناجح للمصفوفة الجديدة
+            passedStudents.push(student.name);
+        }
+    });
+
+    return passedStudents;
+}
+
+console.log(findPassed(students)); 
+</textarea>
+            <div style="text-align:center;">
+                <button class="btn" onclick="runProjectTest(1)">▶ تشغيل الكود واختبار النتيجة</button>
+            </div>
+            <div id="project_output_1" class="project-output">الناتج سيظهر هنا...</div>
+        </div>
+
+        <h2>⭐ مشروع التخرج النهائي (2): تحليل البيانات باستخدام الدوال المتقدمة (Filter & Map)</h2>
+        <div class="project-section new-concept">
+            <p class="project-explanation">
+                **المهمة:** استخدام الدوال المتقدمة (`filter` و `map`) لتبسيط الكود.
+                <ol style="text-align: right;">
+                    <li>استخدم المصفوفة <code>students</code> من المشروع السابق.</li>
+                    <li>اكتب دالة سهمية (Arrow Function) اسمها <code>getFailedNames</code> تستخدم الدالة **`filter`** لتحديد الطلاب **الراسبين (أقل من 60)**.</li>
+                    <li>بعد ذلك، استخدم الدالة **`map`** على ناتج `filter` للحصول على مصفوفة جديدة بأسماء هؤلاء الطلاب فقط.</li>
+                </ol>
+            </p>
+            <label>اكتب الكود بتاعك هنا:</label>
+            <textarea id="project_editor_2" class="editor">
+const students = [
+    { name: "علي", id: 1, grade: 85 },
+    { name: "سارة", id: 2, grade: 55 },
+    { name: "محمد", id: 3, grade: 92 },
+    { name: "خالد", id: 4, grade: 40 }
+];
+
+// دالة سهمية تستخدم filter و map معاً
+const getFailedNames = (studentList) => {
+    // 1. استخدام filter لاختيار الطلاب الراسبين
+    const failedStudents = studentList.filter(student => student.grade < 60);
+    
+    // 2. استخدام map لتحويل مصفوفة الكائنات إلى مصفوفة أسماء
+    const failedNames = failedStudents.map(student => student.name);
+
+    return failedNames;
+};
+
+
+console.log(getFailedNames(students)); 
+</textarea>
+            <div style="text-align:center;">
+                <button class="btn" onclick="runProjectTest(2)">▶ تشغيل الكود واختبار النتيجة</button>
+            </div>
+            <div id="project_output_2" class="project-output">الناتج سيظهر هنا...</div>
+        </div>
+        <div class="congratulations" style="margin-top: 40px;">
+            🌟 مبروك عليك إتقان أساسيات JavaScript! 🌟
+            <p style="font-size: 0.8em; margin-top: 10px;">أنت الآن جاهز للانتقال إلى مرحلة بناء واجهات المستخدم المتقدمة (DOM).</p>
+        </div>
+        <br>
+        <div style="text-align:center;">
+    <button class="btn" onclick="location.href='lesson5.html'">⬅️ الدرس الخامس</button> 
+    <button class="btn test-btn" onclick="location.href='final_quiz.html'">📝 الاختبار والتقييم النهائي</button>
+    <button class="btn" onclick="location.href='index.html'">🏠 الصفحة الرئيسية</button>
+        </div>
+    
+        </div>
+    	<!-- 🌟 Footer أنيق -->
+    <div class="footer">
+                تصميم بواسطة <strong>Ahmed Ezzat</strong> ❤️
+    </div>
+    <script>
+        // ------------------------------------------------------------------------------------------------
+        // وظائف التنفيذ الأساسية (Execution Utilities) 
+        // ------------------------------------------------------------------------------------------------
+        function executeAndCapture(codeStr){
+            const logs = [];
+            const origConsole = window.console.log; 
+            const timeoutDuration = 3000; 
+
+            window.console.log = function(...args){
+                const line = args.map(a=>{
+                    if (typeof a === 'object' && a !== null) {
+                        try { return JSON.stringify(a); } catch(e){ return String(a); } 
+                    }
+                    return String(a);
+                }).join(' ');
+                logs.push(line);
+                try { origConsole.apply(window.console, args); } catch(e){}
+            };
+
+            let error = null;
+            let startTime = Date.now(); 
+            try {
+                // نستخدم 'use strict' لفرض قواعد النطاق الحديثة
+                const codeToExecute = `'use strict';\n${codeStr}`;
+                const fn = new Function(codeToExecute);
+                
+                let isTimeout = false;
+                const runLoop = setTimeout(() => {
+                    isTimeout = true;
+                    throw new Error("Execution timed out (Possible Infinite Loop).");
+                }, timeoutDuration);
+
+                fn();
+
+                clearTimeout(runLoop); 
+
+                if (Date.now() - startTime > timeoutDuration || isTimeout) {
+                    error = { msg: "Execution timed out (Possible Infinite Loop)." };
+                    logs.length = 0; 
+                }
+
+            } catch (err) {
+                let msg = err && err.message ? err.message : String(err);
+                msg = msg.replace(/\n/g,' ').replace(/\s+/g,' ').trim();
+                error = { msg };
+            } finally {
+                window.console.log = origConsole;
+            }
+            return { logs, error };
+        }
+
+        function runExample(code, outputId) {
+            const outputEl = document.getElementById(outputId);
+            outputEl.classList.remove('error');
+            
+            const result = executeAndCapture(code);
+            
+            if (result.error) {
+                outputEl.classList.add('error');
+                outputEl.textContent = `❌ خطأ في التنفيذ:\n${result.error.msg}`;
+            } else {
+                outputEl.textContent = result.logs.join('\n');
+            }
+        }
+        
+        // ------------------------------------------------------------------------------------------------
+        // تنفيذ الأمثلة التوضيحية
+        // ------------------------------------------------------------------------------------------------
+
+        function runObjectExample() {
+            const code = `
+                const book = {
+                    title: "فن البرمجة",
+                    author: "أحمد",
+                    pages: 350,
+                    "publish year": 2023
+                };
+                console.log("العنوان (نقطة):", book.title); 
+                const keyName = 'pages';
+                console.log("الصفحات (قوس+متغير):", book[keyName]);
+                console.log("سنة النشر (قوس+مسافة):", book['publish year']);
+            `;
+            runExample(code, 'object_output');
+        }
+
+        function runObjectLoopExample() {
+            const code = `
+                const book = { title: "فن البرمجة", author: "أحمد" };
+                book.pages = 400; 
+                delete book.author;
+                
+                let info = 'الخواص بعد التعديل: ';
+                for (let key in book) {
+                    info += \`\${key}: \${book[key]} | \`;
+                }
+                console.log(info);
+            `;
+            runExample(code, 'object_loop_output');
+        }
+
+        function runScopeExample() {
+            const code = `
+                function testScope() {
+                    if (true) {
+                        var oldVar = "أنا Var! (نطاقي دالة)";
+                        let newLet = "أنا Let! (نطاقي كتلة)";
+                    }
+                    
+                    let result = "Var من الخارج: " + oldVar + " | "; 
+                    
+                    console.log(result);
+                    // لو حاولت الوصول لـ newLet هنا، كان سيظهر خطأ
+                }
+                testScope();
+            `;
+            runExample(code, 'scope_output');
+        }
+
+        function runCallbackExample() {
+            const code = `
+                function processNumbers(arr, callback) {
+                    console.log("بدء المعالجة...");
+                    for (let i = 0; i < arr.length; i++) {
+                        callback(arr[i]);
+                    }
+                }
+                
+                function logDouble(number) {
+                    console.log(\`العدد \${number} وضِعفه \${number * 2}\`);
+                }
+                
+                processNumbers([1, 5, 10], logDouble); 
+            `;
+            runExample(code, 'callback_output');
+        }
+
+        function runArrowFunctionExample() {
+             const code = `
+                const add = (a, b) => a + b;
+                const isEven = num => {
+                    if (num % 2 === 0) {
+                        return true;
+                    }
+                    return false;
+                };
+
+                console.log("الجمع:", add(10, 5));
+                console.log("هل 8 زوجي؟", isEven(8));
+             `;
+             runExample(code, 'arrow_output');
+        }
+
+        function runArrayFunctionsExample() {
+            const code = `
+                const numbers = [10, 50, 5, 80];
+                
+                const filtered = numbers.filter(num => num > 20);
+                console.log("الأكبر من 20:", filtered); 
+                
+                const doubled = numbers.map(num => num * 2);
+                console.log("المضاعفات:", doubled); 
+            `;
+            runExample(code, 'array_functions_output');
+        }
+
+        function runTryCatchExample() {
+            const code = `
+                function safeDivision(a, b) {
+                    try {
+                        if (b === 0) {
+                            throw new Error("لا يمكن القسمة على صفر!"); 
+                        }
+                        return a / b;
+                    } catch (error) {
+                        console.log("تم التقاط الخطأ. الرسالة:", error.message);
+                        return "حدث خطأ (تمت معالجته).";
+                    }
+                }
+                
+                console.log("النتيجة الأولى (10/2):", safeDivision(10, 2));
+                console.log("النتيجة الثانية (10/0):", safeDivision(10, 0)); 
+            `;
+            runExample(code, 'try_catch_output');
+        }
+        
+        // ------------------------------------------------------------------------------------------------
+        // وظيفة اختبار مشاريع التخرج
+        // ------------------------------------------------------------------------------------------------
+        function runProjectTest(projectNumber){
+            const editor = document.getElementById(`project_editor_${projectNumber}`);
+            const outputEl = document.getElementById(`project_output_${projectNumber}`);
+            const code = editor.value || '';
+            const cleanedCode = code.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\/\/.*$/gm, '').trim();
+
+            outputEl.classList.remove('success', 'error');
+            outputEl.textContent = '... جاري التنفيذ والتحقق ...';
+
+            if (!cleanedCode) {
+                outputEl.classList.add('error');
+                outputEl.textContent = '⚠️ اكتب الكود أولاً.';
+                return;
+            }
+
+            const studentRes = executeAndCapture(code);
+
+            if (studentRes.error) {
+                outputEl.classList.add('error');
+                outputEl.textContent = `❌ خطأ في الكود: ${studentRes.error.msg}`;
+                return;
+            }
+
+            // منطق التحقق للمشاريع
+            let expectedResultStr;
+            let successMessage;
+            let failMessage;
+
+            if (projectNumber === 1) {
+                expectedResultStr = JSON.stringify(['علي', 'محمد']);
+                successMessage = "🎉 مبروك! نجاح المشروع الأول! (النهج التقليدي)";
+                failMessage = "❌ فشل اختبار المشروع الأول: الدالة لم تُرجع أسماء الطلاب الناجحين بشكل صحيح. (تأكد من الدرجة 60)";
+            } else if (projectNumber === 2) {
+                expectedResultStr = JSON.stringify(['سارة', 'خالد']);
+                successMessage = "🚀 مذهل! نجاح المشروع الثاني! (النهج الحديث - filter و map)";
+                failMessage = "❌ فشل اختبار المشروع الثاني: الدالة لم تُرجع أسماء الطلاب الراسبين بشكل صحيح. (تأكد من الدرجة أقل من 60)";
+            } else {
+                 outputEl.classList.add('error');
+                 outputEl.textContent = 'خطأ في تحديد رقم المشروع.';
+                 return;
+            }
+
+            let result = (studentRes.logs || []).map(l => l.trim()).filter(l => l !== '').pop() || ''; 
+            
+            // تنظيف النتيجة من Console.log
+            if(result.startsWith('[') && result.endsWith(']')) {
+                 result = result.replace(/(\s|,)/g, '');
+            }
+            const expectedClean = expectedResultStr.replace(/(\s|,)/g, '');
+
+            if (result === expectedClean) {
+                outputEl.classList.add('success');
+                outputEl.textContent = `${successMessage}\nالناتج النهائي: ${result}`;
+            } else {
+                outputEl.classList.add('error');
+                outputEl.textContent = `${failMessage}\nالمتوقع: ${expectedResultStr}\nالناتج: ${result || '(لا شيء)'}`;
+            }
+        }
+    </script>
+</body>
+</html>

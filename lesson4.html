@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>الدرس الرابع - قيد التحضير</title>
-  <style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>الدرس الرابع - العمليات التكرارية (for) والدوال (Functions)</title>
+  <style>
+    /* ستايل مطابق ومحسّن - تم تدقيقه وتصحيحه من الأخطاء والتحذيرات الشائعة */
     @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap');
+    
     :root{
       --primary:#00796b;
       --green1:#009688;
@@ -13,130 +15,1049 @@
       --bg1: #f9f9f9;
       --bg2: #e0f7fa;
       --card:#fff;
+      --code-bg:#f1f8e9;
       --accent:#ffe227;
-      --whatsapp:#25D366;
+      /* متغير جديد لسرعة الانتقال */
+      --transition-speed: 0.3s; 
     }
-    *{box-sizing:border-box}
+    
+    *{
+        box-sizing:border-box;
+        /* تطبيق الانتقال التلقائي على كل شيء تقريبًا */
+        transition: background-color var(--transition-speed), transform var(--transition-speed), box-shadow var(--transition-speed), border var(--transition-speed);
+    } 
+
     body{
       font-family:'Cairo',sans-serif;
       background: linear-gradient(135deg,var(--bg1),var(--bg2));
       color:#222;
       margin:0;
       padding:20px;
+      /* تحسين التوافقية */
       -webkit-font-smoothing:antialiased;
       -moz-osx-font-smoothing:grayscale;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
     }
 
-    .container{
-      max-width:600px; 
-      margin: auto; 
+    /* خطوط وعناوين أثقل وأكثر ظهورًا */
+    h1{color:var(--primary); text-align:center; font-size:2rem; margin-bottom:8px; font-weight:900;}
+    h3{color:var(--green1); margin:16px 0; font-weight:800;}
+    h4{margin:10px 0; font-weight:800;}
+
+    /* تأثيرات التفاعل على الصندوق الرئيسي */
+    .content{
+      max-width:980px; 
+      margin:12px auto; 
       background:var(--card); 
-      padding:30px; 
+      padding:24px; 
       border-radius:14px;
-      box-shadow:0 6px 24px rgba(0,0,0,0.1); 
-      text-align:center;
+      box-shadow:0 6px 24px rgba(0,0,0,0.08); 
+      text-align:right;
+      /* إضافة تفاعل خفيف عند مرور الماوس على محتوى الصفحة */
+      border: 1px solid transparent; 
     }
-    
-    h1{
-      color:var(--primary); 
-      font-size:2.5rem; 
-      margin-bottom:10px; 
-      font-weight:900;
-    }
-    
-    p{
-      font-size:1.1rem;
-      color:#555;
-      line-height:1.6;
-      margin-bottom:25px;
-      font-weight: 600;
+    .content:hover {
+        box-shadow: 0 10px 30px rgba(0,0,0,0.12); /* ظل أثقل قليلاً */
+        border: 1px solid var(--green2); /* خط خفيف حول الصندوق */
     }
 
+    .lead{color:#333; line-height:1.8; margin-bottom:12px; font-weight:700;}
+    .explain{color:#333; line-height:1.6; margin-bottom:8px; font-weight:600;}
+    
+    /* تفاعل صندوق الملاحظات */
+    .note{
+      background:#fff3cd; 
+      color:#856404; 
+      padding:12px; 
+      border-radius:8px; 
+      margin:12px 0; 
+      font-weight:700;
+      cursor: default; /* لتوضيح أنه ليس زرًا */
+    }
+    .note:hover {
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05); /* ظل بسيط عند المرور */
+    }
+
+    hr{border:none;border-top:1px solid #eee;margin:26px 0;} 
+    
+    /* تفاعل صندوق عرض الكود */
+    pre.display-code{
+      background:var(--code-bg); 
+      border:2px solid var(--green1); 
+      padding:12px; 
+      border-radius:10px;
+      font-family: "Courier New", monospace; 
+      direction:ltr; 
+      text-align:left; 
+      white-space:pre-wrap; 
+      margin:8px 0;
+      font-weight:700;
+    }
+    pre.display-code:hover {
+        border-color: var(--primary); /* تغيير لون الحدود عند المرور */
+        background-color: #f5fdee; /* تغيير بسيط في الخلفية */
+    }
+
+    textarea.editor{
+      width:100%; 
+      min-height:130px; 
+      font-family:monospace; 
+      font-size:15px; 
+      direction:ltr; 
+      text-align:left;
+      border-radius:10px; 
+      padding:12px; 
+      border:2px solid #d6eae6; 
+      background:#fff; 
+      resize:vertical;
+    }
+    
+    .controls{display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;}
+    
+    /* تفاعل الأزرار المحسّن */
     .btn{
       background:linear-gradient(90deg,var(--green1),var(--green2)); 
       color:#fff; 
       border:none; 
-      padding:12px 20px;
+      padding:10px 16px;
       border-radius:12px; 
       cursor:pointer; 
       font-weight:800; 
-      transition:all .18s; 
+      transition:all var(--transition-speed); 
       box-shadow:0 4px 12px rgba(0,0,0,0.1);
-      text-decoration: none;
-      display: inline-block;
-      margin-top: 10px;
     }
     .btn:hover{
-      transform:translateY(-2px);
-    }
-    
-    .btn.whatsapp{
-        background: var(--whatsapp);
-        font-size: 1.1rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-        padding: 15px 30px;
-    }
-    
-    .navs{
-      display:flex; 
-      gap:10px; 
-      justify-content:center; 
-      margin-top:20px; 
-      flex-wrap:wrap;
-    }
-    .navs .btn {
-        background: #ccc;
-        color: #333;
-        box-shadow: none;
-        padding: 10px 15px;
-    }
-    .navs .btn:hover {
-        background: #bbb;
+        transform:translateY(-2px); /* رفعة بسيطة */
+        box-shadow:0 8px 18px rgba(0,0,0,0.15); /* ظل أكبر */
+    } 
+    .btn:active{
+        transform:translateY(0px); /* ضغطة للداخل */
+        box-shadow:0 2px 8px rgba(0,0,0,0.15); 
     }
 
-    .whatsapp-icon::before {
-        content: "📱";
-        font-size: 1.2em;
+    .btn.ghost{
+        background:#fff; 
+        color:var(--green1); 
+        border:2px solid var(--green2); 
+        font-weight:800;
+    } 
+    .btn.ghost:hover{
+        background: var(--bg2); /* تظليل خفيف للخلفية */
+        color: var(--primary);
     }
 
-  </style>
+    .output{
+      margin-top:10px; 
+      background:#e0f7fa; 
+      padding:12px; 
+      border-radius:8px; 
+      font-family:monospace; 
+      direction:ltr; 
+      text-align:left; 
+      white-space:pre-wrap; 
+      min-height:48px; 
+      color:#004d40; 
+      font-weight:700;
+    }
+    .output.error{background:#fff0f0;color:#a00;} 
+    
+    .solution{
+      margin-top:8px; 
+      background:#fff6e6; 
+      padding:10px; 
+      border-radius:8px; 
+      font-family:monospace; 
+      direction:ltr; 
+      text-align:left; 
+      white-space:pre-wrap; 
+      display:none; 
+      font-weight:700;
+    }
+    
+    /* تفاعل صندوق الملخص */
+    .summary{
+      background:#f7fff7; 
+      border:1px solid #d1f5d1; 
+      padding:14px; 
+      border-radius:10px; 
+      text-align:right; 
+      margin-top:16px; 
+      font-weight:700;
+    }
+    .summary:hover {
+        background: #f0fff0; /* تغيير خفيف عند المرور */
+    }
+
+    .navs{display:flex; gap:10px; justify-content:center; margin-top:16px; flex-wrap:wrap;}
+    .footer{text-align:center; margin-top:18px; color:#555; font-weight:700;}
+    .small{padding:8px 10px; font-size:14px;}
+    
+    /* responsive */
+    @media(max-width:720px){
+      .controls{flex-direction:column;} 
+    }
+    
+    /* ستايل تظليل الخطأ */
+    .highlight-error { 
+        background: rgba(255, 0, 0, 0.08) !important; 
+        outline: 2px solid rgba(255,0,0,0.18); 
+    }
+</style>
 </head>
 <body>
+    <div class="container">
+        <h1>🔁 الدرس الرابع: العمليات التكرارية (for Loop) والدوال (Functions)</h1>
 
-  <div class="container">
-    <h1>🚧 الدرس الرابع قيد التحضير! 🚧</h1>
+        <div class="content">
+            <p class="lead">الدرس ده هو اللي هيخليك بروجرامر تقيل بجد. تخيل إنك شغال في بنك ومطلوب منك تحسب فوايد 1000 عميل، أو تطبع 500 فاتورة. هتكتب الكود ده 1000 مرة؟ طبعًا لأ! هنا بتيجي قوة الـ **Loops** عشان تكرر الشغل ده أوتوماتيك بأقل عدد سطور. وكمان هنتعلم إزاي نعمل أدوات خاصة بينا (Functions) عشان نستخدمها كذا مرة من غير ما نكرر الكتابة.</p>
+
+            <div class="note">الحلقات التكرارية (Loops) والدوال (Functions) هما العمود الفقري لأي مشروع برمجي، بيخلوا الكود بتاعك **ناشف** (مختصر) و **مرن** (سهل التعديل).</div>
+
+            <hr>
+            <h3>1) العمليات التكرارية وحلقة `for`</h3>
+
+            <p class="explain">
+                الـ **Loops** دي زي ما تكون بتدي للجافا سكريبت ورقة مهام وبتقولها: "كرري المهام دي لحد ما الشرط ده يبطل يتحقق". ده بيوفر وقت وجهد خرافي في الكود. **مهمتها الأساسية**: توفير ملايين السطور من الكود اللي بيتكرروا.
+                
+                <br><br>
+
+
+            </p>
+
+            <h4>أ) مثال 1: توفير الكود مع `for` (الرغي التفصيلي)</h4>
+            <p class="explain">
+                تخيل إنك بتعمل قهوة سريعة. بدل ما تقول "حط سكر، قلّب" عشر مرات، بتقول: "كرر عملية التقليب 10 مرات". الـ `for` بتعمل بالظبط كده: بتكرر أوامر معينة. هنا بدل ما نكتب <code>console.log("silk");</code> عشر مرات، كتبناها مرة واحدة وحطيناها في قلب الـ Loop اللي كررّتها أوتوماتيك.
+            </p>
+            
+            <pre class="display-code">// الكود الطويل والتقليدي
+// console.log("silk");
+// ... 9 مرات كمان
+
+// الكود المختصر باستخدام for:
+for (let count = 0; count < 10; count = count + 1) {
+  console.log("silk");
+} // متوقع: طباعة "silk" 10 مرات
+</pre>
+
+            <label>اكتب الكود اللي يطبع "silk" 10 مرات باستخدام حلقة for:</label>
+            <textarea id="editor_1a" class="editor">for (let count = 0; count < 10; count = count + 1) {
+  console.log("silk");
+}</textarea>
+            <div class="controls">
+                <button class="btn" onclick="runAndCompare('editor_1a','out_1a','ref_1a','sol_1a')">▶ تشغيل</button>
+                <button class="btn ghost" onclick="toggleSolution('editor_1a', 'sol_1a', 'ref_1a')">👀 عرض الحل</button>
+            </div>
+            <div id="out_1a" class="output"></div>
+            <pre id="sol_1a" class="solution">// هنا سيظهر الحل (سواء كودك أو الكود المرجعي) بعد التشغيل</pre>
+
+            <h4>ب) مثال 2: بنية جملة `for` (التركيبة الأساسية وسبب استخدامها)</h4>
+            <p class="explain">
+                الـ `for` بتتقسم لـ 3 أجزاء رئيسية مهمة، زي قوانين المرور عشان العربية متتوهش. لو أي جزء من دول ناقص أو غلط، العربية ممكن متتحركش أو تعمل حادثة (Infinite Loop)!
+                <ol>
+                    <li>**نقطة البداية (Initialization):** (<code>let count = 0</code>) **التفصيل:** هنا بنعرّف متغير (غالبًا اسمه `i` أو `count`) وبنديه أول قيمة يبدأ العد منها. المتغير ده بيكون موجود **جوه الـ Loop بس**.</li>
+                    <li>**شرط التوقف (Condition):** (<code>count < 10</code>) **التفصيل:** أهم جزء. قبل كل لفة، الجافا سكريبت بتسأل: "هل الشرط ده لسة حقيقي؟" لو الإجابة "آه"، الكود اللي جوه القوسين <code>{}</code> بيتنفذ. لو الإجابة "لأ"، بنقفل الـ Loop وبنكمل باقي الكود.</li>
+                    <li>**خطوة التقدُم (Increment/Decrement):** (<code>count = count + 1</code>) **التفصيل:** دي اللي بتخلينا نتحرك خطوة لقدام عشان نوصل لنهاية الـ Loop. لو مفيش خطوة تقدم، الشرط هيفضل طول عمره حقيقي وهندخل في **Infinite Loop**.</li>
+                </ol>
+                <span style="font-weight: bold; color: #a00;">**ملحوظة:** لازم تفصل بين الأجزاء دي بفاصلة منقوطة (<code>;</code>) مش فاصلة عادية.</span>
+            </p>
+
+            <pre class="display-code">// المرجع (شرح بنية الحلقة)
+for (let count = 0; count < 10; count = count + 1) {
+  console.log("campus");
+} // متوقع: طباعة "campus" 10 مرات
+</pre>
+            <textarea id="editor_1b" class="editor">for (let count = 0; count < 10; count = count + 1) {
+  console.log("campus");
+}</textarea>
+            <div class="controls">
+                <button class="btn" onclick="runAndCompare('editor_1b','out_1b','ref_1b','sol_1b')">▶ تشغيل</button>
+                <button class="btn ghost" onclick="toggleSolution('editor_1b', 'sol_1b', 'ref_1b')">👀 عرض الحل</button>
+            </div>
+            <div id="out_1b" class="output"></div>
+            <pre id="sol_1b" class="solution">// هنا سيظهر الحل (سواء كودك أو الكود المرجعي) بعد التشغيل</pre>
+
+            <h4>ج) مثال 3: اختصار عامل الزيادة (`++`) - تحليل الأوفر تايم</h4>
+            <p class="explain">
+                المبرمجين بيحبوا الاختصارات، عشان كده الـ <code>count = count + 1</code> ممكن تختصرها بـ <code>count++</code> أو <code>i++</code>. الرمزين دول بيقولوا للكمبيوتر: "زود على القيمة الحالية واحد زيادة بس". **الرغي:** تخيل إنك في بنك وبتزود نقطة ولاء واحدة لكل عميل عمل عملية شراء. هتستخدم الـ `++` لتحديث عدد نقاط الولاء في قاعدة البيانات بعد كل عملية.
+            </p>
+
+            <pre class="display-code">// المرجع (استخدام الاختصار ++)
+for (let i = 1; i <= 6; i++) {
+  console.log("Count is " + i);
+} // متوقع: Count is 1, Count is 2, ..., Count is 6
+</pre>
+            <label>اكتب حلقة for تبدأ من 1 وتنتهي عند 6، مستخدمًا الاختصار `i++`.</label>
+            <textarea id="editor_1c" class="editor">for (let i = 1; i <= 6; i++) {
+  console.log("Count is " + i);
+}</textarea>
+            <div class="controls">
+                <button class="btn" onclick="runAndCompare('editor_1c','out_1c','ref_1c','sol_1c')">▶ تشغيل</button>
+                <button class="btn ghost" onclick="toggleSolution('editor_1c', 'sol_1c', 'ref_1c')">👀 عرض الحل</button>
+            </div>
+            <div id="out_1c" class="output"></div>
+            <pre id="sol_1c" class="solution">// المرجع: for (let i = 1; i <= 6; i++) { console.log("Count is " + i); }</pre>
+
+            <h4>د) مثال 4: شرح عمل الحلقة خطوة بخطوة (تحليل دقيق)</h4>
+            <p class="explain">
+                عشان تفهم الـ Loop صح، لازم تشوفها كأنها عملية حسابية بتحصل على مراحل. **الرغي:** دايماً ركز في الشرط (<code>i < 3</code>). طالما الرقم بيوصل لـ 3، الشرط بيبقى "خاطئ" (False) وتقف الحلقة فورًا، حتى لو كان الكود لسه هيتنفذ.
+                <ol>
+                    <li>**اللفة 1 (i=1):** الشرط <code>1 < 3</code> (صحيح) -> اطبع. i تصبح 2.</li>
+                    <li>**اللفة 2 (i=2):** الشرط <code>2 < 3</code> (صحيح) -> اطبع. i تصبح 3.</li>
+                    <li>**اللفة 3 (i=3):** الشرط <code>3 < 3</code> (خاطئ) -> **توقف الحلقة.**</li>
+                </ol>
+                ده يوضح ليه الـ Loop دي بتشتغل مرتين بس بالرغم من إن الشرط فيه رقم 3!
+            </p>
+            <pre class="display-code">// المرجع (حلقة تتكرر مرتين فقط)
+for (let i = 1; i < 3; i++) {
+  console.log("Red lorry, yellow lorry");
+} // متوقع: طباعة العبارة مرتين
+</pre>
+            <label>عدّل الكود ليطبع العبارة خمس مرات (من 1 إلى 5).</label>
+            <textarea id="editor_1d" class="editor">for (let i = 1; i <= 5; i++) {
+  console.log("Red lorry, yellow lorry");
+}</textarea>
+            <div class="controls">
+                <button class="btn" onclick="runAndCompare('editor_1d','out_1d','ref_1d','sol_1d')">▶ تشغيل</button>
+                <button class="btn ghost" onclick="toggleSolution('editor_1d', 'sol_1d', 'ref_1d')">👀 عرض الحل</button>
+            </div>
+            <div id="out_1d" class="output"></div>
+            <pre id="sol_1d" class="solution">// المرجع: for (let i = 1; i <= 5; i++) { console.log("Red lorry, yellow lorry"); }</pre>
+
+
+            <h4>هـ) تمرين إضافي: العد التنازلي (`j--`) - تحليل التفاصيل</h4>
+            <p class="explain">
+                ممكن تعمل عد تنازلي! بدل ما تزود العداد (<code>i++</code>)، ممكن تنقصه (<code>i--</code>). **الرغي:** هنا بنغيّر جزأين مهمين: **البداية** (نبدأ من رقم كبير زي 5) و **الشرط** (نستمر طالما <code>j</code> أكبر من أو يساوي 1) و **خطوة التقدم** (نستخدم <code>j--</code> عشان ننقص واحد كل لفة).
+            </p>
+            <pre class="display-code">// المطلوب: عد تنازلي من 5 لـ 1
+for (let j = 5; j >= 1; j--) {
+  console.log(j);
+} // متوقع: 5, 4, 3, 2, 1
+</pre>
+            <label>اكتب الكود اللي يعمل عد تنازلي من 5 لـ 1 ثم يطبع كلمة "Go!" بعد الـ loop.</label>
+            <textarea id="editor_1e" class="editor">for (let j = 5; j >= 1; j--) {
+  console.log(j);
+}
+console.log("Go!");</textarea>
+            <div class="controls">
+                <button class="btn" onclick="runAndCompare('editor_1e','out_1e','ref_1e','sol_1e')">▶ تشغيل</button>
+                <button class="btn ghost" onclick="toggleSolution('editor_1e', 'sol_1e', 'ref_1e')">👀 عرض الحل</button>
+            </div>
+            <div id="out_1e" class="output"></div>
+            <pre id="sol_1e" class="solution">// المرجع: for (let j = 5; j >= 1; j--) { console.log(j); } console.log("Go!");</pre>
+            <div class="security-note" style="background:#fff3cd; color:#856404; border:1px solid #ffeeba; padding:15px; border-radius:8px; margin-bottom:20px;">
+        <h3>🚨 حوار الهاكر والبنك (الواقع الأمني):</h3>
+        
+        <p style="font-weight: bold; color: #a00;">🔴 للتوعية فقط: لا تستخدم هذه المعرفة في أي أعمال غير قانونية أو ضارة!</p>
+
+        <h4>1. التكرار المفرط (Loops) وسقوط الأنظمة:</h4>
+        <p>الفهم الجيد لحلقات التكرار (Loops) بيساعدك تفهم ليه الأنظمة بتقع. ده بيحصل في سيناريوهين رئيسيين:</p>
+        
+        <ul>
+            <li>
+                **تكرار الهاكر (Brute Force/DoS):** الهاكر بيستخدم أدوات برمجية (تعتمد على **Loops لا نهائية وسريعة**) لإرسال **آلاف طلبات الدخول** (مثل محاولة تسجيل الدخول بكلمات مرور مختلفة) أو **آلاف طلبات السحب من البنك** في جزء من الثانية.
+                <br>
+                **النتيجة:** النظام (السيرفر) بيدخل في حلقة تكرار ضخمة وغير متوقعة للرد على هذه الطلبات. الـ CPU والذاكرة مش بيقدروا يقرأوا ويعالجوا كل هذا التكرار في وقت واحد، فـ **السيستم بيسقط** ويعجز عن خدمة أي مستخدم حقيقي.
+            </li>
+            <li>
+                **تكرار المستخدمين (الضغط):** لما يكون في حدث مهم (زي نزول مرتبات أو عرض تخفيضات)، عدد ضخم من المستخدمين الحقيقيين بيعملوا **عملية تكرار** (سحب أو شراء) في وقت واحد.
+                <br>
+                **النتيجة:** كل طلب سحب هو **Loop** صغيرة بتحصل على السيرفر (مراجعة رصيد، خصم المبلغ، تحديث قاعدة البيانات). تكرار آلاف العمليات دي في لحظة واحدة بيؤدي لنفس النتيجة: **السيستم بيتوقف** مؤقتًا لأنه غير قادر على معالجة كل هذا التكرار الضخم المتزامن.
+            </li>
+        </ul>
+
+        <hr style="border-top: 1px solid #ffeeba;">
+
+        <h4>2. الدوال (Functions) والأمان المركزي:</h4>
+        <p>ليه استخدام الدوال (Functions) يعتبر نقطة قوة وضعف في نفس الوقت؟</p>
+        <p>الدالة <code>calculateInterest(rate)</code> بتجمع شغل مليون سطر في مكان واحد. ده يخلي الكود نظيف، لكن لو قدر هاكر يلاقي ثغرة في الدالة دي، يقدر يهاجم النظام كله من **مكان مركزي واحد**. إتقانك لكتابة الدوال يعني قدرتك على **تأمين هذه النقاط المركزية** بذكاء شديد.</p>
+
+        <hr style="border-top: 1px solid #ffeeba;">
+
+        <p style="font-style: italic;">💡 **الربط بينهما:** المبرمج الشاطر هو اللي بيصمم دوال (Functions) قوية وآمنة تتحمل الضغط وكميات التكرار (Loops) الهائلة اللي ممكن تحصل سواء من المستخدمين أو من محاولات الهجوم.</p>
+    </div>
+            <div class="note" style="background:#f0e3ff; color:#5c1d91;">
+                ⚠️ **أخطر غلطة:** لو نسيت خطوة التقدُم (<code>i++</code>)، الكمبيوتر هيدخل في "حلقة لا نهائية" (Infinite Loop)، وده بيوقّف البرنامج أو المتصفح. خلي بالك دايمًا إن الـ Loop لازم تنتهي!
+            </div>
+
+            <hr>
+            <h3>2) بناء الدوال الخاصة (Functions)</h3>
+
+            <p class="explain">
+                الدالة هي زي "آلة سحرية" بتعمل شغل معين وممكن تستخدمها في أي مكان في الكود. بدل ما تكتب خطوات صنع الكيك كل مرة، بتسميها "دالة صنع الكيك" وتستدعيها. ده بيخلي الكود منظم وسهل القراءة والصيانة. **ميزتها:** تجنب تكرار الكود (DRY - Don't Repeat Yourself).
+            </p>
+
+            <h4>أ) مثال 5: دالة بدون معاملات أو إرجاع (تحليل معمق)</h4>
+            <p class="explain">
+                عشان تعمل دالة، بتستخدم الكلمة <code>function</code> وبعدها الاسم اللي تختاره (يفضل يكون اسم بيوصف عمل الدالة)، و بعدها أقواس <code>()</code>. **الرغي:** الدالة دي زي "الزرار" اللي بتدوس عليه عشان يعمل مهمة ثابتة (زي زرار فتح الباب). هي مش بتأخد منك أي مدخلات عشان تشتغل، وبتنفذ الأوامر اللي جواها وخلاص.
+            </p>
+            <div class="code-analysis" style="background: #f7f7f7; padding: 15px; border-radius: 8px; margin-bottom: 20px; border-right: 4px solid #5cb85c;">
+                <h5 style="margin-top:0; color:#5cb85c;">تحليل دالة `sayWelcome()` خطوة بخطوة:</h5>
+                <ol style="padding-right: 20px;">
+                    <li><strong style="color:#28a745;">التعريف:</strong> تبدأ بـ <code>function sayWelcome()</code>. لا يوجد معاملات، أي لا يوجد مدخلات مطلوبة.</li>
+                    <li><strong style="color:#ff9800;">التنفيذ:</strong> يتم تنفيذ الأمر الوحيد داخلها: <code>console.log("أهلاً وسهلاً");</code>.</li>
+                    <li><strong style="color:#dc3545;">الإنهاء:</strong> تنتهي الدالة بعد تنفيذ الأمر، **ولا تُرجع أي قيمة** (لأنها لا تحتوي على `return`).</li>
+                    <li><strong style="color:#007bff;">الاستدعاء:</strong> عند استدعائها (<code>sayWelcome();</code>)، يتم تنفيذ ما بداخلها مباشرة وطباعته في الـ Console.</li>
+                </ol>
+            </div>
+            <pre class="display-code">// المرجع
+function sayHello() {
+  console.log("Hello, Programmer!");
+}
+sayHello(); // استدعاء أول
+sayHello(); // استدعاء ثاني
+</pre>
+            <label>اكتب دالة اسمها `sayWelcome` بتطبع "أهلاً وسهلاً" ثم استدعيها مرتين.</label>
+            <textarea id="editor_2a" class="editor">function sayWelcome() {
+  console.log("أهلاً وسهلاً");
+}
+sayWelcome();
+sayWelcome();</textarea>
+            <div class="controls">
+                <button class="btn" onclick="runAndCompare('editor_2a','out_2a','ref_2a','sol_2a')">▶ تشغيل</button>
+                <button class="btn ghost" onclick="toggleSolution('editor_2a', 'sol_2a', 'ref_2a')">👀 عرض الحل</button>
+            </div>
+            <div id="out_2a" class="output"></div>
+            <pre id="sol_2a" class="solution">// المرجع: function sayWelcome() { console.log("أهلاً وسهلاً"); } sayWelcome(); sayWelcome();</pre>
+
+            <h4>ب) مثال 6: دالة مع معامل (Parameter) - تفاصيل ماكينة الصرف</h4>
+            <p class="explain">
+                لو الدالة محتاجة معلومة عشان تعمل شغلها، بتحط المعلومة دي كـ **معامل (Parameter)** بين القوسين <code>()</code>. **الرغي:** المعامل ده هو الـ **Input** اللي بتدخله للآلة عشان تقدر تحسب صح. في مثالنا، الدالة محتاجة تعرف الكمية (<code>quantity</code>) عشان تقدر تحسب السعر الإجمالي صح. دي بتخلي الدالة مرنة وقابلة لإعادة الاستخدام مع أي كمية.
+            </p>
+            <div class="code-analysis" style="background: #f7f7f7; padding: 15px; border-radius: 8px; margin-bottom: 20px; border-right: 4px solid #f0ad4e;">
+                <h5 style="margin-top:0; color:#f0ad4e;">تحليل دالة `calculatePrice(quantity)` خطوة بخطوة:</h5>
+                <ol style="padding-right: 20px;">
+                    <li><strong style="color:#28a745;">استقبال المعامل:</strong> تستقبل الدالة قيمة `quantity` (مثل 10 أو 3).</li>
+                    <li><strong style="color:#ff9800;">العملية:</strong> يتم حساب `let price = quantity * 5;`. في حالة 10، تكون النتيجة 50.</li>
+                    <li><strong style="color:#dc3545;">العرض (Output):</strong> يتم عرض النتيجة مباشرة باستخدام <code>console.log()</code>.</li>
+                    <li><strong style="color:#007bff;">وظيفة `return`؟:</strong> لا يوجد `return`، لذا النتيجة (50) تُعرض فقط ولا يمكن تخزينها في متغير آخر خارج الدالة أو إجراء عملية أخرى عليها.</li>
+                </ol>
+            </div>
+            <pre class="display-code">// المرجع
+function greet(userName) { // userName هو المعامل
+  console.log("Welcome back, " + userName + ".");
+}
+greet("Ahmed"); // "Ahmed" هي القيمة الممررة
+greet("Sarah"); 
+</pre>
+            <label>اكتب دالة اسمها `calculatePrice` تستقبل `quantity` (الكمية) وتطبع سعرها (بافتراض أن السعر هو الكمية * 5).</label>
+            <textarea id="editor_2b" class="editor">function calculatePrice(quantity) {
+  let price = quantity * 5;
+  console.log("Total price is: " + price + " EGP");
+}
+calculatePrice(10);
+calculatePrice(3);</textarea>
+            <div class="controls">
+                <button class="btn" onclick="runAndCompare('editor_2b','out_2b','ref_2b','sol_2b')">▶ تشغيل</button>
+                <button class="btn ghost" onclick="toggleSolution('editor_2b', 'sol_2b', 'ref_2b')">👀 عرض الحل</button>
+            </div>
+            <div id="out_2b" class="output"></div>
+            <pre id="sol_2b" class="solution">// المرجع: function calculatePrice(quantity) { let price = quantity * 5; console.log("Total price is: " + price + " EGP"); } calculatePrice(10); calculatePrice(3);</pre>
+
+            <div class="return-focus">
+                <h4>⭐ تركيز خاص: أهمية كلمة `return`</h4>
+                <p>كلمة <code>return</code> هي أهم نقطة في الدالة! هي اللي بتفرق بين:</p>
+                <ul>
+                    <li>**1. دالة لتنفيذ مهمة (Task Runner):** زي دالة <code>sayWelcome()</code>، مهمتها الوحيدة هي طباعة رسالة. هي مش بترجع قيمة، ولذلك مش بنحتاج فيها <code>return</code>.</li>
+                    <li>**2. دالة لحساب وإرجاع قيمة (Calculator):** زي دالة <code>multiply()</code>، مهمتها هي إجراء عملية حسابية (الضرب) و **إخراج الناتج** لكي تستخدمه باقي أجزاء الكود.</li>
+                </ul>
+                <p style="font-weight: bold;">🔑 ليه `return` ضرورية؟</p>
+                <ul>
+                    <li>**إخراج النتيجة:** بدونها، الدالة تحسب لكن لا تُعطي ناتجًا للاستخدام.</li>
+                    <li>**إنهاء التنفيذ:** بمجرد أن يصل الكود إلى سطر <code>return</code>، تتوقف الدالة فوراً عن العمل، حتى لو كان هناك كود آخر بعدها.</li>
+                </ul>
+                <p>💡 **ملحوظة:** لو لم تستخدم `return` في دالة مُفترض أن تُرجع قيمة، فإن الجافا سكريبت تُرجع قيمة افتراضية هي <code>undefined</code>. وهذا هو سبب رسالة الخطأ التي ظهرت لك في البداية!</p>
+            </div>
+            <h4>ج) مثال 7: استخدام `return` (قيمة الإرجاع) - أهمية الناتج</h4>
+            <p class="explain">
+                لو الدالة بتعمل حسبة معينة، النتيجة النهائية بتطلعها عن طريق كلمة <code>return</code>. الـ `return` بتعمل حاجتين: بتوقف الدالة وبتطلع القيمة دي عشان تقدر تستخدمها في مكان تاني في الكود بتاعك أو تخزنها في متغير. **الرغي:** الدالة اللي فيها `return` بتكون زي "الآلة الحاسبة". بتديها مدخلات، وهي بتديك ناتج رياضي تقدر تكمل بيه باقي شغلك. لو مفيش `return`، الدالة هتشتغل لكن هتطلع `undefined`!
+            </p>
+            <div class="code-analysis" style="background: #f7f7f7; padding: 15px; border-radius: 8px; margin-bottom: 20px; border-right: 4px solid #007bff;">
+                <h5 style="margin-top:0; color:#007bff;">تحليل دالة `add(num1, num2)` خطوة بخطوة:</h5>
+                <ol style="padding-right: 20px;">
+                    <li><strong style="color:#28a745;">استقبال المدخلات:</strong> تستقبل قيمتي `num1` و `num2` (مثلاً 5 و 7).</li>
+                    <li><strong style="color:#ff9800;">العملية والحساب:</strong> يتم حساب ناتج الجمع (5 + 7 = 12).</li>
+                    <li><strong style="color:#dc3545;">الإرجاع الحاسم: <code>return num1 + num2;</code></strong><br>
+                        <span style="font-size: 0.9em;">- يتم إخراج القيمة 12 من الدالة.<br>
+                        - بعد `return 12`، تتحول جملة الاستدعاء (<code>add(5, 7)</code>) إلى القيمة **12**.</span></li>
+                    <li><strong style="color:#007bff;">الاستخدام:</strong> يمكن تخزين القيمة المرجعة (12) في متغير (<code>let sum = 12;</code>) أو استخدامها مباشرة (<code>console.log(13)</code>).</li>
+                </ol>
+            </div>
+            <pre class="display-code">// المرجع (الدالة بترجع نتيجة بنخزنها)
+function add(num1, num2) {
+  return num1 + num2;
+}
+let sum = add(5, 7); // الناتج 12 بيتخزن في sum
+console.log(sum);
+console.log(add(10, 3)); // الناتج 13 بيطبع مباشرة
+</pre>
+            <label>اكتب دالة اسمها `multiply` تضرب رقمين وتعمل `return` للناتج، ثم اطبع الناتج بعد تخزينه في متغير.</label>
+            <textarea id="editor_2c" class="editor">function multiply(a, b) {
+  return a * b;
+}
+let product = multiply(4, 5);
+console.log("الناتج هو: " + product);</textarea>
+            <div class="controls">
+                <button class="btn" onclick="runAndCompare('editor_2c','out_2c','ref_2c','sol_2c')">▶ تشغيل</button>
+                <button class="btn ghost" onclick="toggleSolution('editor_2c', 'sol_2c', 'ref_2c')">👀 عرض الحل</button>
+            </div>
+            <div id="out_2c" class="output"></div>
+            <pre id="sol_2c" class="solution">// المرجع: function multiply(a, b) { return a * b; } let product = multiply(4, 5); console.log("الناتج هو: " + product);</pre>
+
+            <h4>د) مثال 8: تطبيق عملي - تحديد السعر الأرخص (دمج الأفكار)</h4>
+            <p class="explain">
+                هنا بنجمع اللي فات كله: دالة بتاخد رقمين، وبتستخدم جملة شرطية (زي اللي خدناها في الدرس اللي فات) عشان تقارن، وفي الآخر بتعمل <code>return</code> للقيمة الأقل (السعر الأرخص). **الرغي:** الدالة دي بتمثل الـ Logic (المنطق) الأساسي اللي بيخلي أي موقع تسوق يختار المنتج الأفضل للمستخدم أو أي سيستم مالي يختار أفضل عرض فائدة.
+            </p>
+            <div class="code-analysis" style="background: #f7f7f7; padding: 15px; border-radius: 8px; margin-bottom: 20px; border-right: 4px solid #d9534f;">
+                <h5 style="margin-top:0; color:#d9534f;">تحليل دالة `min2(num1, num2)` خطوة بخطوة:</h5>
+                <ol style="padding-right: 20px;">
+                    <li><strong style="color:#28a745;">استقبال المدخلات:</strong> تستقبل رقمين (مثلاً 20 و 8).</li>
+                    <li><strong style="color:#ff9800;">الشرط والمنطق:</strong> يتم فحص الشرط: <code>(20 < 8)</code>. الشرط **خاطئ** (False).</li>
+                    <li><strong style="color:#dc3545;">التخزين:</strong> يتم الانتقال إلى جزء `else`، وتخزين الرقم الأصغر `num2` (وهو 8) في المتغير `result`.</li>
+                    <li><strong style="color:#007bff;">الإرجاع:</strong> <code>return result;</code> يتم إخراج القيمة 8 من الدالة.</li>
+                </ol>
+            </div>
+            <pre class="display-code">// المرجع
+function min2(num1, num2) {
+  let result;
+  if (num1 < num2) {
+    result = num1;
+  } else {
+    result = num2;
+  }
+  return result;
+}
+console.log("الأصغر بين 5 و 10 هو: " + min2(5, 10)); // متوقع: 5
+console.log("الأصغر بين 20 و 8 هو: " + min2(20, 8)); // متوقع: 8
+</pre>
+            <label>اكتب الكود المرجعي ثم قم بتشغيله.</label>
+            <textarea id="editor_2d" class="editor">function min2(num1, num2) {
+  let result;
+  if (num1 < num2) {
+    result = num1;
+  } else {
+    result = num2;
+  }
+  return result;
+}
+console.log("الأصغر بين 5 و 10 هو: " + min2(5, 10));</textarea>
+            <div class="controls">
+                <button class="btn" onclick="runAndCompare('editor_2d','out_2d','ref_2d','sol_2d')">▶ تشغيل</button>
+                <button class="btn ghost" onclick="toggleSolution('editor_2d', 'sol_2d', 'ref_2d')">👀 عرض الحل</button>
+            </div>
+            <div id="out_2d" class="output"></div>
+            <pre id="sol_2d" class="solution">// المرجع: function min2(num1, num2) { let result; if (num1 < num2) { result = num1; } else { result = num2; } return result; } console.log("الأصغر بين 5 و 10 هو: " + min2(5, 10)); console.log("الأصغر بين 20 و 8 هو: " + min2(20, 8));</pre>
+
+            <hr>
+            <h3>3) الدوال المدمجة (Built-in Functions) - أدوات جاهزة من المصنع</h3>
+
+            <p class="explain">
+                الجافا سكريبت عندها دوال كتير جاهزة ومجهزة عشان تسهل عليك الشغل. مش لازم تعمل كل حاجة بنفسك! **ملاحظة:** كل الدوال الرياضية دي بتيجي تحت الكائن (Object) اللي اسمه `Math`.
+            </p>
+
+            <h4>أ) مثال 9: دالة التقريب `Math.round()` (الرغي في التقريب)</h4>
+            <p class="explain">
+                دالة <code>Math.round(value)</code> بتقرب الرقم لأقرب عدد صحيح. **الرغي:** التقريب ده مهم جدًا في التطبيقات المالية (زي البنوك) عشان ميبقاش فيه كسور صغيرة جدًا مجهولة في الحسابات. لو الكسر 0.5 أو أكتر، بتقرّب لفوق. لو أقل من 0.5، بتقرّب لتحت.
+            </p>
+
+            <pre class="display-code">// المرجع
+console.log("4.4 تقريبًا: " + Math.round(4.4));
+console.log("4.6 تقريبًا: " + Math.round(4.6));
+console.log("4.5 تقريبًا: " + Math.round(4.5)); // متوقع: 4 ثم 5 ثم 5
+</pre>
+            <label>اكتب الكود اللي يقرب الأرقام دي: 7.2 و 7.8.</label>
+            <textarea id="editor_3a" class="editor">console.log(Math.round(7.2));
+console.log(Math.round(7.8));</textarea>
+            <div class="controls">
+                <button class="btn" onclick="runAndCompare('editor_3a','out_3a','ref_3a','sol_3a')">▶ تشغيل</button>
+                <button class="btn ghost" onclick="toggleSolution('editor_3a', 'sol_3a', 'ref_3a')">👀 عرض الحل</button>
+            </div>
+            <div id="out_3a" class="output"></div>
+            <pre id="sol_3a" class="solution">// المرجع: console.log(Math.round(7.2)); console.log(Math.round(7.8));</pre>
+
+            <h4>ب) مثال 10: دالة القيمة العظمى `Math.max()` (الرغي في اتخاذ القرار)</h4>
+            <p class="explain">
+                دالة <code>Math.max()</code> بترجع أكبر رقم بين كل الأرقام اللي بتديها لها. مفيدة جدًا لو بتحسب أعلى درجة، أو أعلى سعر بيع. **الرغي:** دي بتستخدم في اتخاذ القرارات: لو عايز تعرف أعلى ميزانية صرفتها في الربع الأخير، بتدخل الأرقام وهي بتطلع لك الأقصى.
+            </p>
+
+            <pre class="display-code">// المرجع
+console.log("أكبر قيمة: " + Math.max(5, 10, 50));
+console.log("أكبر قيمة: " + Math.max(100, 20, 99)); // متوقع: 50 ثم 100
+</pre>
+            <label>اكتب الكود اللي يحدد أكبر رقم بين 140, 70, 250, 90.</label>
+            <textarea id="editor_3b" class="editor">console.log(Math.max(140, 70, 250, 90));</textarea>
+            <div class="controls">
+                <button class="btn" onclick="runAndCompare('editor_3b','out_3b','ref_3b','sol_3b')">▶ تشغيل</button>
+                <button class="btn ghost" onclick="toggleSolution('editor_3b', 'sol_3b', 'ref_3b')">👀 عرض الحل</button>
+            </div>
+            <div id="out_3b" class="output"></div>
+            <pre id="sol_3b" class="solution">// المرجع: console.log(Math.max(140, 70, 250, 90));</pre>
+
+            <h4>ج) مثال 11: دالة القيمة الصغرى `Math.min()` (الرغي في تقليل المخاطر)</h4>
+            <p class="explain">
+                دالة <code>Math.min()</code> بترجع أصغر رقم بين كل الأرقام اللي بتديها لها. مفيدة جدًا لو بتدور على أقل تكلفة شحن أو أقل درجة حرارة. **الرغي:** بتستخدم في تقليل المخاطر أو التكاليف. لو عندك 4 عروض أسعار لموردين مختلفين، الدالة دي بتطلع لك الأرخص فيهم عشان توفر فلوس الشركة.
+            </p>
+
+            <pre class="display-code">// المرجع
+console.log("أصغر قيمة: " + Math.min(5, 10, 50));
+console.log("أصغر قيمة: " + Math.min(-1, 0, 10)); // متوقع: 5 ثم -1
+</pre>
+            <label>اكتب الكود اللي يحدد أصغر رقم بين 12, 5, 80, 2.</label>
+            <textarea id="editor_3c" class="editor">console.log(Math.min(12, 5, 80, 2));</textarea>
+            <div class="controls">
+                <button class="btn" onclick="runAndCompare('editor_3c','out_3c','ref_3c','sol_3c')">▶ تشغيل</button>
+                <button class="btn ghost" onclick="toggleSolution('editor_3c', 'sol_3c', 'ref_3c')">👀 عرض الحل</button>
+            </div>
+            <div id="out_3c" class="output"></div>
+            <pre id="sol_3c" class="solution">// المرجع: console.log(Math.min(12, 5, 80, 2));</pre>
+
+            <h4>د) مثال 12: دالة مركبة تحسب مساحة دائرة (التطبيق المتكامل)</h4>
+            <p class="explain">
+                وده تطبيق بيوريك قوة الدمج: دالة بتأخد قيمة (نصف القطر)، بتستخدم الثابت الجاهز **π** (`Math.PI`) والقوة **^2**، وبتعمل `return` للنتيجة اللي بتقربها باستخدام دالة جاهزة تانية (`Math.round`). **الرغي:** هنا بنستخدم **الثوابت الرياضية الجاهزة** اللي بتوفرها الجافا سكريبت (زي `Math.PI` لـ π)، وده بيضمن دقة الحسابات، لأن قيمتها بتكون معروفة عالميًا، فمحدش هيقدر يغلط فيها أو يحاول يغيّرها (وده أساس في البرمجة: استخدام الأكواد الجاهزة الآمنة).
+            </p>
+
+            <pre class="display-code">// المرجع
+// مساحة الدائرة = π * نصف القطر^2
+function calculateArea(radius) {
+  return Math.PI * radius * radius;
+}
+let area5 = calculateArea(5);
+console.log("Area for 5 is: " + Math.round(area5)); 
+// متوقع: Area for 5 is: 79 (بعد التقريب)
+</pre>
+            <label>اكتب دالة تحسب مساحة دائرة نصف قطرها 3، واطبع الناتج مقربًا.</label>
+            <textarea id="editor_3d" class="editor">function calculateArea(radius) {
+  return Math.PI * radius * radius;
+}
+let area3 = calculateArea(3);
+console.log("Area for 3 is: " + Math.round(area3));</textarea>
+            <div class="controls">
+                <button class="btn" onclick="runAndCompare('editor_3d','out_3d','ref_3d','sol_3d')">▶ تشغيل</button>
+                <button class="btn ghost" onclick="toggleSolution('editor_3d', 'sol_3d', 'ref_3d')">👀 عرض الحل</button>
+            </div>
+            <div id="out_3d" class="output"></div>
+            <pre id="sol_3d" class="solution">// المرجع: function calculateArea(radius) { return Math.PI * radius * radius; } let area3 = calculateArea(3); console.log("Area for 3 is: " + Math.round(area3));</pre>
+
+            <hr>
+            <h3>📘 خلاصة الدرس الرابع</h3>
+            <div class="summary">
+                <ul style="direction:rtl; text-align:right; line-height:1.8; margin:0; padding-right:10px;">
+                    <li>**الحلقة `for`:** بطل التكرار، بيعمل شغل كتير في سطور قليلة. تركيبه: **بداية** ; **شرط** ; **خطوة التقدُم**.</li>
+                    <li>**الاختصار `++`:** اختصار حلو لزيادة المتغير بواحد.</li>
+                    <li>**الدالة (Function):** كود معلب بيعمل مهمة معينة، بيخلي كودك نظيف.</li>
+                    <li>**المعامل (Parameter):** المعلومات اللي بتدخل الدالة عشان تشتغل عليها.</li>
+                    <li>**`return`:** الأوامر دي بتخرج نتيجة الدالة عشان نستخدمها في حتة تانية في الكود.</li>
+                    <li>**الدوال الجاهزة:** استخدم الدوال اللي بتبدأ بـ `Math.` عشان توفر على نفسك الحسابات زي التقريب وأكبر وأصغر قيمة.</li>
+                    <li>**الأمن والوظائف (Bonus):** كل ما كان الكود منظم في دوال (Functions)، كل ما كان أسهل في الصيانة والتطوير، ولكنه بيخلّي نقاط الهجوم مركزية، فلازم تتأمن كويس.</li>
+                </ul>
+            </div>
+
+            <hr>
+            <div style="text-align:center; margin-top:12px;">
+                <button class="btn" onclick="location.href='quiz4.html'">اختبر نفسك</button>
+            </div>
+
+            <div class="navs">
+                <button class="btn" onclick="location.href='lesson3.html'">⬅️ الدرس الثالث</button>
+                <button class="btn" onclick="location.href='index.html'">🏠 الصفحة الرئيسية</button>
+                <button class="btn" onclick="location.href='lesson5.html'">📚 الدرس الخامس</button>
+            </div>
+
+            <div class="footer">تصميم بواسطه <strong>Ahmed Ezzat</strong> ❤️</div>
+
+        </div>
+    </div>
+<script>
+/* ========================================================
+  SCRIPT مصحح ومحدث لكافة أمثلة الدرس الرابع (الإصدار النهائي)
+  يشمل: حماية من Infinite Loop، إصلاح Function Validation، وزيادة مرونة المقارنة.
+  ======================================================== */
+
+/* ----- تخزين الأكواد المرجعية في متغيرات Global ----- */
+window.REF_CODES = {
+  // Example 1: for Loops Basics
+  'ref_1a': `for (let count = 0; count < 10; count = count + 1) {\n  console.log("silk");\n}`,
+  'ref_1b': `for (let count = 0; count < 10; count = count + 1) {\n  console.log("campus");\n}`,
+  'ref_1c': `for (let i = 1; i <= 6; i++) {\n  console.log("Count is " + i);\n}`,
+  'ref_1d': `for (let i = 1; i <= 5; i++) {\n  console.log("Red lorry, yellow lorry");\n}`,
+  'ref_1e': `for (let j = 5; j >= 1; j--) {\n  console.log(j);\n}\nconsole.log("Go!");`,
+
+  // Example 2: Custom Functions
+  'ref_2a': `function sayWelcome() {\n  console.log("أهلاً وسهلاً");\n}\nsayWelcome();\nsayWelcome();`,
+  'ref_2b': `function calculatePrice(quantity) {\n  let price = quantity * 5;\n  console.log("Total price is: " + price + " EGP");\n}\ncalculatePrice(10);\ncalculatePrice(3);`,
+  'ref_2c': `function multiply(a, b) {\n  return a * b;\n}\nlet product = multiply(4, 5);\nconsole.log("الناتج هو: " + product);`,
+  'ref_2d': `function min2(num1, num2) {\n  let result;\n  if (num1 < num2) {\n    result = num1;\n  } else {\n    result = num2;\n  }\n  return result;\n}\nconsole.log("الأصغر بين 5 و 10 هو: " + min2(5, 10));\nconsole.log("الأصغر بين 20 و 8 هو: " + min2(20, 8));`,
+
+  // Example 3: Built-in Functions
+  'ref_3a': `console.log(Math.round(7.2));\nconsole.log(Math.round(7.8));`,
+  'ref_3b': `console.log(Math.max(140, 70, 250, 90));`,
+  'ref_3c': `console.log(Math.min(12, 5, 80, 2));`,
+  'ref_3d': `function calculateArea(radius) {\n  return Math.PI * radius * radius;\n}\nlet area3 = calculateArea(3);\nconsole.log("Area for 3 is: " + Math.round(area3));`
+};
+
+// متغير جديد لتخزين حالة صحة الحل لكل تمرين (جدول Hash Map)
+window.SOLUTION_STATUS = {}; 
+
+
+/* ----- إعدادات سلوك الفحص (كما هي) ----- */
+const REQUIRE_SEMICOLON = false; 
+const ALLOW_LOOSE_SYNTAX = true; 
+window._EDU_SETTINGS = { REQUIRE_SEMICOLON: REQUIRE_SEMICOLON, ALLOW_LOOSE_SYNTAX: ALLOW_LOOSE_SYNTAX };
+
+/* ----- مساعدة: إزالة التعليقات (كما هي) ----- */
+function removeComments(code) {
+  let result = code.replace(/\/\*[\s\S]*?\*\//g, ''); 
+  result = result.replace(/\/\/.*$/gm, ''); 
+  return result;
+}
+window.removeComments = removeComments;
+
+/* ----- محلل الأخطاء البنيوية (كما هي) ----- */
+function analyzeCodeErrors(code) {
+  const lines = code.split('\n');
+  const stack = [];
+  
+  for (let i = 0; i < lines.length; i++) {
+    const raw = lines[i];
+    const noComment = raw.replace(/\/\*[\s\S]*?\*\//g,'').replace(/\/\/.*$/g,'').trim(); 
+    if (noComment === '') continue;
+
+    let inSingleQuote = false;
+    let inDoubleQuote = false;
+    for (let j = 0; j < raw.length; j++) {
+      const ch = raw[j];
+
+      if (ch === "'" && !inDoubleQuote) {
+        inSingleQuote = !inSingleQuote;
+        continue;
+      }
+      if (ch === '"' && !inSingleQuote) {
+        inDoubleQuote = !inDoubleQuote;
+        continue;
+      }
+
+      if (inSingleQuote || inDoubleQuote) continue;
+
+      if (ch === '(' || ch === '{' || ch === '[') {
+        stack.push({ch, i});
+      } else if (ch === ')' || ch === '}' || ch === ']') {
+        const last = stack.pop();
+        if (!last) {
+          return { valid:false, line: i+1, message: '❌ قوس إغلاق بدون قوس فتح قبله.' };
+        }
+        if ((ch === ')' && last.ch !== '(') ||
+            (ch === '}' && last.ch !== '{') ||
+            (ch === ']' && last.ch !== '[')) {
+          return { valid:false, line: i+1, message: '❌ الأقواس غير متطابقة.' };
+        }
+      }
+    }
     
-    <p>
-      شكرًا لحماسك! نعمل الآن بجد على تجهيز محتوى الدرس الرابع ليكون شاملًا ومفيدًا.  
-      نتمنى لك مراجعة الدروس السابقة إلى أن يصبح الدرس الرابع جاهزًا قريبًا بإذن الله.
-    </p>
+    if (inSingleQuote || inDoubleQuote) {
+      return { valid:false, line: i+1, message: '❌ علامة اقتباس مفردة أو مزدوجة غير مغلقة في السطر.' };
+    }
+  }
 
-    <div style="margin-top: 30px;">
-        <p style="margin-bottom: 10px; font-weight: 700; color: #00796b;">
-            لو عندك أي أسئلة أو استفسارات حول الدروس السابقة، ابعتلي على واتساب!
-        </p>
+  if (stack.length > 0) {
+    const last = stack[stack.length-1];
+    return { valid:false, line: last.i+1, message: `❌ في أقواس مفتوحة غير مقفولة. (فتح عند سطر ${last.i+1})` };
+  }
 
-        <a href="https://wa.me/201003090216?text=مرحباً، لدي استفسار بخصوص دروس الـ JavaScript." 
-           target="_blank" 
-           class="btn whatsapp">
-            <span class="whatsapp-icon"></span>
-            تواصل معي عبر واتساب (01003090216)
-        </a>
-    </div>
+  return { valid:true };
+}
+window.analyzeCodeErrors = analyzeCodeErrors;
 
-    <div class="navs">
-      <a href="lesson3.html" class="btn">⬅️ الدرس الثالث</a>
-      <a href="index.html" class="btn">🏠 الصفحة الرئيسية</a>
-    </div>
+/* ----- قواعد تحقق خاصة بالتمرين (مُحدَّث لـ Function Validation) ----- */
+function validateCode(inputId, code) {
+  const m = inputId.match(/(\d+)([a-zA-Z]?)$/);
+  const base = m ? m[1] : null;
+  const cleaned = removeComments(code).trim();
+  const hasConsoleLog = /console\.log\s*\(/.test(code);
+  
+  if (!base) return { valid:true };
 
-  </div>
+  switch (base) {
+    case '1': // For Loops
+      if (!/for\s*\(.*\)/i.test(cleaned)) return { valid:false, message: "❌ هذا التمرين يركز على استخدام حلقة for." };
+      if (!hasConsoleLog) return { valid:false, message: "❌ لازم تستخدم console.log() لعرض النتيجة داخل الحلقة أو بعدها." };
+      break;
+    case '2': // Custom Functions
+      if (!/function\s+\w+\s*\(.*\)\s*\{/i.test(cleaned)) return { valid:false, message: "❌ هذا التمرين يركز على تعريف الدوال (function name() {})." };
+      
+      // قواعد return أقوى على 2c و 2d فقط
+      const requiresReturn = inputId === 'editor_2c' || inputId === 'editor_2d';
+      
+      if (!/return/i.test(cleaned) && requiresReturn) {
+        return { valid:false, message: "❌ الدوال في هذا المثال تحتاج لإرجاع قيمة باستخدام كلمة <code style='font-weight:bold;'>return</code>." };
+      }
+      break;
+    case '3': // Built-in Functions
+      if (!/Math\.(round|max|min)/i.test(cleaned) && inputId !== 'editor_3d') return { valid:false, message: "❌ هذا التمرين عن الدوال المدمجة (Math.round, Math.max, Math.min)." };
+      break;
+    default:
+      break;
+  }
+  return { valid:true };
+}
+window.validateCode = validateCode;
 
+/* ----- تنفيذ الكود والتقاط console.log + أخطاء التنفيذ (حماية من الـ Infinite Loop) ----- */
+function executeAndCapture(codeStr){
+  const logs = [];
+  const origConsole = window.console.log; 
+  const timeoutDuration = 3000; // 3 ثواني كحد أقصى للتنفيذ
+  let error = null;
+
+  window.console.log = function(...args){
+    const line = args.map(a=>{
+      if (typeof a === 'object' && a !== null) {
+        try { return JSON.stringify(a, null, 2); } catch(e){ return String(a); } 
+      }
+      return String(a);
+    }).join(' ');
+    logs.push(line);
+    try { origConsole.apply(window.console, args); } catch(e){}
+  };
+
+  const startTime = Date.now(); 
+
+  try {
+    const codeToExecute = `'use strict';\n${codeStr}`;
+    const fn = new Function(codeToExecute);
+    
+    let isTimeout = false;
+    const runLoop = setTimeout(() => {
+        isTimeout = true;
+        // لا يمكن إيقاف تنفيذ الدالة (fn()) بشكل مباشر من هنا
+    }, timeoutDuration);
+
+    fn(); // تنفيذ الكود فعليًا
+
+    clearTimeout(runLoop); 
+
+    // فحص إضافي لوقت التنفيذ بعد الانتهاء
+    if (Date.now() - startTime > timeoutDuration || isTimeout) {
+         error = { msg: "❌ تم إيقاف التنفيذ! الكود استغرق وقتًا طويلاً جدًا (ربما Infinite Loop).", line: null };
+         // نمسح أي logs تم تسجيلها إذا كان السبب هو Timeout
+         logs.length = 0; 
+    }
+
+  } catch (err) {
+    let ln = null;
+    if (err && err.stack) {
+      const lines = err.stack.split('\n');
+      for (let l of lines){
+        let m = l.match(/<anonymous>:(\d+):\d+/) || l.match(/new Function:(\d+):\d+/);
+        if (m && m[1]) { 
+            const foundLine = Number(m[1]) - 1; 
+            if(foundLine > 0) ln = foundLine; 
+            break; 
+        }
+      }
+    }
+    let msg = err && err.message ? err.message : String(err);
+    msg = msg.replace(/\n/g,' ').replace(/\s+/g,' ').trim();
+    error = { msg, line: ln };
+  } finally {
+    window.console.log = origConsole;
+  }
+  return { logs, error };
+}
+window.executeAndCapture = executeAndCapture;
+
+/* ----- مساعدة: مقارنة أول سطر مختلف (كما هي) ----- */
+function firstDiffLine(expected, actual){
+  const exp = expected.split('\n');
+  const act = actual.split('\n');
+  const max = Math.max(exp.length, act.length);
+  for (let i=0;i<max;i++){
+    const e = (exp[i]||'').trim(); 
+    const a = (act[i]||'').trim();
+    if (e !== a) return i+1;
+  }
+  return null;
+}
+window.firstDiffLine = firstDiffLine;
+
+/* ----- تظليل سطر الخطأ داخل textarea (كما هي) ----- */
+function highlightErrorLine(textarea, lineNumber) {
+  try {
+    textarea.classList.remove('highlight-error');
+    if (!lineNumber || lineNumber < 1) return;
+    const lines = textarea.value.split('\n');
+    const safeLine = Math.min(lineNumber, lines.length);
+    let start = 0;
+    for(let i = 0; i < safeLine - 1; i++){
+        start += lines[i].length + 1; 
+    }
+    
+    const end = start + (lines[safeLine - 1] ? lines[safeLine - 1].length : 0);
+    
+    textarea.focus();
+    if (textarea.setSelectionRange) textarea.setSelectionRange(start, end);
+    textarea.classList.add('highlight-error');
+  } catch(e){}
+}
+window.highlightErrorLine = highlightErrorLine;
+
+/* ----- الدالة الأساسية: تشغيل، تحليل، تنفيذ، مقارنة (مُحسَّنة لزيادة المرونة ووضوح رسائل الخطأ) ----- */
+function runAndCompare(editorId, outId, refCodeId, solId){
+  const textarea = document.getElementById(editorId);
+  const outEl = document.getElementById(outId);
+  const expectedCode = window.REF_CODES[refCodeId]; 
+  const currentCode = textarea.value; 
+
+  if (!textarea || !outEl || !expectedCode) return;
+  
+  // نضف حالة الخطأ والإخراج
+  textarea.classList.remove('highlight-error');
+  outEl.classList.remove('error');
+  outEl.textContent = '... جاري التنفيذ والتحليل ...';
+
+  const code = currentCode || '';
+  if (!code.trim()) {
+    outEl.textContent = '⚠️ اكتب الكود قبل الضغط على تشغيل.';
+    window.SOLUTION_STATUS[solId] = null; 
+    return;
+  }
+
+  // 1) تحليل بنيوي للأخطاء
+  const analysis = analyzeCodeErrors(code);
+  if (!analysis.valid) {
+    outEl.classList.add('error');
+    outEl.textContent = `${analysis.message}\n📍 السطر رقم: ${analysis.line || '?'}`;
+    highlightErrorLine(textarea, analysis.line || 1);
+    window.SOLUTION_STATUS[solId] = { correct: false, code: expectedCode };
+    return;
+  }
+
+  // 2) تحقق حسب متطلبات المثال
+  const validation = validateCode(editorId, code);
+  if (!validation.valid) {
+    outEl.classList.add('error');
+    outEl.textContent = validation.message;
+    window.SOLUTION_STATUS[solId] = { correct: false, code: expectedCode };
+    return;
+  }
+
+  // 3) تنفيذ كود الطالب
+  const studentRes = executeAndCapture(code);
+  if (studentRes.error) {
+    outEl.classList.add('error');
+    const ln = studentRes.error.line ? `، تقريبًا عند السطر ${studentRes.error.line}` : '';
+    outEl.textContent = `❌ فيه خطأ وقت التنفيذ: ${studentRes.error.msg}${ln}\n(الخطأ من كودك)`;
+    if (studentRes.error.line) highlightErrorLine(textarea, studentRes.error.line);
+    window.SOLUTION_STATUS[solId] = { correct: false, code: expectedCode };
+    return;
+  }
+
+  // 4) تنفيذ الحل المرجعي
+  let expectedRes = { logs: [], error: null };
+  try {
+    expectedRes = executeAndCapture(expectedCode);
+    if (expectedRes.error) {
+      outEl.classList.add('error');
+      outEl.textContent = `❌ في مشكلة في كود الحل المرجعي: ${expectedRes.error.msg}`;
+      window.SOLUTION_STATUS[solId] = null; 
+      return;
+    }
+  } catch(e){
+    outEl.classList.add('error');
+    outEl.textContent = `❌ خطأ داخلي أثناء تنفيذ الحل المرجعي: ${e.message || e}`;
+    window.SOLUTION_STATUS[solId] = null; 
+    return;
+  }
+
+  const studentText = (studentRes.logs || []).join('\n');
+  const expectedText = (expectedRes.logs || []).join('\n');
+
+  // تنظيف النص (إزالة المسافات الزائدة والسطور الفارغة للمقارنة)
+  // ***** التحسين: إزالة أي سطر يحتوي على مسافات فقط أو فارغ لمرونة أكبر *****
+  const sNorm = studentText.split('\n').map(l => l.trim()).filter(l => l !== '').join('\n');
+  const eNorm = expectedText.split('\n').map(l => l.trim()).filter(l => l !== '').join('\n');
+  
+  // ***** التحسين 2: إزالة المسافات الزائدة في النتيجة المعروضة للطالب *****
+  const sRawNorm = studentText.replace(/[ \t]+/g, ' ').trim(); 
+  
+  if (!studentText) {
+    outEl.textContent = '✅ نفّذ الكود لكن مفيش console.log مطبوع. لو المفروض يكون في إخراج استخدم console.log().';
+  } else {
+    outEl.textContent = sRawNorm; // نعرض النتيجة للطالب بشكل نظيف
+  }
+  
+  // 5) مقارنة النتائج وتحديث حالة الحل (SOLUTION_STATUS)
+  if (sNorm === eNorm) {
+    outEl.textContent += '\n\n✅ ممتاز — الناتج مظبوط بالظبط! 🎉';
+    window.SOLUTION_STATUS[solId] = { correct: true, code: currentCode }; // الحل صحيح
+    showToast('برافو! الناتج مظبوط 💪', true);
+  } else {
+    outEl.classList.add('error');
+    
+    // ****** رسالة الخطأ المُحسّنة ******
+    outEl.textContent += '\n\n❌ الناتج مش زي المتوقع: ';
+    
+    const diffLine = firstDiffLine(eNorm, sNorm);
+    if (diffLine !== null) {
+        outEl.textContent += `أول اختلاف كان في سطر الإخراج رقم ${diffLine}.`;
+    } else {
+        outEl.textContent += `الناتج مختلف عن الحل المرجعي.`;
+    }
+    
+    outEl.textContent += `\n\n🤔 للتصحيح: راجع السطر المُتوقع وقارنه بالسطر الذي ظهر لك.`;
+    outEl.textContent += `\n\n--- الناتج المُتوقع (بعد التنظيف) ---\n${eNorm || '(مفيش نتايج متوقعة)'}`;
+    outEl.textContent += `\n--------------------------------------`;
+    // ------------------------------------
+    
+    window.SOLUTION_STATUS[solId] = { correct: false, code: expectedCode }; // الحل غير صحيح، نخزن الكود المرجعي للعرض
+    showToast('قريب جدًا — راجع الاختلاف وعدّل كودك ✍️', false);
+  }
+}
+window.runAndCompare = runAndCompare;
+
+/* ----- دالة عرض الحل الجديدة (تعتمد على حالة SOLUTION_STATUS) (كما هي) ----- */
+function toggleSolution(editorId, solId, refCodeId){
+  const solEl = document.getElementById(solId);
+  if(!solEl) return;
+  
+  if (solEl.style.display === 'block') {
+    // لو الحل مفتوح، اقفله
+    solEl.style.display = 'none';
+    return;
+  }
+  
+  // الحل مش مفتوح، لازم نعرضه
+  const status = window.SOLUTION_STATUS[solId];
+  const expectedCode = window.REF_CODES[refCodeId];
+  const editorCode = document.getElementById(editorId).value;
+
+  if (status && status.code) {
+    // فيه نتيجة سابقة بعد التشغيل (سواء صح أو غلط)
+    solEl.textContent = status.code;
+    solEl.style.display = 'block';
+    if(status.correct){
+       solEl.textContent = `// ✅ الحل بتاعك ده صح:\n` + status.code;
+    } else {
+       solEl.textContent = `// ❌ الحل المرجعي (شوف الفرق بينه وبين كودك):\n` + status.code;
+    }
+  } else {
+    // لم يتم تشغيل الكود بعد، نعرض الكود المرجعي وننبه المستخدم
+    solEl.textContent = `// ⚠️ لازم تشغّل الكود الأول عشان نحدد هل كودك صح ولا غلط.\n` + expectedCode;
+    solEl.style.display = 'block';
+  }
+}
+window.toggleSolution = toggleSolution;
+
+/* ----- Toast (كما هي) ----- */
+function showToast(text, ok){
+  const t = document.createElement('div');
+  t.style.position='fixed'; t.style.left='50%'; t.style.transform='translateX(-50%)';
+  t.style.bottom='26px'; t.style.padding='10px 14px'; t.style.borderRadius='999px';
+  t.style.color='#fff'; t.style.fontWeight='700'; t.style.zIndex=9999;
+  t.style.boxShadow='0 8px 20px rgba(0,0,0,0.2)';
+  t.style.background = ok? 'rgba(6,125,70,0.95)' : 'rgba(150,20,20,0.95)';
+  t.textContent = text;
+  document.body.appendChild(t);
+  setTimeout(()=>{ t.style.transition='all .4s'; t.style.opacity='0'; setTimeout(()=>t.remove(),420)},1400);
+}
+window.showToast = showToast;
+</script>
 </body>
 </html>

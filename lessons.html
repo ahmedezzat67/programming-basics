@@ -6,48 +6,107 @@
 <title>الدروس - رحلة البداية</title>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
+/* ------------------------------------------- */
+/* التعديلات على CSS (الـ Styling)      */
+/* ------------------------------------------- */
+
+/* الألوان الأساسية والثوابت الجديدة (نيون) */
+:root {
+    /* ألوان الخلفية الأساسية (أزرق غامق جداً) */
+    --bg-dark: #000814; 
+    --bg-medium: #001f3f;
+    --bg-light: #002e60;
+    
+    /* ألوان النصوص والتوهج */
+    --text-dark: #000;
+    --text-light: #fff;
+    --heading-color: #00ffff; /* سماوي نيون */
+    --teal-btn: #00bfff; /* سماوي ساطع لزر العودة */
+
+    /* الألوان الجديدة لتبديل زر الدروس (أكثر إبهاراً) */
+    --color-A: #ff00ff; /* فوشيا نيون */
+    --color-B: #00ff00; /* أخضر نيون */
+    --color-C: #00ffff; /* سماوي نيون */
+    --color-D: #ffff00; /* أصفر نيون */
+    --color-E: #ff6600; /* برتقالي نيون */
+    --color-F: #4d0099; /* بنفسجي غامق */
+}
+
 body {
     font-family: "Cairo", sans-serif;
-    background: linear-gradient(135deg, #0a2647, #144272, #205295);
-    color: #fff;
+    /* خلفية غامقة جداً لإبراز النيون */
+    background: linear-gradient(135deg, var(--bg-dark), var(--bg-medium), var(--bg-light));
+    color: var(--text-light);
     margin: 0;
-    padding: 20px;
+    padding: 0;
     text-align: center;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.main-content {
+    flex-grow: 1; 
+    padding: 40px 20px 20px;
+    max-width: 1400px;
+    width: 100%;
+    margin: 0 auto;
 }
 
 h1 {
-    color: #ffe227;
-    margin-bottom: 40px;
+    color: var(--heading-color); 
+    margin-bottom: 50px;
     animation: fadeInDown 1s ease;
+    font-weight: 900;
+    /* التعديل 1: ظل نص أقوى لإحساس التوهج النيوني */
+    text-shadow: 0 0 10px var(--heading-color), 0 0 20px rgba(0, 255, 255, 0.5); 
 }
 
-/* ===== زرار الدروس ===== */
+/* ===== قسم الأزرار في شبكة Grid لترتيب أفضل (بدون تغيير) ===== */
+.lessons-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+    gap: 30px; 
+    margin-bottom: 40px;
+    /* التعديل 2: إضافة منظور 3D خفيف للحاوية */
+    perspective: 1000px; 
+}
+
+/* ===== زرار الدروس (تفعيل تبديل الألوان والتوهج) ===== */
 .lesson-button {
-    display: inline-block;
-    width: 250px;
-    margin: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px; 
     padding: 18px 25px;
-    font-size: 20px;
-    font-weight: bold;
-    border: none;
-    border-radius: 20px;
+    font-size: 22px; /* حجم خط أكبر */
+    font-weight: 900;
+    border: 3px solid transparent; /* إطار أولي */
+    border-radius: 15px; 
     cursor: pointer;
     position: relative;
     overflow: hidden;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    background: linear-gradient(135deg, #ff9a00, #ffe227);
-    color: #000;
-    animation: colorShift 6s infinite linear, textColorShift 6s infinite linear;
-    transition: all 0.3s ease;
+
+    /* التعديل 3: تسريع الأنيميشن (7 ثواني فقط) */
+    animation: colorShiftNew 7s infinite linear, breathe 1.2s infinite alternate; 
+    
+    /* لون نص أغمق ليبرز على الألوان النيون الفاتحة */
+    color: var(--text-dark); 
+    /* التعديل 4: تطبيق تحول 3D ثابت */
+    transform: rotateX(5deg) rotateY(5deg); 
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94); 
 }
 
-/* حركة عند المرور - shine + breathe + pulse */
+/* الحركة عند المرور (تأثير 3D أوضح وتوهج عند hover) */
 .lesson-button:hover {
-    animation: colorShift 3s infinite linear, textColorShift 3s infinite linear, breathe 1.2s infinite alternate, pulse 1.5s infinite alternate;
-    box-shadow: 0 12px 25px rgba(0,0,0,0.5);
+    animation: pulse 1s infinite alternate; 
+    /* التعديل 5: ظل أقوى يعطي إحساس التوهج النيوني */
+    box-shadow: 0 0 30px var(--color-C), 0 0 60px var(--color-A), 0 15px 30px rgba(0,0,0,0.8);
+    transform: translateY(-10px) scale(1.05) rotateX(0deg) rotateY(0deg); /* إزالة الـ 3D عند التفاعل */
+    z-index: 10;
 }
 
-/* shine effect عند hover */
+/* تأثير اللمعان عند hover (بدون تغيير) */
 .lesson-button::before {
     content: "";
     position: absolute;
@@ -55,54 +114,46 @@ h1 {
     left: -50%;
     width: 200%;
     height: 200%;
-    background: rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.4); /* لمعان أقوى */
     transform: rotate(45deg);
     transition: all 0.5s ease;
     opacity: 0;
 }
 
-.lesson-button:hover::before {
-    top: -30%;
-    left: -30%;
-    opacity: 1;
-    animation: shine 1.5s infinite linear;
-}
-
-/* فقاعات تظهر عند hover */
-.lesson-button span {
-    position: absolute;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.3);
-    animation: bubble 1s linear forwards;
-}
-
-/* تأثير عند الضغط */
-.lesson-button:active {
-    transform: translateY(0px) scale(0.95) rotate(0deg);
-    box-shadow: 0 5px 10px rgba(0,0,0,0.3);
-    animation: none;
-}
-
-/* زر العودة */
+/* زر العودة (Back Button) - تثبيت اللون والتوهج */
 .back-btn {
     display: inline-block;
-    margin: 40px auto;
-    padding: 18px 25px;
-    background-color: #48ff00;
-    color: #000;
-    font-weight: bold;
-    border-radius: 20px;
+    margin: 50px auto 30px;
+    padding: 15px 30px;
+    background-color: var(--teal-btn); 
+    color: var(--text-dark); 
+    font-weight: 900;
+    border-radius: 12px; 
     cursor: pointer;
-    font-size: 18px;
+    font-size: 1.2em;
     transition: all 0.3s ease;
+    /* ظل توهج خفيف لزر العودة */
+    box-shadow: 0 0 15px var(--teal-btn), 0 4px 10px rgba(0,0,0,0.5);
 }
 
 .back-btn:hover {
+    background-color: #0077b6;
     transform: translateY(-5px) scale(1.05);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+    /* ظل توهج أقوى عند hover */
+    box-shadow: 0 0 30px var(--teal-btn), 0 10px 20px rgba(0,0,0,0.7);
 }
 
-/* ===== انميشن ===== */
+/* ===== الـ Animations ===== */
+
+/* الـ Animation لتغيير الألوان (4 مراحل لونية نيون مختلفة) */
+@keyframes colorShiftNew {
+    0% { background: linear-gradient(135deg, var(--color-A), var(--color-B)); } /* فوشيا + أخضر */
+    25% { background: linear-gradient(135deg, var(--color-C), var(--color-D)); } /* سماوي + أصفر */
+    50% { background: linear-gradient(135deg, var(--color-E), var(--color-F)); } /* برتقالي + بنفسجي */
+    75% { background: linear-gradient(135deg, var(--color-B), var(--color-C)); } /* أخضر + سماوي */
+    100% { background: linear-gradient(135deg, var(--color-A), var(--color-B)); }
+}
+
 @keyframes fadeInDown {
     0% { opacity: 0; transform: translateY(-50px); }
     100% { opacity: 1; transform: translateY(0); }
@@ -110,96 +161,101 @@ h1 {
 
 @keyframes shine {
     0% { transform: rotate(45deg) translateX(-100%); opacity: 0; }
-    50% { opacity: 0.3; }
+    50% { opacity: 0.5; }
     100% { transform: rotate(45deg) translateX(100%); opacity: 0; }
 }
 
 @keyframes breathe {
-    0% { transform: translateY(-6px) scale(1.08) rotate(-1deg); }
-    50% { transform: translateY(-8px) scale(1.12) rotate(-2deg); }
-    100% { transform: translateY(-6px) scale(1.08) rotate(-1deg); }
+    0% { transform: scale(1.01) rotateX(5deg) rotateY(5deg); }
+    100% { transform: scale(1.03) rotateX(5deg) rotateY(5deg); }
 }
 
 @keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-    100% { transform: scale(1); }
+    0% { box-shadow: 0 0 30px var(--color-C), 0 0 60px var(--color-A), 0 15px 30px rgba(0,0,0,0.8); }
+    100% { box-shadow: 0 0 15px var(--color-A), 0 0 40px var(--color-C), 0 10px 20px rgba(0,0,0,0.7); }
 }
 
-@keyframes colorShift {
-    0% { background: linear-gradient(135deg, #ff9a00, #ffe227); }
-    25% { background: linear-gradient(135deg, #ff2277, #ffdd00); }
-    50% { background: linear-gradient(135deg, #22ffcc, #ffee33); }
-    75% { background: linear-gradient(135deg, #ff44cc, #ffff66); }
-    100% { background: linear-gradient(135deg, #ff9a00, #ffe227); }
+/* فقاعات بتوهج نيون */
+.lesson-button span {
+    position: absolute;
+    border-radius: 50%;
+    /* لون الفقاعات شفاف ولكنه نيون */
+    background: rgba(255, 255, 255, 0.5); 
+    box-shadow: 0 0 5px var(--color-D); /* إضافة توهج للفقاعات */
+    animation: bubble 1s linear forwards;
 }
 
-@keyframes textColorShift {
-    0% { color: #000; }
-    25% { color: #222; }
-    50% { color: #000; }
-    75% { color: #111; }
-    100% { color: #000; }
-}
-
-/* فقاعات */
 @keyframes bubble {
     0% { transform: scale(0); opacity: 1; }
-    100% { transform: translateY(-50px) scale(1.5); opacity: 0; }
+    100% { transform: translateY(-80px) scale(2.5); opacity: 0; }
+}
+
+/* ===== التجاوب (بدون تغيير) ===== */
+@media (max-width: 900px) {
+    .lessons-grid {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    }
 }
 
 @media (max-width: 600px){
-    .lesson-button {
-        width: 90%;
-        font-size: 18px;
+    .lessons-grid {
+        grid-template-columns: 1fr;
     }
 }
 
 footer {
-    margin-top: 50px;
+    padding: 20px 20px;
+    border-top: 1px solid rgba(255,255,255,0.1);
     color: #c2e7ff;
     font-weight: bold;
+    font-size: 0.9em;
+    margin-top: auto;
+    background: rgba(0,0,0,0.3);
 }
 </style>
 </head>
 <body>
-<h1>📚 قائمة الدروس - لوحة ألوان ممتعة ✨</h1>
 
-<!-- ===== أزرار الدروس ===== -->
-<button class="lesson-button" onclick="window.location.href='lesson1.html'">الدرس 1️⃣</button>
-<button class="lesson-button" onclick="window.location.href='lesson2.html'">الدرس 2️⃣</button>
-<button class="lesson-button" onclick="window.location.href='lesson3.html'">الدرس 3️⃣</button>
-<button class="lesson-button" onclick="window.location.href='lesson4.html'">الدرس 4️⃣</button>
-<button class="lesson-button" onclick="window.location.href='lesson5.html'">الدرس 5️⃣</button>
-<button class="lesson-button" onclick="window.location.href='lesson6.html'">الدرس 6️⃣</button>
-<button class="lesson-button" onclick="window.location.href='lesson7.html'">الدرس 1️⃣ HTML</button>
-<button class="lesson-button" onclick="window.location.href='lesson8.html'">الدرس 8️⃣</button>
-<button class="lesson-button" onclick="window.location.href='lesson12.html'">الدرس 1️⃣ CSS</button>
-<button class="lesson-button" onclick="window.location.href='lesson10.html'">الدرس 🔟</button>
-<button class="lesson-button" onclick="window.location.href='lesson11.html'">الدرس 1️⃣1️⃣</button>
-<button class="lesson-button" onclick="window.location.href='lesson12.html'">الدرس 1️⃣2️⃣</button>
-<button class="lesson-button" onclick="window.location.href='lesson13.html'">الدرس 1️⃣3️⃣</button>
-<button class="lesson-button" onclick="window.location.href='lesson14.html'">الدرس 1️⃣4️⃣</button>
-<button class="lesson-button" onclick="window.location.href='lesson15.html'">الدرس 1️⃣5️⃣</button>
-<button class="lesson-button" onclick="window.location.href='lesson16.html'">الدرس 1️⃣6️⃣</button>
-<button class="lesson-button" onclick="window.location.href='lesson17.html'">الدرس 1️⃣7️⃣</button>
+<div class="main-content">
+    <h1>📚 قائمة الدروس - لوحة ألوان ممتعة ✨</h1>
 
-<div class="back-btn" onclick="window.location.href='index.html'">⬅️ العودة للصفحة الرئيسية</div>
+    <div class="lessons-grid">
+        <button class="lesson-button" onclick="window.location.href='lesson1.html'">الدرس 1️⃣ JavaScript</button>
+        <button class="lesson-button" onclick="window.location.href='lesson2.html'">الدرس 2️⃣ JavaScript</button>
+        <button class="lesson-button" onclick="window.location.href='lesson3.html'">الدرس 3️⃣ JavaScript</button>
+        <button class="lesson-button" onclick="window.location.href='lesson4.html'">الدرس 4️⃣ JavaScript</button>
+        <button class="lesson-button" onclick="window.location.href='lesson5.html'">الدرس 5️⃣ JavaScript</button>
+        <button class="lesson-button" onclick="window.location.href='lesson6.html'">الدرس 6️⃣ JavaScript</button>
+        <button class="lesson-button" onclick="window.location.href='lesson7.html'">الدرس  HTML</button>
+        <button class="lesson-button" onclick="window.location.href='lesson8.html'">الدرس  CSS</button>
+    </div>
+    <div class="back-btn" onclick="window.location.href='index.html'">⬅️ العودة للصفحة الرئيسية</div>
+</div>
 
 <footer>تم تصميم هذا الموقع بواسطة <strong>Ahmed Ezzat</strong> 💻</footer>
 
 <script>
-// فقاعات صغيرة عند hover
+// -------------------------------------------
+// كود JavaScript (الفقاعات عند المرور)
+// -------------------------------------------
 const buttons = document.querySelectorAll('.lesson-button');
 
 buttons.forEach(btn => {
     btn.addEventListener('mouseenter', (e) => {
+        // إنشاء 5 فقاعات عشوائية
         for(let i=0; i<5; i++){
             const bubble = document.createElement('span');
+            
+            // تحديد مكان عشوائي للفقاعة داخل الزر
             bubble.style.left = Math.random()*100 + '%';
             bubble.style.top = Math.random()*100 + '%';
+            
+            // تحديد حجم عشوائي للفقاعة
             bubble.style.width = bubble.style.height = (5 + Math.random()*10) + 'px';
+            
             btn.appendChild(bubble);
+            
+            // إزالة الفقاعة بعد انتهاء حركة الـ animation
             bubble.addEventListener('animationend', ()=> bubble.remove());
         }
     });
@@ -207,4 +263,3 @@ buttons.forEach(btn => {
 </script>
 </body>
 </html>
-

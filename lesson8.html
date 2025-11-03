@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>الدرس الخامس: مقدمة CSS - قيد التحضير</title> 
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f9f9f9, #e0f7fa);
+            color: #222;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 14px;
+            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            color: #00796b;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 900;
+        }
+
+        p {
+            font-size: 1.1rem;
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            font-weight: 600;
+        }
+
+        .btn {
+            background: linear-gradient(90deg, #009688, #26a69a);
+            color: #fff;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 800;
+            transition: all 0.18s;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn.whatsapp {
+            background: #25D366;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 15px 30px;
+        }
+
+        .navs {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .navs .btn {
+            background: #ccc;
+            color: #333;
+            box-shadow: none;
+            padding: 10px 15px;
+        }
+
+        .navs .btn:hover {
+            background: #bbb;
+        }
+
+        .whatsapp-icon::before {
+            content: "📱";
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>🚧 الدرس : عالم CSS 🚧</h1>
+
+        <p>
+            شكرًا لحماسك! نحن نعمل الآن بجد على تجهيز **الدرس الأول في لغة CSS (التنسيق والتصميم)**.
+            هذا الدرس سينقلك من بناء الهيكل (HTML) إلى إضافة الجمال والألوان والتخطيط لصفحاتك.
+        </p>
+        
+        <p style="font-weight: 700; color: #d35400;">
+            نرجو منك مراجعة شاملة لأساسيات HTML جيدًا، فإتقان الهيكل هو مفتاح التنسيق!
+        </p>
+
+        <div style="margin-top: 30px;">
+            <p style="margin-bottom: 10px; font-weight: 700; color: #00796b;">
+                هل لديك استفسار حول أي نقطة في دروس HTML السابقة؟ لا تتردد في السؤال!
+            </p>
+
+            <a href="https://wa.me/201003090216?text=مرحباً، لدي استفسار بخصوص دروس تطوير الويب (HTML)."
+                target="_blank"
+                class="btn whatsapp">
+                <span class="whatsapp-icon"></span>
+                تواصل معي عبر واتساب (01003090216)
+            </a>
+        </div>
+
+        <div class="navs">
+            <a href="lesson7.html" class="btn">⬅️ الدرس  HTML</a>
+            <a href="index.html" class="btn">🏠 الصفحة الرئيسية</a>
+        </div>
+
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اختبر نفسك - دروس HTML</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap');
+        
+        body {
+            font-family: "Cairo", sans-serif;
+            background-color: #f3f7fa;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        header {
+            background-color: #007bff;
+            color: white;
+            padding: 15px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 700px;
+            background: white;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .question-block {
+            margin-bottom: 25px;
+            padding: 15px;
+            border: 1px solid #dee2e6;
+            border-radius: 10px;
+            text-align: right;
+        }
+
+        .question {
+            font-weight: bold;
+            font-size: 1.1em;
+            color: #007bff;
+            margin-bottom: 15px;
+            padding-right: 5px;
+            border-right: 3px solid #007bff;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        button.option {
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background-color: #e9ecef;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 16px;
+            text-align: right;
+        }
+
+        button.option:hover:not(:disabled) {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .correct {
+            background-color: #28a745 !important;
+            color: white !important;
+            font-weight: bold;
+        }
+
+        .wrong {
+            background-color: #dc3545 !important;
+            color: white !important;
+            font-weight: bold;
+        }
+        
+        #score {
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            background-color: #ffeaa7; /* لون مميز للنتيجة */
+            display: none; /* مخفي في البداية */
+        }
+
+        .footer {
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            font-size: 14px;
+            margin-top: 30px;
+        }
+
+        .nav-buttons {
+            margin-top: 20px;
+        }
+
+        .nav-buttons button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            margin: 5px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .nav-buttons button:hover {
+            background-color: #0056b3;
+        }
+        
+        #finish-quiz-btn {
+            padding: 15px 30px;
+            background-color: #20c997; 
+            color: white; 
+            border: none; 
+            border-radius: 10px; 
+            cursor: pointer; 
+            font-size: 18px; 
+            font-weight: 700;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+        
+        #finish-quiz-btn:hover {
+            background-color: #17a2b8;
+        }
+
+    </style>
+</head>
+<body>
+
+<header>🧠 اختبر نفسك - دروس HTML</header>
+
+<div class="container" id="quiz"></div>
+
+<button id="finish-quiz-btn" onclick="showFinalScore()">إنهاء الاختبار وعرض النتيجة النهائية</button>
+
+<div id="score"></div>
+
+<div class="nav-buttons">
+    <button onclick="window.location.href='index.html'">🏠 الصفحة الرئيسية</button>
+    <button onclick="window.location.href='lesson7.html'">📘 رجوع للدرس</button>
+</div>
+
+<footer class="footer">
+                تصميم بواسطة <strong>Ahmed Ezzat</strong> ❤️
+</footer>
+
+<script>
+    const quizData = [
+        // 25 سؤالاً شاملاً عن HTML
+        { q: "ما هو الوسم المستخدم لإنشاء فقرة؟", a: "p", options: ["div", "p", "h1", "br"] },
+        { q: "ما هو الوسم المستخدم لإضافة رابط؟", a: "a", options: ["a", "link", "href", "url"] },
+        { q: "ما هو الوسم المستخدم لإضافة صورة؟", a: "img", options: ["src", "image", "img", "photo"] },
+        { q: "ما هو الوسم المستخدم لإنشاء عنوان رئيسي؟", a: "h1", options: ["p", "head", "h1", "title"] },
+        { q: "ما هو الوسم المستخدم لإنشاء قائمة غير مرتبة؟", a: "ul", options: ["ol", "ul", "li", "list"] },
+        { q: "ما هو الوسم المستخدم لإنشاء عنصر في قائمة؟", a: "li", options: ["ol", "ul", "li", "item"] },
+        { q: "ما الوسم المستخدم لإضافة خط أفقي؟", a: "hr", options: ["br", "line", "hr", "border"] },
+        { q: "ما هو الوسم المستخدم لإضافة كسر سطر؟", a: "br", options: ["br", "hr", "newline", "p"] },
+        { q: "ما هو الوسم المستخدم لوضع نص عريض؟", a: "b", options: ["strong", "bold", "b", "thick"] },
+        { q: "ما هو الوسم المستخدم لوضع نص مائل؟", a: "i", options: ["italic", "i", "em", "it"] },
+        { q: "ما هو الوسم الذي يحتوي على كل محتوى الصفحة؟", a: "body", options: ["head", "html", "body", "main"] },
+        { q: "ما هو الوسم المستخدم لتعريف رأس الصفحة (البيانات الوصفية)؟", a: "head", options: ["header", "head", "meta", "top"] },
+        { q: "ما هو الوسم المستخدم لتحديد عنوان الصفحة في المتصفح؟", a: "title", options: ["head", "h1", "meta", "title"] },
+        { q: "ما هو الوسم المستخدم لإضافة جدول؟", a: "table", options: ["table", "tab", "grid", "td"] },
+        { q: "ما هو الوسم المستخدم لتحديد صف في الجدول؟", a: "tr", options: ["tr", "td", "th", "row"] },
+        { q: "ما هو الوسم المستخدم لتحديد خلية بيانات في الجدول؟", a: "td", options: ["tr", "td", "cell", "col"] },
+        { q: "ما هو الوسم المستخدم لتحديد خلية عنوان في الجدول؟", a: "th", options: ["td", "th", "tr", "head"] },
+        { q: "ما هو الوسم المستخدم لإضافة نموذج؟", a: "form", options: ["form", "input", "data", "send"] },
+        { q: "ما هو الوسم المستخدم لإضافة خانة إدخال نص؟", a: "input", options: ["form", "enter", "input", "text"] },
+        { q: "ما هو الوسم المستخدم لإرسال النموذج (زر الإرسال)؟", a: "button", options: ["input", "send", "button", "submit"] },
+        { q: "ما هو الوسم المستخدم لإضافة تعليق لا يظهر في المتصفح؟", a: "!-- --", options: ["//", "note", "!-- --", "/* */"] },
+        { q: "ما هو الوسم المستخدم لتضمين كود CSS خارجي؟", a: "link", options: ["style", "import", "link", "href"] },
+        { q: "ما هو الوسم المستخدم لتضمين كود JavaScript خارجي؟", a: "script", options: ["script", "js", "code", "src"] },
+        { q: "ما هو الوسم المستخدم لتحديد ترميز الأحرف (مثل UTF-8)؟", a: "meta", options: ["meta", "info", "head", "data"] },
+        { q: "ما هي الخاصية المستخدمة لفتح الرابط في تبويب جديد في وسم <a>؟", a: "_blank", options: ["_self", "new", "_blank", "external"] }
+    ];
+
+    let score = 0;
+    const quizContainer = document.getElementById("quiz");
+
+    // وظيفة إنشاء واجهة الاختبار
+    quizData.forEach((item, index) => {
+        const div = document.createElement("div");
+        div.classList.add("question-block");
+        div.innerHTML = `
+            <div class="question">${index + 1}. ${item.q}</div>
+            <div class="options">
+                ${item.options.map(opt => `<button class="option" onclick="checkAnswer(this, '${item.a}', ${index})">${opt}</button>`).join("")}
+            </div>
+        `;
+        quizContainer.appendChild(div);
+    });
+
+    // وظيفة التصحيح الفردي (عند النقر)
+    function checkAnswer(btn, correctAnswer, questionIndex) {
+        const buttons = btn.parentElement.querySelectorAll(".option");
+        
+        // منع النقر المتكرر على أي خيار في السؤال نفسه
+        buttons.forEach(b => b.disabled = true); 
+        
+        if (btn.textContent === correctAnswer) {
+            btn.classList.add("correct");
+            btn.textContent += " ✅";
+            score++;
+        } else {
+            btn.classList.add("wrong");
+            btn.textContent += " ❌";
+            
+            // إظهار الإجابة الصحيحة
+            const correctBtn = Array.from(buttons).find(b => b.textContent === correctAnswer);
+            if (correctBtn) { // التأكد من وجودها
+                correctBtn.classList.add("correct");
+                correctBtn.textContent += " ✅ (الصحيحة)";
+            }
+        }
+    }
+    
+    // وظيفة عرض النتيجة النهائية
+    function showFinalScore() {
+        const totalQuestions = quizData.length;
+        const percentage = (score / totalQuestions) * 100;
+        const scoreElement = document.getElementById("score");
+        
+        // تحديد الرسالة بناءً على النتيجة
+        let message = '';
+        if (percentage === 100) {
+            message = '🎉 تهانينا! إجاباتك مثالية. أنت محترف HTML!';
+        } else if (percentage >= 80) {
+            message = '👍🏼 أداء ممتاز! مستواك عالٍ جداً في HTML.';
+        } else if (percentage >= 60) {
+            message = '👏🏼 أداء جيد! يمكنك الانتقال لـ CSS مع مراجعة النقاط الضعيفة.';
+        } else {
+            message = '💡 تحتاج إلى مراجعة شاملة لأساسيات HTML قبل الانتقال لـ CSS.';
+        }
+        
+        // عرض النتيجة
+        scoreElement.innerHTML = `
+            <p>النتيجة النهائية: **${score}** من أصل **${totalQuestions}**</p>
+            <p style="font-size: 1.2em; color: ${percentage >= 60 ? '#28a745' : '#dc3545'};">نسبة النجاح: **${percentage.toFixed(0)}%**</p>
+            <p style="font-weight: 400; color: #333;">${message}</p>
+        `;
+        scoreElement.style.display = 'block';
+        document.getElementById("finish-quiz-btn").style.display = 'none'; // إخفاء الزر بعد النقر
+
+        // تعطيل جميع الأزرار لمنع أي تغييرات إضافية
+        document.querySelectorAll('.option').forEach(b => b.disabled = true);
+        
+        // الانتقال إلى منطقة النتيجة
+        scoreElement.scrollIntoView({ behavior: 'smooth' });
+    }
+</script>
+
+</body>
+</html>

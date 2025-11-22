@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>اختبر نفسك - دروس HTML</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>اختبر نفسك - الدرس الأول (الروابط والنماذج)</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap');
-        
+
         body {
             font-family: "Cairo", sans-serif;
             background-color: #f3f7fa;
@@ -17,7 +17,7 @@
         }
 
         header {
-            background-color: #007bff;
+            background-color: #4a148c;
             color: white;
             padding: 15px;
             font-size: 24px;
@@ -26,12 +26,20 @@
 
         .container {
             width: 90%;
-            max-width: 700px;
+            max-width: 900px;
             background: white;
             margin: 20px auto;
             padding: 20px;
             border-radius: 15px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            text-align: right;
+        }
+
+        h2 {
+            color: #4a148c;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+            margin-top: 30px;
         }
 
         .question-block {
@@ -39,16 +47,15 @@
             padding: 15px;
             border: 1px solid #dee2e6;
             border-radius: 10px;
-            text-align: right;
         }
 
         .question {
             font-weight: bold;
             font-size: 1.1em;
-            color: #007bff;
+            color: #4a148c;
             margin-bottom: 15px;
             padding-right: 5px;
-            border-right: 3px solid #007bff;
+            border-right: 3px solid #4a148c;
         }
 
         .options {
@@ -69,7 +76,7 @@
         }
 
         button.option:hover:not(:disabled) {
-            background-color: #007bff;
+            background-color: #6a1b9a;
             color: white;
         }
 
@@ -84,31 +91,101 @@
             color: white !important;
             font-weight: bold;
         }
-        
+
+        .feedback {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            display: none;
+            text-align: right;
+            border-left: 5px solid;
+            font-size: 0.95em;
+        }
+
+        .feedback strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .positive {
+            background-color: #d4edda;
+            color: #155724;
+            border-color: #28a745;
+        }
+
+        .negative {
+            background-color: #f8d7da;
+            color: #721c24;
+            border-color: #dc3545;
+        }
+
+        /* --- Project Sandbox Styles --- */
+        .project-block {
+            margin-bottom: 40px;
+            padding: 20px;
+            border: 1px solid #c9c9c9;
+            border-radius: 10px;
+            background-color: #ffffff;
+            text-align: right;
+        }
+
+        .project-description {
+            background-color: #f0f0f0;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 1.05em;
+            border-right: 5px solid #ff9800;
+        }
+
+        .editor-area {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .code-input, .code-preview {
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 8px;
+            text-align: left;
+        }
+
+        .code-input {
+            min-height: 200px;
+            width: 100%;
+            font-family: monospace;
+            font-size: 14px;
+            resize: vertical;
+        }
+
+        .code-preview {
+            background-color: #e8f5e9;
+            min-height: 100px;
+            border-left: 5px solid #4CAF50;
+        }
+
         #score {
             font-size: 20px;
             font-weight: bold;
             margin-top: 20px;
             padding: 15px;
             border-radius: 10px;
-            background-color: #ffeaa7; /* لون مميز للنتيجة */
-            display: none; /* مخفي في البداية */
+            background-color: #ffe0b2;
+            display: none;
+            text-align: center;
         }
 
         .footer {
-            background-color: #007bff;
+            background-color: #4a148c;
             color: white;
             padding: 10px;
             font-size: 14px;
             margin-top: 30px;
         }
 
-        .nav-buttons {
-            margin-top: 20px;
-        }
-
         .nav-buttons button {
-            background-color: #007bff;
+            background-color: #6a1b9a;
             color: white;
             border: none;
             padding: 10px 15px;
@@ -118,151 +195,386 @@
             transition: 0.3s;
         }
 
-        .nav-buttons button:hover {
-            background-color: #0056b3;
-        }
-        
         #finish-quiz-btn {
             padding: 15px 30px;
-            background-color: #20c997; 
-            color: white; 
-            border: none; 
-            border-radius: 10px; 
-            cursor: pointer; 
-            font-size: 18px; 
+            background-color: #FFC107;
+            color: #333;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 18px;
             font-weight: 700;
             margin-top: 20px;
             transition: background-color 0.3s;
         }
-        
-        #finish-quiz-btn:hover {
-            background-color: #17a2b8;
-        }
-
     </style>
 </head>
 <body>
 
-<header>🧠 اختبر نفسك - دروس HTML</header>
+<header>🧠 اختبر نفسك - الدرس الأول (الروابط والنماذج)</header>
 
-<div class="container" id="quiz"></div>
+<div class="container">
+    <h2>اختبار المعرفة (20 سؤالاً مع الشرح)</h2>
+    <div id="quiz"></div>
+    <button id="finish-quiz-btn" onclick="showFinalScore()">إنهاء الاختبار وعرض النتيجة النهائية</button>
+    <div id="score"></div>
 
-<button id="finish-quiz-btn" onclick="showFinalScore()">إنهاء الاختبار وعرض النتيجة النهائية</button>
+    <hr style="margin-top: 50px;">
 
-<div id="score"></div>
+    <h2>🛠️ مشاريع عملية للتطبيق</h2>
 
-<div class="nav-buttons">
-    <button onclick="window.location.href='index.html'">🏠 الصفحة الرئيسية</button>
-    <button onclick="window.location.href='lesson7.html'">📘 رجوع للدرس</button>
+    <div class="project-block">
+        <h3>المشروع 1: نموذج تسجيل مبسط</h3>
+        <div class="project-description">
+            <p><strong>الفكرة:</strong> قم بإنشاء نموذج يحتوي على العناصر التالية:</p>
+            <ol style="padding-right: 20px;">
+                <li>خانة إدخال نصية (Name).</li>
+                <li>مجموعة أزرار اختيار (`radio`) للنوع (ذكر أو أنثى). **تأكد من استخدام نفس الـ `name` لهما.**</li>
+                <li>زر إرسال (`submit`) بلون برتقالي (باستخدام `style`).</li>
+            </ol>
+        </div>
+        <div class="editor-area">
+            <textarea class="code-input" id="project1-input" oninput="updatePreview('project1')">
+<form style="padding: 10px; border: 1px solid #ccc;">
+    <label>الاسم:</label>
+    <input type="text" placeholder="أدخل اسمك">
+    <br><br>
+
+    <label>النوع:</label>
+    <input type="radio" name="gender"> ذكر
+    <input type="radio" name="gender"> أنثى
+    <br><br>
+
+    <button type="submit" style="background-color: orange; color: white; padding: 10px; border: none; border-radius: 5px;">إرسال</button>
+</form>
+            </textarea>
+            <div class="code-preview" id="project1-preview"></div>
+        </div>
+    </div>
+
+    <div class="project-block">
+        <h3>المشروع 2: قائمة قابلة للطي</h3>
+        <div class="project-description">
+            <p><strong>الفكرة:</strong> استخدم وسمي `<details>` و `<summary>` لعرض قائمة بأسماء الفواكه، حيث يكون العنوان هو "اضغط لرؤية القائمة"، وتكون القائمة مفتوحة تلقائيًا باستخدام خاصية `open`.</p>
+        </div>
+        <div class="editor-area">
+            <textarea class="code-input" id="project2-input" oninput="updatePreview('project2')">
+<details open>
+    <summary style="font-weight: bold; color: green; cursor: pointer;">
+        اضغط لإخفاء قائمة الفواكه
+    </summary>
+    <ul style="margin-right: 20px;">
+        <li>تفاح</li>
+        <li>موز</li>
+        <li>عنب</li>
+    </ul>
+    <p style="margin-right: 20px;">هذه التفاصيل مفتوحة تلقائياً.</p>
+</details>
+            </textarea>
+            <div class="code-preview" id="project2-preview"></div>
+        </div>
+    </div>
+
 </div>
 
+<div class="nav-buttons" style="text-align:center; margin-top:10px;">
+    <button class="btn" onclick="location.href='lesson8.html'">⬅️  الدارس التالي </button> 
+            <button class="btn" onclick="location.href='index.html'">🏠 الصفحة الرئيسية</button>
+            <button class="btn" onclick="location.href='lesson7.html'">📚 الرجوع للدارس ➡️</button>
+        </div>
+
 <footer class="footer">
-                تصميم بواسطة <strong>Ahmed Ezzat</strong> ❤️
+    تصميم بواسطة <strong>Ahmed Ezzat</strong> ❤️
 </footer>
 
 <script>
+    // --- مساعدة: تحويل النص لآمن للعرض كـ HTML (escape) ---
+    function escapeHTML(str) {
+        if (typeof str !== 'string') return str;
+        return str.replace(/&/g, "&amp;")
+                  .replace(/</g, "&lt;")
+                  .replace(/>/g, "&gt;")
+                  .replace(/"/g, "&quot;")
+                  .replace(/'/g, "&#039;");
+    }
+
     const quizData = [
-        // 25 سؤالاً شاملاً عن HTML
-        { q: "ما هو الوسم المستخدم لإنشاء فقرة؟", a: "p", options: ["div", "p", "h1", "br"] },
-        { q: "ما هو الوسم المستخدم لإضافة رابط؟", a: "a", options: ["a", "link", "href", "url"] },
-        { q: "ما هو الوسم المستخدم لإضافة صورة؟", a: "img", options: ["src", "image", "img", "photo"] },
-        { q: "ما هو الوسم المستخدم لإنشاء عنوان رئيسي؟", a: "h1", options: ["p", "head", "h1", "title"] },
-        { q: "ما هو الوسم المستخدم لإنشاء قائمة غير مرتبة؟", a: "ul", options: ["ol", "ul", "li", "list"] },
-        { q: "ما هو الوسم المستخدم لإنشاء عنصر في قائمة؟", a: "li", options: ["ol", "ul", "li", "item"] },
-        { q: "ما الوسم المستخدم لإضافة خط أفقي؟", a: "hr", options: ["br", "line", "hr", "border"] },
-        { q: "ما هو الوسم المستخدم لإضافة كسر سطر؟", a: "br", options: ["br", "hr", "newline", "p"] },
-        { q: "ما هو الوسم المستخدم لوضع نص عريض؟", a: "b", options: ["strong", "bold", "b", "thick"] },
-        { q: "ما هو الوسم المستخدم لوضع نص مائل؟", a: "i", options: ["italic", "i", "em", "it"] },
-        { q: "ما هو الوسم الذي يحتوي على كل محتوى الصفحة؟", a: "body", options: ["head", "html", "body", "main"] },
-        { q: "ما هو الوسم المستخدم لتعريف رأس الصفحة (البيانات الوصفية)؟", a: "head", options: ["header", "head", "meta", "top"] },
-        { q: "ما هو الوسم المستخدم لتحديد عنوان الصفحة في المتصفح؟", a: "title", options: ["head", "h1", "meta", "title"] },
-        { q: "ما هو الوسم المستخدم لإضافة جدول؟", a: "table", options: ["table", "tab", "grid", "td"] },
-        { q: "ما هو الوسم المستخدم لتحديد صف في الجدول؟", a: "tr", options: ["tr", "td", "th", "row"] },
-        { q: "ما هو الوسم المستخدم لتحديد خلية بيانات في الجدول؟", a: "td", options: ["tr", "td", "cell", "col"] },
-        { q: "ما هو الوسم المستخدم لتحديد خلية عنوان في الجدول؟", a: "th", options: ["td", "th", "tr", "head"] },
-        { q: "ما هو الوسم المستخدم لإضافة نموذج؟", a: "form", options: ["form", "input", "data", "send"] },
-        { q: "ما هو الوسم المستخدم لإضافة خانة إدخال نص؟", a: "input", options: ["form", "enter", "input", "text"] },
-        { q: "ما هو الوسم المستخدم لإرسال النموذج (زر الإرسال)؟", a: "button", options: ["input", "send", "button", "submit"] },
-        { q: "ما هو الوسم المستخدم لإضافة تعليق لا يظهر في المتصفح؟", a: "!-- --", options: ["//", "note", "!-- --", "/* */"] },
-        { q: "ما هو الوسم المستخدم لتضمين كود CSS خارجي؟", a: "link", options: ["style", "import", "link", "href"] },
-        { q: "ما هو الوسم المستخدم لتضمين كود JavaScript خارجي؟", a: "script", options: ["script", "js", "code", "src"] },
-        { q: "ما هو الوسم المستخدم لتحديد ترميز الأحرف (مثل UTF-8)؟", a: "meta", options: ["meta", "info", "head", "data"] },
-        { q: "ما هي الخاصية المستخدمة لفتح الرابط في تبويب جديد في وسم <a>؟", a: "_blank", options: ["_self", "new", "_blank", "external"] }
+        // الروابط والصور
+        {
+            q: "ما هي الخاصية (Attribute) المستخدمة لتحديد الوجهة (المسار) للرابط في وسم &lt;a&gt;؟",
+            a: "href",
+            explanation: "خاصية <strong>href</strong> هي اختصار لـ 'Hypertext Reference' وتستخدم لتحديد عنوان الويب الذي سيتم الانتقال إليه عند النقر على الرابط. أما <code>src</code> فتستخدم للصور.",
+            options: ["src", "link", "target", "href"]
+        },
+        {
+            q: "ما هي القيمة الصحيحة للخاصية <code>target</code> لفتح الرابط في تبويب جديد؟",
+            a: "_blank",
+            explanation: "القيمة <strong>_blank</strong> هي المعيار لفتح المستند المرتبط في نافذة أو تبويب متصفح جديد. القيمة الافتراضية هي <code>_self</code>.",
+            options: ["_self", "new", "_tab", "_blank"]
+        },
+        {
+            q: "ما هي الخاصية المطلوبة في وسم &lt;img&gt; لتوفير نص بديل يظهر عند تعذر تحميل الصورة؟",
+            a: "alt",
+            explanation: "خاصية <strong>alt</strong> (نص بديل) مهمة جداً لمساعدة محركات البحث والأشخاص ذوي الإعاقة البصرية (Screen Readers) على فهم محتوى الصورة.",
+            options: ["src", "title", "alt", "text"]
+        },
+        {
+            q: "ما الوسم الذي يُستخدم لإضافة صورة؟",
+            a: "img",
+            explanation: "الوسم <strong>&lt;img&gt;</strong> هو الوسم الصحيح لإدراج الصور في صفحة HTML. يجب دائماً استخدام خاصية <code>src</code> لتحديد مسار الصورة.",
+            options: ["src", "image", "pic", "img"]
+        },
+
+        // النماذج والمدخلات
+        {
+            q: "ما هو نوع الإدخال المناسب لعرض صندوق يسمح باختيار أكثر من خيار في نفس الوقت؟",
+            a: "checkbox",
+            explanation: "<strong>checkbox</strong> يسمح للمستخدم بتحديد صفر أو أكثر من الخيارات من مجموعة. أما <code>radio</code> فيسمح باختيار خيار واحد فقط.",
+            options: ["radio", "submit", "checkbox", "select"]
+        },
+        {
+            q: "ما الخاصية المشتركة التي يجب أن تتطابق قيمتها لجعل أزرار <code>radio</code> تعمل كمجموعة واحدة لاختيار واحد فقط؟",
+            a: "name",
+            explanation: "يجب أن يكون لجميع أزرار الراديو (Radio buttons) في نفس المجموعة نفس قيمة <strong>name</strong> لضمان أن يتم اختيار عنصر واحد فقط من هذه المجموعة.",
+            options: ["id", "class", "type", "name"]
+        },
+        {
+            // سؤال 7 — انتبه: نعرض الوسم كـ نص آمن
+            q: "الوسم &lt;textarea&gt; يستخدم لـ:",
+            a: "إدخال نص متعدد الأسطر",
+            explanation: "الوسم <strong>&lt;textarea&gt;</strong> هو المصمم خصيصاً لاستقبال نصوص كبيرة ومتعددة الأسطر، مثل رسالة أو تعليق. بينما <code>input type='text'</code> لسطر واحد.",
+            options: ["إدخال رقم هاتف", "إدخال نص متعدد الأسطر", "إدخال ملف", "عرض قائمة منسدلة"]
+        },
+        {
+            q: "أي خاصية تُستخدم لإضافة نص عابر (Placeholder) داخل خانة الإدخال؟",
+            a: "placeholder",
+            explanation: "خاصية <strong>placeholder</strong> تُستخدم لوضع نص إرشادي خفيف يختفي بمجرد أن يبدأ المستخدم في الكتابة داخل حقل الإدخال.",
+            options: ["value", "hint", "text", "placeholder"]
+        },
+        {
+            q: "ما هو الوسم الصحيح لبدء إنشاء نموذج (Form) لجمع البيانات؟",
+            a: "form",
+            explanation: "الوسم <strong>&lt;form&gt;</strong> هو الحاوية الأساسية لكل عناصر الإدخال وهو المسؤول عن جمع البيانات وإرسالها إلى الخادم.",
+            options: ["data", "input", "form", "collect"]
+        },
+        {
+            q: "ما هو نوع إدخال يظهر فقط كنقطة لونية صغيرة للمستخدم لاختيار لون؟",
+            a: "color",
+            explanation: "يستخدم <strong>input type='color'</strong> لتمكين المستخدم من اختيار لون من منتقي الألوان (Color Picker) الخاص بالمتصفح.",
+            options: ["text", "palette", "color", "date"]
+        },
+
+        // عناصر التنظيم المتقدمة والرموز
+        {
+            q: "ما هو الوسم الذي يوفر قائمة اقتراحات (إكمال تلقائي) لخانات الإدخال دون إجبار المستخدم عليها؟",
+            a: "datalist",
+            explanation: "الوسم <strong>&lt;datalist&gt;</strong> يوفر قائمة خيارات مقترحة لحقل إدخال نصي (<code>&lt;input&gt;</code>)، لكنه يسمح للمستخدم بكتابة قيمة مختلفة غير موجودة في القائمة.",
+            options: ["select", "optgroup", "datalist", "list"]
+        },
+        {
+            q: "ما الخاصية المستخدمة لتعيين العنوان الرئيسي لمجموعة الخيارات في وسم <code>&lt;optgroup&gt;</code>؟",
+            a: "label",
+            explanation: "تستخدم خاصية <strong>label</strong> داخل الوسم <code>&lt;optgroup&gt;</code> لوضع عنوان للمجموعة، مثل 'مشروبات ساخنة' أو 'مشروبات باردة'.",
+            options: ["title", "name", "header", "label"]
+        },
+        {
+            q: "ما الكود المستخدم لإضافة رمز الفراغ الإجباري (Non-breaking space)؟",
+            a: "&nbsp;",
+            explanation: "الكود <strong>&amp;nbsp;</strong> يمثل مسافة إجبارية لا يسمح المتصفح بكسر السطر عندها. وهو اختصار لـ 'Non-Breaking Space'.",
+            options: ["&space;", "&tab;", "&nbsp;", "&#32;"]
+        },
+        {
+            q: "ما هي الخاصية التي تُستخدم لجعل وسم <code>&lt;details&gt;</code> مفتوحاً تلقائياً عند تحميل الصفحة؟",
+            a: "open",
+            explanation: "إضافة الخاصية <strong>open</strong> إلى الوسم <code>&lt;details&gt;</code> يجعله مفتوحاً بشكل افتراضي عند تحميل الصفحة.",
+            options: ["visible", "show", "open", "default"]
+        },
+        {
+            q: "ما الكود المستخدم لإضافة رمز القلب (♥)؟",
+            a: "&hearts;",
+            explanation: "الكود <strong>&amp;hearts;</strong> هو إحدى الرموز الخاصة في HTML (Entities) التي تترجم إلى رمز القلب. (يُمكن أيضاً استخدام &#9829;).",
+            options: ["&love;", "&heart;", "&hearts;", "&lt;3"]
+        },
+        {
+            q: "في وسم <code>&lt;details&gt;</code>، ما هو الوسم الذي يمثل العنوان الذي يُضغط عليه لكشف المحتوى؟",
+            a: "summary",
+            explanation: "الوسم <strong>&lt;summary&gt;</strong> يُستخدم لوضع العنوان الظاهر الذي يعمل كنقطة انطلاق لفتح وغلق محتوى الوسم <code>&lt;details&gt;</code>.",
+            options: ["title", "details-title", "summary", "caption"]
+        },
+
+        // عام
+        {
+            q: "ما هي طريقة كتابة التعليق (Comment) التي لا تظهر في المتصفح؟",
+            // الإجابة مخزنة كنص كامل؛ عند العرض نعرضها بشكل آمن (escaped)
+            a: "<!-- تعليق -->",
+            explanation: "التعليقات في HTML تكتب هكذا: <strong>&lt;!-- تعليق --&gt;</strong>. المتصفح يتجاهلها ولا يعرضها للمستخدم، وتستخدم لملحوظات المبرمجين.",
+            options: ["// تعليق هنا", "/* تعليق هنا */", "# تعليق هنا", "<!-- تعليق -->"]
+        },
+        {
+            q: "عند استخدام وسم <code>input</code>، أي خاصية تُستخدم لربط خانة الإدخال بالعنوان الخاص بها (<code>&lt;label&gt;</code>)؟",
+            a: "id",
+            explanation: "الربط يتم عن طريق مطابقة قيمة خاصية <strong>for</strong> في الوسم <code>&lt;label&gt;</code> مع قيمة خاصية <strong>id</strong> في الوسم <code>&lt;input&gt;</code> لزيادة سهولة الاستخدام (Accessibility).",
+            options: ["class", "name", "id", "ref"]
+        },
+        {
+            q: "ما هو الوسم الأفضل استخداماً لتجميع المدخلات المرتبطة معاً داخل النموذج (<code>&lt;form&gt;</code>) وعرض إطار حولها؟",
+            a: "fieldset",
+            explanation: "الوسم <strong>&lt;fieldset&gt;</strong> هو الأفضل لتجميع العناصر ذات الصلة منطقياً داخل النموذج، ويعرض المتصفح عادةً إطاراً حولها.",
+            options: ["div", "group", "section", "fieldset"]
+        },
+        {
+            q: "ما هي الخاصية التي تحدد القيمة التي سيتم إرسالها عند اختيار عنصر في قائمة <code>&lt;select&gt;</code> أو <code>&lt;input type='radio'&gt;</code>؟",
+            a: "value",
+            explanation: "خاصية <strong>value</strong> هي القيمة الفعلية التي يتم إرسالها إلى الخادم عند إرسال النموذج.",
+            options: ["label", "text", "name", "value"]
+        }
     ];
 
+    // state
     let score = 0;
+    const answeredQuestions = new Set();
+
+    // عناصر DOM
     const quizContainer = document.getElementById("quiz");
 
-    // وظيفة إنشاء واجهة الاختبار
-    quizData.forEach((item, index) => {
-        const div = document.createElement("div");
-        div.classList.add("question-block");
-        div.innerHTML = `
-            <div class="question">${index + 1}. ${item.q}</div>
-            <div class="options">
-                ${item.options.map(opt => `<button class="option" onclick="checkAnswer(this, '${item.a}', ${index})">${opt}</button>`).join("")}
-            </div>
-        `;
-        quizContainer.appendChild(div);
-    });
+    // دالة إنشاء واجهة الاختبار وتركيب الأسئلة
+    function renderQuiz() {
+        quizContainer.innerHTML = ""; // تنظيف إن كان فيه محتوى سابق
 
-    // وظيفة التصحيح الفردي (عند النقر)
-    function checkAnswer(btn, correctAnswer, questionIndex) {
+        quizData.forEach((item, index) => {
+            const div = document.createElement("div");
+            div.className = "question-block";
+
+            const qElem = document.createElement("div");
+            qElem.className = "question";
+            qElem.innerHTML = `${index + 1}. ${escapeHTML(item.q)}`; // محتوى السؤال مؤمّن
+
+            const optionsDiv = document.createElement("div");
+            optionsDiv.className = "options";
+            optionsDiv.id = `options-${index}`;
+
+            // أنشئ الأزرار عبر DOM عشان نضمن textContent مش innerHTML
+            item.options.forEach(opt => {
+                const btn = document.createElement("button");
+                btn.className = "option";
+                btn.type = "button";
+                // نعرض النص كـ textContent عشان لو فيه &lt; or &gt; يظهر حرفيًا
+                btn.textContent = opt;
+                btn.addEventListener("click", () => checkAnswer(btn, index));
+                optionsDiv.appendChild(btn);
+            });
+
+            const feedback = document.createElement("div");
+            feedback.className = "feedback";
+            feedback.id = `feedback-${index}`;
+
+            div.appendChild(qElem);
+            div.appendChild(optionsDiv);
+            div.appendChild(feedback);
+
+            quizContainer.appendChild(div);
+        });
+    }
+
+    // دالة تصحيح إجابة
+    function checkAnswer(btn, questionIndex) {
+        if (answeredQuestions.has(questionIndex)) return; // منع إعادة الإجابة
+
         const buttons = btn.parentElement.querySelectorAll(".option");
-        
-        // منع النقر المتكرر على أي خيار في السؤال نفسه
-        buttons.forEach(b => b.disabled = true); 
-        
-        if (btn.textContent === correctAnswer) {
+        const feedbackElement = document.getElementById(`feedback-${questionIndex}`);
+        const questionData = quizData[questionIndex];
+        const correctAnswer = questionData.a;
+
+        // نص الجواب المختار (نستخدم textContent لأنه آمن وينقل المحتوى الظاهر)
+        const selectedAnswer = btn.textContent;
+
+        // تعطيل كل الأزرار في السؤال
+        buttons.forEach(b => b.disabled = true);
+        answeredQuestions.add(questionIndex);
+
+        // عرض صندوق التقييم
+        feedbackElement.style.display = "block";
+
+        if (selectedAnswer === correctAnswer) {
+            // إجابة صحيحة
             btn.classList.add("correct");
-            btn.textContent += " ✅";
+            // زيادة الدرجة
             score++;
+
+            // رسالة تحفيز عشوائية
+            const motivationalMessages = ["برافو عليك!", "ممتاز!", "إجابة صحيحة يا بطل!", "أداء رائع!", "هذا هو الإتقان!"];
+            const randomMsg = motivationalMessages[Math.floor(Math.random() * motivationalMessages.length)];
+
+            feedbackElement.classList.remove("negative");
+            feedbackElement.classList.add("positive");
+            feedbackElement.innerHTML = `<strong>🎉 ${randomMsg}</strong><br>${questionData.explanation}`;
+
         } else {
+            // إجابة خاطئة
             btn.classList.add("wrong");
-            btn.textContent += " ❌";
-            
-            // إظهار الإجابة الصحيحة
+
+            // تمييز الزر الصحيح إن وجد
             const correctBtn = Array.from(buttons).find(b => b.textContent === correctAnswer);
-            if (correctBtn) { // التأكد من وجودها
+            if (correctBtn) {
                 correctBtn.classList.add("correct");
-                correctBtn.textContent += " ✅ (الصحيحة)";
             }
+
+            feedbackElement.classList.remove("positive");
+            feedbackElement.classList.add("negative");
+            feedbackElement.innerHTML = `<strong>❌ خطأ. الإجابة الصحيحة هي: ${escapeHTML(correctAnswer)}</strong><br>${questionData.explanation}`;
         }
     }
-    
-    // وظيفة عرض النتيجة النهائية
+
+    // دالة عرض النتيجة النهائية
     function showFinalScore() {
         const totalQuestions = quizData.length;
         const percentage = (score / totalQuestions) * 100;
         const scoreElement = document.getElementById("score");
-        
-        // تحديد الرسالة بناءً على النتيجة
+
         let message = '';
-        if (percentage === 100) {
+        if (percentage >= 90) {
             message = '🎉 تهانينا! إجاباتك مثالية. أنت محترف HTML!';
-        } else if (percentage >= 80) {
+        } else if (percentage >= 70) {
             message = '👍🏼 أداء ممتاز! مستواك عالٍ جداً في HTML.';
-        } else if (percentage >= 60) {
-            message = '👏🏼 أداء جيد! يمكنك الانتقال لـ CSS مع مراجعة النقاط الضعيفة.';
+        } else if (percentage >= 50) {
+            message = '👏🏼 أداء جيد! راجع الدروس لتحسين مستواك.';
         } else {
-            message = '💡 تحتاج إلى مراجعة شاملة لأساسيات HTML قبل الانتقال لـ CSS.';
+            message = '💡 تحتاج إلى مراجعة شاملة للدرس الأول لأساسيات HTML.';
         }
-        
-        // عرض النتيجة
+
         scoreElement.innerHTML = `
-            <p>النتيجة النهائية: **${score}** من أصل **${totalQuestions}**</p>
-            <p style="font-size: 1.2em; color: ${percentage >= 60 ? '#28a745' : '#dc3545'};">نسبة النجاح: **${percentage.toFixed(0)}%**</p>
+            <p>النتيجة النهائية: <strong>${score}</strong> من أصل <strong>${totalQuestions}</strong></p>
+            <p style="font-size: 1.2em; color: ${percentage >= 50 ? '#28a745' : '#dc3545'};">نسبة النجاح: <strong>${percentage.toFixed(0)}%</strong></p>
             <p style="font-weight: 400; color: #333;">${message}</p>
         `;
         scoreElement.style.display = 'block';
-        document.getElementById("finish-quiz-btn").style.display = 'none'; // إخفاء الزر بعد النقر
+        document.getElementById("finish-quiz-btn").style.display = 'none';
 
-        // تعطيل جميع الأزرار لمنع أي تغييرات إضافية
+        // تعطيل كل الأزرار لو فضّل فيه غير معلوم
         document.querySelectorAll('.option').forEach(b => b.disabled = true);
-        
-        // الانتقال إلى منطقة النتيجة
+
+        // سكرول للنتيجة
         scoreElement.scrollIntoView({ behavior: 'smooth' });
     }
+
+    // معاينات المشاريع التفاعلية
+    function updatePreview(projectId) {
+        const input = document.getElementById(`${projectId}-input`);
+        const preview = document.getElementById(`${projectId}-preview`);
+        if (preview) {
+            // لا ننفذ سكربتات واردة، نضع المحتوى كـ innerHTML لأن المستخدم يكتب HTML تجريبي
+            // لكن حرصًا على الأمان: لو عايز أفلتر سكربت tags قلّي.
+            preview.innerHTML = input.value;
+        }
+    }
+
+    // تهيئة الصفحة عند التحميل
+    document.addEventListener('DOMContentLoaded', () => {
+        renderQuiz();
+        updatePreview('project1');
+        updatePreview('project2');
+    });
+
 </script>
 
 </body>

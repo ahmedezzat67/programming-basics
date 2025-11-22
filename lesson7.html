@@ -1,169 +1,285 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8"> 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-    <title>شرح شامل لكل ما يخص HTML</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="مرجع HTML الشامل باللغة العربية - شرح مبسط وتفاعلي">
+    <title>الموسوعة الشاملة لتعلم HTML (من الصفر للاحتراف)</title>
     
     <style>
-        /* (تم الاحتفاظ بـ CSS السابق لضمان شكل البطاقات الجذاب) */
-        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap');
         
+        /* ==================== 1. تنسيقات الصفحة الأساسية (The Body) ==================== */
         body {
             font-family: 'Cairo', sans-serif;
-            background: linear-gradient(135deg, #e0f7fa, #f9f9f9);
-            color: #333;
-            line-height: 1.7;
+            /* خلفية متدرجة عشان تدي شكل مودرن */
+            background: linear-gradient(135deg, #e3f2fd, #f3e5f5); 
+            color: #2c3e50;
+            line-height: 1.8;
             padding: 20px;
-            direction: rtl;
+            margin: 0;
         }
 
+        /* الحاوية الرئيسية اللي شايلة المحتوى كله */
         .container {
             max-width: 1000px; 
-            margin: 30px auto;
+            margin: 40px auto;
             background: #fff;
-            padding: 35px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            text-align: right;
+            padding: 40px;
+            border-radius: 20px;
+            /* ضل خفيف عشان يدي تجسيم */
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1); 
+            border-top: 10px solid #6a1b9a; /* لمسة جمالية من فوق */
         }
 
+        /* ==================== 2. العناوين (Headings) ==================== */
         h1 {
             color: #4a148c;
-            border-bottom: 4px solid #ce93d8;
-            padding-bottom: 15px;
+            border-bottom: 4px dashed #ce93d8;
+            padding-bottom: 20px;
             font-size: 2.5em;
-            margin-bottom: 30px;
+            margin-bottom: 50px;
             text-align: center;
+            text-shadow: 2px 2px 0px #eee;
         }
 
         h2 {
-            color: #880e4f;
-            border-right: 5px solid #ffccbc;
-            padding-right: 15px;
-            margin-top: 40px;
-            margin-bottom: 25px;
+            background-color: #f3e5f5;
+            color: #6a1b9a;
+            padding: 15px 25px;
+            border-radius: 10px;
+            margin-top: 70px;
+            margin-bottom: 30px;
+            border-right: 8px solid #8e24aa; /* شريط جانبي للعنوان */
+            font-size: 1.8em;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        /* ==================== 3. كروت المعلومات (Info Cards) ==================== */
+        .info-card {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 40px;
+            border: 1px solid #e1bee7;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
         
-        .info-card {
-            background-color: #f3e5f5;
-            padding: 18px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ce93d8;
-            transition: transform 0.2s;
-        }
         .info-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transform: translateY(-5px); /* حركة خفيفة عند الماوس */
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            border-color: #ba68c8;
+        }
+
+        /* الشريط الملون الجانبي في كل كارت */
+        .info-card::before {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            width: 6px;
+            background: linear-gradient(to bottom, #ab47bc, #7b1fa2);
         }
 
         .code-title {
-            font-size: 1.4em;
-            font-weight: 900;
-            color: #4a148c;
-            border-bottom: 2px dashed #ce93d8;
-            padding-bottom: 5px;
-            margin-bottom: 10px;
+            font-size: 1.5em;
+            font-weight: 800;
+            color: #283593;
+            margin-bottom: 20px;
+            border-bottom: 2px dotted #c5cae9;
+            padding-bottom: 10px;
+            display: flex;
+            align-items: center;
         }
 
+        /* ==================== 4. صندوق الشرح "المصري" (Analogies) ==================== */
+        .real-life-analogy {
+            background-color: #fffde7; /* لون أصفر فاتح زي ورق الملاحظات */
+            border: 2px solid #fbc02d;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 25px 0;
+            color: #4e342e;
+            font-size: 1.05em;
+            line-height: 1.7;
+            position: relative;
+        }
+        
+        /* علامة "مصباح" صغيرة */
+        .real-life-analogy::after {
+            content: '💡';
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            font-size: 30px;
+            background: white;
+            padding: 0 5px;
+        }
+
+        .real-life-analogy strong {
+            color: #e65100;
+            font-size: 1.15em;
+            text-decoration: underline;
+            text-decoration-color: #ffe0b2;
+        }
+        
+        .analogy-icon {
+            font-size: 1.8em;
+            vertical-align: middle;
+            margin-left: 15px;
+        }
+
+        /* ==================== 5. القوائم والتفاصيل ==================== */
         .code-detail-list {
             list-style: none;
             padding: 0;
             margin: 0;
         }
         .code-detail-list li {
-            margin-bottom: 8px;
-            padding-right: 15px;
+            margin-bottom: 15px;
+            padding-right: 30px;
             position: relative;
+            font-size: 1.1em;
         }
-        .code-detail-list li strong {
-            color: #880e4f;
-            display: inline-block;
-            min-width: 120px;
-        }
+        /* شكل الدبوس جنب كل معلومة */
         .code-detail-list li::before {
-            content: "•";
-            color: #4a148c;
-            font-size: 1.2em;
+            content: "📌";
             position: absolute;
             right: 0;
-            top: 0;
+            top: 4px;
+            font-size: 1em;
         }
 
-        .code-example {
-             background-color: #2c3e50;
-            color: #ecf0f1;
-            padding: 10px;
-            border-radius: 6px;
-            font-family: 'Courier New', monospace;
+        /* شكل الكود الصغير وسط الكلام (Inline Code) */
+        code {
+            background: #f5f5f5;
+            padding: 3px 8px;
+            border-radius: 5px;
+            color: #d81b60;
+            font-family: 'Consolas', monospace;
+            font-weight: bold;
+            font-size: 1.1em;
+            border: 1px solid #ddd;
             direction: ltr;
-            text-align: left;
-            font-size: 0.9em;
-            margin-top: 10px;
+            display: inline-block;
         }
-        
-        /* قسم التطبيق العملي */
-        #live-editor {
-            margin-top: 30px;
-            border: 2px solid #3498db;
-            border-radius: 10px;
+
+        /* ==================== 6. تشريح الكود (Visual Anatomy) ==================== */
+        .tag-anatomy {
+            background: #263238; /* خلفية غامقة */
+            color: white;
             padding: 20px;
-            background-color: #ecf0f1;
-        }
-        #code-input {
-            width: 100%;
-            height: 150px;
-            padding: 10px;
-            border: 1px solid #bdc3c7;
-            border-radius: 6px;
+            border-radius: 10px;
+            margin: 20px 0;
             font-family: 'Courier New', monospace;
-            font-size: 1em;
+            text-align: center;
             direction: ltr;
+            border: 4px solid #37474f;
+            box-shadow: inset 0 0 10px #000;
         }
-        #run-button {
-            display: block;
+        .tag-part { color: #ff4081; font-weight: bold; font-size: 1.4em; }
+        .content-part { color: #69f0ae; font-weight: bold; font-size: 1.2em; margin: 0 15px; }
+
+        /* ==================== 7. المحرر الحي (The Live Editor) ==================== */
+        .live-editor {
+            margin-top: 30px;
+            border: 2px solid #b0bec5;
+            border-radius: 12px;
+            overflow: hidden;
+            background: white;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        }
+        .editor-header {
+            background: #eceff1;
+            padding: 12px 20px;
+            font-weight: bold;
+            font-size: 1em;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #455a64;
+            border-bottom: 2px solid #cfd8dc;
+        }
+        .live-badge {
+            background: #ffebee;
+            color: #c62828;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            display: flex;
+            align-items: center;
+            border: 1px solid #ffcdd2;
+            font-weight: bold;
+        }
+        .live-badge::before {
+            content: '●';
+            margin-left: 8px;
+            font-size: 1.2em;
+            color: #ff1744;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+
+        .editor-area {
+            display: flex;
+            flex-direction: column;
+        }
+        textarea.code-input {
             width: 100%;
-            padding: 12px;
-            margin-top: 15px;
-            background-color: #2ecc71;
-            color: white;
+            min-height: 130px;
+            background: #282c34; /* لون VS Code */
+            color: #abb2bf;
+            padding: 20px;
             border: none;
-            border-radius: 6px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        #run-button:hover {
-            background-color: #27ae60;
-        }
-        #output-area {
-            margin-top: 20px;
-            padding: 15px;
-            border: 2px dashed #e74c3c;
-            border-radius: 8px;
-            background-color: #fff;
-            min-height: 50px;
-            text-align: right;
-            direction: rtl;
-        }
-        
-        .btn-footer {
-            background: linear-gradient(90deg, #6a1b9a, #9c27b0);
-            color: white;
-            padding: 12px 25px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            margin: 10px 7px;
-            transition: all 0.3s ease;
+            font-family: 'Consolas', 'Monaco', monospace;
             font-size: 16px;
+            resize: vertical;
+            box-sizing: border-box;
+            outline: none;
+            direction: ltr;
+            border-bottom: 5px solid #ffa000; /* فاصل لوني */
+        }
+        textarea.code-input:focus {
+            background: #23272e;
+        }
+        .code-preview {
+            background: #fff;
+            padding: 25px;
+            min-height: 80px;
+            border-top: 1px solid #eee;
+            /* باترن خلفية شفاف عشان يوضح العناصر */
+            background-image: linear-gradient(45deg, #f0f0f0 25%, transparent 25%), linear-gradient(-45deg, #f0f0f0 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #f0f0f0 75%), linear-gradient(-45deg, transparent 75%, #f0f0f0 75%);
+            background-size: 20px 20px;
+            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+        }
+
+        /* ==================== 8. أزرار التنقل (Footer Buttons) ==================== */
+        .btn-footer {
+            background: linear-gradient(45deg, #7b1fa2, #9c27b0);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            margin: 10px;
+            transition: all 0.3s ease;
+            font-size: 18px;
             font-weight: bold;
+            box-shadow: 0 5px 15px rgba(123, 31, 162, 0.3);
         }
         .btn-footer:hover {
-             background: linear-gradient(90deg, #4a148c, #6a1b9a);
-             transform: translateY(-2px);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 10px 20px rgba(123, 31, 162, 0.5);
         }
+        .btn-footer.secondary {
+            background: linear-gradient(45deg, #455a64, #607d8b);
+            box-shadow: 0 5px 15px rgba(69, 90, 100, 0.3);
+        }
+
     </style>
 </head>
 
@@ -171,283 +287,689 @@
 
     <div class="container">
         
-        <h1>كل ما يخص لغة HTML (هيكل الويب) 🧱</h1>
-        
-        <p style="font-size: 1.1em; font-weight: 600; text-align: center;">
-            **ما هي لغة HTML؟** HTML هي اللغة الأساسية لبناء الهيكل، **وليست لغة برمجة**. هي اللغة التي تحدد نوع كل محتوى (نص، صورة، رابط) وتخبر المتصفح بكيفية ترتيبه. 
+        <h1>الموسوعة الشاملة لتعلم HTML (من الصفر للاحتراف) 🧱</h1>
+        <p style="text-align: center; color: #555; font-size: 1.2em; max-width: 800px; margin: 0 auto 50px;">
+            ده مش مجرد كود، ده كورس كامل. كل وسم (Tag) في اللغة مشروح هنا بالتفصيل الممل، بمثال من حياتنا اليومية عشان تفهم الفكرة، ومكان تجرب فيه بإيدك.
         </p>
 
-        <h2>0. 💡 مفاهيم HTML الأساسية (يجب أن تعرفها أولاً)</h2>
+        <h2>0. 💡 يعني إيه HTML وما هو الـ Tag؟</h2>
+
         <div class="info-card">
             <div class="code-title">ما هو الـ Tag (الوسم)؟</div>
+            
+            <div class="real-life-analogy">
+                <span class="analogy-icon">🥪</span> <strong>شرح "بطريقه مبسطه "</strong><br>
+                تخيل الـ Tag ده زي <strong>"رغيف العيش"</strong> في السندوتش.<br>
+                فيه رغيف فوق (بداية) ورغيف تحت (نهاية)، والحشو (الجبنة أو اللانشون) في النص.<br>
+                التاج وظيفته يقول للمتصفح: "خد بالك الحشو اللي جاي ده عبارة عن (عنوان) أو (صورة) أو (زرار)". من غير العيش، الحشو هيقع ومش هيبقى ليه شكل.
+            </div>
+
             <ul class="code-detail-list">
-                <li><strong>التعريف:</strong> هو **أمر** أو **تعليمات** تُعطى للمتصفح.</li>
-                <li><strong>الشكل:</strong> يكون محاطاً بعلامتي **&lt;** و **&gt;**، مثل <code>&lt;p&gt;</code>.</li>
-                <li><strong>بيعمل إيه؟</strong> هو الذي يحدد **نوع** المحتوى المحصور بداخله. فمثلاً، وسم <code>&lt;p&gt;</code> يقول للمتصفح: "المحتوى اللي جاي ده عبارة عن فقرة نصية".</li>
+                <li><strong>التعريف:</strong> هو الأمر اللي بتديه للمتصفح عشان يبني الهيكل العظمي للصفحة.</li>
+                <li><strong>الشكل:</strong> دايماً محصور بين علامتين <code>&lt; &gt;</code>.</li>
+                <li><strong>التشريح (مما يتكون):</strong>
+                    <div class="tag-anatomy">
+                        <span class="tag-part">&lt;h1&gt;</span>
+                        <span class="content-part"> أهلاً بيكم في موقعي </span>
+                        <span class="tag-part">&lt;/h1&gt;</span>
+                        <br>
+                        <small style="color:#aaa; font-size: 0.7em;">(بداية) + (محتوى) + (نهاية)</small>
+                    </div>
+                </li>
             </ul>
         </div>
-        
+
         <div class="info-card">
-            <div class="code-title">إغلاق الـ Tag: مزدوج أم مغلق ذاتياً؟</div>
+            <div class="code-title">أنواع التاجات: (مزدوج) ولا (مقفول ذاتياً)؟</div>
+            
+            <div class="real-life-analogy">
+                <span class="analogy-icon">🎁</span> <strong>شرح من حياتنا:</strong><br>
+                <strong>1. المزدوج (Paired):</strong> زي "علبة الهدية"، لازم تفتح العلبة <code>&lt;p&gt;</code> وتحط الهدية (الكلام) وبعدين تغلق العلبة <code>&lt;/p&gt;</code> عشان الهدية متقعش.<br>
+                <strong>2. المقفول ذاتياً (Self-closing):</strong> زي "الاستيكر" أو "اللاصقة". هي ورقة واحدة بتلزقها عشان تدي معلومة (زي الصورة) أو تعمل فعل (زي سطر جديد)، مش محتاجة تفتح وتخبي حاجة جواها.
+            </div>
+
             <ul class="code-detail-list">
-                <li><strong>الوسم المزدوج (Paired Tag):</strong> <br> **يتطلب إغلاق.** يتكون من وسم بداية (<code>&lt;p&gt;</code>) ووسم نهاية (<code>&lt;/p&gt;</code>). الوسم لازم يتقفل بـ **/** عشان المتصفح يعرف **فين بينتهي المحتوى** التابع للوسم ده.</li>
-                <li><strong>الوسم المُغلق ذاتياً (Self-closing Tag):</strong> <br> **لا يتطلب إغلاق.** وسم وحيد لا يضم محتوى داخله، بل يعتمد على الخصائص لإكمال وظيفته. <br> **أمثلة شائعة:** <code>&lt;img&gt;</code>، <code>&lt;br&gt;</code>، <code>&lt;input&gt;</code>.</li>
+                <li><strong>وسم مزدوج:</strong> ليه بداية ونهاية (زي الفقرات <code>p</code> والعناوين <code>h1</code>).</li>
+                <li><strong>وسم ذاتي:</strong> ملوش قفلة (زي الصور <code>img</code>، الفاصل <code>hr</code>، النزول لسطر <code>br</code>).</li>
             </ul>
-            <div class="code-example">
-                &lt;p>ده وسم مزدوج، لازم يتقفل&lt;/p><br>
-                &lt;img src="pic.jpg"> ده وسم مغلق ذاتياً (لا يحتاج &lt;/img>) 
+
+            <div class="live-editor">
+                <div class="editor-header">
+                    <span>جرب الفرق بين الفقرة (علبة) والفاصل (استيكر)</span>
+                    <span class="live-badge">Live Preview</span>
+                </div>
+                <div class="editor-area">
+<textarea class="code-input" oninput="updatePreview(this)">
+<p>أنا جملة جوه صندوق الفقرة.</p>
+
+<hr>
+
+<input type="text" placeholder="اكتب هنا...">
+</textarea>
+                    <div class="code-preview">
+                        <p>أنا جملة جوه صندوق الفقرة.</p>
+                        <hr>
+                        <input type="text" placeholder="اكتب هنا...">
+                    </div>
+                </div>
             </div>
         </div>
 
-        <h2>1. 🔑 الأركان الإلزامية والتهيئة (Core & Head Tags)</h2>
+        <h2>1. 🔑 أساسيات العمارة (هيكل الصفحة)</h2>
+
         <div class="info-card">
-            <div class="code-title">&lt;!DOCTYPE html&gt;</div>
+            <div class="code-title">&lt;head&gt; و &lt;body&gt;</div>
+            <div class="real-life-analogy">
+                <span class="analogy-icon">🍽️</span> <strong>مثال المطعم:</strong><br>
+                <strong>الـ Head (المطبخ):</strong> ده المكان اللي الطباخين (المتصفح) بيجهزوا فيه الوصفات والمقادير (ملفات CSS، عنوان الصفحة، إعدادات اللغة). الزبون (المستخدم) مابيدخلش المطبخ ومابيشوفش إيه اللي بيحصل جوه، بس الأكل مش هيطلع حلو من غيره.<br>
+                <strong>الـ Body (صالة الأكل):</strong> ده المكان اللي الزبون بيقعد فيه وبيشوف الديكور، والترابيزات، والأكل (الصور، الكلام، الفيديوهات). أي حاجة عايز الناس تشوفها بعينها لازم تحطها هنا.
+            </div>
             <ul class="code-detail-list">
-                <li><strong>الوظيفة:</strong> إعلان نوع المستند.</li>
-                <li><strong>التفصيل:</strong> **إلزامي** كأول سطر. دوره إخبار المتصفح بأن الملف هو HTML5 لضمان أفضل طريقة عرض قياسية وحديثة.</li>
-            </ul>
-        </div>
-        
-        <div class="info-card">
-            <div class="code-title">&lt;html&gt;</div>
-            <ul class="code-detail-list">
-                <li><strong>الوظيفة:</strong> وسم الجذر (Root Element).</li>
-                <li><strong>التفصيل:</strong> الحاوية الرئيسية التي تضم كل شيء في الصفحة. يجب تحديد اللغة (<code>lang="ar"</code>) واتجاه النص (<code>dir="rtl"</code>) بداخله لتحسين القراءة والـ SEO.</li>
+                <li><code>&lt;!DOCTYPE html&gt;</code>: شهادة الميلاد اللي بتقول للمتصفح "أنا صفحة HTML5 حديثة".</li>
+                <li><code>&lt;html&gt;</code>: الحاوية الكبيرة (المبنى كله).</li>
+                <li><code>&lt;head&gt;</code>: مخ الصفحة (غير مرئي).</li>
+                <li><code>&lt;body&gt;</code>: جسم الصفحة (المرئي).</li>
             </ul>
         </div>
 
         <div class="info-card">
-            <div class="code-title">&lt;head&gt;</div>
-            <ul class="code-detail-list">
-                <li><strong>الوظيفة:</strong> رأس المستند (المعلومات الوصفية).</li>
-                <li><strong>التفصيل:</strong> هو **مخ الصفحة**. يحتوي على بيانات غير مرئية للمستخدم، مثل إعدادات الترميز، عنوان التبويب، وربط ملفات CSS/JavaScript الخارجية.</li>
-            </ul>
+            <div class="code-title">العناوين والفقرات (Headings & Paragraphs)</div>
+            <div class="real-life-analogy">
+                <span class="analogy-icon">📰</span> <strong>مثال الجرنال:</strong><br>
+                الـ <code>h1</code> هو "المانشيت العريض" في الصفحة الأولى (أهم عنوان).<br>
+                الـ <code>h2</code> هو عنوان لخبر فرعي.<br>
+                الـ <code>p</code> هو تفاصيل الخبر نفسه (الكلام الصغير).<br>
+                ماتستخدمش العناوين عشان تكبر الخط، استخدمها عشان ترتب أهمية الكلام لـ جوجل (SEO).
+            </div>
+            <div class="live-editor">
+                <div class="editor-header"><span>جرب تسلسل العناوين</span></div>
+                <div class="editor-area">
+<textarea class="code-input" oninput="updatePreview(this)">
+<h1>عنوان رئيسي ضخم (h1)</h1>
+<h2>عنوان فرعي أصغر (h2)</h2>
+<h3>عنوان فرعي كمان (h3)</h3>
+<p>دي فقرة عادية جداً مكتوب فيها تفاصيل الموضوع.</p>
+</textarea>
+                    <div class="code-preview">
+                        <h1>عنوان رئيسي ضخم (h1)</h1>
+                        <h2>عنوان فرعي أصغر (h2)</h2>
+                        <h3>عنوان فرعي كمان (h3)</h3>
+                        <p>دي فقرة عادية جداً مكتوب فيها تفاصيل الموضوع.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h2>2. 🎨 تنسيق النصوص (مكياج الكلام)</h2>
+
+        <div class="info-card">
+            <div class="code-title">التنسيقات المتقدمة</div>
+            <div class="real-life-analogy">
+                <span class="analogy-icon">🖍️</span> <strong>شرح الأدوات المكتبية:</strong><br>
+                زي ما بتستخدم قلم "هايلايتر" عشان تعلم على المهم <code>mark</code>، أو تشطب على كلمة غلط <code>del</code>، أو تكتب أس في معادلة رياضية <code>sup</code>.<br>
+                الـ HTML بيديك أدوات زي دي بالظبط.
+            </div>
+            
+            <div class="live-editor">
+                <div class="editor-header"><span>جرب التنسيقات دي كلها</span></div>
+                <div class="editor-area">
+<textarea class="code-input" oninput="updatePreview(this)" style="height: 180px;">
+<p>نص عادي بس <b>تخين (Bold)</b>.</p>
+<p>نص عادي بس <i>مايل (Italic)</i>.</p>
+<p>نص <mark>متعلم عليه بقلم فسفوري (Mark)</mark> عشان مهم.</p>
+<p>السعر القديم <del>100 جنيه</del> والسعر الجديد <ins>50 جنيه</ins>.</p>
+<p>معادلة الكيمياء: H<sub>2</sub>O (الرقم تحت).</p>
+<p>الأس الرياضي: 5<sup>2</sup> = 25 (الرقم فوق).</p>
+</textarea>
+                    <div class="code-preview">
+                        <p>نص عادي بس <b>تخين (Bold)</b>.</p>
+                        <p>نص عادي بس <i>مايل (Italic)</i>.</p>
+                        <p>نص <mark>متعلم عليه بقلم فسفوري (Mark)</mark> عشان مهم.</p>
+                        <p>السعر القديم <del>100 جنيه</del> والسعر الجديد <ins>50 جنيه</ins>.</p>
+                        <p>معادلة الكيمياء: H<sub>2</sub>O (الرقم تحت).</p>
+                        <p>الأس الرياضي: 5<sup>2</sup> = 25 (الرقم فوق).</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h2>3. 🏗️ التقسيم والـ Div vs Span</h2>
+
+        <div class="info-card">
+            <div class="code-title">الفرق الخطير بين &lt;div&gt; و &lt;span&gt;</div>
+            <div class="real-life-analogy">
+                <span class="analogy-icon">📦</span> <strong>مثال الصناديق والماركر:</strong><br>
+                📦 <strong>الـ DIV (بلوك Block):</strong> عامل زي "صندوق شحن كبير". لما تحطه في الأوضة، بياخد عرض الحيطة كله. لو جبت صندوق تاني، لازم تحطه فوقه أو تحته، مينفعش ييجي جنبه (إلا لو استخدمت CSS).<br>
+                🖍️ <strong>الـ SPAN (إنلاين Inline):</strong> عامل زي "قلم التمييز". بتعلم بيه على كلمة واحدة جوه السطر. ولا بياخد مساحة زيادة، ولا بيكسر السطر، ولا بيضايق حد جنبه.
+            </div>
+            
+            <div class="live-editor">
+                <div class="editor-header">
+                    <span>شوف بعينك الفرق في التصرف</span>
+                    <span class="live-badge">Live Preview</span>
+                </div>
+                <div class="editor-area">
+<textarea class="code-input" oninput="updatePreview(this)" style="height: 160px;">
+<div style="background: #ffcdd2; padding: 5px; margin-bottom: 5px;">📦 أنا DIV رقم 1 (واخد السطر لحسابي)</div>
+<div style="background: #e1bee7; padding: 5px;">📦 أنا DIV رقم 2 (نزلت غصب عني)</div>
+
+<br>
+
+نص عادي جداً، بس <span style="background: #b2dfdb; font-weight: bold;">الكلمة دي جوه Span</span> وكملنا السطر عادي.
+</textarea>
+                    <div class="code-preview">
+                        <div style="background: #ffcdd2; padding: 5px; margin-bottom: 5px;">📦 أنا DIV رقم 1 (واخد السطر لحسابي)</div>
+                        <div style="background: #e1bee7; padding: 5px;">📦 أنا DIV رقم 2 (نزلت غصب عني)</div>
+                        <br>
+                        نص عادي جداً، بس <span style="background: #b2dfdb; font-weight: bold;">الكلمة دي جوه Span</span> وكملنا السطر عادي.
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="info-card">
-            <div class="code-title">&lt;body&gt;</div>
-            <ul class="code-detail-list">
-                <li><strong>الوظيفة:</strong> جسم المستند (المحتوى المرئي).</li>
-                <li><strong>التفصيل:</strong> **الجزء الذي يراه المستخدم ويتفاعل معه**. أي وسم غير موجود داخل <code>&lt;body&gt;</code> لن يتم عرضه على الشاشة.</li>
-            </ul>
-        </div>
-        
-        <div class="info-card">
-            <div class="code-title">&lt;meta&gt;</div>
-            <ul class="code-detail-list">
-                <li><strong>الوظيفة:</strong> بيانات وصفية (Metadata).</li>
-                <li><strong>التفصيل:</strong> وسم مُغلق ذاتياً لتمرير معلومات للمتصفح. أهم استخداماته: <br> - **الترميز:** <code>&lt;meta charset="UTF-8"&gt;</code> لدعم اللغات. <br> - **التجاوبية:** <code>&lt;meta name="viewport" ...&gt;</code> لتكييف العرض مع الأجهزة المختلفة.</li>
-            </ul>
-        </div>
-        
-        <div class="info-card">
-            <div class="code-title">&lt;link&gt;</div>
-            <ul class="code-detail-list">
-                <li><strong>الوظيفة:</strong> ربط ملف خارجي.</li>
-                <li><strong>التفصيل:</strong> يستخدم لربط ملفات التنسيق (CSS) بالمستند. يجب تحديد الخاصية <code>rel="stylesheet"</code> ونوع الملف <code>href="المسار"</code>.</li>
-            </ul>
-            <div class="code-example">&lt;link rel="stylesheet" href="style.css"></div>
+            <div class="code-title">العناصر الدلالية (Semantic Tags)</div>
+            <div class="real-life-analogy">
+                <span class="analogy-icon">🏗️</span> <strong>مثال العمارة المنظمة:</strong><br>
+                بدل ما نسمي كل الأوض "أوضة"، بنسمي دي "مطبخ" ودي "حمام".<br>
+                في الكود نفس الكلام، بدل ما نعمل كله <code>div</code>، بنستخدم:<br>
+                - <code>header</code>: رأس الصفحة.<br>
+                - <code>nav</code>: قائمة التنقل (الزراير).<br>
+                - <code>section</code>: قسم في الصفحة.<br>
+                - <code>footer</code>: تذييل الصفحة.<br>
+                ده بيخلي جوجل يفهم موقعك أحسن بكتير.
+            </div>
         </div>
 
-        <h2>2. 🏗️ الأوسمة الدلالية والتقسيم الهيكلي (Semantic Tags)</h2>
-        <div class="info-card">
-            <div class="code-title">&lt;header&gt;</div>
-            <ul class="code-detail-list">
-                <li><strong>الوظيفة:</strong> رأس الموقع أو القسم.</li>
-                <li><strong>التفصيل:</strong> يُستخدم لاحتواء العناصر التمهيدية مثل الشعار، واسم الموقع، وعناصر التنقل. يجب أن يكون في بداية الصفحة أو القسم.</li>
-            </ul>
-        </div>
-        
-        <div class="info-card">
-            <div class="code-title">&lt;nav&gt;</div>
-            <ul class="code-detail-list">
-                <li><strong>الوظيفة:</strong> قائمة التنقل الرئيسية.</li>
-                <li><strong>التفصيل:</strong> حاوية مخصصة فقط للروابط الأساسية التي تقود المستخدمين إلى أقسام الموقع المختلفة. </li>
-            </ul>
-        </div>
-        
-        <div class="info-card">
-            <div class="code-title">&lt;main&gt;</div>
-            <ul class="code-detail-list">
-                <li><strong>الوظيفة:</strong> المحتوى الرئيسي والفريد.</li>
-                <li><strong>التفصيل:</strong> يجب أن يحتوي على المحتوى الأساسي الذي يُميز هذه الصفحة بالذات. لا يجب استخدامه إلا **مرة واحدة** في الصفحة.</li>
-            </ul>
-        </div>
-        
-        <div class="info-card">
-            <div class="code-title">&lt;section&gt;</div>
-            <ul class="code-detail-list">
-                <li><strong>الوظيفة:</strong> قسم عام ومترابط.</li>
-                <li><strong>التفصيل:</strong> يُستخدم لتقسيم محتوى الـ <code>&lt;main&gt;</code> إلى أجزاء ذات صلة، مثل قسم "من نحن" أو "لماذا تختارنا". يجب أن يكون له عنوان (<code>&lt;h2&gt;</code> مثلاً).</li>
-            </ul>
-        </div>
-        
-        <div class="info-card">
-            <div class="code-title">&lt;article&gt;</div>
-            <ul class="code-detail-list">
-                <li><strong>الوظيفة:</strong> محتوى مستقل بذاته.</li>
-                <li><strong>التفصيل:</strong> يُستخدم لمحتوى يمكن نشره بشكل مستقل، مثل مقال مدونة، تعليق، أو منشور في منتدى. يجب أن يكون مفهومًا لو نُقل لوحده.</li>
-            </ul>
-        </div>
+        <h2>4. 🎥 الميديا (صور، فيديو، صوت)</h2>
 
         <div class="info-card">
-            <div class="code-title">&lt;aside&gt;</div>
-            <ul class="code-detail-list">
-                <li><strong>الوظيفة:</strong> محتوى جانبي أو ثانوي.</li>
-                <li><strong>التفصيل:</strong> يُستخدم للمحتوى المتعلق بالمحتوى الرئيسي، لكنه ثانوي (مثل قائمة الروابط ذات الصلة، إعلانات، إلخ). يظهر غالبًا في الأشرطة الجانبية (Sidebar).</li>
-            </ul>
-        </div>
-        
-        <div class="info-card">
-            <div class="code-title">&lt;footer&gt;</div>
-            <ul class="code-detail-list">
-                <li><strong>الوظيفة:</strong> ذيل الموقع أو القسم.</li>
-                <li><strong>التفصيل:</strong> يُستخدم لاحتواء معلومات نهاية الصفحة، مثل حقوق النشر، معلومات الاتصال، أو روابط سريعة للخرائط.</li>
-            </ul>
-        </div>
-        
-        <div class="info-card">
-            <div class="code-title">&lt;div&gt;</div>
-            <ul class="code-detail-list">
-                <li><strong>الوظيفة:</strong> حاوية عامة على مستوى الكتلة (Block).</li>
-                <li><strong>التفصيل:</strong> حاوية ليس لها معنى دلالي (Non-Semantic). تُستخدم لتجميع عناصر متعددة لغرض التنسيق بالـ CSS، وتظهر دائماً في سطر جديد.</li>
-            </ul>
-        </div>
-        
-        <div class="info-card">
-            <div class="code-title">&lt;span&gt;</div>
-            <ul class="code-detail-list">
-                <li><strong>الوظيفة:</strong> حاوية عامة على مستوى السطر (Inline).</li>
-                <li><strong>التفصيل:</strong> حاوية ليس لها معنى دلالي. تُستخدم لتجميع أو تنسيق جزء صغير من النص **داخل سطر** دون كسر السطر.</li>
-            </ul>
+            <div class="code-title">&lt;img&gt; الصور</div>
+            <div class="real-life-analogy">
+                <span class="analogy-icon">🖼️</span> <strong>مثال البرواز والورقة:</strong><br>
+                الصورة <code>img</code> عبارة عن برواز.<br>
+                - الـ <code>src</code>: ده الصورة نفسها.<br>
+                - الـ <code>alt</code>: دي "ورقة ملاحظات" في ظهر البرواز. لو الصورة وقعت واتكسرت (أو النت قطع)، الورقة دي بتبان ومكتوب فيها وصف الصورة. دي مهمة جداً عشان جوجل وعشان المكفوفين.
+            </div>
+            <div class="live-editor">
+                <div class="editor-header"><span>جرب الصورة السليمة والمكسورة</span></div>
+                <div class="editor-area">
+<textarea class="code-input" oninput="updatePreview(this)">
+<img src="https://via.placeholder.com/100" alt="مربع رمادي">
+
+<img src="bad-link.jpg" alt="❌ يا خسارة الصورة مش موجودة">
+</textarea>
+                    <div class="code-preview">
+                        <img src="https://via.placeholder.com/100" alt="مربع رمادي">
+                        <img src="bad-link.jpg" alt="❌ يا خسارة الصورة مش موجودة">
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <h2>3. 📝 أوسمة النصوص والروابط والقوائم</h2>
-        <div class="info-card">
-            <div class="code-title">&lt;a&gt;</div>
-            <ul class="code-detail-list">
-                <li><strong>الوظيفة:</strong> الروابط التشعبية (Hyperlinks).</li>
-                <li><strong>التفصيل:</strong> يحول النص إلى رابط. الخاصية الإلزامية هي <code>href</code> لتحديد المسار. الخاصية <code>target="_blank"</code> تجعله يفتح في تبويب جديد.</li>
-            </ul>
-            <div class="code-example">&lt;a href="https://google.com" target="_blank">رابط جوجل&lt;/a></div>
-        </div>
-        
-        <div class="info-card">
-            <div class="code-title">&lt;p&gt; و &lt;br&gt;</div>
-            <ul class="code-detail-list">
-                <li><strong>الوظيفة:</strong> الفقرات وكسر السطر.</li>
-                <li><strong>التفصيل:</strong> <code>&lt;p&gt;</code> للفقرات النصية، والمتصفح يضيف مسافة حولها تلقائياً. <code>&lt;br&gt;</code> وسم مغلق ذاتياً، يجبر النص على النزول لسطر جديد **داخل** نفس الفقرة.</li>
-            </ul>
-        </div>
-        
-        <div class="info-card">
-            <div class="code-title">&lt;ul&gt; و &lt;ol&gt; و &lt;li&gt;</div>
-            <ul class="code-detail-list">
-                <li><strong>الوظيفة:</strong> القوائم غير المرتبة والمرتبة.</li>
-                <li><strong>التفصيل:</strong> <code>&lt;ul&gt;</code> (Unordered List) تُظهر العناصر كنقاط. <code>&lt;ol&gt;</code> (Ordered List) تُظهر العناصر كأرقام أو حروف. <code>&lt;li&gt;</code> (List Item) هو العنصر نفسه داخل القائمة.</li>
-            </ul>
-            <div class="code-example">&lt;ol>&lt;li>خطوة 1&lt;/li>&lt;/ol></div>
-        </div>
-
-        <h2>4. 🖼️ الوسائط (Media) والخصائص</h2>
-        <div class="info-card">
-            <div class="code-title">&lt;img&gt;</div>
-            <ul class="code-detail-list">
-                <li><strong>الوظيفة:</strong> عرض الصور.</li>
-                <li><strong>التفصيل:</strong> وسم مُغلق ذاتياً. يجب استخدام <code>src</code> (المسار) و <code>alt</code> (النص البديل) ضرورة قصوى. <code>alt</code> مهم جداً لو لم يتم تحميل الصورة أو لمستخدمي برامج القراءة.</li>
-            </ul>
-        </div>
-        
         <div class="info-card">
             <div class="code-title">&lt;video&gt; و &lt;audio&gt;</div>
-            <ul class="code-detail-list">
-                <li><strong>الوظيفة:</strong> إدراج ملفات الفيديو والصوت.</li>
-                <li><strong>التفصيل:</strong> يستخدمان لدمج ملفات الوسائط. الخاصية <code>controls</code> تظهر أزرار التحكم (تشغيل، إيقاف). الخاصية <code>autoplay</code> لتشغيل الملف تلقائياً.</li>
-            </ul>
-            <div class="code-example">&lt;video src="clip.mp4" controls>&lt;/video></div>
-        </div>
-        
-        <div class="info-card">
-            <div class="code-title">خاصية id</div>
-            <ul class="code-detail-list">
-                <li><strong>الوظيفة:</strong> مُعرّف فريد للعنصر.</li>
-                <li><strong>التفصيل:</strong> **لا يجب أن يتكرر في الصفحة**. يُستخدم لاستهداف عنصر **واحد بعينه** بالـ CSS (نادرًا) أو JavaScript (شائعًا) أو للروابط الداخلية (Anchor links).</li>
-            </ul>
-        </div>
-
-        <div class="info-card">
-            <div class="code-title">خاصية class</div>
-            <ul class="code-detail-list">
-                <li><strong>الوظيفة:</strong> اسم مجموعة للتنسيق.</li>
-                <li><strong>التفصيل:</strong> **يمكن أن يتكرر على آلاف العناصر**. يُستخدم لتطبيق نفس التنسيق (CSS) أو السلوك (JS) على مجموعة من العناصر معاً.</li>
-            </ul>
-        </div>
-
-        <h2>5. ✍️ النماذج (Forms) والجداول</h2>
-        <div class="info-card">
-            <div class="code-title">&lt;form&gt;</div>
-            <ul class="code-detail-list">
-                <li><strong>الوظيفة:</strong> إنشاء نماذج إدخال البيانات (Login/Sign up).</li>
-                <li><strong>التفصيل:</strong> الحاوية الرئيسية لأي بيانات سيتم إرسالها. الخاصية <code>action</code> تحدد الوجهة التي ستذهب إليها البيانات، والخاصية <code>method</code> تحدد طريقة الإرسال (GET أو POST).</li>
-            </ul>
-        </div>
-
-        <div class="info-card">
-            <div class="code-title">&lt;input&gt;</div>
-            <ul class="code-detail-list">
-                <li><strong>الوظيفة:</strong> حقل إدخال بيانات مُغلق ذاتياً.</li>
-                <li><strong>التفصيل:</strong> الأكثر استخداماً في النماذج. يتم تحديد وظيفته عبر الخاصية <code>type</code> مثل (text، email، password، checkbox، radio، submit).</li>
-            </ul>
-            <div class="code-example">&lt;input type="text" name="username"></div>
-        </div>
-        
-        <div class="info-card">
-            <div class="code-title">&lt;label&gt;</div>
-            <ul class="code-detail-list">
-                <li><strong>الوظيفة:</strong> تسمية حقل الإدخال.</li>
-                <li><strong>التفصيل:</strong> يجب ربطها بحقل الإدخال باستخدام خاصية <code>for</code> التي تحمل نفس قيمة <code>id</code> حقل الإدخال. مهمة جداً لـ **Accessibility** (الوصول).</li>
-            </ul>
-        </div>
-
-        <div class="info-card">
-            <div class="code-title">&lt;table&gt;, &lt;tr&gt;, &lt;td&gt;, &lt;th&gt;</div>
-            <ul class="code-detail-list">
-                <li><strong>الوظيفة:</strong> إنشاء الجداول.</li>
-                <li><strong>التفصيل:</strong> <code>&lt;table&gt;</code> الحاوية. <code>&lt;tr&gt;</code> (Table Row) يمثل الصف. <code>&lt;th&gt;</code> (Table Header) رأس العمود. <code>&lt;td&gt;</code> (Table Data) خلية البيانات العادية.</li>
-            </ul>
-        </div>
-        
-
-        <h2>6. 🛠️ جرب الكود بنفسك (التطبيق العملي)</h2>
-        <div id="live-editor">
-            <p style="font-weight: bold; color: #3498db;">اكتب أي كود HTML وشوف النتيجة مباشرةً:</p>
-            <textarea id="code-input" placeholder="اكتب هنا: &lt;h3>تجربة جدول&lt;/h3>&lt;table border=1>&lt;tr>&lt;td>محتوى&lt;/td>&lt;/tr>&lt;/table>"></textarea>
-            <button id="run-button">تنفيذ الكود 🚀</button>
-            
-            <p style="font-weight: bold; color: #e74c3c; margin-top: 20px;">نتيجة التنفيذ:</p>
-            <div id="output-area">
+            <div class="real-life-analogy">
+                <span class="analogy-icon">📺</span> <strong>التلفزيون والراديو:</strong><br>
+                تقدر تحط فيديو أو ملف صوتي جوه صفحتك.<br>
+                خاصية <code>controls</code> هي اللي بتظهر زراير (التشغيل، التوقيف، والصوت). من غيرها المستخدم مش هيعرف يشغل الفيديو!
+            </div>
+            <div class="live-editor">
+                <div class="editor-header"><span>جرب مشغل الفيديو والصوت</span></div>
+                <div class="editor-area">
+<textarea class="code-input" oninput="updatePreview(this)">
+<video width="320" height="240" controls>
+    <source src="https://www.w3schools.com/html/movie.mp4" type="video/mp4">
+    متصفحك لا يدعم الفيديو.
+</video>
+<br>
+<audio controls>
+    <source src="https://www.w3schools.com/html/horse.mp3" type="audio/mpeg">
+    متصفحك لا يدعم الصوت.
+</audio>
+</textarea>
+                    <div class="code-preview">
+                        <video width="320" height="240" controls>
+                            <source src="https://www.w3schools.com/html/movie.mp4" type="video/mp4">
+                            متصفحك لا يدعم الفيديو.
+                        </video>
+                        <br>
+                        <audio controls>
+                            <source src="https://www.w3schools.com/html/horse.mp3" type="audio/mpeg">
+                            متصفحك لا يدعم الصوت.
+                        </audio>
+                    </div>
                 </div>
+            </div>
         </div>
 
-        <script>
-            document.getElementById('run-button').addEventListener('click', function() {
-                var code = document.getElementById('code-input').value;
-                document.getElementById('output-area').innerHTML = code;
-            });
-        </script>
-        
-        <div style="text-align:center; margin-top: 40px; padding-top: 20px;">
-            <p style="font-size: 1.2em; font-weight: 700; color: #4a148c;">✅ تم تغطية جميع الأوسمة الأساسية في HTML!</p>
-            <button class="btn-footer" onclick="location.href='quiz7.html'">⬅️ اختبر نفسك</button>
-            <button class="btn-footer" onclick="location.href='index.html'">🏠 الصفحة الرئيسية</button>
-            <button class="btn-footer" onclick="location.href='lesson8.html'"> الدرس : CSS ➡️</button>
+        <div class="info-card">
+            <div class="code-title">&lt;iframe&gt; التضمين (شباك على الجيران)</div>
+            <div class="real-life-analogy">
+                <span class="analogy-icon">🪟</span> <strong>مثال الشباك:</strong><br>
+                الـ <code>iframe</code> ده كأنك فتحت شباك جوه موقعك بيبص على موقع تاني (زي يوتيوب أو خرائط جوجل).<br>
+                أنت بتعرض محتواهم عندك من غير ما تخرج من صفحتك.
+            </div>
+            <div class="live-editor">
+                <div class="editor-header"><span>جرب تضمين موقع خارجي</span></div>
+                <div class="editor-area">
+<textarea class="code-input" oninput="updatePreview(this)">
+<iframe src="https://www.wikipedia.org/" width="100%" height="200" title="ويكيبيديا"></iframe>
+</textarea>
+                    <div class="code-preview">
+                        <iframe src="https://www.wikipedia.org/" width="100%" height="200" title="ويكيبيديا"></iframe>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-    
-    <footer style="text-align: center; margin-top: 50px; padding: 20px; background-color: #4a148c; color: #fff;">
-          تصميم بواسطة <strong>Ahmed Ezzat</strong> ❤️
+
+        <h2>5. 📋 القوائم والروابط</h2>
+
+        <div class="info-card">
+            <div class="code-title">&lt;a&gt; الروابط (Anchor)</div>
+            <div class="real-life-analogy">
+                <span class="analogy-icon">🚪</span> <strong>مثال البوابة السحرية:</strong><br>
+                الرابط هو "بوابة" بتنقلك من الصفحة اللي أنت فيها لأي مكان تاني (جوجل، فيسبوك).<br>
+                - <code>href</code>: عنوان المكان اللي رايحله.<br>
+                - <code>target="_blank"</code>: يفتح البوابة في "تبويب جديد" عشان صفحتك متتقفلش.
+            </div>
+            <div class="live-editor">
+                <div class="editor-area">
+<textarea class="code-input" oninput="updatePreview(this)">
+<a href="https://google.com">1. روح لـ جوجل (في نفس الصفحة)</a>
+<br><br>
+<a href="https://google.com" target="_blank">2. روح لـ جوجل (في تاب جديد - ينصح به)</a>
+</textarea>
+                    <div class="code-preview">
+                        <a href="https://google.com">1. روح لـ جوجل (في نفس الصفحة)</a><br><br>
+                        <a href="https://google.com" target="_blank">2. روح لـ جوجل (في تاب جديد - ينصح به)</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-card">
+            <div class="code-title">القوائم (&lt;ul&gt; و &lt;ol&gt;)</div>
+            <div class="real-life-analogy">
+                <span class="analogy-icon">📝</span> <strong>مثال السوبر ماركت والطبخ:</strong><br>
+                <strong>UL (قائمة غير مرتبة):</strong> زي "قائمة طلبات البيت" (جبنة، عيش، ميه). مش فارقة تشتري إيه الأول، المهم تجيبهم كلهم. (بتظهر بنقط).<br>
+                <strong>OL (قائمة مرتبة):</strong> زي "وصفة الأكل" (1. سخن الزيت، 2. حط البصل). الترتيب هنا حياة أو موت، مينفعش تعكس الخطوات. (بتظهر بأرقام).
+            </div>
+            <div class="live-editor">
+                <div class="editor-area">
+<textarea class="code-input" oninput="updatePreview(this)" style="height: 150px;">
+<b>قائمة مشتريات (ul - نقط):</b>
+<ul>
+    <li>طماطم</li>
+    <li>خيار</li>
+</ul>
+
+<b>خطوات مهمة (ol - أرقام):</b>
+<ol>
+    <li>اصحى بدري</li>
+    <li>اشرب قهوة</li>
+</ol>
+</textarea>
+                    <div class="code-preview">
+                        <b>قائمة مشتريات (ul - نقط):</b>
+                        <ul><li>طماطم</li><li>خيار</li></ul>
+                        <b>خطوات مهمة (ol - أرقام):</b>
+                        <ol><li>اصحى بدري</li><li>اشرب قهوة</li></ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h2>6. ✍️ إدخال وعرض البيانات</h2>
+
+        <div class="info-card">
+            <div class="code-title">الجداول &lt;table&gt;</div>
+            <div class="real-life-analogy">
+                <span class="analogy-icon">📅</span> <strong>مثال جدول الحصص:</strong><br>
+                الجدول عبارة عن صفوف <code>tr</code>.<br>
+                جوه كل صف فيه خانات. لو الخانة دي عنوان (زي "اليوم" أو "المادة") بنسميها <code>th</code> (عشان تبقى تقيلة ومميزة).<br>
+                لو الخانة فيها بيانات عادية (زي "السبت" أو "عربي") بنسميها <code>td</code>.
+            </div>
+            <div class="live-editor">
+                <div class="editor-area">
+<textarea class="code-input" oninput="updatePreview(this)" style="height: 160px;">
+<table border="1" width="100%" cellpadding="5">
+    <tr>
+        <th>الاسم</th>
+        <th>الوظيفة</th>
+    </tr>
+    <tr>
+        <td>أحمد عزت</td>
+        <td>مهندس برمجيات</td>
+    </tr>
+</table>
+</textarea>
+                    <div class="code-preview">
+                        <table border="1" width="100%" cellpadding="5">
+                            <tr><th>الاسم</th><th>الوظيفة</th></tr>
+                            <tr><td>أحمد عزت</td><td>مهندس برمجيات</td></tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-card">
+            <div class="code-title">النماذج المتقدمة &lt;form&gt;</div>
+            <div class="real-life-analogy">
+                <span class="analogy-icon">📋</span> <strong>مثال استمارة التقديم:</strong><br>
+                الـ <strong>Select:</strong> زي "المنيو"، بتختار منها حاجة واحدة.<br>
+                الـ <strong>Radio:</strong> زي سؤال "ذكر أم أنثى"، لازم تختار واحد بس.<br>
+                الـ <strong>Checkbox:</strong> زي "الإضافات" في البيتزا، ممكن تختار زيتون ومشروم وفلفل (أكتر من حاجة).<br>
+                الـ <strong>Textarea:</strong> مكان واسع تكتب فيه "مقال" أو "شكوى".
+            </div>
+            <div class="live-editor">
+                <div class="editor-header"><span>جرب كل أنواع الإدخال</span></div>
+                <div class="editor-area">
+<textarea class="code-input" oninput="updatePreview(this)" style="height: 250px;">
+<form>
+    <label>اختر دولتك:</label>
+    <select>
+        <option>مصر</option>
+        <option>السعودية</option>
+        <option>الإمارات</option>
+    </select>
+    <br><br>
+
+    <label>النوع:</label>
+    <input type="radio" name="gender"> ذكر
+    <input type="radio" name="gender"> أنثى
+    <br><br>
+
+    <label>الهوايات:</label>
+    <input type="checkbox"> قراءة
+    <input type="checkbox"> سباحة
+    <br><br>
+
+    <textarea placeholder="اكتب رسالتك هنا..." rows="3"></textarea>
+</form>
+</textarea>
+                    <div class="code-preview">
+                        <form>
+                            <label>اختر دولتك:</label>
+                            <select>
+                                <option>مصر</option>
+                                <option>السعودية</option>
+                                <option>الإمارات</option>
+                            </select>
+                            <br><br>
+                            <label>النوع:</label>
+                            <input type="radio" name="gender"> ذكر
+                            <input type="radio" name="gender"> أنثى
+                            <br><br>
+                            <label>الهوايات:</label>
+                            <input type="checkbox"> قراءة
+                            <input type="checkbox"> سباحة
+                            <br><br>
+                            <textarea placeholder="اكتب رسالتك هنا..." rows="3"></textarea>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h2>7. 🌟 إضافات لا غنى عنها</h2>
+
+        <div class="info-card">
+            <div class="code-title">الرموز الخاصة (Entities)</div>
+            <div class="real-life-analogy">
+                <span class="analogy-icon">🔣</span> <strong>الرموز السرية:</strong><br>
+                في رموز لو كتبتها الكيبورد مش هتظهر أو هتلخبط المتصفح (زي علامة أصغر من <code>&lt;</code>).<br>
+                عشان كده بنستخدم أكواد خاصة:<br>
+                - <code>&amp;copy;</code> لعلامة حقوق النشر ©.<br>
+                - <code>&amp;nbsp;</code> عشان تعمل مسافة إجبارية.<br>
+                - <code>&amp;hearts;</code> عشان تعمل قلب ♥.
+            </div>
+            <div class="live-editor">
+                <div class="editor-area">
+<textarea class="code-input" oninput="updatePreview(this)">
+<p>حقوق النشر محفوظة &copy; 2024</p>
+<p>أنا &nbsp;&nbsp;&nbsp;&nbsp; سبت مسافة كبيرة هنا.</p>
+<p>بحب الـ HTML &hearts;</p>
+</textarea>
+                    <div class="code-preview">
+                        <p>حقوق النشر محفوظة © 2024</p>
+                        <p>أنا &nbsp;&nbsp;&nbsp;&nbsp; سبت مسافة كبيرة هنا.</p>
+                        <p>بحب الـ HTML ♥</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-card">
+            <div class="code-title">التعليقات (Comments)</div>
+            <div class="real-life-analogy">
+                <span class="analogy-icon">🤫</span> <strong>الهمس السري:</strong><br>
+                التعليقات دي عبارة عن "ملحوظات" بتكتبها لنفسك أو للمبرمج اللي هيجي بعدك.<br>
+                المتصفح بيشوفها بس "بيطنشها" ومبيظهرهاش للناس.<br>
+                بتتكتب كده: <code>&lt;!-- الكلام هنا --&gt;</code>
+            </div>
+            <div class="live-editor">
+                <div class="editor-area">
+<textarea class="code-input" oninput="updatePreview(this)">
+<p>ده نص هيظهر للناس.</p>
+<p>وده نص تاني هيظهر.</p>
+</textarea>
+                    <div class="code-preview">
+                        <p>ده نص هيظهر للناس.</p>
+                        <p>وده نص تاني هيظهر.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        ---
+        
+        <h2>8. 🎯 عناصر الإدخال المنسدلة المتقدمة</h2>
+        
+        <div class="info-card">
+            <div class="code-title">قائمة الإكمال التلقائي (&lt;datalist&gt;)</div>
+            <div class="real-life-analogy">
+                <span class="analogy-icon">🔍</span> <strong>مثال جوجل (البحث المقترح):</strong><br>
+                الـ <code>datalist</code> دي عاملة زي "شريط البحث في جوجل". أنت بتكتب، وهو بيقترح عليك خيارات من قائمة موجودة عنده، بس مش بيجبرك تختار واحدة منهم. لو عايز تكتب حاجة تانية خالص، عادي براحتك.
+            </div>
+            <div class="live-editor">
+                <div class="editor-header"><span>جرب كتابة "تفاح" أو "عنب" أو أي شيء آخر</span></div>
+                <div class="editor-area">
+<textarea class="code-input" oninput="updatePreview(this)">
+<input list="fruits" name="myFruit" placeholder="اكتب اسم فاكهة هنا...">
+<datalist id="fruits">
+  <option value="تفاح">
+  <option value="برتقال">
+  <option value="موز">
+  <option value="عنب">
+</datalist>
+</textarea>
+                    <div class="code-preview">
+                        <input list="fruits" name="myFruit" placeholder="اكتب اسم فاكهة هنا...">
+                        <datalist id="fruits">
+                          <option value="تفاح">
+                          <option value="برتقال">
+                          <option value="موز">
+                          <option value="عنب">
+                        </datalist>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-card">
+            <div class="code-title">تجميع الخيارات (&lt;optgroup&gt;)</div>
+            <div class="real-life-analogy">
+                <span class="analogy-icon">🍽️</span> <strong>مثال منيو المطعم:</strong><br>
+                لما بتفتح المنيو بتلاقي تصنيفات زي "المقبلات"، "الأطباق الرئيسية"، "الحلويات". الـ <code>optgroup</code> بيعمل نفس الفكرة بالظبط في قائمة الاختيار.
+            </div>
+            <div class="live-editor">
+                <div class="editor-header"><span>جرب القائمة المصنفة</span></div>
+                <div class="editor-area">
+<textarea class="code-input" oninput="updatePreview(this)">
+<select>
+  <optgroup label="مشروبات ساخنة">
+    <option value="tea">شاي</option>
+    <option value="coffee">قهوة</option>
+  </optgroup>
+  <optgroup label="مشروبات باردة">
+    <option value="cola">كولا</option>
+    <option value="juice">عصير</option>
+  </optgroup>
+</select>
+</textarea>
+                    <div class="code-preview">
+                        <select>
+                          <optgroup label="مشروبات ساخنة">
+                            <option value="tea">شاي</option>
+                            <option value="coffee">قهوة</option>
+                          </optgroup>
+                          <optgroup label="مشروبات باردة">
+                            <option value="cola">كولا</option>
+                            <option value="juice">عصير</option>
+                          </optgroup>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        ---
+        
+        <h2>9. 📐 تنظيم المحتوى والقابلية للطي (Accordion)</h2>
+        
+        <div class="info-card">
+            <div class="code-title">التفاصيل والملخص (&lt;details&gt; و &lt;summary&gt;)</div>
+            <div class="real-life-analogy">
+                <span class="analogy-icon">📁</span> <strong>مثال "إخفاء التفاصيل":</strong><br>
+                ده زي ما يكون عندك ملف مضغوط أو "سؤال وإجابة" في موقع (FAQ). العنوان اللي بتكتبه جوه <code>summary</code> هو اللي بيكون باين، وباقي الكلام بيكون مختفي لحد ما المستخدم يدوس عليه. بيوفر مساحة رهيبة في صفحتك.
+            </div>
+            <div class="live-editor">
+                <div class="editor-header"><span>جرب الضغط على الملخص</span></div>
+                <div class="editor-area">
+<textarea class="code-input" oninput="updatePreview(this)">
+<details>
+  <summary style="font-weight: bold; color: #6a1b9a; cursor: pointer;">
+    لماذا نستخدم HTML؟
+  </summary>
+  <p style="margin-right: 20px;">
+    نستخدمه لبناء هيكل الصفحة (العظم) قبل أن نضع عليه الشكل (الجلد - CSS).
+  </p>
+</details>
+
+<details open>
+  <summary style="font-weight: bold; color: #4CAF50; cursor: pointer;">
+    اضغط لإخفاء محتوى هذه التفاصيل (مفتوحة تلقائياً)
+  </summary>
+  <p style="margin-right: 20px; background: #e8f5e9; padding: 10px;">
+    تم استخدام خاصية <span dir="ltr">open</span> لجعل التفاصيل تظهر بمجرد تحميل الصفحة.
+  </p>
+</details>
+</textarea>
+                    <div class="code-preview">
+                        <details>
+                          <summary style="font-weight: bold; color: #6a1b9a; cursor: pointer;">
+                            لماذا نستخدم HTML؟
+                          </summary>
+                          <p style="margin-right: 20px;">
+                            نستخدمه لبناء هيكل الصفحة (العظم) قبل أن نضع عليه الشكل (الجلد - CSS).
+                          </p>
+                        </details>
+                        <details open>
+                          <summary style="font-weight: bold; color: #4CAF50; cursor: pointer;">
+                            اضغط لإخفاء محتوى هذه التفاصيل (مفتوحة تلقائياً)
+                          </summary>
+                          <p style="margin-right: 20px; background: #e8f5e9; padding: 10px;">
+                            تم استخدام خاصية open لجعل التفاصيل تظهر بمجرد تحميل الصفحة.
+                          </p>
+                        </details>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        ---
+        
+        <h2 style="margin-top: 100px;">10. 🌟 المحرر العام لتدريب الطلاب (Sandbox)</h2>
+        
+        <div class="info-card" id="general-sandbox">
+            <div class="code-title">جرب الكود بنفسك: ورشة العمل العامة</div>
+            <div class="real-life-analogy">
+                <span class="analogy-icon">🧰</span> <strong>شرح ورشة العمل:</strong><br>
+                ده مكانك الخاص اللي تقدر تجرب فيه أي كود HTML (بما في ذلك CSS المضمن) عشان تشوف النتيجة بعينك على طول. استخدمه كمساحة حرة للتطبيق العملي على كل ما تعلمته.
+            </div>
+            
+            <div class="live-editor">
+                <div class="editor-header">
+                    <span>اكتب كود HTML وشاهد النتيجة أسفل</span>
+                    <span class="live-badge">Live Sandbox</span>
+                </div>
+                <div class="editor-area">
+                    <textarea class="code-input" oninput="updatePreview(this)" id="general-code-input" style="min-height: 250px;">
+<h3 style="color: purple;">أهلاً بك في المحرر العام!</h3>
+<p>هنا يمكنك ممارسة كتابة الأكواد بنفسك.</p>
+
+<a href="#general-sandbox" style="padding: 10px; background: #FFC107; color: #333; text-decoration: none; border-radius: 5px;">زر تجريبي يرجعك هنا</a>
+                    </textarea>
+                    <div class="code-preview" id="general-code-preview">
+                        <h3 style="color: purple;">أهلاً بك في المحرر العام!</h3>
+                        <p>هنا يمكنك ممارسة كتابة الأكواد بنفسك.</p>
+                        <a href="#general-sandbox" style="padding: 10px; background: #FFC107; color: #333; text-decoration: none; border-radius: 5px;">زر تجريبي يرجعك هنا</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+                <div style="text-align:center; margin-top: 60px; padding-top: 30px; border-top: 2px solid #eee;">
+
+            <p style="font-size: 1.3em; font-weight: 700; color: #4a148c; margin-bottom: 20px;">
+
+                🎉 مبروك يا بطل! أنت كدا معاك أساس الـ HTML كله.
+
+            </p>
+
+            <button class="btn-footer secondary" onclick="location.href='index.html'">🏠 الرئيسية</button>
+
+            <button class="btn-footer" onclick="location.href='quiz7.html'">🧠 اختبر نفسك</button>
+
+            <button class="btn-footer" onclick="location.href='lesson8.html'">درس HTML-2</button>
+
+        </div>
+    <footer style="text-align: center; margin-top: 50px; padding: 20px; background-color: #4a148c; color: #fff; font-size: 0.9em;">
+
+        تم التطوير بحب ❤️ | جميع الحقوق محفوظة &copy; 2024 | <strong>Ahmed Ezzat</strong>
 
     </footer>
-    
+
+<script>
+        /**
+         * دالة موحدة لتحديث منطقة العرض (Preview) بناءً على الكود المدخل في (Textarea)
+         * تستخدم لتشغيل كل المحررات الصغيرة والمحرر العام (Sandbox)
+         */
+        function updatePreview(textarea) {
+            // الوصول إلى الحاوية الأم للمحرر (editor-area)
+            const editorArea = textarea.closest('.editor-area');
+            if (!editorArea) return;
+
+            // البحث عن منطقة العرض (code-preview) داخل نفس الحاوية
+            const preview = editorArea.querySelector('.code-preview');
+            
+            if (preview) {
+                // وضع محتوى الـ Textarea كـ HTML داخل منطقة العرض
+                preview.innerHTML = textarea.value;
+            }
+        }
+
+        // تشغيل الدالة لمرة واحدة عند تحميل الصفحة للمحرر العام (Sandbox)
+        // لضمان عرض المحتوى الافتراضي بشكل صحيح
+        document.addEventListener('DOMContentLoaded', () => {
+            const generalInput = document.getElementById('general-code-input');
+            if (generalInput) {
+                updatePreview(generalInput);
+            }
+        });
+    </script>
+
 </body>
 </html>

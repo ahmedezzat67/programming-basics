@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧠 اختبر نفسك: تحدي CSS الشامل</title>
+    <style>
+        /* التعديل الأول: استيراد خط القاهرة */
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap');
+        
+        body {
+            font-family: "Cairo", sans-serif;
+            background-color: #e3f2fd; /* خلفية فاتحة متناسقة مع الدرس */
+            color: #333;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        header {
+            background-color: #0d47a1; /* التعديل الثاني: أزرق غامق */
+            color: white;
+            padding: 20px;
+            font-size: 26px;
+            font-weight: 900;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .container {
+            width: 90%;
+            max-width: 800px; /* زيادة عرض الاختبار قليلاً */
+            background: white;
+            margin: 30px auto;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            text-align: right;
+        }
+
+        .question-block {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #bbdefb; /* إطار أزرق فاتح */
+            border-radius: 12px;
+            text-align: right;
+            background-color: #fff;
+        }
+
+        .question {
+            font-weight: 900;
+            font-size: 1.2em;
+            color: #1e88e5; /* التعديل الثالث: أزرق متوسط */
+            margin-bottom: 18px;
+            padding-right: 10px;
+            border-right: 5px solid #42a5f5; /* خط أزرق مميز */
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        button.option {
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            background-color: #e3f2fd; /* خلفية الخيارات بلون أزرق خفيف */
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 17px;
+            text-align: right;
+            font-weight: 500;
+        }
+
+        button.option:hover:not(:disabled) {
+            background-color: #1e88e5;
+            color: white;
+            transform: scale(1.02);
+        }
+
+        .correct {
+            background-color: #43a047 !important; /* أخضر أكثر ثباتاً */
+            color: white !important;
+            font-weight: bold;
+        }
+
+        .wrong {
+            background-color: #e53935 !important; /* أحمر أكثر ثباتاً */
+            color: white !important;
+            font-weight: bold;
+        }
+        
+        #score {
+            font-size: 22px;
+            font-weight: 900;
+            margin-top: 30px;
+            padding: 20px;
+            border-radius: 15px;
+            background-color: #fff9c4; /* لون أصفر مميز للنتيجة */
+            box-shadow: 0 0 15px rgba(255,193,7,0.4);
+            display: none; 
+        }
+
+        /* التعديل الرابع: زر الإنهاء بتصميم مختلف */
+        #finish-quiz-btn {
+            padding: 18px 40px;
+            background-color: #00897b; /* لون فيروزي متميز */
+            color: white; 
+            border: none; 
+            border-radius: 12px; 
+            cursor: pointer; 
+            font-size: 20px; 
+            font-weight: 900;
+            margin-top: 30px;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        
+        #finish-quiz-btn:hover {
+            background-color: #005f56;
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            background-color: #1e88e5;
+            color: white;
+            padding: 15px;
+            font-size: 16px;
+            margin-top: 40px;
+        }
+
+        .nav-buttons {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .nav-buttons button {
+            background-color: #42a5f5; /* أزرار تنقل بأزرق فاتح */
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            margin: 5px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: 700;
+        }
+
+        .nav-buttons button:hover {
+            background-color: #1e88e5;
+        }
+    </style>
+</head>
+<body>
+
+<header>🧠 اختبر نفسك: تحدي CSS الشامل</header>
+
+<div class="container" id="quiz"></div>
+
+<button id="finish-quiz-btn" onclick="showFinalScore()">إنهاء الاختبار وعرض النتيجة النهائية</button>
+
+<div id="score"></div>
+
+<div class="nav-buttons">
+    <button onclick="window.location.href='index.html'">🏠 الصفحة الرئيسية</button>
+    <button onclick="window.location.href='css-lesson.html'">📘 رجوع للدرس</button>
+</div>
+
+<footer class="footer">
+    تصميم بواسطة <strong>Ahmed Ezzat</strong> ❤️
+</footer>
+
+<script>
+    // مصفوفة البيانات (35 سؤال CSS)
+    const quizData = [
+        // ======================================
+        // 1-35: أسئلة تحدي CSS الشامل
+        // ======================================
+        
+        // 1. تركيبة القاعدة الأساسية
+        { q: "ما هي الأجزاء الثلاثة التي تكون قاعدة CSS (مثل p {color: blue;})؟", a: "المُحدِّد، الخاصية، والقيمة", options: ["الوسم، السمة، والمحتوى", "المُحدِّد، الخاصية، والقيمة", "اللون، الحجم، والخط", "الكلاس، المُعرِّف، والنوع"] },
+        
+        // 2. ربط الـ CSS
+        { q: "ما هي الطريقة الأفضل والأكثر احترافية لربط ملف CSS بصفحة HTML؟", a: "External CSS باستخدام <link>", options: ["Inline CSS داخل الوسم", "Internal CSS داخل وسم <style>", "External CSS باستخدام <link>", "باستخدام وسم <script>"] },
+        
+        // 3. محدد الـ Class
+        { q: "ما هو الرمز الذي تستخدمه لاستهداف مُحدِّد الفئة (Class Selector) في CSS؟", a: ".", options: ["#", "*", ".", ":"] },
+        
+        // 4. محدد الـ ID
+        { q: "لتنسيق عنصر واحد فريد (Unique) في الصفحة، ما هو المُحدِّد المناسب الذي يبدأ بـ #؟", a: "ID Selector", options: ["Class Selector", "Tag Selector", "ID Selector", "Pseudo-class"] },
+        
+        // 5. محدد الـ Descendant
+        { q: "ما هو التنسيق الصحيح لتحديد جميع الفقرات (p) الموجودة داخل عنصر Div فقط؟", a: "div p {}", options: ["p + div {}", "div > p {}", "p {div}", "div p {}"] },
+        
+        // 6. Pseudo-classes
+        { q: "أي من المُحدِّدات التالية تُستخدم لتطبيق تنسيق عند مرور مؤشر الفأرة على العنصر؟", a: ":hover", options: [":active", "::after", ":hover", ":focus"] },
+
+        // 7. خاصية الـ Padding
+        { q: "ما هي الخاصية التي تحدد المسافة بين محتوى العنصر وحدوده الداخلية؟", a: "Padding", options: ["Margin", "Border", "Padding", "Space-inside"] },
+        
+        // 8. خاصية الـ Margin
+        { q: "كيف تجعل عنصر كتلوي (Block Element) يتوسط الصفحة أفقياً في CSS؟", a: "margin: 0 auto;", options: ["align: center;", "margin: auto 0;", "margin: 0 auto;", "text-align: center;"] },
+        
+        // 9. Box-Sizing
+        { q: "ما هي القيمة التي تجعل الـ Padding والـ Border يتم احتسابهما ضمن عرض العنصر (width)؟", a: "border-box", options: ["content-box", "padding-box", "border-box", "auto"] },
+        
+        // 10. Background Size
+        { q: "لجعل صورة الخلفية تغطي العنصر بالكامل دون تكرار، ما هي القيمة المناسبة لـ background-size؟", a: "cover", options: ["contain", "repeat", "100%", "cover"] },
+
+        // 11. Flexbox
+        { q: "ما هي الخاصية والقيمة التي يجب إضافتها للعنصر الأب (Parent) لتفعيل نظام Flexbox؟", a: "display: flex;", options: ["align: flex;", "display: grid;", "display: flex;", "flex-mode: on;"] },
+        
+        // 12. Justify-Content
+        { q: "لتوزيع العناصر الأبناء بالتساوي مع ترك مسافة بينها، ما هي القيمة المناسبة لـ justify-content؟", a: "space-between", options: ["center", "space-around", "flex-end", "space-between"] },
+
+        // 13. Media Queries
+        { q: "ما هي القاعدة التي تستخدمها لتطبيق تنسيقات مختلفة فقط عندما يكون عرض الشاشة أقل من 600px؟", a: "@media (max-width: 600px)", options: ["@if (screen-size < 600px)", "@media (max-width: 600px)", "@style mobile {}", "@include small-screen"] },
+
+        // 14. Transition
+        { q: "ما هي الخاصية التي تجعل التغيير في التنسيق (مثلاً عند الـ hover) يتم بشكل سلس ومتحرك؟", a: "transition", options: ["animation", "transform", "ease-in", "transition"] },
+        
+        // 15. Transform
+        { q: "لزيادة حجم العنصر بنسبة 10% عند التفاعل معه، ما هي دالة الـ transform المستخدمة؟", a: "scale(1.1)", options: ["size(1.1)", "zoom(1.1)", "scale(1.1)", "enlarge(10%)"] },
+        
+        // 16. Positioning - Fixed
+        { q: "لجعل عنصر ما ثابتًا في موقعه على الشاشة حتى عند التمرير (Scrolling)، ما هي القيمة المستخدمة لـ position؟", a: "fixed", options: ["static", "relative", "fixed", "absolute"] },
+
+        // 17. Positioning - Absolute
+        { q: "عند استخدام position: absolute، يتم وضع العنصر بالنسبة لأقرب عنصر أب يمتلك خاصية position ليست؟", a: "static", options: ["relative", "absolute", "fixed", "static"] },
+
+        // 18. Z-Index
+        { q: "ما هي الخاصية التي تحدد ترتيب تداخل العناصر فوق بعضها البعض (العمق)؟", a: "z-index", options: ["depth", "order", "z-index", "layer"] },
+
+        // 19. CSS Grid
+        { q: "ما هي الخاصية التي تستخدم لتفعيل نظام الشبكة (Grid Layout) على العنصر الأب؟", a: "display: grid;", options: ["display: flex;", "display: grid;", "grid-layout: true;", "layout: grid;"] },
+
+        // 20. Grid Columns
+        { q: "ما هي الخاصية المستخدمة لتحديد عدد وحجم الأعمدة في CSS Grid؟", a: "grid-template-columns", options: ["grid-columns", "grid-template-areas", "grid-template-rows", "grid-template-columns"] },
+
+        // 21. Units - Relative (Font Size)
+        { q: "أي من وحدات القياس التالية تعتبر وحدة نسبية وتعتمد على حجم خط العنصر الأب؟", a: "em", options: ["px", "em", "vh", "rem"] },
+
+        // 22. Units - Relative (Viewport)
+        { q: "أي من وحدات القياس التالية تعتمد على ارتفاع نافذة المتصفح (Viewport Height)؟", a: "vh", options: ["vw", "vh", "em", "%"] },
+
+        // 23. Opacity
+        { q: "لجعل عنصر ما شبه شفاف (Transparent)، ما هي الخاصية المستخدمة وما هو مجال قيمتها الصحيح؟", a: "opacity (0.0 إلى 1.0)", options: ["transparency (0% إلى 100%)", "opacity (0.0 إلى 1.0)", "alpha (0 إلى 255)", "visibility: hidden;"] },
+
+        // 24. Overflow
+        { q: "لإظهار شريط تمرير (Scrollbar) داخل العنصر إذا كان المحتوى أكبر من حجمه، ما هي القيمة المناسبة لـ overflow؟", a: "scroll", options: ["hidden", "visible", "scroll", "clip"] },
+
+        // 25. Specificity
+        { q: "أي من المُحدِّدات التالية لها أعلى قيمة في خاصية Specificity (الأولوية)؟", a: "ID (#)", options: ["Element (p)", "Class (.)", "ID (#)", "Universal (*)"] },
+
+        // 26. !Important
+        { q: "ما هي الكلمة المفتاحية التي تستخدم لإعطاء أعلى أولوية مطلقة لقاعدة CSS، ولكن يُفضل تجنب استخدامها؟", a: "!important", options: ["!override", "!priority", "!important", "!force"] },
+
+        // 27. Default Display (Inline)
+        { q: "ما هي خاصية العرض الافتراضية (Default Display) للوسوم مثل <a> و <span>؟", a: "inline", options: ["block", "inline", "inline-block", "flex"] },
+
+        // 28. Default Display (Block)
+        { q: "ما هي خاصية العرض الافتراضية (Default Display) للوسوم مثل <div> و <p>؟", a: "block", options: ["inline", "block", "inline-block", "none"] },
+
+        // 29. Box Model Order
+        { q: "ما هو الترتيب الصحيح لمكونات Box Model من الداخل إلى الخارج؟", a: "Content, Padding, Border, Margin", options: ["Margin, Border, Padding, Content", "Content, Margin, Border, Padding", "Content, Padding, Border, Margin", "Border, Padding, Content, Margin"] },
+
+        // 30. Shorthand - Margin
+        { q: "ماذا تعني القيمة margin: 10px 20px 5px 30px؟", a: "Top 10, Right 20, Bottom 5, Left 30", options: ["أعلى 10، يمين 5، أسفل 20، يسار 30", "أعلى 10، يمين 20، أسفل 5، يسار 30", "الجميع 10، يمين/يسار 20", "أعلى/أسفل 10، يمين/يسار 20"] },
+
+        // 31. Animation
+        { q: "ما هي القاعدة الأساسية التي تحدد الحركة وتسلسل الإطارات في CSS Animations؟", a: "@keyframes", options: ["@animation", "@frames", "@keyframes", "@sequence"] },
+
+        // 32. Color Format (Hex)
+        { q: "أي من التنسيقات التالية يعتبر تنسيقاً صحيحاً للألوان باستخدام نظام Hexadecimal؟", a: "#FF00AA", options: ["(255, 0, 170)", "rgb(255, 0, 170)", "#FF00AA", "color: red;"] },
+        
+        // 33. Filter
+        { q: "ما هي الخاصية التي تسمح لك بتطبيق تأثيرات رسومية مثل التعتيم أو الظل على عنصر ما؟", a: "filter", options: ["effect", "blend", "graphic", "filter"] },
+
+        // 34. Cursor
+        { q: "لتحويل مؤشر الفأرة إلى شكل يد (Pointing Hand) عند المرور فوق العنصر، ما هي القيمة الصحيحة لـ cursor؟", a: "pointer", options: ["hand", "click", "pointer", "move"] },
+
+        // 35. Object-Fit
+        { q: "ما هي الخاصية التي تحدد كيفية ضبط محتوى عنصر (مثل الصورة) ضمن إطارها؟", a: "object-fit", options: ["image-fit", "content-align", "object-fit", "fit-mode"] }
+
+    ];
+
+    let score = 0;
+    const quizContainer = document.getElementById("quiz");
+
+    // وظيفة إنشاء واجهة الاختبار
+    quizData.forEach((item, index) => {
+        const div = document.createElement("div");
+        div.classList.add("question-block");
+        div.innerHTML = `
+            <div class="question">${index + 1}. ${item.q}</div>
+            <div class="options">
+                ${item.options.map(opt => `<button class="option" onclick="checkAnswer(this, '${item.a}', ${index})">${opt}</button>`).join("")}
+            </div>
+        `;
+        quizContainer.appendChild(div);
+    });
+
+    // وظيفة التصحيح الفردي (عند النقر)
+    function checkAnswer(btn, correctAnswer, questionIndex) {
+        const buttons = btn.parentElement.querySelectorAll(".option");
+        
+        // منع النقر المتكرر على أي خيار في السؤال نفسه
+        buttons.forEach(b => b.disabled = true); 
+        
+        if (btn.textContent.trim() === correctAnswer) { // .trim() لإزالة المسافات
+            btn.classList.add("correct");
+            btn.textContent += " ✅";
+            score++;
+        } else {
+            btn.classList.add("wrong");
+            btn.textContent += " ❌";
+            
+            // إظهار الإجابة الصحيحة
+            const correctBtn = Array.from(buttons).find(b => b.textContent.trim() === correctAnswer);
+            if (correctBtn) { 
+                correctBtn.classList.add("correct");
+                correctBtn.textContent += " ✅ (الصحيحة)";
+            }
+        }
+    }
+    
+    // وظيفة عرض النتيجة النهائية
+    function showFinalScore() {
+        const totalQuestions = quizData.length;
+        const percentage = (score / totalQuestions) * 100;
+        const scoreElement = document.getElementById("score");
+        
+        // تحديد الرسالة بناءً على النتيجة
+        let message = '';
+        if (percentage === 100) {
+            message = '🎉 تهانينا! إجاباتك مثالية. أنت محترف CSS!';
+        } else if (percentage >= 80) {
+            message = '👍🏼 أداء ممتاز! مستواك عالٍ جداً في CSS.';
+        } else if (percentage >= 60) {
+            message = '👏🏼 أداء جيد! يمكنك مواصلة التعلم مع مراجعة النقاط الضعيفة.';
+        } else {
+            message = '💡 تحتاج إلى مراجعة شاملة لأساسيات CSS قبل الانتقال للمشاريع المتقدمة.';
+        }
+        
+        // عرض النتيجة
+        scoreElement.innerHTML = `
+            <p>النتيجة النهائية: **${score}** من أصل **${totalQuestions}**</p>
+            <p style="font-size: 1.2em; color: ${percentage >= 60 ? '#43a047' : '#e53935'};">نسبة النجاح: **${percentage.toFixed(0)}%**</p>
+            <p style="font-weight: 400; color: #333;">${message}</p>
+        `;
+        scoreElement.style.display = 'block';
+        document.getElementById("finish-quiz-btn").style.display = 'none'; // إخفاء الزر بعد النقر
+
+        // تعطيل جميع الأزرار لمنع أي تغييرات إضافية
+        document.querySelectorAll('.option').forEach(b => b.disabled = true);
+        
+        // الانتقال إلى منطقة النتيجة
+        scoreElement.scrollIntoView({ behavior: 'smooth' });
+    }
+</script>
+
+</body>
+</html>

@@ -1,662 +1,1043 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>الدرس الشامل المُحدَّث: CSS بأكثر من 35 بطاقة شرح ومنطقة تجربة</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      الدرس الشامل المُحدَّث: CSS بأكثر من 40 بطاقة شرح ومنطقة تجربة
+    </title>
     <style>
-        /* الخطوط والألوان العامة */
-        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap');
-        
-        /* إضافة box-sizing لكل العناصر لتحسين التجاوب */
-        * {
-            box-sizing: border-box; 
-        }
+      /* الخطوط والألوان العامة */
+      @import url("https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap");
 
+      /* إضافة box-sizing لكل العناصر لتحسين التجاوب */
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Cairo", sans-serif;
+        background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+        color: #212121;
+        line-height: 1.8;
+        padding: 20px;
+        direction: rtl;
+      }
+
+      .container {
+        max-width: 1100px;
+        margin: 30px auto;
+        background: #ffffff;
+        padding: 40px;
+        border-radius: 20px;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        text-align: right;
+        width: 95%;
+      }
+
+      h1 {
+        color: #0d47a1;
+        border-bottom: 5px solid #42a5f5;
+        padding-bottom: 20px;
+        font-size: 2.5em;
+        margin-bottom: 40px;
+        text-align: center;
+        line-height: 1.4;
+      }
+
+      h2 {
+        color: #1565c0;
+        border-right: 6px solid #90caf9;
+        padding-right: 18px;
+        margin-top: 60px;
+        margin-bottom: 20px;
+        font-size: 2em;
+      }
+
+      .section-intro {
+        font-size: 1.2em;
+        font-weight: 600;
+        background-color: #e3f2fd;
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 30px;
+        border-right: 5px solid #42a5f5;
+        color: #37474f;
+      }
+
+      /* تنسيق الشرح الإضافي باللهجة المصرية */
+      .deep-dive {
+        background-color: #fff3e0;
+        border-right: 5px solid #ff9800;
+        padding: 15px;
+        margin-bottom: 25px;
+        border-radius: 8px;
+        color: #5d4037;
+        font-size: 1.1em;
+      }
+      .deep-dive strong {
+        color: #e65100;
+      }
+
+      /* تنسيق البطاقات */
+      .cards-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+        margin-bottom: 40px;
+      }
+
+      .info-card {
+        background-color: #f8fbff;
+        padding: 20px;
+        border-radius: 12px;
+        border: 1px solid #90caf9;
+        transition: transform 0.3s, box-shadow 0.3s;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+      .info-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      }
+
+      .card-title {
+        font-size: 1.3em;
+        font-weight: 900;
+        color: #0d47a1;
+        border-bottom: 3px solid #64b5f6;
+        padding-bottom: 10px;
+        margin-bottom: 15px;
+      }
+      .card-desc {
+        margin-bottom: 10px;
+        font-weight: 600;
+        font-size: 0.95em;
+        color: #455a64;
+      }
+      .card-desc strong {
+        color: #1565c0;
+        font-weight: 800;
+      }
+
+      .code-example {
+        background-color: #2c3e50;
+        color: #ecf0f1;
+        padding: 12px;
+        border-radius: 8px;
+        font-family: "Courier New", monospace;
+        direction: ltr;
+        text-align: left;
+        font-size: 0.9em;
+        margin-top: 15px;
+        overflow-x: auto;
+        border-left: 4px solid #f1c40f;
+      }
+
+      .egyptian-tip {
+        color: #b71c1c;
+        font-weight: 700;
+        background-color: #ffcdd2;
+        padding: 15px;
+        border-radius: 8px;
+        margin-top: 20px;
+        border-right: 5px solid #e53935;
+        font-style: italic;
+      }
+
+      .card-title::before {
+        content: "💡 ";
+      }
+
+      /* تنسيق منطقة المعمل العملي */
+      .lab-section {
+        background-color: #e0f7fa;
+        padding: 30px;
+        border-radius: 15px;
+        margin-top: 50px;
+        border: 2px dashed #00bcd4;
+      }
+      .lab-title {
+        font-size: 2.2em;
+        color: #00838f;
+        text-align: center;
+        margin-bottom: 25px;
+        border-bottom: 3px solid #4dd0e1;
+        padding-bottom: 10px;
+      }
+      .code-area-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+      }
+      .code-editor,
+      .output-preview {
+        border-radius: 8px;
+        min-height: 300px;
+        padding: 15px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+      .code-editor {
+        background-color: #1f2a38;
+        color: #f0f8ff;
+        font-family: "Courier New", monospace;
+        font-size: 1.1em;
+        direction: ltr;
+        resize: vertical;
+        overflow: auto;
+        border: none;
+        width: 100%;
+        box-sizing: border-box;
+      }
+      .output-preview {
+        background-color: #ffffff;
+        border: 1px solid #ccc;
+        text-align: initial;
+        direction: ltr;
+        overflow: auto;
+        position: relative; /* عشان العناصر المطلقة */
+      }
+
+      .lab-buttons {
+        text-align: center;
+        margin-top: 20px;
+      }
+      .test-button,
+      .reset-button {
+        padding: 12px 30px;
+        margin: 0 10px;
+        border: none;
+        border-radius: 8px;
+        font-size: 1.1em;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+      .test-button {
+        background: linear-gradient(45deg, #00bcd4, #00e5ff);
+        color: white;
+      }
+      .test-button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      }
+      .reset-button {
+        background: #bdbdbd;
+        color: #424242;
+      }
+      .reset-button:hover {
+        background: #9e9e9e;
+      }
+
+      /* تنسيقات نهاية الدرس والتذييل (الفوتر) */
+      :root {
+        --bg-dark: #128efa;
+        --bg-medium: #001f3f;
+        --heading-color: #0a0a0a;
+        --color-A: #ff00ff;
+        --color-B: #00ff00;
+        --color-C: #00ffff;
+        --color-D: #ffff00;
+        --text-dark: #000;
+      }
+
+      .lesson-end-section {
+        text-align: center;
+        max-width: 800px;
+        margin: 60px auto 40px;
+        padding: 30px;
+        border: 2px solid var(--color-C);
+        border-radius: 15px;
+        background: rgba(0, 255, 255, 0.05);
+        box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
+      }
+
+      .lesson-end-section p {
+        font-size: 1.6em;
+        font-weight: 900;
+        color: var(--color-D);
+        margin-bottom: 30px;
+        text-shadow: 0 0 10px var(--color-D);
+      }
+
+      .navigation-buttons {
+        margin-bottom: 0;
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 20px;
+      }
+
+      .btn-footer {
+        padding: 15px 30px;
+        border: none;
+        border-radius: 10px;
+        font-size: 1.15em;
+        font-weight: 900;
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+        text-decoration: none;
+        display: inline-block;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .nav-btn-primary {
+        background-color: var(--color-A);
+        color: var(--text-dark);
+        border: 2px solid var(--color-A);
+        box-shadow: 0 0 15px var(--color-A);
+      }
+
+      .nav-btn-primary:hover {
+        background-color: var(--color-C);
+        color: var(--text-dark);
+        transform: translateY(-5px);
+        box-shadow: 0 0 25px var(--color-C), 0 0 40px var(--color-C),
+          0 10px 20px rgba(54, 157, 248, 0.5);
+      }
+
+      .nav-btn-secondary {
+        background-color: transparent;
+        color: var(--color-B);
+        border: 2px solid var(--color-B);
+        box-shadow: 0 0 15px var(--color-B);
+      }
+
+      .nav-btn-secondary:hover {
+        background-color: var(--color-B);
+        color: var(--text-dark);
+        transform: translateY(-5px);
+        box-shadow: 0 0 25px var(--color-B), 0 0 40px var(--color-B),
+          0 10px 20px rgba(131, 176, 248, 0.5);
+      }
+
+      .simple-footer {
+        text-align: center;
+        padding: 30px 20px;
+        max-width: 600px;
+        width: 90%;
+        margin: 50px auto 20px auto;
+        border-radius: 50px;
+        background-color: var(--bg-dark);
+        color: var(--heading-color);
+        font-family: "Cairo", sans-serif;
+        font-size: 1.1em;
+        border-top: none;
+        box-shadow: inset 0 10px 15px rgba(0, 0, 0, 0.7),
+          inset 0 -10px 15px rgba(255, 255, 255, 0.1),
+          0 0 25px rgba(9, 9, 9, 0.5);
+        text-shadow: 0 0 5px var(--heading-color);
+      }
+
+      .neon-whatsapp-btn {
+        padding: 15px 30px;
+        border: 3px solid #00ff00;
+        border-radius: 50px;
+        font-size: 1.2em;
+        font-weight: 900;
+        cursor: pointer;
+        transition: all 0.4s ease;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        max-width: 400px;
+        margin: 0 auto;
+        background-color: #008000;
+        color: white;
+        box-shadow: 0 0 20px #00ff00, 0 0 30px #00ff00;
+      }
+
+      .whatsapp-icon {
+        font-size: 1.5em;
+        margin-left: 10px;
+        animation: pulseIcon 1.5s infinite alternate;
+      }
+
+      .neon-whatsapp-btn:hover {
+        background-color: #00cc00;
+        transform: translateY(-5px) scale(1.05);
+        box-shadow: 0 0 40px #00ff00, 0 0 60px #00ff00,
+          0 10px 20px rgba(0, 0, 0, 0.5);
+        border-color: #39ff14;
+      }
+
+      @keyframes pulseIcon {
+        0% {
+          color: white;
+          transform: scale(1);
+        }
+        100% {
+          color: #39ff14;
+          transform: scale(1.1);
+        }
+      }
+
+      @media (max-width: 600px) {
         body {
-            font-family: 'Cairo', sans-serif;
-            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
-            color: #212121;
-            line-height: 1.7;
-            padding: 20px;
-            direction: rtl;
+          padding: 10px;
         }
-
         .container {
-            /* تعديل بسيط لضمان ترك مسافة جانبية على الموبايل */
-            max-width: 1100px;
-            margin: 30px auto;
-            background: #ffffff;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
-            text-align: right;
-            /* إضافة عرض بنسبة مئوية لتحسين التجاوب */
-            width: 95%; 
+          padding: 20px;
+          margin: 10px auto;
+          width: 100%;
         }
-
         h1 {
-            color: #0d47a1;
-            border-bottom: 5px solid #42a5f5;
-            padding-bottom: 20px;
-            font-size: 3em;
-            margin-bottom: 40px;
-            text-align: center;
+          font-size: 1.8em;
+          margin-bottom: 20px;
         }
-
         h2 {
-            color: #1565c0;
-            border-right: 6px solid #90caf9;
-            padding-right: 18px;
-            margin-top: 50px;
-            margin-bottom: 30px;
-            font-size: 2em;
+          font-size: 1.4em;
+          margin-top: 40px;
         }
-        
-        .section-intro {
-            font-size: 1.2em;
-            font-weight: 700;
-            background-color: #e3f2fd;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 25px;
-            border-right: 5px solid #42a5f5;
-        }
-
-        /* تنسيق البطاقات (أكثر من 35 بطاقة) */
         .cards-grid {
-            display: grid;
-            /* ضمان على الأقل عرض 300px للعناصر */
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin-bottom: 40px;
-        }
-
-        .info-card {
-            background-color: #f8fbff;
-            padding: 20px;
-            border-radius: 12px;
-            border: 1px solid #90caf9;
-            transition: transform 0.3s, box-shadow 0.3s;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-        .info-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-        }
-
-        .card-title {
-            font-size: 1.5em;
-            font-weight: 900;
-            color: #0d47a1;
-            border-bottom: 3px solid #64b5f6;
-            padding-bottom: 10px;
-            margin-bottom: 15px;
-        }
-        .card-desc {
-            margin-bottom: 10px;
-            font-weight: 500;
-        }
-        .card-desc strong {
-            color: #1565c0;
-            font-weight: 700;
-        }
-
-        .code-example {
-            background-color: #2c3e50;
-            color: #ecf0f1;
-            padding: 12px;
-            border-radius: 8px;
-            font-family: 'Courier New', monospace;
-            direction: ltr;
-            text-align: left;
-            font-size: 0.9em;
-            margin-top: 15px;
-            overflow-x: auto;
-        }
-        
-        .egyptian-tip {
-            color: #b71c1c;
-            font-weight: 700;
-            background-color: #ffcdd2;
-            padding: 12px;
-            border-radius: 8px;
-            margin-top: 20px;
-            border-right: 5px solid #e53935;
-            font-style: italic;
-        }
-
-        .card-title::before {
-            content: "💡 ";
-            color: #42a5f5;
-        }
-
-        /* تنسيق منطقة المعمل العملي */
-        .lab-section {
-            background-color: #e0f7fa;
-            padding: 30px;
-            border-radius: 15px;
-            margin-top: 50px;
-            border: 2px dashed #00bcd4;
-        }
-        .lab-title {
-            font-size: 2.2em;
-            color: #00838f;
-            text-align: center;
-            margin-bottom: 25px;
-            border-bottom: 3px solid #4dd0e1;
-            padding-bottom: 10px;
+          grid-template-columns: 1fr;
         }
         .code-area-container {
-            /* تم استخدام Grid في الأصل، سيتم تعديلها للموبايل بالـ Media Query */
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
+          grid-template-columns: 1fr;
         }
-        .code-editor, .output-preview {
-            border-radius: 8px;
-            min-height: 300px;
-            padding: 15px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        .code-editor {
-            background-color: #1f2a38;
-            color: #f0f8ff;
-            font-family: 'Courier New', monospace;
-            font-size: 1.1em;
-            direction: ltr;
-            resize: vertical;
-            overflow: auto;
-            border: none;
-            width: 100%;
-            box-sizing: border-box;
-        }
-        .output-preview {
-            background-color: #ffffff;
-            border: 1px solid #ccc;
-            text-align: initial;
-            direction: ltr;
-            overflow: auto;
-        }
-
-        .lab-buttons {
-            text-align: center;
-            margin-top: 20px;
-        }
-        .test-button, .reset-button {
-            padding: 12px 30px;
-            margin: 0 10px;
-            border: none;
-            border-radius: 8px;
-            font-size: 1.1em;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        .test-button {
-            background: linear-gradient(45deg, #00bcd4, #00e5ff);
-            color: white;
-        }
-        .test-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        }
+        .test-button,
         .reset-button {
-            background: #bdbdbd;
-            color: #424242;
+          display: block;
+          width: 100%;
+          margin: 10px 0;
         }
-        .reset-button:hover {
-            background: #9e9e9e;
-        }
-
-        /* تنسيقات نهاية الدرس والتذييل (الفوتر) */
-        /* (تنسيقات النيون منسوخة من كودك) */
-        :root {
-            --bg-dark: #128efa; 
-            --bg-medium: #001f3f;
-            --heading-color: #0a0a0a; 
-            --color-A: #ff00ff; 
-            --color-B: #00ff00; 
-            --color-C: #00ffff; 
-            --color-D: #ffff00; 
-            --text-dark: #000; /* متغير مضاف للنص الداكن */
-        }
-        
-        .lesson-end-section {
-            text-align: center;
-            max-width: 800px;
-            margin: 60px auto 40px; 
-            padding: 30px;
-            border: 2px solid var(--color-C); 
-            border-radius: 15px;
-            background: rgba(0, 255, 255, 0.05); 
-            box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
-        }
-
-        .lesson-end-section p {
-            font-size: 1.6em;
-            font-weight: 900;
-            color: var(--color-D); 
-            margin-bottom: 30px;
-            text-shadow: 0 0 10px var(--color-D); 
-        }
-
         .navigation-buttons {
-            margin-bottom: 0;
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 20px;
+          flex-direction: column;
+          gap: 15px;
         }
-
         .btn-footer {
-            padding: 15px 30px; 
-            border: none;
-            border-radius: 10px;
-            font-size: 1.15em;
-            font-weight: 900;
-            cursor: pointer;
-            transition: all 0.3s ease-in-out;
-            text-decoration: none;
-            display: inline-block;
-            position: relative;
-            overflow: hidden;
+          width: 100%;
         }
-
-        .nav-btn-primary {
-            background-color: var(--color-A); 
-            color: var(--text-dark); 
-            border: 2px solid var(--color-A);
-            box-shadow: 0 0 15px var(--color-A); 
-        }
-
-        .nav-btn-primary:hover {
-            background-color: var(--color-C); 
-            color: var(--text-dark);
-            transform: translateY(-5px);
-            box-shadow: 0 0 25px var(--color-C), 0 0 40px var(--color-C), 0 10px 20px rgba(54, 157, 248, 0.5);
-        }
-
-        .nav-btn-secondary {
-            background-color: transparent; 
-            color: var(--color-B); 
-            border: 2px solid var(--color-B); 
-            box-shadow: 0 0 15px var(--color-B);
-        }
-
-        .nav-btn-secondary:hover {
-            background-color: var(--color-B); 
-            color: var(--text-dark);
-            transform: translateY(-5px);
-            box-shadow: 0 0 25px var(--color-B), 0 0 40px var(--color-B), 0 10px 20px rgba(131, 176, 248, 0.5);
-        }
-
-        .simple-footer {
-            text-align: center;
-            /* تم تقليل الـ Padding للتناسب مع الشاشات الأصغر */
-            padding: 30px 20px; 
-            max-width: 600px;
-            width: 90%; 
-            margin: 50px auto 20px auto; 
-            border-radius: 50px; 
-            background-color: var(--bg-dark); 
-            color: var(--heading-color);
-            font-family: 'Cairo', sans-serif;
-            font-size: 1.1em;
-            border-top: none; 
-            box-shadow: 
-                inset 0 10px 15px rgba(0, 0, 0, 0.7), 
-                inset 0 -10px 15px rgba(255, 255, 255, 0.1), 
-                0 0 25px rgba(9, 9, 9, 0.5); 
-            text-shadow: 0 0 5px var(--heading-color); 
-        }
-
-        .neon-whatsapp-btn {
-            padding: 15px 30px;
-            border: 3px solid #00ff00; 
-            border-radius: 50px; 
-            font-size: 1.2em;
-            font-weight: 900;
-            cursor: pointer;
-            transition: all 0.4s ease;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            max-width: 400px;
-            margin: 0 auto;
-            background-color: #008000;
-            color: white; 
-            box-shadow: 0 0 20px #00ff00, 0 0 30px #00ff00;
-        }
-
-        .whatsapp-icon {
-            font-size: 1.5em;
-            margin-left: 10px;
-            animation: pulseIcon 1.5s infinite alternate;
-        }
-
-        .neon-whatsapp-btn:hover {
-            background-color: #00cc00;
-            transform: translateY(-5px) scale(1.05);
-            box-shadow: 0 0 40px #00ff00, 0 0 60px #00ff00, 0 10px 20px rgba(0,0,0,0.5); 
-            border-color: #39ff14;
-        }
-
-        @keyframes pulseIcon {
-            0% { color: white; transform: scale(1); }
-            100% { color: #39ff14; transform: scale(1.1); }
-        }
-
-        /* ========================================= */
-        /* 🚨 الكود الأساسي لجعل التصميم متجاوب (Media Queries) 🚨 */
-        /* ========================================= */
-
-        /* عند الشاشات الصغيرة جداً (أقل من 600 بكسل) - الهواتف */
-        @media (max-width: 600px) {
-            body {
-                padding: 10px;
-            }
-
-            .container {
-                padding: 20px; /* تقليل المساحات الداخلية للـ Container */
-                margin: 10px auto;
-                border-radius: 10px;
-                width: 100%; /* استخدام العرض الكامل */
-            }
-
-            h1 {
-                font-size: 2em; /* تصغير حجم العنوان الرئيسي */
-                padding-bottom: 10px;
-                margin-bottom: 20px;
-            }
-
-            h2 {
-                font-size: 1.5em; /* تصغير حجم العناوين الفرعية */
-                padding-right: 10px;
-            }
-
-            /* إجبار الشبكة على عرض بطاقة واحدة في السطر على الموبايل */
-            .cards-grid {
-                grid-template-columns: 1fr; 
-            }
-            
-            /* فصل منطقتي المحرر والنتيجة فوق بعضهما البعض */
-            .code-area-container {
-                grid-template-columns: 1fr;
-            }
-
-            /* تقليل المسافات في الأزرار */
-            .test-button, .reset-button {
-                padding: 10px 20px;
-                font-size: 1em;
-                display: block; /* جعل الأزرار تأخذ سطر كامل */
-                width: 100%;
-                margin: 10px 0;
-            }
-
-            /* ترتيب أزرار التنقل (فوتر) عمودياً */
-            .navigation-buttons {
-                flex-direction: column;
-                gap: 15px;
-            }
-            .btn-footer {
-                width: 100%;
-            }
-
-            .simple-footer {
-                padding: 20px 10px; /* تقليل الـ Padding الأفقي للفوتر */
-            }
-        }
-
-        /* عند الشاشات المتوسطة (بين 601 بكسل و 992 بكسل) - التابلت */
-        @media (min-width: 601px) and (max-width: 992px) {
-            .container {
-                padding: 30px;
-                width: 90%;
-            }
-            /* تقليل عدد الأعمدة إلى اثنين في الشاشات المتوسطة إذا احتاج الأمر */
-            .cards-grid {
-                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            }
-        }
+      }
     </style>
-</head>
+  </head>
 
-<body>
+  <body>
     <div class="container">
-        <h1>📘 الدرس الشامل: CSS من أول السلام عليكم لحد الفنش!</h1>
-        
-        <p class="section-intro" style="text-align: center;">
-            <span style="font-size: 1.5em; color: #0d47a1;">**الـ CSS بالبلدي:**</span> هي مهندس الديكور بتاع الموقع. بتظبط شكل الألوان، الخطوط، والمسافات عشان الموقع يكون "شيك" ومريح للعين. مستعدين؟ يلا بينا نغطي كل كبيرة وصغيرة!
+      <h1>📘 الدرس الشامل: CSS من الصفر للاحتراف!</h1>
+
+      <p class="section-intro" style="text-align: center">
+        <span style="font-size: 1.5em; color: #0d47a1"
+          >**الـ CSS باختصار:**</span
+        >
+        لو الـ HTML هو العظم، فالـ CSS هو اللبس والميكاب والديكور. هو اللي بيحول
+        الصفحة من مجرد كلام أبيض واسود لصفحة شكلها حلو ومريح للعين.
+      </p>
+
+      <hr />
+
+      <h2>1. 🛠️ الأساسيات: إزاي بنكتب الكود ونربطه؟</h2>
+
+      <div class="deep-dive">
+        <p>
+          قبل ما نبدأ، لازم تعرف إننا عشان نكلم المتصفح ونقوله "لّون دي أحمر"،
+          لازم نستخدم لغة هو بيفهمها. المعادلة بسيطة جداً:
+        </p>
+        <p>
+          <strong>مين العنصر؟</strong> (المُحدد) +
+          <strong>عايز تغير إيه؟</strong> (الخاصية) +
+          <strong>القيمة كام؟</strong> (القيمة).
+        </p>
+        <p>
+          ونصيحة أخوية: دايماً استخدم <strong>الملف الخارجي (External)</strong>،
+          عشان لو عندك 50 صفحة في الموقع، تعدل في ملف واحد بس والكل يتعدل
+          أوتوماتيك.
+        </p>
+      </div>
+
+      <div class="cards-grid">
+        <div class="info-card">
+          <div class="card-title">01 - تركيبة القاعدة الأساسية</div>
+          <div class="card-desc">
+            أي كود CSS بيتكون من 3 حاجات: **المُحَدد** (اللي هنشتغل عليه)،
+            **الخاصية** (لون، طول)، و**القيمة** (أحمر، 50 بكسل).
+          </div>
+          <div class="code-example">p { color: blue; }</div>
+        </div>
+        <div class="info-card">
+          <div class="card-title">02 - التعليقات: شرح الكود</div>
+          <div class="card-desc">
+            كلام بتكتبه ليك إنت عشان تفتكر عملت إيه هنا. بيبدأ بـ `/*` وينتهي بـ
+            `*/`. **المتصفح بيطنشه تماماً.**
+          </div>
+          <div class="code-example">/* ده كود الهيدر */</div>
+        </div>
+        <div class="info-card">
+          <div class="card-title">03 - External (الـ CSS الخارجي)</div>
+          <div class="card-desc">
+            الطريقة **البروفيشنال**. بتعمل ملف `style.css` لوحده، وتوصله بالـ
+            HTML عن طريق `&lt;link>`. أنضف وأسرع.
+          </div>
+          <div class="code-example">
+            &lt;link rel="stylesheet" href="style.css">
+          </div>
+        </div>
+        <div class="info-card">
+          <div class="card-title">04 - Internal و Inline (طرق الطوارئ)</div>
+          <div class="card-desc">
+            الداخلي بـ `&lt;style>` في الهيد. المضمَّن بـ `style=""` جوه التاج
+            نفسه. **حاول متبالغش في استخدامهم** إلا للضرورة القصوى.
+          </div>
+          <div class="code-example">&lt;p style="color: red;"></div>
+        </div>
+      </div>
+
+      <h2>2. 🔍 المحددات (Selectors): إزاي تنادي على العنصر الصح؟</h2>
+
+      <div class="deep-dive">
+        <p>تخيل إنك في ميدان وعايز تنادي على حد. عندك كذا طريقة:</p>
+        <ul>
+          <li>
+            <strong>بالاسم (Tag):</strong> "يا رجالة!" (كده كل الرجالة هترد
+            عليك).
+          </li>
+          <li>
+            <strong>بالصفة (Class):</strong> "يا اللي لابس أحمر!" (ممكن كذا واحد
+            يكون لابس أحمر، وده بنستخدمه كتير).
+          </li>
+          <li>
+            <strong>بالبطاقة (ID):</strong> "يا أحمد محمد محمود!" (ده واحد بس
+            بعينه، ومينفعش يتكرر).
+          </li>
+        </ul>
+        <p>
+          <strong>قاعدة ذهبية:</strong> الـ ID أقوى من Class، والـ Class أقوى من
+          Tag.
+        </p>
+      </div>
+
+      <div class="cards-grid">
+        <div class="info-card">
+          <div class="card-title">05 - Tag Selector (اسم العنصر)</div>
+          <div class="card-desc">
+            بتنادي على اسم التاج علطول زي `div` أو `h1`. ده هيغير **كل** العناصر
+            اللي بالاسم ده في الصفحة.
+          </div>
+          <div class="code-example">h1 { color: navy; }</div>
+        </div>
+        <div class="info-card">
+          <div class="card-title">06 - Class Selector (الفئة)</div>
+          <div class="card-desc">
+            بيبدأ بنقطة `.`. ده "الجوكر" بتاعنا، بتديه لأي عدد من العناصر عشان
+            ياخدوا نفس الشكل.
+          </div>
+          <div class="code-example">.main-button { background: red; }</div>
+        </div>
+        <div class="info-card">
+          <div class="card-title">07 - ID Selector (المُعرِّف)</div>
+          <div class="card-desc">
+            بيبدأ بعلامة الشباك `#`. لعنصر **واحد وحيد** في الصفحة. عامل زي
+            الرقم القومي، مينفعش يتكرر.
+          </div>
+          <div class="code-example">#header-logo { width: 100px; }</div>
+        </div>
+        <div class="info-card">
+          <div class="card-title">08 - Descendant (الابن والحفيد)</div>
+          <div class="card-desc">
+            لما تعوز تختار عنصر جوه عنصر تاني. مثلاً "هاتلي كل الصور اللي جوه
+            المقالات بس".
+          </div>
+          <div class="code-example">
+            article img { border: 1px solid #000; }
+          </div>
+        </div>
+        <div class="info-card">
+          <div class="card-title">09 - Child (الابن المباشر)</div>
+          <div class="card-desc">
+            بعلامة `>`. بيختار العنصر اللي جوه الأب مباشرة، مش جوه ابنه ولا
+            حفيده.
+          </div>
+          <div class="code-example">ul > li { list-style: none; }</div>
+        </div>
+        <div class="info-card">
+          <div class="card-title">10 - Attribute (الخاصية)</div>
+          <div class="card-desc">
+            تختار العنصر بناءً على صفة فيه. مفيد جداً مع حقول الإدخال `input`.
+          </div>
+          <div class="code-example">
+            input[type="submit"] { cursor: pointer; }
+          </div>
+        </div>
+        <div class="info-card">
+          <div class="card-title">11 - Pseudo-classes (الحالات)</div>
+          <div class="card-desc">
+            بتغير شكل العنصر لما يحصل عليه "حدث" معين. أشهرهم `hover` لما الماوس
+            ييجي عليه.
+          </div>
+          <div class="code-example">button:hover { opacity: 0.8; }</div>
+        </div>
+      </div>
+
+      <h2>3. 📐 الـ Box Model: كل حاجة في الويب عبارة عن "صندوق"</h2>
+
+      <div class="deep-dive">
+        <p>
+          ركز بقى عشان دي أهم حتة في الـ CSS كله. أي حاجة بتشوفها (زرار، صورة،
+          نص) المتصفح بيشوفها كـ "صندوق". الصندوق ده بيتكون من 4 طبقات زي
+          "البرواز" بالظبط:
+        </p>
+        <ol>
+          <li><strong>المحتوى (Content):</strong> دي الصورة أو الكلام نفسه.</li>
+          <li>
+            <strong>الحشو (Padding):</strong> المسافة البيضاء بين الكلام
+            والبرواز (عشان الكلام ميبقاش لازق في الحيطة).
+          </li>
+          <li><strong>الحدود (Border):</strong> ده البرواز نفسه.</li>
+          <li>
+            <strong>الهوامش (Margin):</strong> المسافة اللي برة البرواز، اللي
+            بتفصل بين اللوحة دي واللوحة اللي جنبها.
+          </li>
+        </ol>
+      </div>
+
+      <div class="cards-grid">
+        <div class="info-card">
+          <div class="card-title">12 - المحتوى (Content)</div>
+          <div class="card-desc">
+            الـ `width` والـ `height`. مساحة العنصر الفعلي. خلي بالك، العناصر
+            الـ Inline (زي الروابط) مبتقبلش العرض والطول إلا لو حولتها.
+          </div>
+          <div class="code-example">div { width: 50%; height: 200px; }</div>
+        </div>
+        <div class="info-card">
+          <div class="card-title">13 - الحشو الداخلي (Padding)</div>
+          <div class="card-desc">
+            بينفخ العنصر من جوه. بيبعد المحتوى عن الحدود. لو زودته، حجم الصندوق
+            الكلي بيزيد.
+          </div>
+          <div class="code-example">padding: 20px; /* من كل الجهات */</div>
+        </div>
+        <div class="info-card">
+          <div class="card-title">14 - الحدود (Border)</div>
+          <div class="card-desc">
+            الخط اللي محاوط العنصر. لازم تحددله 3 حاجات: سمكه، نوعه (خط متصل ولا
+            منقط)، ولونه.
+          </div>
+          <div class="code-example">border: 1px solid #333;</div>
+        </div>
+        <div class="info-card">
+          <div class="card-title">15 - الهامش الخارجي (Margin)</div>
+          <div class="card-desc">
+            بيزق العناصر اللي حواليك عشان يوسع مكان. الـ `auto` فيه سحر بيوسطن
+            العنصر في نص الصفحة.
+          </div>
+          <div class="code-example">margin: 0 auto; /* توسيط أفقي */</div>
+        </div>
+        <div class="info-card">
+          <div class="card-title">16 - Box-Sizing: border-box</div>
+          <div class="card-desc">
+            <strong>أهم كود هتكتبه.</strong> بيخلي الـ padding والـ border
+            يتحسبوا من ضمن العرض الكلي، مش يزودوا عليه. بيمنع الحسابات المعقدة.
+          </div>
+          <div class="code-example">* { box-sizing: border-box; }</div>
+        </div>
+        <div class="info-card">
+          <div class="card-title">17 - الوحدات (Units)</div>
+          <div class="card-desc">
+            الـ `px` ثابتة. الـ `%` نسبية للأب. الـ `rem` أحسن للخطوط (نسبة لحجم
+            المتصفح). الـ `vh/vw` نسبة لحجم الشاشة كلها.
+          </div>
+          <div class="code-example">font-size: 1.2rem; width: 100%;</div>
+        </div>
+      </div>
+
+      <h2>4. 🖼️ الألوان والخطوط: "ميكاب" الموقع</h2>
+      <div class="cards-grid">
+        <div class="info-card">
+          <div class="card-title">18 - Font Family (نوع الخط)</div>
+          <div class="card-desc">
+            بتحدد نوع الخط. دايماً حط خط بديل (fallback) في الآخر زي
+            `sans-serif` عشان لو الخط الأساسي محملش.
+          </div>
+          <div class="code-example">font-family: 'Cairo', sans-serif;</div>
+        </div>
+        <div class="info-card">
+          <div class="card-title">19 - Font Weight & Size</div>
+          <div class="card-desc">
+            الـ Weight لتقل الخط (bold أو أرقام زي 700). والـ Size لحجمه. استخدم
+            `rem` للحجم عشان التجاوب أفضل.
+          </div>
+          <div class="code-example">font-weight: bold; font-size: 16px;</div>
+        </div>
+        <div class="info-card">
+          <div class="card-title">20 - Text Decoration</div>
+          <div class="card-desc">
+            بتتحكم في الخطوط اللي تحت أو فوق الكلام. بنستخدمها كتير عشان نشيل
+            الخط اللي تحت اللينكات بـ `none`.
+          </div>
+          <div class="code-example">text-decoration: none;</div>
+        </div>
+        <div class="info-card">
+          <div class="card-title">21 - Background Image</div>
+          <div class="card-desc">
+            بتحط صورة في الخلفية. لازم تستخدم `url()`.
+          </div>
+          <div class="code-example">background-image: url('img/bg.jpg');</div>
+        </div>
+        <div class="info-card">
+          <div class="card-title">22 - Background Size: Cover</div>
+          <div class="card-desc">
+            بتخلي الصورة تمط أو تصغر عشان تغطي العنصر كله من غير ما تبوظ أبعادها
+            أو تسيب فراغات.
+          </div>
+          <div class="code-example">background-size: cover;</div>
+        </div>
+        <div class="info-card">
+          <div class="card-title">23 - Linear Gradient</div>
+          <div class="card-desc">
+            التدرج اللوني. بدل لون مصمت، بتعمل مزيج بين لونين أو أكتر. شكلها
+            مودرن وشيك جداً.
+          </div>
+          <div class="code-example">
+            background: linear-gradient(45deg, red, blue);
+          </div>
+        </div>
+      </div>
+
+      <h2>5. 🏗️ التخطيط (Layout): إزاي ترص العناصر؟ (Flexbox & Grid)</h2>
+
+      <div class="deep-dive">
+        <p>زمان كنا بنتعذب عشان نحط عنصرين جنب بعض. دلوقتي عندنا أداتين سحر:</p>
+        <ul>
+          <li>
+            <strong>Flexbox:</strong> ممتاز للترتيب في اتجاه واحد (صف واحد أو
+            عمود واحد). زي ما بترص كتب على رف، أو زراير في نافبار.
+          </li>
+          <li>
+            <strong>Grid:</strong> وحش التقسيم. بيقسم الصفحة لشبكة (صفوف وأعمدة)
+            زي جدول الإكسيل أو بلاط الأرضية. ممتاز لتخطيط الصفحة الرئيسية
+            بالكامل.
+          </li>
+        </ul>
+      </div>
+
+      <div class="cards-grid">
+        <div class="info-card">
+          <div class="card-title">24 - display: flex</div>
+          <div class="card-desc">
+            أول ما تكتبها للأب، كل ولاده بيترصوا جنبه بعض أوتوماتيك. وبتقدر
+            تتحكم في مسافاتهم بسهولة.
+          </div>
+          <div class="code-example">display: flex;</div>
+        </div>
+        <div class="info-card">
+          <div class="card-title">25 - Justify-Content (أفقياً)</div>
+          <div class="card-desc">
+            بيوزع العناصر بالعرض. `space-between` بتعمل مسافات متساوية بينهم، و
+            `center` بتجيبهم في النص.
+          </div>
+          <div class="code-example">justify-content: center;</div>
+        </div>
+        <div class="info-card">
+          <div class="card-title">26 - Align-Items (رأسياً)</div>
+          <div class="card-desc">
+            بيوزع العناصر بالطول (فوق وتحت). `center` بتخليهم في نص الصندوق
+            بالظبط رأسياً.
+          </div>
+          <div class="code-example">align-items: center;</div>
+        </div>
+        <div class="info-card">
+          <div class="card-title">27 - Flex-Direction</div>
+          <div class="card-desc">
+            لو عايز تعكس الآية وتخليهم تحت بعض بدل جنب بعض، استخدم `column`.
+          </div>
+          <div class="code-example">flex-direction: column;</div>
+        </div>
+        <div class="info-card">
+          <div class="card-title">28 - display: grid</div>
+          <div class="card-desc">
+            بيحول العنصر لشبكة. لازم بعدها تحدد عندك كام عمود وكام صف.
+          </div>
+          <div class="code-example">display: grid; gap: 20px;</div>
+        </div>
+        <div class="info-card">
+          <div class="card-title">29 - Grid Template Columns</div>
+          <div class="card-desc">
+            بنحدد عرض الأعمدة. الـ `fr` وحدة سحرية بتاخد "الجزء المتبقي" من
+            المساحة. `repeat` بتكرر الأعمدة.
+          </div>
+          <div class="code-example">grid-template-columns: repeat(3, 1fr);</div>
+        </div>
+        <div class="info-card">
+          <div class="card-title">30 - Media Queries (التجاوب)</div>
+          <div class="card-desc">
+            ده شرط بتكتبه: "لو الشاشة أصغر من كذا، طبق الكود ده". ده السر اللي
+            بيخلي الموقع يشتغل على الموبايل واللابتوب.
+          </div>
+          <div class="code-example">@media (max-width: 768px) { ... }</div>
+        </div>
+      </div>
+
+      <h2>6. 📍 التموضع (Positioning): ثبت مكانك!</h2>
+
+      <div class="deep-dive">
+        <p>
+          ساعات بتحتاج تثبت الهيدر فوق، أو تحط أيقونة فوق صورة، أو تخلي زرار
+          "اطلع فوق" يفضل معاك وأنت بتعمل سكرول. هنا بنستخدم الـ Position.
+        </p>
+      </div>
+
+      <div class="cards-grid">
+        <div class="info-card">
+          <div class="card-title">31 - Position: Relative</div>
+          <div class="card-desc">
+            النسبي. مكانه العادي، بس بنستخدمه غالباً عشان يكون "أب" لعنصر تاني
+            واخد Absolute جواه.
+          </div>
+          <div class="code-example">position: relative;</div>
+        </div>
+        <div class="info-card">
+          <div class="card-title">32 - Position: Absolute</div>
+          <div class="card-desc">
+            المُطلق. العنصر ده بيخرج من الطابور ويطير فوق العناصر. بيتموضع
+            بالنسبة لأقرب أب واخد Relative.
+          </div>
+          <div class="code-example">position: absolute; top: 0; right: 0;</div>
+        </div>
+        <div class="info-card">
+          <div class="card-title">33 - Position: Fixed</div>
+          <div class="card-desc">
+            الثابت. بيلزق في الشاشة ومبيتحركش حتى لو عملت سكرول. بنستخدمه في
+            النافبار الثابت أو زرار الشات.
+          </div>
+          <div class="code-example">position: fixed; bottom: 20px;</div>
+        </div>
+        <div class="info-card">
+          <div class="card-title">34 - Position: Sticky</div>
+          <div class="card-desc">
+            المزيج الذكي. بيفضل في مكانه عادي لحد ما تعمل سكرول ويوصل لطرف
+            الشاشة، يقوم يلزق فيها.
+          </div>
+          <div class="code-example">position: sticky; top: 0;</div>
+        </div>
+        <div class="info-card">
+          <div class="card-title">35 - Z-Index</div>
+          <div class="card-desc">
+            ترتيب الطبقات. مين فوق مين؟ اللي رقمه أكبر بيظهر فوق اللي رقمه أصغر.
+            بيشتغل بس مع الـ Position.
+          </div>
+          <div class="code-example">z-index: 99;</div>
+        </div>
+      </div>
+
+      <h2>7. ✨ الروح والحركة (Animations)</h2>
+      <div class="cards-grid">
+        <div class="info-card">
+          <div class="card-title">36 - Transition (النعومة)</div>
+          <div class="card-desc">
+            بدل ما اللون يتغير فجأة ("خبط لزق")، بيخليه يتغير بنعومة. مهم جداً
+            في الأزرار والروابط.
+          </div>
+          <div class="code-example">transition: all 0.3s ease;</div>
+        </div>
+        <div class="info-card">
+          <div class="card-title">37 - Transform (التحويل)</div>
+          <div class="card-desc">
+            بيغير شكل العنصر هندسياً. `scale` (تكبير/تصغير)، `rotate` (دوران)،
+            `translate` (تحريك من مكانه).
+          </div>
+          <div class="code-example">transform: scale(1.1);</div>
+        </div>
+        <div class="info-card">
+          <div class="card-title">38 - Keyframes (الأنيميشن)</div>
+          <div class="card-desc">
+            بتصمم مشهد سينمائي كامل. من الدقيقة كذا للدقيقة كذا اعمل كذا. بتسمي
+            الحركة وتستخدمها بعدين.
+          </div>
+          <div class="code-example">
+            @keyframes myMove { 0% {top:0} 100% {top:100px} }
+          </div>
+        </div>
+      </div>
+
+      <div
+        style="
+          text-align: center;
+          margin-top: 50px;
+          padding-top: 30px;
+          border-top: 2px dashed #42a5f5;
+        "
+      >
+        <p class="egyptian-tip">
+          **خلاصة الكلام:** الكود مبيتحفظش، الكود بيتفهم وبيتجرب. المنطقة اللي
+          تحت دي بتاعتك، "عك" فيها براحتك لحد ما تتعلم!
+        </p>
+      </div>
+
+      <div class="lab-section">
+        <h2 class="lab-title">💻 المعمل العملي: جَرَّبْ بإيدك متخافش!</h2>
+
+        <p style="text-align: center; font-weight: 600; margin-bottom: 30px">
+          اكتب كود CSS في الصندوق الأسود، وشوف النتيجة فوراً في الصندوق الأبيض.
+          <br />
+          **جرب تغير الألوان، الحواف، أو حتى حرك العنصر من مكانه!**
         </p>
 
-        <hr>
-
-        <h2>1. 🛠️ الأساسيات: تركيب القواعد وطرق الربط</h2>
-        
-        <div class="cards-grid">
-            
-            <div class="info-card"><div class="card-title">01 - تركيبة القاعدة الأساسية</div><div class="card-desc">أي كود CSS بيتكون من 3 حاجات: **المُحَدد**، **الخاصية**، و**القيمة**.</div><div class="code-example">p { color: blue; }</div></div>
-            <div class="info-card"><div class="card-title">02 - التعليقات: شرح الكود</div><div class="card-desc">كلام بتكتبه عشان تفهم الكود بعدين. بيبدأ بـ `/*` وينتهي بـ `*/`. **الكمبيوتر مش بيشوفه.**</div><div class="code-example">/* ده تنسيق الفوتر */</div></div>
-            <div class="info-card"><div class="card-title">03 - External (الـ CSS الخارجي)</div><div class="card-desc">الطريقة **الأفضل** للمشاريع الكبيرة. بتعمل ملف `style.css` لوحده، وتوصله بالـ HTML عن طريق `&lt;link>`.</div><div class="code-example">&lt;link rel="stylesheet" href="style.css"></div></div>
-            <div class="info-card"><div class="card-title">04 - Internal و Inline (طرق ثانوية)</div><div class="card-desc">الداخلي بـ `&lt;style>` جوه الـ `&lt;head>`. المضمَّن بـ `style=""` جوه الوسم. **بلاش تستخدمهم كتير.**</div><div class="code-example">&lt;p style="font-size: 14px;"></div></div>
-            
-        </div>
-        
-        <h2>2. 🔍 محددات الأناقة: اختيار العناصر بدقة</h2>
-        <div class="cards-grid">
-        
-            <div class="info-card"><div class="card-title">05 - Tag Selector (وسم HTML)</div><div class="card-desc">بتنادي على اسم الوسم مباشرة (زي `img`، `h1`). يطبق على **كل** العناصر دي.</div><div class="code-example">h1 { color: navy; }</div></div>
-            <div class="info-card"><div class="card-title">06 - Class Selector (الفئة)</div><div class="card-desc">بيبدأ بنقطة `.`. ممكن تستخدمه على **أكتر من عنصر** عشان تعمل تنسيق موحد (زي تنسيق الأزرار).</div><div class="code-example">.main-button { ... }</div></div>
-            <div class="info-card"><div class="card-title">07 - ID Selector (المُعرِّف)</div><div class="card-desc">بيبدأ بعلامة الهاش `#`. لعنصر **واحد وفريد** في الصفحة. الأولوية بتاعته عالية جداً.</div><div class="code-example">#logo { width: 150px; }</div></div>
-            <div class="info-card"><div class="card-title">08 - Descendant (الأب والابن)</div><div class="card-desc">لتحديد عنصر موجود **جوه** عنصر تاني معين بس. مثال: الفقرات اللي جوه الـ `div` بس.</div><div class="code-example">div p { margin: 0; }</div></div>
-            <div class="info-card"><div class="card-title">09 - Child (الابن المباشر)</div><div class="card-desc">بيستخدم علامة أكبر من `>`. لتحديد عنصر موجود مباشرة داخل الأب، بدون أي وسيط بينهم.</div><div class="code-example">ul > li { ... }</div></div>
-            <div class="info-card"><div class="card-title">10 - Attribute (الخاصية)</div><div class="card-desc">لتنسيق عنصر معين بناءً على وجود خاصية معينة فيه أو قيمة الخاصية. بتبدأ بقوسين مربعين `[]`.</div><div class="code-example">input[type="text"] { border: 1px solid gray; }</div></div>
-            <div class="info-card"><div class="card-title">11 - Pseudo-classes (الـ حالـات)</div><div class="card-desc">لتنسيق العنصر لما يكون في "حالة" معينة (زي الـ `hover` لما الماوس يجي عليه، أو `active` لما تدوس عليه).</div><div class="code-example">a:hover { color: orange; }</div></div>
-            <div class="info-card"><div class="card-title">12 - Pseudo-elements (أجزاء من العنصر)</div><div class="card-desc">لتنسيق أجزاء من العنصر نفسه، زي **أول حرف** أو **أول سطر**، أو إضافة محتوى قبل أو بعد العنصر (`::before`, `::after`).</div><div class="code-example">p::first-letter { font-size: 2em; }</div></div>
-            
-        </div>
-
-        <h2>3. 📐 الصندوق والشغل الثقيل: The Box Model</h2>
-        <div class="cards-grid">
-            
-            <div class="info-card"><div class="card-title">13 - المحتوى (Content)</div><div class="card-desc">الـ `width` (العرض) والـ `height` (الطول) بتاع العنصر نفسه. خلي بالك **ممكن ميتطبقوش** لو الـ `display` مش `block` أو `inline-block`.</div><div class="code-example">img { width: 100%; }</div></div>
-            <div class="info-card"><div class="card-title">14 - الإطار الداخلي (Padding)</div><div class="card-desc">المسافة اللي بين **الكلام** والحدود الداخلية للصندوق. ممكن تكتبها بأربع قيم (فوق يمين تحت شمال).</div><div class="code-example">padding: 10px 20px 10px 20px;</div></div>
-            <div class="info-card"><div class="card-title">15 - الحدود (Border)</div><div class="card-desc">الخط اللي بيحيط بالصندوق. ليه 3 خصائص أساسية: سمك، نوع (solid, dashed)، ولون.</div><div class="code-example">border: 2px solid #007bff;</div></div>
-            <div class="info-card"><div class="card-title">16 - الإطار الخارجي (Margin)</div><div class="card-desc">المسافة اللي بين الصندوق بتاعك وبين **العناصر اللي حواليه**. ممكن تعملها `margin: 0 auto;` عشان تخلي العنصر في نص الصفحة.</div><div class="code-example">margin: 30px auto;</div></div>
-            <div class="info-card"><div class="card-title">17 - Box-Sizing: border-box</div><div class="card-desc">أهم خاصية هتريحك. بتخلي الـ `padding` والـ `border` **يتخصموا** من الـ `width` والـ `height` المحددة. **استخدمها دايماً كده:**</div><div class="code-example">* { box-sizing: border-box; }</div></div>
-            
-        </div>
-        
-        <h2>4. 🖼️ الألوان، الخطوط، والخلفيات (Typography & Backgrounds)</h2>
-        <div class="cards-grid">
-        
-            <div class="info-card"><div class="card-title">18 - Font Shorthand (اختصار الخط)</div><div class="card-desc">بدل ما تكتب 5 سطور للخط، ممكن تكتبهم في سطر واحد عشان توفر وقت. الترتيب مهم: `style weight size/line-height family`.</div><div class="code-example">font: bold 16px/1.5 'Cairo', sans-serif;</div></div>
-            <div class="info-card"><div class="card-title">19 - Text Decoration</div><div class="card-desc">للتحكم في خطوط النص. أشهر استخدام هو إزالة الخط اللي تحت الروابط: `none`.</div><div class="code-example">a { text-decoration: none; }</div></div>
-            <div class="info-card"><div class="card-title">20 - Background Image</div><div class="card-desc">عشان تحط صورة في خلفية عنصر. لازم تستخدم `url()` وتحدد مكان الصورة.</div><div class="code-example">background-image: url('my-bg.jpg');</div></div>
-            <div class="info-card"><div class="card-title">21 - Background Repeat</div><div class="card-desc">لتحديد إذا كانت الصورة هتتكرر ولا لأ. أشهر القيم: `no-repeat`، `repeat-x` (تكرار أفقي)، `repeat-y` (تكرار رأسي).</div><div class="code-example">background-repeat: no-repeat;</div></div>
-            <div class="info-card"><div class="card-title">22 - Background Size</div><div class="card-desc">للتحكم في حجم صورة الخلفية. أهم القيم: **`cover`** (تغطي العنصر كله) و **`contain`** (تحتوي الصورة بالكامل).</div><div class="code-example">background-size: cover;</div></div>
-            <div class="info-card"><div class="card-title">23 - Linear Gradient (تدرج لوني)</div><div class="card-desc">عشان تعمل خلفية فيها لونين أو أكتر بيتدرجوا بشكل سلس، بدل ما تكون لون واحد بس.</div><div class="code-example">background: linear-gradient(to right, blue, cyan);</div></div>
-            
-        </div>
-        
-        <h2>5. 🌐 التنسيق المتقدم: Flexbox, Grid, و Media Queries</h2>
-        <div class="cards-grid">
-        
-             <div class="info-card"><div class="card-title">24 - display: flex (الفليكس بوكس)</div><div class="card-desc">لتفعيل نظام الترتيب المرن في العنصر الأب. بيخلي كل العناصر اللي جواه تقدر تترتب بسهولة في سطر واحد.</div><div class="code-example">display: flex;</div></div>
-             <div class="info-card"><div class="card-title">25 - Justify-Content (المحاذاة الأفقية)</div><div class="card-desc">للتحكم في توزيع العناصر على المحور الأفقي (اليمين واليسار). أشهر القيم: `center`، `space-between`، `flex-start`.</div><div class="code-example">justify-content: space-between;</div></div>
-            <div class="info-card"><div class="card-title">26 - Align-Items (المحاذاة الرأسية)</div><div class="card-desc">للتحكم في محاذاة العناصر على المحور الرأسي (فوق وتحت). أشهر القيم: `center`، `flex-start`، `flex-end`.</div><div class="code-example">align-items: center;</div></div>
-            <div class="info-card"><div class="card-title">27 - Flex-Wrap</div><div class="card-desc">لو العناصر كتير ومحتاج تنزل للسطر اللي بعده بدل ما تضغطهم في سطر واحد. بتديها قيمة `wrap`.</div><div class="code-example">flex-wrap: wrap;</div></div>
-            <div class="info-card"><div class="card-title">28 - Media Queries (التجاوب للموبايل)</div><div class="card-desc">السر عشان موقعك يشتغل صح على كل الأحجام. بتحدد شرط (مثلاً شاشة أصغر من 600 بكسل) وتكتب جواه كود خاص.</div><div class="code-example">@media (max-width: 600px) { body { font-size: 14px; } }</div></div>
-            <div class="info-card"><div class="card-title">29 - display: grid (الشبكات)</div><div class="card-desc">نظام متقدم لتنظيم الصفحة في صفوف وأعمدة معقدة. **ممتاز لتنسيق التخطيط العام للصفحة**.</div><div class="code-example">display: grid;</div></div>
-            <div class="info-card"><div class="card-title">30 - Grid-Template-Columns</div><div class="card-desc">لتحديد عدد وأحجام الأعمدة في نظام الـ Grid. الـ `fr` هي وحدة نسبية بتستخدم المساحة المتاحة.</div><div class="code-example">grid-template-columns: 1fr 1fr 1fr;</div></div>
-            
-        </div>
-        
-        <h2>6. ✨ الحركة والإبداع: التحولات والرسوم المتحركة (Transitions & Animations)</h2>
-        <div class="cards-grid">
-        
-            <div class="info-card"><div class="card-title">31 - Transition (التحول السلس)</div><div class="card-desc">عشان التغيير من حالة لحالة (زي الـ `hover`) يكون سلس ومياخدش وقت قليل. بيحدد **الخاصية** و **المدة** اللي هياخدها التغيير.</div><div class="code-example">transition: background-color 0.3s ease-in-out;</div></div>
-            <div class="info-card"><div class="card-title">32 - Transform (التعديل الهندسي)</div><div class="card-desc">لتغيير شكل العنصر بدون التأثير على العناصر اللي حواليه. ممكن تعمل **دوران** (`rotate`) أو **تغيير حجم** (`scale`) أو **نقل** (`translate`).</div><div class="code-example">.box:hover { transform: scale(1.1) rotate(5deg); }</div></div>
-            <div class="info-card"><div class="card-title">33 - Keyframes (الرسوم المتحركة)</div><div class="card-desc">لتحديد خطوات الحركة. بتستخدم الـ `@keyframes` عشان تقول للكمبيوتر: "عند 0% من الوقت اعمل كذا، وعند 100% اعمل كذا".</div><div class="code-example">@keyframes slide-in { from { opacity: 0; } to { opacity: 1; } }</div></div>
-            <div class="info-card"><div class="card-title">34 - Animation Property</div><div class="card-desc">ربط الـ `@keyframes` بالعنصر عشان تبدأ الحركة. بتحدد اسم الحركة، المدة، وتكرارها.</div><div class="code-example">.element { animation: slide-in 1s infinite alternate; }</div></div>
-            
-        </div>
-        
-        <div style="text-align:center; margin-top: 50px; padding-top: 30px; border-top: 2px dashed #42a5f5;">
-            <p class="egyptian-tip">
-                **نصيحة مهمة جداً:** الممارسة هي اللي هتخليك محترف. المنطقة اللي تحت دي هي الـ **Sandbox** بتاعك!
-            </p>
-        </div>
-
-        <div class="lab-section">
-            <h2 class="lab-title">💻 المعمل العملي: جَرَّبْ الكود بنفسك!</h2>
-            
-            <p style="text-align: center; font-weight: 600; margin-bottom: 30px;">
-                **الهدف:** اكتب كود الـ CSS في صندوق "المحرر" وشوف النتيجة الفورية في صندوق "النتيجة".
-                <br>
-                **استخدم هذا الكود الأساسي في صندوق النتيجة عشان تجرب عليه:** <span class="egyptian-tip" style="display: inline-block;">`&lt;div class="my-box">نص للتجربة&lt;/div>`</span>
-            </p>
-            
-            <div class="code-area-container">
-                <div>
-                    <h3 style="color: #0d47a1; text-align: center;">كود CSS هنا:</h3>
-                    <textarea id="css-editor" class="code-editor" placeholder="اكتب كود CSS هنا..."></textarea>
-                </div>
-                <div>
-                    <h3 style="color: #0d47a1; text-align: center;">النتيجة المُطبَّقة:</h3>
-                    <div id="output-preview" class="output-preview">
-                        <div id="target-box" style="padding: 20px; border: 2px dashed #aaa; margin: 10px; text-align: center; font-family: 'Cairo', sans-serif;">
-                            **مكان التجربة**
-                        </div>
-                    </div>
-                </div>
+        <div class="code-area-container">
+          <div>
+            <h3 style="color: #0d47a1; text-align: center">اكتب CSS هنا:</h3>
+            <textarea
+              id="css-editor"
+              class="code-editor"
+              placeholder="اكتب كود CSS هنا..."
+            ></textarea>
+          </div>
+          <div>
+            <h3 style="color: #0d47a1; text-align: center">
+              النتيجة هتظهر هنا:
+            </h3>
+            <div id="output-preview" class="output-preview">
+              <div
+                id="target-box"
+                style="
+                  padding: 20px;
+                  border: 2px dashed #aaa;
+                  margin: 10px;
+                  text-align: center;
+                  font-family: 'Cairo', sans-serif;
+                "
+              >
+                **أنا العنصر اللي هيتغير**
+              </div>
             </div>
-
-            <div class="lab-buttons">
-                <button class="test-button" onclick="applyCss()">✅ إظهار النتيجة (تطبيق الكود)</button>
-                <button class="reset-button" onclick="resetLab()">🔄 مسح وإعادة تعيين</button>
-            </div>
-            
+          </div>
         </div>
-        
+
+        <div class="lab-buttons">
+          <button class="test-button" onclick="applyCss()">✅ نفذ الكود</button>
+          <button class="reset-button" onclick="resetLab()">
+            🔄 امسح وابدأ من جديد
+          </button>
+        </div>
+      </div>
     </div>
     <script>
-        // تحديد العناصر الأساسية
-        const cssEditor = document.getElementById('css-editor');
-        const targetBox = document.getElementById('target-box');
-        // مكان عرض الرسائل (النجاح/الخطأ)
-        const labSection = document.querySelector('.lab-section'); 
-        let originalStyle = targetBox.style.cssText; // لحفظ الستايل الأصلي
+      // تحديد العناصر الأساسية
+      const cssEditor = document.getElementById("css-editor");
+      const targetBox = document.getElementById("target-box");
+      const labSection = document.querySelector(".lab-section");
+      let originalStyle = targetBox.style.cssText; // لحفظ الستايل الأصلي
 
-        // دالة لعرض رسائل الحالة داخل الصفحة
-        function showMessage(message, type) {
-            // إزالة أي رسالة سابقة قبل عرض رسالة جديدة
-            let existingMsg = document.getElementById('lab-message');
-            if (existingMsg) {
-                existingMsg.remove();
-            }
+      // دالة لعرض رسائل الحالة
+      function showMessage(message, type) {
+        let existingMsg = document.getElementById("lab-message");
+        if (existingMsg) existingMsg.remove();
 
-            // إنشاء عنصر الرسالة
-            const msgElement = document.createElement('div');
-            msgElement.id = 'lab-message';
-            msgElement.style.padding = '10px';
-            msgElement.style.marginTop = '15px';
-            msgElement.style.borderRadius = '8px';
-            msgElement.style.textAlign = 'center';
-            msgElement.style.fontWeight = 'bold';
-            msgElement.textContent = message;
+        const msgElement = document.createElement("div");
+        msgElement.id = "lab-message";
+        msgElement.style.padding = "10px";
+        msgElement.style.marginTop = "15px";
+        msgElement.style.borderRadius = "8px";
+        msgElement.style.textAlign = "center";
+        msgElement.style.fontWeight = "bold";
+        msgElement.textContent = message;
 
-            if (type === 'success') {
-                msgElement.style.backgroundColor = '#b9f6ca'; // أخضر فاتح للنجاح
-                msgElement.style.color = '#00701a';
-            } else if (type === 'error') {
-                msgElement.style.backgroundColor = '#ffcdd2'; // أحمر فاتح للخطأ
-                msgElement.style.color = '#c62828';
-            } else {
-                msgElement.style.backgroundColor = '#e3f2fd';
-                msgElement.style.color = '#0d47a1';
-            }
-
-            // إضافة الرسالة في نهاية منطقة المعمل
-            labSection.appendChild(msgElement);
-
-            // مسح الرسالة تلقائياً بعد 3 ثوانٍ
-            setTimeout(() => {
-                msgElement.style.transition = 'opacity 0.5s';
-                msgElement.style.opacity = '0';
-                setTimeout(() => msgElement.remove(), 500);
-            }, 3000);
-        }
-        
-        // دالة تطبيق الـ CSS
-        function applyCss() {
-            const userCss = cssEditor.value.trim();
-            // بما أن الكود المكتوب في المحرر هو خصائص فقط، نطبقه مباشرة كـ inline style
-            
-            // أولاً نعيد العنصر للحالة الأصلية لإزالة أي تأثيرات سابقة
-            targetBox.style.cssText = originalStyle; 
-            
-            if (userCss) {
-                try {
-                    // تطبيق الكود الجديد المكتوب في المحرر
-                    targetBox.style.cssText += userCss; 
-                    showMessage('✅ تم تطبيق الكود بنجاح! راجع صندوق النتيجة.', 'success');
-                } catch (e) {
-                    showMessage('❌ خطأ في الكود! تأكد من الفواصل المنقوطة (;) والقيم.', 'error');
-                    console.error("CSS Application Error:", e);
-                }
-            } else {
-                 showMessage('⚠️ صندوق الكود فارغ. اكتب شيئاً لتجربته.', 'error');
-            }
+        if (type === "success") {
+          msgElement.style.backgroundColor = "#b9f6ca";
+          msgElement.style.color = "#00701a";
+        } else if (type === "error") {
+          msgElement.style.backgroundColor = "#ffcdd2";
+          msgElement.style.color = "#c62828";
+        } else {
+          msgElement.style.backgroundColor = "#e3f2fd";
+          msgElement.style.color = "#0d47a1";
         }
 
-        // دالة إعادة التعيين
-        function resetLab() {
-            cssEditor.value = '';
-            targetBox.style.cssText = originalStyle;
-            showMessage('🔄 تم مسح الكود وإعادة التعيين.', 'info');
-        }
+        labSection.appendChild(msgElement);
 
-        // الكود التجريبي الافتراضي
-        cssEditor.value = `
-/* جرب تغيير الخصائص دي: */
-background-color: #00838f; /* لون بحري غامق */
+        setTimeout(() => {
+          msgElement.style.transition = "opacity 0.5s";
+          msgElement.style.opacity = "0";
+          setTimeout(() => msgElement.remove(), 500);
+        }, 3000);
+      }
+
+      // دالة تطبيق الـ CSS
+      function applyCss() {
+        const userCss = cssEditor.value.trim();
+        targetBox.style.cssText = originalStyle;
+
+        if (userCss) {
+          try {
+            targetBox.style.cssText += userCss;
+            showMessage("✅ الله ينور! الكود اشتغل.", "success");
+          } catch (e) {
+            showMessage("❌ في حاجة غلط. راجع الكود تاني.", "error");
+          }
+        } else {
+          showMessage("⚠️ مفيش كود مكتوب عشان أنفذه!", "error");
+        }
+      }
+
+      // دالة إعادة التعيين
+      function resetLab() {
+        cssEditor.value = "";
+        targetBox.style.cssText = originalStyle;
+        showMessage("🔄 رجعنا كل حاجة زي الأول.", "info");
+      }
+
+      // الكود التجريبي الافتراضي
+      cssEditor.value = `
+/* جرب تغير الألوان والأرقام دي: */
+background-color: #00838f; 
 color: white;
-font-size: 20px;
-border-radius: 10px;
-padding: 30px;
-box-shadow: 5px 5px 15px rgba(0,0,0,0.3);
+font-size: 22px;
+border-radius: 15px;
+padding: 40px;
+box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+transform: rotate(-3deg);
 `;
-        // تطبيق الكود التجريبي عند تحميل الصفحة
-        applyCss();
+      applyCss();
     </script>
-   <div class="lesson-end-section">
-    <p style="font-size: 1.4em; font-weight: 700; color: #1565c0; margin-bottom: 25px;">
-        🎉 انتهى الدرس الشامل! ابدأ التطبيق العملي.
-    </p>
-    
-    <div class="navigation-buttons">
-        <button class="btn-footer nav-btn-primary" onclick="location.href='quiz9.html'">اختبر نفسك! 🧠</button>
-        <button class="btn-footer nav-btn-secondary" onclick="location.href='index.html'">🏠 الصفحة الرئيسية</button>
-        <button class="btn-footer nav-btn-primary" onclick="location.href='lesson7.html'"> العودة لدروس HTML 📚</button>
-    </div>
-</div>
-<footer class="simple-footer">
-    تصميم بواسطة <strong>Ahmed Ezzat</strong> ❤️
-    <div style="margin-top: 30px;">
-        <a href="https://wa.me/201003090216?text=مرحباً، لدي استفسار بخصوص دروس تطوير الويب (HTML)."
-            target="_blank"
-            class="btn whatsapp neon-whatsapp-btn">
-            <span class="whatsapp-icon">📞</span>
-            تواصل معي عبر واتساب (01003090216)
-        </a>
-    </div>
-</footer>
+    <div class="lesson-end-section">
+      <p
+        style="
+          font-size: 1.4em;
+          font-weight: 700;
+          color: #1565c0;
+          margin-bottom: 25px;
+        "
+      >
+        🎉 مبروك! إنت كده معاك أساس قوي جداً في CSS.
+      </p>
 
-</body>
+      <div class="navigation-buttons">
+        <button
+          class="btn-footer nav-btn-primary"
+          onclick="location.href='quiz9.html'"
+        >
+          اختبر نفسك! 🧠
+        </button>
+        <button
+          class="btn-footer nav-btn-secondary"
+          onclick="location.href='index.html'"
+        >
+          🏠 الصفحة الرئيسية
+        </button>
+        <button
+          class="btn-footer nav-btn-primary"
+          onclick="location.href='lesson7.html'"
+        >
+          📚 العودة لدروس HTML
+        </button>
+      </div>
+    </div>
+    <footer class="simple-footer">
+      تصميم بواسطة <strong>Ahmed Ezzat</strong> ❤️
+      <div style="margin-top: 30px">
+        <a
+          href="https://wa.me/201003090216?text=مرحباً، لدي استفسار بخصوص دروس تطوير الويب (HTML)."
+          target="_blank"
+          class="btn whatsapp neon-whatsapp-btn"
+        >
+          <span class="whatsapp-icon">📞</span>
+          تواصل معي عبر واتساب (01003090216)
+        </a>
+      </div>
+    </footer>
+  </body>
 </html>

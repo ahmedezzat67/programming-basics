@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>تحدي العمالقة | المنهج الثاني</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Fira+Code&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+    <style>
+      :root {
+        --p-pink: #ff007a;
+        --p-blue: #00d4ff;
+        --p-yellow: #ffcc00;
+        --p-green: #00ff88;
+        --glass: rgba(255, 255, 255, 0.1);
+      }
+
+      body {
+        font-family: "Cairo", sans-serif;
+        background: #050510;
+        color: #fff;
+        margin: 0;
+        padding: 20px;
+        overflow-x: hidden;
+      }
+
+      /* خلفية النجوم المتحركة */
+      body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url("https://www.transparenttextures.com/patterns/stardust.png");
+        opacity: 0.2;
+        z-index: -1;
+        animation: bgMove 50s linear infinite;
+      }
+      @keyframes bgMove {
+        from {
+          background-position: 0 0;
+        }
+        to {
+          background-position: 1000px 1000px;
+        }
+      }
+
+      .container {
+        max-width: 950px;
+        margin: 0 auto;
+      }
+
+      .header-box {
+        text-align: center;
+        margin-bottom: 40px;
+      }
+      .header-box h1 {
+        font-size: 3.5rem;
+        font-weight: 900;
+        /* التدرج اللوني */
+        background: linear-gradient(to right, var(--p-pink), var(--p-blue));
+
+        /* الحل: إضافة الخاصية القياسية بجانب نسخة الويب كيت */
+        background-clip: text;
+        -webkit-background-clip: text;
+
+        /* جعل النص شفافاً ليظهر التدرج من خلفه */
+        color: transparent; /* بديل قياسي */
+        -webkit-text-fill-color: transparent;
+
+        animation: pulse 2s infinite;
+      }
+
+      .q-card {
+        background: var(--glass);
+        backdrop-filter: blur(15px);
+        border-radius: 40px;
+        padding: 40px;
+        margin-bottom: 35px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        display: none; /* يتم التحكم بها عبر JS */
+      }
+      .q-card.active {
+        display: block;
+        animation: fadeInRight 0.5s;
+      }
+
+      .q-text {
+        font-size: 1.5rem;
+        font-weight: 800;
+        margin-bottom: 25px;
+        color: var(--p-blue);
+      }
+
+      .opt-grid {
+        display: grid;
+        gap: 12px;
+      }
+      .opt-btn {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        padding: 18px;
+        border-radius: 20px;
+        color: #fff;
+        font-size: 1.1rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: 0.3s;
+        text-align: right;
+      }
+      .opt-btn:hover:not(:disabled) {
+        border-color: var(--p-blue);
+        background: rgba(0, 212, 255, 0.1);
+      }
+      .opt-btn.correct {
+        background: var(--p-green) !important;
+        color: #000;
+      }
+      .opt-btn.wrong {
+        background: var(--p-pink) !important;
+        color: #fff;
+      }
+
+      /* صندوق الشرح */
+      .explanation {
+        margin-top: 20px;
+        padding: 20px;
+        border-radius: 15px;
+        background: rgba(255, 255, 255, 0.1);
+        border-right: 6px solid var(--p-yellow);
+        display: none;
+        line-height: 1.7;
+        animation: fadeInUp 0.5s;
+      }
+
+      /* زر التالي */
+      .next-btn {
+        background: var(--p-yellow);
+        color: #000;
+        border: none;
+        padding: 12px 40px;
+        border-radius: 50px;
+        font-weight: 900;
+        cursor: pointer;
+        margin-top: 25px;
+        font-size: 1.2rem;
+        display: none;
+        margin-right: auto;
+      }
+
+      /* التحدي البرمجي */
+      .editor-zone {
+        background: #000;
+        border-radius: 20px;
+        padding: 20px;
+        border: 2px solid #333;
+      }
+      textarea {
+        width: 100%;
+        min-height: 140px;
+        background: transparent;
+        color: var(--p-green);
+        font-family: "Fira Code", monospace;
+        font-size: 16px;
+        border: none;
+        outline: none;
+        direction: ltr;
+        text-align: left;
+      }
+
+      .check-btn {
+        background: var(--p-blue);
+        color: #000;
+        border: none;
+        padding: 12px 30px;
+        border-radius: 50px;
+        font-weight: 900;
+        cursor: pointer;
+        margin-top: 15px;
+      }
+
+      /* الأزرار النهائية */
+      .nav-controls {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        margin-top: 40px;
+      }
+      .nav-btn {
+        padding: 12px 30px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: 900;
+        transition: 0.3s;
+      }
+      .btn-home {
+        background: var(--p-blue);
+        color: #000;
+      }
+      .btn-back {
+        border: 2px solid var(--p-pink);
+        color: var(--p-pink);
+      }
+
+      .score-box {
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        background: var(--p-pink);
+        padding: 8px 20px;
+        border-radius: 50px;
+        font-weight: 900;
+        z-index: 1000;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="score-box">الدرجة: <span id="score">0</span> / 22</div>
+
+    <div class="container">
+      <div class="header-box">
+        <h1>🌌 تحدي العمالقة</h1>
+      </div>
+
+      <div id="quiz-area"></div>
+
+      <div class="q-card" id="c1-card">
+        <div class="q-text">💻 تحدي (21): الـ Nested If</div>
+        <p>
+          مطلوب: for من 0 لـ 5. وجواها if: لو العداد i وصل لـ 3 اطبع "Lucky".
+        </p>
+        <div class="editor-zone">
+          <textarea id="ed1" placeholder="اكتب الكود هنا..."></textarea>
+        </div>
+        <button class="check-btn" onclick="checkCode(1)">فحص الكود 🔍</button>
+        <div id="rep1" class="explanation"></div>
+        <button id="next-c1" class="next-btn" onclick="goToChallenge(2)">
+          التحدي التالي ➡️
+        </button>
+      </div>
+
+      <div class="q-card" id="c2-card">
+        <div class="q-text">💻 تحدي (22): قفزات +=</div>
+        <p>مطلوب: for بتبدأ بـ 0، وبتزيد 5 كل مرة (+= 5) لحد 20.</p>
+        <div class="editor-zone">
+          <textarea id="ed2" placeholder="اكتب الكود هنا..."></textarea>
+        </div>
+        <button class="check-btn" onclick="checkCode(2)">فحص الكود 🔍</button>
+        <div id="rep2" class="explanation"></div>
+        <button id="next-final" class="next-btn" onclick="showFinal()">
+          عرض النتيجة النهائية 🏁
+        </button>
+      </div>
+
+      <div id="finish-screen" style="display: none; text-align: center">
+        <h2 style="font-size: 3rem; color: var(--p-yellow)">
+          🏁 مبروك يا وحش!
+        </h2>
+        <div id="final-res" style="font-size: 2rem; margin: 20px"></div>
+        <div class="nav-controls">
+          <a href="lessons_term2.html" class="nav-btn btn-home">🏠 الرئيسية</a>
+          <a href="l2_1.html" class="nav-btn btn-back">⬅️ الدرس</a>
+        </div>
+      </div>
+    </div>
+
+    <footer
+      style="
+        text-align: center;
+        margin-top: 50px;
+        padding: 20px;
+        border-top: 1px solid #222;
+      "
+    >
+      تم التصميم بواسطة المبدع
+      <span style="color: var(--p-blue)">Ahmed Ezzat</span> 💻
+    </footer>
+
+    <script>
+      // الـ 20 سؤال كاملين مع الشرح
+      const questions = [
+        {
+          q: "ما هو الـ Scope للمتغير i في حلقة for؟",
+          o: ["Global", "Block Scope", "مفهوش"],
+          c: 1,
+          e: "صح! لأن let بتخلي المتغير محبوس جوه أقواس الحلقة بس.",
+        },
+        {
+          q: "الرمز i++ معناه؟",
+          o: ["i = i + 1", "i = 1", "i + i"],
+          c: 0,
+          e: "بالظبط، ده اختصار لزيادة العداد واحد في كل لفة.",
+        },
+        {
+          q: "لو الشرط غلط من الأول، الماكينة تلف كام مرة؟",
+          o: ["ولا مرة", "مرة واحدة", "لانهائي"],
+          c: 0,
+          e: "صح، الكمبيوتر بيشوف الشرط الأول لو غلط بيكنسل الـ for كلها.",
+        },
+        {
+          q: "أي رمز للعد بالقفز؟",
+          o: ["++", "+=", "=="],
+          c: 1,
+          e: "الـ += بتخليك تنط أي عدد إنت عايزه (زي 2 أو 5).",
+        },
+        {
+          q: "هل ينفع نحط if جوه for؟",
+          o: ["أيوه", "لأ", "لو الكود قصير"],
+          c: 0,
+          e: "طبعاً، وده بنستخدمه عشان نعمل عمليات ذكية جوه التكرار.",
+        },
+        {
+          q: "لو ندهت على i بره الـ for المعرفة بـ let؟",
+          o: ["يطبعها", "يطلع Error", "يطبع 0"],
+          c: 1,
+          e: "صح، لأن i بتموت بمجرد ما تخرج من القوس }.",
+        },
+        {
+          q: "للعد التنازلي نستخدم؟",
+          o: ["i++", "i--", "i += 1"],
+          c: 1,
+          e: "الـ -- بتنقص العداد واحد كل مرة.",
+        },
+        {
+          q: "شرط الوقوف عند 100؟",
+          o: ["i < 100", "i <= 100", "i = 100"],
+          c: 1,
+          e: "الـ <= بتخلي رقم 100 يدخل معانا في الحساب.",
+        },
+        {
+          q: "كلمة index اختصارها؟",
+          o: ["n", "x", "i"],
+          c: 2,
+          e: "عرف برمجي قديم إن i ترمز للـ index.",
+        },
+        {
+          q: "الـ for loop بتوفر إيه؟",
+          o: ["تعب الكتابة", "سرعة الجهاز", "الألوان"],
+          c: 0,
+          e: "صح، بدل ما تكتب الكود 100 مرة بتكتبه في سطر واحد.",
+        },
+        {
+          q: "ما هي الـ Infinite Loop؟",
+          o: ["حلقة سريعة", "حلقة مبتخلصش", "حلقة ملونة"],
+          c: 1,
+          e: "بتحصل لو الشرط دايماً صح، فالكمبيوتر مبيوقفش عد.",
+        },
+        {
+          q: "i += 3 هي نفسها؟",
+          o: ["i = i + 3", "i = 3", "i + 3"],
+          c: 0,
+          e: "صح، خد القديم وزود عليه 3.",
+        },
+        {
+          q: "الأقواس ( ) في الـ for بتشيل؟",
+          o: ["الكود", "إعدادات الماكينة", "النتايج"],
+          c: 1,
+          e: "فيها البداية والشرط والخطوة.",
+        },
+        {
+          q: "إشارة مرور تصفر عند 50؟",
+          o: ["if (s == 50)", "for (s == 50)", "let s = 50"],
+          c: 0,
+          e: "لأننا بنراقب لحظة معينة باستخدام if.",
+        },
+        {
+          q: "الأقواس { } بعد الـ for؟",
+          o: ["بداية ونهاية الكود", "عدد اللفات", "قيمة i"],
+          c: 0,
+          e: "دي الغرفة اللي فيها الكود اللي هيتكرر.",
+        },
+        {
+          q: "لو i بتبدأ بـ 0 والشرط i < 0؟",
+          o: ["ولا لفة", "لفة واحدة", "Error"],
+          c: 0,
+          e: "لأن الشرط من الأول غلط.",
+        },
+        {
+          q: "المسافة جوه اسم المتغير؟",
+          o: ["ممنوعة", "عادي", "أحياناً"],
+          c: 0,
+          e: "ممنوع أي مسافات في أسامي المتغيرات يا بطل.",
+        },
+        {
+          q: "الهدف من المنهج التاني؟",
+          o: ["المنطق البرمجي", "تصميم بس", "لعب"],
+          c: 0,
+          e: "بنتعلم إزاي نخلي الكود يفكر ويقرر.",
+        },
+        {
+          q: "أداة i++ بتزود كام؟",
+          o: ["1", "2", "10"],
+          c: 0,
+          e: "تزود واحد بس كل لفة.",
+        },
+        {
+          q: "هل البرمجة ممتعة؟",
+          o: ["جداً", "لأ", "مملة"],
+          c: 0,
+          e: "طبعاً ممتعة طالما بتطلع نتايج بإيدك!",
+        },
+      ];
+
+      let currentQ = 0;
+      let score = 0;
+
+      function loadQ() {
+        const quizArea = document.getElementById("quiz-area");
+        quizArea.innerHTML = "";
+        const data = questions[currentQ];
+
+        const div = document.createElement("div");
+        div.className = "q-card active";
+        div.innerHTML = `
+        <div class="q-text">س ${currentQ + 1}: ${data.q}</div>
+        <div class="opt-grid">
+            ${data.o
+              .map(
+                (opt, i) =>
+                  `<button class="opt-btn" onclick="checkAnswer(${i}, this)">${opt}</button>`
+              )
+              .join("")}
+        </div>
+        <div id="expl" class="explanation"></div>
+        <button id="next-q-btn" class="next-btn" onclick="nextQ()">السؤال التالي ➡️</button>
+    `;
+        quizArea.appendChild(div);
+      }
+
+      function checkAnswer(idx, btn) {
+        const data = questions[currentQ];
+        const expl = document.getElementById("expl");
+        const nextBtn = document.getElementById("next-q-btn");
+        const btns = document.querySelectorAll(".opt-btn");
+
+        btns.forEach((b) => (b.disabled = true));
+        expl.style.display = "block";
+
+        if (idx === data.c) {
+          btn.classList.add("correct");
+          score++;
+          expl.innerHTML = `✅ <b>صح!</b> ${data.e}`;
+        } else {
+          btn.classList.add("wrong");
+          btns[data.c].classList.add("correct");
+          expl.innerHTML = `❌ <b>غلط..</b> الصح هو: ${data.o[data.c]}. ${
+            data.e
+          }`;
+        }
+        document.getElementById("score").innerText = score;
+        nextBtn.style.display = "block";
+      }
+
+      function nextQ() {
+        currentQ++;
+        if (currentQ < questions.length) loadQ();
+        else {
+          document.getElementById("quiz-area").innerHTML = "";
+          document.getElementById("c1-card").classList.add("active");
+        }
+      }
+
+      function checkCode(n) {
+        const code = document.getElementById("ed" + n).value;
+        const rep = document.getElementById("rep" + n);
+        const nextBtn =
+          n === 1
+            ? document.getElementById("next-c1")
+            : document.getElementById("next-final");
+        rep.style.display = "block";
+
+        let ok = false;
+        if (n === 1) {
+          if (
+            code.includes("for") &&
+            code.includes("if") &&
+            code.includes("i == 3") &&
+            code.includes("Lucky")
+          )
+            ok = true;
+        } else {
+          if (code.includes("+= 5") && code.includes("20")) ok = true;
+        }
+
+        if (ok) {
+          rep.innerHTML = "✅ كود ممتاز ومظبوط بالمللي!";
+          rep.style.color = "var(--p-green)";
+          score++;
+          nextBtn.style.display = "block";
+        } else {
+          rep.innerHTML = "❌ في حاجة غلط في الكود، راجع المسافات والأقواس.";
+          rep.style.color = "var(--p-pink)";
+        }
+        document.getElementById("score").innerText = score;
+      }
+
+      function goToChallenge(n) {
+        document.getElementById("c1-card").classList.remove("active");
+        document.getElementById("c2-card").classList.add("active");
+      }
+
+      function showFinal() {
+        document.getElementById("c2-card").classList.remove("active");
+        document.getElementById("finish-screen").style.display = "block";
+        document.getElementById(
+          "final-res"
+        ).innerText = `درجتك النهائية: ${score} من 22`;
+      }
+
+      loadQ();
+    </script>
+  </body>
+</html>

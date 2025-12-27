@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>المنهج الثاني - الاحتراف</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-neon: #00ff88; /* أخضر زمردي نيون */
+            --secondary-neon: #60efff; /* لبني كريستال */
+            --bg-deep: #050505;
+            --card-bg: rgba(255, 255, 255, 0.03);
+        }
+
+        body {
+            font-family: "Cairo", sans-serif;
+            background-color: var(--bg-deep);
+            color: white;
+            margin: 0;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* تأثير الضوء المتحرك في الخلفية */
+        .cursor-glow {
+            position: fixed;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(0, 255, 136, 0.15), transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: 0;
+            transition: 0.1s;
+        }
+
+        .main-content {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 1200px;
+            padding: 50px 20px;
+            text-align: center;
+        }
+
+        h1 {
+    font-size: 3.5rem;
+    font-weight: 900;
+    margin-bottom: 60px;
+    background: linear-gradient(to bottom, #fff, var(--primary-neon));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 10px 30px rgba(0, 255, 136, 0.3);
+}
+
+
+        .lessons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 35px;
+        }
+
+        /* كارت الدرس بتصميم "الكريستال نيون" */
+        .lesson-card {
+            position: relative;
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            padding: 40px 20px;
+            cursor: pointer;
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            backdrop-filter: blur(10px);
+        }
+
+        /* خط النيون الذي يظهر عند التحويم */
+        .lesson-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 25px;
+            padding: 2px; /* سمك الإطار */
+            background: linear-gradient(45deg, transparent, var(--primary-neon), transparent);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: 0.5s;
+        }
+
+        .lesson-card:hover {
+            transform: translateY(-15px) rotateX(10deg);
+            background: rgba(255, 255, 255, 0.07);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 255, 136, 0.2);
+        }
+
+        .lesson-card:hover::after {
+            opacity: 1;
+            animation: rotateGradient 2s linear infinite;
+        }
+
+        .lesson-num {
+            font-size: 1.2rem;
+            color: var(--primary-neon);
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        .lesson-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        /* تأثير "اللمعة" التي تمر على الكارت */
+        .shimmer {
+            position: absolute;
+            top: 0; left: -100%;
+            width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: 0.5s;
+        }
+        .lesson-card:hover .shimmer {
+            left: 200%;
+            transition: 0.8s;
+        }
+
+        /* أزرار التحكم السفلى */
+        .controls {
+            margin-top: 60px;
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 15px 35px;
+            border-radius: 15px;
+            border: none;
+            font-weight: 900;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 1.1rem;
+        }
+
+        .btn-main {
+            background: var(--primary-neon);
+            color: var(--bg-deep);
+            box-shadow: 0 0 20px var(--primary-neon);
+        }
+
+        .btn-main:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 40px var(--primary-neon);
+        }
+
+        @keyframes rotateGradient {
+            0% { filter: hue-rotate(0deg); }
+            100% { filter: hue-rotate(360deg); }
+        }
+
+        footer {
+            margin-top: 50px;
+            padding: 30px;
+            opacity: 0.6;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="cursor-glow" id="glow"></div>
+
+    <div class="main-content">
+        <h1>✨ المنهج الثاني: مرحلة الإتقان</h1>
+
+        <div class="lessons-grid">
+            <div class="lesson-card" onclick="location.href='l2_1.html'">
+                <div class="shimmer"></div>
+                <div class="lesson-num">Lesson 01</div>
+                <div class="lesson-title">الدرس الأول 📚</div>
+            </div>
+
+            <div class="lesson-card" onclick="location.href='l2_2.html'">
+                <div class="shimmer"></div>
+                <div class="lesson-num">Lesson 02</div>
+                <div class="lesson-title">الدرس الثاني 📚</div>
+            </div>
+
+            <div class="lesson-card" onclick="location.href='l2_3.html'">
+                <div class="shimmer"></div>
+                <div class="lesson-num">Lesson 03</div>
+                <div class="lesson-title">الدرس الثالث 📚</div>
+            </div>
+
+            <div class="lesson-card" onclick="location.href='l2_4.html'">
+                <div class="shimmer"></div>
+                <div class="lesson-num">Lesson 04</div>
+                <div class="lesson-title">الدرس الرابع 📚</div>
+            </div>
+
+            <div class="lesson-card" onclick="location.href='l2_5.html'">
+                <div class="shimmer"></div>
+                <div class="lesson-num">Lesson 05</div>
+                <div class="lesson-title">الدرس الخامس 📚</div>
+            </div>
+
+            <div class="lesson-card" onclick="location.href='l2_6.html'">
+                <div class="shimmer"></div>
+                <div class="lesson-num">Lesson 06</div>
+                <div class="lesson-title">الدرس السادس 📚</div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="btn btn-main" onclick="location.href='index.html'">🏠 العودة للرئيسية</button>
+        </div>
+    </div>
+
+    <footer>تم التطوير بكل حب بواسطة <strong>Ahmed Ezzat</strong></footer>
+
+    <script>
+        // كود تتبع الماوس للإضاءة الخلفية
+        const glow = document.getElementById('glow');
+        window.addEventListener('mousemove', (e) => {
+            glow.style.left = e.clientX + 'px';
+            glow.style.top = e.clientY + 'px';
+        });
+
+        // تأثير الإمالة 3D الاحترافي
+        const cards = document.querySelectorAll('.lesson-card');
+        cards.forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const xc = rect.width / 2;
+                const yc = rect.height / 2;
+                
+                const dx = x - xc;
+                const dy = y - yc;
+                
+                card.style.transform = `perspective(1000px) rotateY(${dx / 10}deg) rotateX(${-dy / 10}deg) translateY(-15px)`;
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = `perspective(1000px) rotateY(0deg) rotateX(0deg) translateY(0)`;
+            });
+        });
+    </script>
+</body>
+</html>

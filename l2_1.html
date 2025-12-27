@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>المنهج الثاني | متعة البرمجة</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Fira+Code&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <style>
+    :root {
+      --main-pink: #ff007a;
+      --main-blue: #00d4ff;
+      --main-yellow: #ffcc00;
+      --bg-light: #f0f4f8;
+      --card-white: #ffffff;
+    }
+
+    body {
+      font-family: 'Cairo', sans-serif;
+      background: var(--bg-light);
+      color: #333;
+      margin: 0; padding: 20px;
+      overflow-x: hidden;
+    }
+
+    /* خلفية متحركة بفقاعات ملونة */
+    .bg-bubbles {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+      background: linear-gradient(120deg, #e0f7fa 0%, #fce4ec 100%);
+    }
+
+    .container { max-width: 1100px; margin: 0 auto; position: relative; }
+
+    h1 {
+      text-align: center; font-size: 3rem; font-weight: 900; color: var(--main-pink);
+      text-shadow: 3px 3px 0px var(--main-yellow);
+      margin-bottom: 50px;
+      animation: bounceInDown 1s;
+    }
+
+    .lesson-card {
+      background: var(--card-white);
+      border-radius: 30px;
+      padding: 40px;
+      margin-bottom: 40px;
+      box-shadow: 20px 20px 60px #d1d9e6, -20px -20px 60px #ffffff;
+      border: 3px solid transparent;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+    }
+
+    .lesson-card:hover {
+      transform: scale(1.02) rotate(-1deg);
+      border-color: var(--main-blue);
+    }
+
+    h2 { color: var(--main-blue); font-size: 2rem; border-bottom: 4px dashed var(--main-yellow); display: inline-block; margin-bottom: 25px; }
+
+    .story-box {
+      background: #fff9c4; padding: 20px; border-radius: 20px;
+      border-right: 8px solid var(--main-yellow); margin: 20px 0;
+      font-size: 1.1rem; line-height: 1.8; color: #555;
+    }
+
+    /* محرر الأكواد - مبهج */
+    .editor-wrapper {
+      background: #2d3436; border-radius: 25px; padding: 20px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.2); margin: 30px 0;
+    }
+
+    textarea.editor {
+      width: 100%; min-height: 180px; background: transparent;
+      color: #fab1a0; font-family: 'Fira Code', monospace;
+      font-size: 18px; border: none; outline: none;
+      direction: ltr; text-align: left; resize: vertical;
+    }
+
+    .btn-play {
+      background: var(--main-pink); color: white; border: none;
+      padding: 15px 40px; border-radius: 50px; font-size: 1.3rem;
+      font-weight: 900; cursor: pointer; transition: 0.3s;
+      box-shadow: 0 10px 0px #b30056; display: block; margin: 0 auto;
+    }
+
+    .btn-play:active { transform: translateY(8px); box-shadow: 0 2px 0px #b30056; }
+
+    .output-screen {
+      background: #dfe6e9; color: #2d3436; padding: 20px;
+      border-radius: 20px; margin-top: 20px; font-weight: bold;
+      border: 3px solid var(--main-blue); display: none;
+      animation: fadeInUp 0.5s;
+    }
+
+    .challenge-zone {
+      background: var(--main-blue); color: white; padding: 30px;
+      border-radius: 30px; margin-top: 50px;
+    }
+
+    
+    .quiz-link {
+    display: block;
+    width: 80%;
+    max-width: 500px;
+    margin: 60px auto;
+    padding: 20px;
+    background: linear-gradient(45deg, #ffcc00, #ff9900); /* أصفر ذهبي مبهج */
+    color: #000;
+    text-align: center;
+    font-weight: 900;
+    font-size: 1.6rem;
+    border-radius: 50px;
+    text-decoration: none;
+    box-shadow: 0 10px 25px rgba(255, 204, 0, 0.4);
+    transition: all 0.3s ease;
+    border: 3px solid #fff;
+}
+
+.quiz-link:hover {
+    transform: scale(1.1) translateY(-5px);
+    background: #00d4ff; /* بيقلب لبني لما تقرب منه */
+    color: #fff;
+    box-shadow: 0 15px 35px rgba(0, 212, 255, 0.5);
+}
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+
+<div class="bg-bubbles"></div>
+
+<div class="container">
+  <h1>✨ المنهج الثاني: الدرس الأول ✨</h1>
+
+  <div class="lesson-card animate__animated animate__fadeInLeft">
+    <h2>🚪 لغز "الأوضة المقفولة" (Variable Scope)</h2>
+    
+    <div class="story-box">
+      بص يا بطل، المتغيرات اللي بنعرفها بالـ <code>let</code> جوه الـ <code>if</code> زيها زي "سر جوه أوضة". طول ما إنت جوه الأوضة { }، السر ده معاك وتقدر تستخدمه. أول ما تخرج من باب الأوضة، بتنسى السر ده تماماً! 
+      <br><br>
+      <b>مثال من حياتنا:</b> تخيل إنت في السوبر ماركت وشفت "عرض خاص" (المتغير) جوه قسم المنظفات بس. لو خرجت من السوبر ماركت ورحت الصيدلية، مش هتقدر تستخدم العرض ده هناك!
+    </div>
+
+    
+
+    <h3>🎮 جرب بنفسك وشوف "السر" هيختفي إمتى:</h3>
+    <div class="editor-wrapper">
+      <textarea id="ed1" class="editor">
+let shopOpen = true;
+
+if (shopOpen == true) {
+    let offer = "خصم 50%";
+    console.log("جوه المحل العرض: " + offer);
+}
+
+// لو شلت العلامات من السطر اللي جاي الكود هيضرب!
+// console.log("بره المحل العرض: " + offer);
+      </textarea>
+    </div>
+    <button class="btn-play" onclick="run('ed1', 'out1')">▶ تشغيل التجربة</button>
+    <div id="out1" class="output-screen"></div>
+  </div>
+
+  <div class="lesson-card animate__animated animate__fadeInRight">
+    <h2>🍔 شروط فوق بعض (Nested If)</h2>
+    
+    <div class="story-box">
+      أوقات الحياة مش بتبقى "آه" أو "لأ" بس، دي بتبقى شروط مترتبة على بعض. 
+      <br><br>
+      <b>مثال الأكيل:</b> تخيل إنك رايح تشتري ساندوتش. 
+      <br>1- الأول بنسأل: "معاك فلوس؟" (If الخارجي).
+      <br>2- لو معاك، بنسأل السؤال التاني: "طب الفلوس تكفي ساندوتش كبير؟" (If الداخلي).
+      <br>لو الشرط الأول مجاش، التاني أصلاً مش هيتأمل فيه!
+    </div>
+
+    <h3>👨‍🍳 كود الطلبات المتداخلة:</h3>
+    <div class="editor-wrapper">
+      <textarea id="ed2" class="editor">
+let money = 100;
+let hungerLevel = "high";
+
+if (money >= 50) {
+    console.log("دخلنا المطعم.. ");
+    
+    if (hungerLevel == "high") {
+        console.log("اطلب وجبة كومبو كبيرة! 🍔🍟");
+    } else {
+        console.log("اطلب ساندوتش صغير كفاية.. 🌭");
+    }
+} else {
+    console.log("روح كُل في البيت يا بطل.. 🏠");
+}
+      </textarea>
+    </div>
+    <button class="btn-play" onclick="run('ed2', 'out2')">▶ تنفيذ الطلب</button>
+    <div id="out2" class="output-screen"></div>
+  </div>
+
+  <div class="lesson-card challenge-zone animate__animated animate__zoomIn">
+    <h2 style="color: white; border-color: white;">💪 تحديات الأبطال</h2>
+    
+    <p><b>التحدي 1:</b> اعمل متغير اسمه <code>rank</code> واديه قيمة 1. لو الـ rank بيساوي 1، اطبع "أنت بطل المنطقة!".</p>
+    <div class="editor-wrapper"><textarea id="ed3" class="editor"></textarea></div>
+    <button class="btn-play" style="background: white; color: var(--main-blue);" onclick="run('ed3', 'out3')">فحص الحل</button>
+    <div id="out3" class="output-screen"></div>
+
+    <p style="margin-top:40px;"><b>التحدي 2:</b> متغير <code>fishCaught</code> بـ 27. لو اصطدت 30 سمكة أو أكتر اطبع "رقم قياسي"، غير كدة اطبع "حاول تاني يا صياد".</p>
+    <div class="editor-wrapper"><textarea id="ed4" class="editor"></textarea></div>
+    <button class="btn-play" style="background: white; color: var(--main-blue);" onclick="run('ed4', 'out4')">فحص الحل</button>
+    <div id="out4" class="output-screen"></div>
+  </div>
+
+<a href="quiz_lesson_1.html" class="quiz-link animate__animated animate__pulse animate__infinite">
+   🏆 جاهز لاختبار الذكاء؟ اضغط هنا! 🏆
+</a>
+
+</div>
+
+<script>
+  function run(id, outId) {
+    const code = document.getElementById(id).value;
+    const out = document.getElementById(outId);
+    out.style.display = "block";
+    out.innerHTML = "";
+    const originalLog = console.log;
+    console.log = function(m) { out.innerHTML += "✨ " + m + "<br>"; };
+    try {
+      eval(code);
+    } catch(e) {
+      out.innerHTML = "<span style='color:red'>❌ في حاجة غلط: " + e.message + "</span>";
+    }
+    console.log = originalLog;
+  }
+</script>
+
+</body>
+</html>

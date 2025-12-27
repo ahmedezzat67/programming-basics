@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>تحدي النجوم | المنهج الثاني</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Fira+Code&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+    <style>
+      :root {
+        --neon-pink: #ff007a;
+        --neon-blue: #00d4ff;
+        --neon-yellow: #ffcc00;
+        --success: #00ff88;
+        --danger: #ff3e3e;
+        --bg: #f0f4f8;
+      }
+
+      body {
+        font-family: "Cairo", sans-serif;
+        background: var(--bg);
+        margin: 0;
+        padding: 20px;
+        background-image: radial-gradient(
+            circle at 20% 20%,
+            rgba(0, 212, 255, 0.05) 0%,
+            transparent 40%
+          ),
+          radial-gradient(
+            circle at 80% 80%,
+            rgba(255, 0, 122, 0.05) 0%,
+            transparent 40%
+          );
+      }
+
+      .container {
+        max-width: 1000px;
+        margin: 0 auto;
+      }
+
+      /* شريط النتيجة الطائر */
+      .floating-score {
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        background: linear-gradient(45deg, var(--neon-pink), var(--neon-blue));
+        color: white;
+        padding: 15px 30px;
+        border-radius: 50px;
+        font-weight: 900;
+        z-index: 1000;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        border: 2px solid #fff;
+      }
+
+      header h1 {
+        text-align: center;
+        font-size: 3.5rem;
+        font-weight: 900;
+        color: var(--neon-pink);
+        text-shadow: 4px 4px 0px var(--neon-yellow);
+        animation: bounceIn 1s;
+      }
+
+      .card {
+        background: white;
+        border-radius: 35px;
+        padding: 35px;
+        margin-bottom: 40px;
+        box-shadow: 20px 20px 60px #d1d9e6, -20px -20px 60px #ffffff;
+        border: 2px solid transparent;
+        transition: 0.4s;
+        position: relative;
+        overflow: hidden;
+      }
+      .card:hover {
+        transform: scale(1.02);
+        border-color: var(--neon-blue);
+      }
+
+      /* تأثير لفت الانتباه: لمعة بتعدي على الكارت */
+      .card::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 50%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.4),
+          transparent
+        );
+        transform: skewX(-20deg);
+        transition: 0.5s;
+      }
+      .card:hover::after {
+        left: 150%;
+      }
+
+      .q-text {
+        font-size: 1.4rem;
+        font-weight: 800;
+        margin-bottom: 20px;
+        color: #2d3436;
+      }
+
+      .options {
+        display: grid;
+        gap: 15px;
+      }
+      .opt-btn {
+        background: #f8f9fa;
+        border: 2px solid #eee;
+        padding: 18px;
+        border-radius: 20px;
+        cursor: pointer;
+        font-weight: 700;
+        transition: 0.3s;
+        text-align: right;
+      }
+      .opt-btn:hover {
+        background: var(--neon-blue);
+        color: white;
+        transform: translateX(-10px);
+      }
+      .opt-btn.correct {
+        background: var(--success) !important;
+        color: #000;
+        box-shadow: 0 0 20px var(--success);
+      }
+      .opt-btn.wrong {
+        background: var(--danger) !important;
+        color: white;
+      }
+
+      /* منطقة الأكواد الاحترافية */
+      .code-header {
+        background: #2d3436;
+        padding: 10px 20px;
+        border-radius: 20px 20px 0 0;
+        display: flex;
+        gap: 8px;
+      }
+      .dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+      }
+      textarea {
+        width: 100%;
+        min-height: 180px;
+        background: #1e272e;
+        color: #00ff88;
+        border: none;
+        padding: 20px;
+        font-family: "Fira Code", monospace;
+        direction: ltr;
+        text-align: left;
+        font-size: 16px;
+        outline: none;
+        border-radius: 0 0 20px 20px;
+      }
+
+      .check-btn {
+        background: var(--neon-yellow);
+        color: #000;
+        border: none;
+        padding: 15px 40px;
+        border-radius: 50px;
+        font-weight: 900;
+        cursor: pointer;
+        margin-top: 20px;
+        box-shadow: 0 8px 0 #ccaa00;
+        font-size: 1.2rem;
+        transition: 0.2s;
+      }
+      .check-btn:active {
+        transform: translateY(5px);
+        box-shadow: none;
+      }
+
+      .report {
+        margin-top: 20px;
+        padding: 20px;
+        border-radius: 15px;
+        display: none;
+        font-family: "Courier New";
+        white-space: pre-wrap;
+        line-height: 1.6;
+      }
+
+      /* أزرار التنقل */
+      .nav-controls {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        margin-top: 60px;
+      }
+      .nav-btn {
+        padding: 15px 35px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: 900;
+        transition: 0.3s;
+        font-size: 1.1rem;
+      }
+      .btn-back {
+        background: white;
+        color: var(--neon-pink);
+        border: 2px solid var(--neon-pink);
+      }
+      .btn-home {
+        background: var(--neon-blue);
+        color: white;
+        border: none;
+      }
+      .nav-btn:hover {
+        transform: scale(1.1);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="floating-score">النُقاط: <span id="score">0</span> / 22</div>
+
+    <div class="container">
+      <header>
+        <h1 class="animate__animated animate__tada">🌟 تحدي العباقرة 🌟</h1>
+      </header>
+
+      <div id="quiz-box"></div>
+
+      <div class="card animate__animated animate__fadeInUp">
+        <h3 style="color: var(--neon-pink)">
+          🔥 التحدي الصعب (1): شروط متداخلة
+        </h3>
+        <p>
+          مطلوب منك تعمل نظام "دخول نادي": <br />1- متغير <code>age</code> بـ
+          20. <br />2- لو السن أكبر من 18، اطبع <code>"Welcome"</code>. <br />3-
+          وجوه الـ if دي، اعمل if تانية: لو السن بيساوي 20، اطبع
+          <code>"Special Guest"</code>.
+        </p>
+
+        <div class="code-header">
+          <div class="dot" style="background: #ff5f56"></div>
+          <div class="dot" style="background: #ffbd2e"></div>
+          <div class="dot" style="background: #27c93f"></div>
+        </div>
+        <textarea
+          id="ed1"
+          placeholder="// اكتب الكود المتداخل هنا..."
+        ></textarea>
+        <button class="check-btn" onclick="analyze(1)">
+          فحص الدقة الميكروسكوبية 🔍
+        </button>
+        <div id="rep1" class="report"></div>
+      </div>
+
+      <div class="card animate__animated animate__fadeInUp">
+        <h3 style="color: var(--neon-pink)">🧪 التحدي الصعب (2): لغز النطاق</h3>
+        <p>
+          أعلن متغير <code>score</code> بـ 100. <br />افتح
+          <code>if (true)</code> وجواها عرف متغير <code>bonus</code> بـ 50
+          واطبعه. <br />برا الـ if حاول تطبع الـ <code>score</code>. (ركز في
+          الأقواس والمسافات!)
+        </p>
+
+        <div class="code-header">
+          <div class="dot" style="background: #ff5f56"></div>
+          <div class="dot" style="background: #ffbd2e"></div>
+          <div class="dot" style="background: #27c93f"></div>
+        </div>
+        <textarea
+          id="ed2"
+          placeholder="// وريني شطارتك في الـ Scope..."
+        ></textarea>
+        <button class="check-btn" onclick="analyze(2)">
+          فحص الدقة الميكروسكوبية 🔍
+        </button>
+        <div id="rep2" class="report"></div>
+      </div>
+
+      <div class="nav-controls">
+        <a href="lessons_term2.html" class="nav-btn btn-home"
+          >🏠 القائمة الرئيسية</a
+        >
+        <a href="l2_1.html" class="nav-btn btn-back">⬅️ الرجوع للدرس</a>
+      </div>
+    </div>
+
+    <script>
+      const questions = [
+        {
+          q: "أي كلمة نستخدمها لتعريف متغير محدود النطاق (Block Scope)؟",
+          o: ["var", "let", "global"],
+          c: 1,
+          e: "كلمة let بتخلي المتغير ميتشافش بره الـ { } اللي اتعرف فيها.",
+        },
+        {
+          q: "ماذا يحدث لو عرفنا متغير let داخل if واستدعيناه خارجها؟",
+          o: ["يظهر الخطأ ReferenceError", "يطبع القيمة عادي", "يطبع 0"],
+          c: 0,
+          e: "لأن المتغير 'مات' بمجرد الوصول لقوس الإغلاق }.",
+        },
+        {
+          q: "ما هي الأقواس التي تحدد الـ Block Scope؟",
+          o: ["( )", "[ ]", "{ }"],
+          c: 2,
+          e: "الأقواس المتعرجة هي 'بيت' الكود والـ Scope.",
+        },
+        {
+          q: "في الشروط المتداخلة، متى يتم تنفيذ الـ if الثانية؟",
+          o: ["لو الأولى غلط", "لو الأولى صح بس", "في كل الحالات"],
+          c: 1,
+          e: "لازم الشرط الأول يتحقق عشان الكمبيوتر يدخل يشوف اللي جواه.",
+        },
+        {
+          q: "أي رمز يستخدم للمقارنة 'هل يساوي'؟",
+          o: ["=", "==", "=>"],
+          c: 1,
+          e: "الـ = الواحدة للتخزين، والـ == للمقارنة.",
+        },
+        {
+          q: "أين نكتب متغير الـ Global Scope؟",
+          o: ["جوه الـ if", "خارج كل الأقواس", "جوه الكونسول"],
+          c: 1,
+          e: "عشان الكل يشوفه، لازم يكون بره أي قيود.",
+        },
+        {
+          q: "ما هي نتيجة: if (10 > 5) { let x = 1; } console.log(x); ؟",
+          o: ["1", "Error", "undefined"],
+          c: 1,
+          e: "الـ x اتعرفت جوه الـ if فمش متشافة بره عند الكونسول.",
+        },
+        {
+          q: "هل ' ' تعتبر مسافة ويحاسب عليها الكود في الحروف النصية؟",
+          o: ["نعم", "لا", "أحياناً"],
+          c: 0,
+          e: "في البرمجة، المسافة حرف وليها مكان في الذاكرة.",
+        },
+        {
+          q: "أي مما يلي هو الرمز الصحيح لـ 'أكبر من أو يساوي'؟",
+          o: ["=>", "=<", ">="],
+          c: 2,
+          e: "دائماً علامة اليساوي بتيجي بعد علامة التباين.",
+        },
+        {
+          q: "لماذا نستخدم الـ Block Scope؟",
+          o: [
+            "لتنظيم الذاكرة ومنع تداخل الأسماء",
+            "عشان نصعب الكود",
+            "لتسريع الجهاز",
+          ],
+          c: 0,
+          e: "عشان نحمي المتغيرات من إنها تغير بعضها بالخطأ.",
+        },
+        {
+          q: "نتيجة: if(true) { if(false) { console.log('A'); } console.log('B'); }",
+          o: ["A و B", "B فقط", "لا شيء"],
+          c: 1,
+          e: "الـ if التانية غلط فمش هتطبع A، بس الـ if الكبيرة صح فهتطبع B.",
+        },
+        {
+          q: "هل يمكن تعريف متغيرين بنفس الاسم let x في نفس الـ Block؟",
+          o: ["نعم", "لا", "لو القيم مختلفة"],
+          c: 1,
+          e: "الجافا سكريبت هتعتبره تكرار وهتطلع Error فوراً.",
+        },
+        {
+          q: "ماذا يسمى الـ if الذي يوضع داخل if آخر؟",
+          o: ["Double If", "Nested If", "Internal If"],
+          c: 1,
+          e: "الترجمة الحرفية ليها هي 'الشروط المتداخلة'.",
+        },
+        {
+          q: "في الكود: if (5 == '5')، هل النتيجة true؟",
+          o: ["نعم", "لا", "Error"],
+          c: 0,
+          e: "نعم، لأن == بتقارن القيمة بس مش النوع (منهج متقدم).",
+        },
+        {
+          q: "ما هو الـ Global Variable؟",
+          o: ["متغير الكل يراه", "متغير جوه الـ if", "متغير سري"],
+          c: 0,
+          e: "زي اسم الدولة، كل المحافظات (الوظائف) عارفاه.",
+        },
+        {
+          q: "كيف ننهي سطر الكود في الجافا سكريبت؟",
+          o: [":", ";", "."],
+          c: 1,
+          e: "الفاصلة المنقوطة هي علامة التوقف.",
+        },
+        {
+          q: "ماذا يحدث لو لم نضع { } بعد الـ if ؟",
+          o: ["هيشتغل على أول سطر بس", "مش هيشتغل خالص", "هيعمل إعادة تشغيل"],
+          c: 0,
+          e: "هينفذ أول جملة تقابله بس ويعتبر الباقي بره الـ if.",
+        },
+        {
+          q: "أي مما يلي اسم متغير صحيح؟",
+          o: ["let 1user", "let user 1", "let user1"],
+          c: 2,
+          e: "ممنوع يبدأ برقم وممنوع فيه مسافات.",
+        },
+        {
+          q: "لو كتبنا console.log('5'+5) النتيجة هي:",
+          o: ["10", "55", "Error"],
+          c: 1,
+          e: "لأن النص بيلزق في الرقم مش بيتجمع (String Concatenation).",
+        },
+        {
+          q: "الهدف من المنهج الثاني هو تعلم:",
+          o: ["أساسيات البرمجة", "المنطق البرمجي المتقدم", "تصميم المواقع"],
+          c: 1,
+          e: "التركيز هنا على الشروط والتحكم الذكي في البيانات.",
+        },
+      ];
+      let score = 0;
+      const quizBox = document.getElementById("quiz-box");
+
+      questions.forEach((q, i) => {
+        const card = document.createElement("div");
+        card.className = "card animate__animated animate__fadeInRight";
+        card.innerHTML = `
+            <div class="q-text">س${i + 1}: ${q.q}</div>
+            <div class="options" id="box-${i}">
+                ${q.o
+                  .map(
+                    (opt, idx) =>
+                      `<div class="opt-btn" onclick="check(${i}, ${idx}, this)">${opt}</div>`
+                  )
+                  .join("")}
+            </div>
+            <div id="exp-${i}" style="display:none; margin-top:15px; padding:10px; background:#fff9c4; border-radius:10px; font-size:0.9rem;">💡 ${
+          q.e
+        }</div>
+        `;
+        quizBox.appendChild(card);
+      });
+
+      function check(qi, oi, btn) {
+        const box = document.getElementById(`box-${qi}`);
+        if (box.dataset.done) return;
+        box.dataset.done = "true";
+        const exp = document.getElementById(`exp-${qi}`);
+        exp.style.display = "block";
+        if (oi === questions[qi].c) {
+          btn.classList.add("correct");
+          score++;
+          document.getElementById("score").innerText = score;
+        } else {
+          btn.classList.add("wrong");
+          box.children[questions[qi].c].classList.add("correct");
+        }
+      }
+
+      function analyze(n) {
+        const code = document.getElementById("ed" + n).value;
+        const rep = document.getElementById("rep" + n);
+        rep.style.display = "block";
+        rep.style.background = "#fff";
+
+        let errors = [];
+        const cleanCode = code.replace(/\s+/g, " ").trim(); // للتأكد من المحتوى الأساسي
+
+        if (n === 1) {
+          if (!code.includes("if (age > 18)") && !code.includes("if(age > 18)"))
+            errors.push("- غلط في شرط السن الخارجي (لازم > 18).");
+          if (
+            !code.includes("if (age == 20)") &&
+            !code.includes("if(age == 20)")
+          )
+            errors.push("- فين الشرط المتداخل؟ لازم تسأل لو السن == 20.");
+          if (code.split("{").length - 1 < 2)
+            errors.push("- أنت مستخدمتش شروط متداخلة (Nested If) بشكل صحيح.");
+          if (code.includes("  "))
+            errors.push(
+              "- تنبيه: عندك مسافات زيادة (Double Spaces) بتخلي الكود مش نظيف."
+            );
+        } else {
+          if (!code.includes("let bonus = 50"))
+            errors.push("- نسيت تعرف متغير الـ bonus بـ 50.");
+          if (code.indexOf("console.log(bonus)") > code.indexOf("}"))
+            errors.push(
+              "- غلط! أنت بتحاول تطبع الـ bonus بره النطاق (Scope) بتاعه."
+            );
+          if (!code.includes("let score = 100"))
+            errors.push("- نسيت المتغير الرئيسي score.");
+        }
+
+        if (errors.length === 0) {
+          rep.innerHTML =
+            "<b style='color:var(--success)'>✅ عبقري! كودك مطابق للمواصفات القياسية.</b>";
+          score++;
+          document.getElementById("score").innerText = score;
+        } else {
+          rep.innerHTML =
+            "<b style='color:var(--danger)'>❌ ركز يا بطل، عندك الأخطاء دي:</b><br>" +
+            errors.join("<br>");
+          rep.style.border = "2px dashed var(--danger)";
+        }
+      }
+    </script>
+  </body>
+</html>

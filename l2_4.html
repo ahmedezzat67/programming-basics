@@ -1,85 +1,236 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>رسالة من القلب | م. أحمد</title>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>مختبر الحسابات النووي | المنهج الثاني</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; margin: 0; padding: 20px; color: #333; }
-        .card { background: white; padding: 40px; border-radius: 30px; box-shadow: 0 20px 50px rgba(0,0,0,0.3); max-width: 550px; width: 100%; text-align: center; position: relative; overflow: hidden; }
-        .card::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 10px; background: linear-gradient(to left, #00c6ff, #0072ff); }
-        h1 { color: #1e3c72; font-size: 28px; margin-bottom: 15px; }
-        .intro-text { font-size: 18px; color: #555; line-height: 1.8; margin-bottom: 25px; }
-        .form-box { background: #f9f9f9; padding: 20px; border-radius: 20px; text-align: right; }
-        label { font-weight: bold; display: block; margin-bottom: 10px; color: #1e3c72; }
-        input, select, textarea { width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 12px; margin-bottom: 20px; font-size: 16px; transition: 0.3s; }
-        input:focus, select:focus { border-color: #0072ff; outline: none; }
-        .btn-send { background: #25d366; color: white; border: none; padding: 18px; border-radius: 50px; cursor: pointer; font-size: 20px; font-weight: bold; width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 10px 20px rgba(37, 211, 102, 0.3); }
-        .btn-send:hover { background: #128c7e; transform: scale(1.02); }
+        :root {
+            --neon-green: #00ff88;
+            --neon-pink: #ff007a;
+            --neon-blue: #00d4ff;
+            --dark-bg: #08080c;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif; background: var(--dark-bg);
+            color: #fff; margin: 0; padding: 20px; line-height: 2.5; overflow-x: hidden;
+        }
+
+        /* خلفية جبارة متحركة */
+        body::before {
+            content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), 
+                        url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
+            z-index: -1;
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; }
+
+        h1 {
+            text-align: center; font-size: 4rem; font-weight: 900;
+            color: var(--neon-green); text-shadow: 0 0 20px var(--neon-green), 0 0 40px var(--neon-blue);
+            animation: pulse 2s infinite; margin-bottom: 50px;
+        }
+
+        /* كروت التصميم الجبّار */
+        .power-card {
+            background: rgba(255, 255, 255, 0.03); border-radius: 50px;
+            padding: 50px; margin-bottom: 60px; border: 2px solid var(--neon-blue);
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.2);
+            transition: 0.5s; position: relative; backdrop-filter: blur(10px);
+        }
+        .power-card:hover { transform: translateY(-10px) scale(1.01); border-color: var(--neon-pink); box-shadow: 0 0 50px rgba(255, 0, 122, 0.3); }
+
+        h2 { color: var(--neon-pink); font-size: 2.8rem; border-right: 10px solid var(--neon-green); padding-right: 20px; margin-bottom: 30px; }
+
+        .deep-explain {
+            background: rgba(0,0,0,0.6); border-radius: 30px; padding: 35px;
+            border: 1px solid #333; font-size: 1.4rem; color: #ccc; margin: 30px 0;
+            position: relative;
+        }
+        .deep-explain b { color: var(--neon-green); font-size: 1.6rem; }
+
+        /* منطقة الأكواد */
+        .editor-wrap { background: #111; border-radius: 30px; padding: 25px; border: 3px solid #222; margin: 25px 0; }
+        textarea {
+            width: 100%; min-height: 200px; background: transparent; color: var(--neon-green);
+            font-family: 'Fira Code', monospace; font-size: 19px; border: none; outline: none;
+            direction: ltr; text-align: left;
+        }
+
+        .btn-launch {
+            background: var(--neon-green); color: #000; border: none; padding: 20px 60px;
+            border-radius: 100px; font-weight: 900; font-size: 1.6rem; cursor: pointer;
+            transition: 0.3s; display: block; margin: 20px auto;
+            box-shadow: 0 0 20px var(--neon-green);
+        }
+        .btn-launch:hover { transform: scale(1.1) rotate(2deg); background: var(--neon-pink); color: #fff; box-shadow: 0 0 40px var(--neon-pink); }
+
+        .console-output {
+            background: #000; color: var(--neon-blue); padding: 30px; border-radius: 20px;
+            margin-top: 25px; font-family: 'Fira Code', monospace; display: none;
+            border-left: 10px solid var(--neon-blue); font-size: 1.3rem;
+        }
+
+        .badge { background: var(--neon-pink); color: #fff; padding: 5px 20px; border-radius: 50px; font-weight: 900; position: absolute; top: -20px; right: 40px; }
+
+        .quiz-teaser {
+            display: block; text-align: center; padding: 40px; background: var(--neon-green);
+            color: #000; font-weight: 900; font-size: 2.5rem; border-radius: 100px;
+            text-decoration: none; margin: 80px 0; transition: 0.5s;
+            box-shadow: 0 0 50px var(--neon-green);
+        }
+        .quiz-teaser:hover { transform: scale(1.05); background: var(--neon-pink); color: #fff; box-shadow: 0 0 70px var(--neon-pink); }
+
     </style>
 </head>
 <body>
 
-<div class="card">
-    <h1>يا بطل.. أنت عملتها! 🏆</h1>
-    <p class="intro-text">
-        وصولك لهنا معناه إنك "وحش برمجة" حقيقي وخلصت شوط كبير. أنا حالياً بجهز لك باقي المنهج بتركيز عالي جداً.. 
-        <br><b>"الظروف ضاغطة شوية بس مكملين عشانك"</b> ❤️
-    </p>
+<div class="container">
+    <h1 class="animate__animated animate__zoomIn">⚡ معمل الحسابات النووي ⚡</h1>
 
-    <div class="form-box">
-        <label>إسمك اللي هيتكتب في لوحة الشرف:</label>
-        <input type="text" id="name" placeholder="اكتب اسمك يا هندسة...">
+    <div class="power-card animate__animated animate__fadeInUp">
+        <span class="badge">شرح المرحلة الأولى</span>
+        <h2>1️⃣ ليه بنكرر الحسابات؟ وإزاي؟</h2>
+        <div class="deep-explain">
+            بص يا برنس.. في البرمجة إحنا مش بس بنطبع كلام، إحنا بنعمل "عقل" بيحسب. 
+            تخيل لو قلتلك اضرب <b>2 × 2 × 2 × 2 × 2</b>.. إيدك هتتعب وعقلك هيهنج لو الأرقام كترت. 
+            إحنا بنستخدم <b>حلقة for</b> عشان هي "الماكينة" اللي مابتتعبش من الضرب المتكرر.
+            <br><br>
+            <b>ليه مش if؟</b> عشان if بتسأل سؤال واحد بس وتنفذ مرة واحدة، لكن <b>for</b> هي اللي بتلف وتكرر العملية الحسابية 100 لفة في ثانية واحدة!
+            <br><b>ليه مش &؟</b> عشان ده رمز "الربط" ملوش دعوة بالتكرار خالص.
+        </div>
 
-        <label>إيه رأيك في رحلتنا مع بعض؟</label>
-        <select id="opinion">
-            <option value="شرحك غير حياتي وبسط لي المستحيل">شرحك غير حياتي وبسط لي المستحيل 💎</option>
-            <option value="أنت مش مجرد مدرس، أنت قدوة لينا">أنت مش مجرد مدرس، أنت قدوة لينا 🌟</option>
-            <option value="طريقتك في البرمجة ممتعة ومختلفة عن أي حد">طريقتك في البرمجة ممتعة ومختلفة عن أي حد 🚀</option>
-            <option value="فخور إني بتعلم على إيد بشمهندس زيك">فخور إني بتعلم على إيد بشمهندس زيك 👑</option>
-        </select>
+        <span class="badge" style="background:var(--neon-blue); top: 380px;">تجربة الضرب الثابت</span>
+        <div class="deep-explain">
+            إحنا بنعرف متغير برا الحلقة اسمه <b>num</b> ونبدأه بـ 1، وجوه الحلقة بنقول للكمبيوتر "كل مرة اضرب القيمة القديمة في 2".
+            بص على الـ 3 أمثلة الجايين دول عشان تفهم الفرق:
+        </div>
 
-        <label>كلمة منك تشجعني أخلص لك المنهج الجديد:</label>
-        <textarea id="message" rows="3" placeholder="قولي أي حاجة في سرك..."></textarea>
+        <p><b>مثال (أ): ضرب الرقم 2 في نفسه 5 مرات</b></p>
+        <div class="editor-wrap">
+            <textarea id="ed1">
+let num = 1;
+for (let i = 0; i < 5; i++) {
+  num = num * 2;
+  console.log("النتيجة في اللفة رقم " + (i+1) + " هي: " + num);
+}
+console.log("النتيجة النهائية الجبارة: " + num);</textarea>
+        </div>
+        <button class="btn-launch" onclick="run('ed1', 'out1')">▶ تشغيل المفاعل الحسابي</button>
+        <div id="out1" class="console-output"></div>
+
+        <p><b>مثال (ب): ضرب الرقم 4 في نفسه 4 مرات (4×4×4×4)</b></p>
+        <div class="editor-wrap"><textarea id="ed1b">
+let num = 1;
+for (let i = 0; i < 4; i++) {
+  num = num * 4;
+}
+console.log("ناتج 4×4×4×4 هو: " + num);</textarea></div>
+        <button class="btn-launch" onclick="run('ed1b', 'out1b')">▶ تنفيذ 4^4</button>
+        <div id="out1b" class="console-output"></div>
+
+        <p><b>مثال (ج): ضرب الرقم 10 في نفسه 3 مرات (10×10×10)</b></p>
+        <div class="editor-wrap"><textarea id="ed1c">
+let num = 1;
+for (let i = 0; i < 3; i++) {
+  num = num * 10;
+}
+console.log("ناتج 10×10×10 هو: " + num);</textarea></div>
+        <button class="btn-launch" onclick="run('ed1c', 'out1c')">▶ تنفيذ 10^3</button>
+        <div id="out1c" class="console-output"></div>
     </div>
 
-    <br>
-    <button class="btn-send" onclick="celebrateAndSend()">
-        إرسال ودخول لمجتمع المهندسين ✅
-    </button>
+    <div class="power-card animate__animated animate__fadeInUp">
+        <span class="badge">شرح المرحلة الثانية</span>
+        <h2>2️⃣ العداد (i) هو "اللاعب الخفي"</h2>
+        <div class="deep-explain">
+            دلوقتي إحنا كبرنا.. مش هنضرب في رقم ثابت وبس! العداد <b>i</b> اللي بنستخدمه عشان نعد اللفات (1، 2، 3...) هو في الحقيقة <b>رقم حي</b> نقدر نستخدمه جوه العملية الحسابية نفسها!
+            <br>يعني بدل ما أقول <code>num * 2</code>، هقول <code>num * i</code>. 
+            بكدة في أول لفة هيضرب في 1، تاني لفة يضرب في 2، تالت لفة في 3.. وهكذا!
+        </div>
+
+        
+
+        <div class="deep-explain">
+            <b>ركز في الحسبة دي (1×2×3×4×5):</b>
+            <br>• اللفة 1: num(1) * i(1) = 1
+            <br>• اللفة 2: num(1) * i(2) = 2
+            <br>• اللفة 3: num(2) * i(3) = 6
+            <br>• اللفة 4: num(6) * i(4) = 24
+            <br>• اللفة 5: num(24) * i(5) = 120
+        </div>
+
+        <p><b>مثال (أ): حساب مضروب الرقم 5 (1×2×3×4×5)</b></p>
+        <div class="editor-wrap"><textarea id="ed2">
+let num = 1;
+for (let i = 1; i <= 5; i++) {
+  num = num * i;
+}
+console.log("ناتج السلسلة الحسابية 1-5 هو: " + num);</textarea></div>
+        <button class="btn-launch" onclick="run('ed2', 'out2')">▶ تشغيل السلسلة</button>
+        <div id="out2" class="console-output"></div>
+
+        <p><b>مثال (ب): حساب مجموع الأرقام من 1 لـ 10 (1+2+3...+10)</b></p>
+        <div class="editor-wrap"><textarea id="ed2b">
+let sum = 0;
+for (let i = 1; i <= 10; i++) {
+  sum = sum + i; // هنا بنجمع العداد مش بنضربه
+}
+console.log("مجموع الأرقام من 1 لـ 10 هو: " + sum);</textarea></div>
+        <button class="btn-launch" onclick="run('ed2b', 'out2b')">▶ تشغيل محرك الجمع</button>
+        <div id="out2b" class="console-output"></div>
+
+        <p><b>مثال (ج): حساب ضرب الأرقام من 1 لـ 10</b></p>
+        <div class="editor-wrap"><textarea id="ed2c">
+let num = 1;
+for (let i = 1; i <= 10; i++) {
+  num = num * i;
+}
+console.log("النتيجة النهائية العملاقة لضرب 10 أرقام: " + num);</textarea></div>
+        <button class="btn-launch" onclick="run('ed2c', 'out2c')">▶ تنفيذ الضخم</button>
+        <div id="out2c" class="console-output"></div>
+    </div>
+
+    <div class="power-card animate__animated animate__fadeInUp">
+        <span class="badge" style="background:var(--neon-green); color:#000;">⚠️ منطقة الخطر</span>
+        <h2>3️⃣ تكات ميكروسكوبية للمبرمجين</h2>
+        <div class="deep-explain">
+            <b>1. ليه بنبدأ الـ num بـ 1 مش 0 في الضرب؟</b>
+            <br>عشان أي حاجة في صفر بصفر! لو بدأت <code>let num = 0</code> الماكينة كلها هتصفر والنتيجة هتفضل صفر للأبد.
+            <br><br>
+            <b>2. ليه بنبدأ i من 1 في مضروب الأرقام؟</b>
+            <br>عشان لو ضربنا في صفر في أول لفة، النتيجة هتبوظ. إحنا عايزين نعد الأرقام اللي ليها قيمة حقيقية في الضرب.
+            <br><br>
+            <b>3. الفرق بين <code>num * 2</code> و <code>num * i</code>؟</b>
+            <br>الأولى بتكرر نفس الرقم (ثبات)، التانية بتكرر برقم متغير (ذكاء وتطور).
+        </div>
+    </div>
+
+    <a href="quiz_lesson_4.html" class="quiz-teaser animate__animated animate__pulse animate__infinite">🏁 المفاعل جاهز.. انطلق للاختبار! 🚀</a>
+
 </div>
 
 <script>
-function celebrateAndSend() {
-    var name = document.getElementById("name").value;
-    var opinion = document.getElementById("opinion").value;
-    var msg = document.getElementById("message").value;
-
-    if (name === "") {
-        alert("اكتب اسمك يا بطل عشان أعرف مين بيكلمني!");
-        return;
+    function run(id, outId) {
+        const code = document.getElementById(id).value;
+        const out = document.getElementById(outId);
+        out.style.display = "block";
+        out.innerHTML = "";
+        const originalLog = console.log;
+        console.log = function(m) {
+            out.innerHTML += "⚡ [System]: " + m + "<br>";
+        };
+        try {
+            eval(code);
+        } catch(e) {
+            out.innerHTML = "<span style='color:var(--neon-pink)'>❌ [ERROR]: " + e.message + "</span>";
+        }
+        console.log = originalLog;
     }
-
-    // تشغيل القصاصات الملونة (تفاعلات بتطير)
-    confetti({
-        particleCount: 150,
-        spread: 70,
-        origin: { y: 0.6 }
-    });
-
-    // تجهيز رسالة الواتساب
-    var phone = "201003090216"; // اكتب رقمك هنا
-    var text = "يا بشمهندس أحمد.. أنا الطالب " + name + " 🔥%0a";
-    text += "خلصت الجزء اللي فات وجيت أقولك إنك " + opinion + "%0a%0a";
-    if(msg !== "") { text += "رسالتي ليك: " + msg + "%0a"; }
-    text += "%0aعارف إن الظروف ضاغطة بس مستنيين المنهج الجديد منك يا عالمي! 🚀";
-
-    // التحويل للواتساب بعد ثانية واحدة عشان يلحق يشوف الاحتفال
-    setTimeout(function() {
-        window.open("https://wa.me/" + phone + "?text=" + text, '_blank');
-    }, 1500);
-}
 </script>
 
 </body>

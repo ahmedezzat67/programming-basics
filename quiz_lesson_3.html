@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>تحدي الدوال الأسطوري | Ahmed Ezzat</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <style>
+       :root {
+    --p-blue: #00d2ff; 
+    --p-pink: #ff007a; 
+    --p-yellow: #feca57;
+    --p-green: #1dd1a1; 
+    --glass-white: rgba(255, 255, 255, 0.85);
+}
+
+body {
+    font-family: 'Cairo', sans-serif; 
+    background: #f0f2f5;
+    margin: 0; padding: 20px; 
+    overflow-x: hidden;
+    /* خلفية متدرجة "مطرقعة" بتفتح النفس */
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background-attachment: fixed;
+}
+
+/* طبقة النجوم بس بلون أبيض ناصع عشان الأكشن */
+body::before {
+    content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: url('https://www.transparenttextures.com/patterns/stardust.png');
+    opacity: 0.3; z-index: -1;
+}
+
+.container { max-width: 900px; margin: 0 auto; position: relative; }
+
+/* شريط الدرجات "بيشع" نيون */
+.score-box {
+    position: fixed; top: 20px; left: 20px; 
+    background: white;
+    color: var(--p-pink);
+    padding: 12px 30px; border-radius: 50px; 
+    font-weight: 900; z-index: 1000;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2), 0 0 15px rgba(255,0,122,0.4);
+    border: 3px solid white;
+}
+
+/* الكروت "الزجاجية" - قمة الجمدان */
+.q-card {
+    background: var(--glass-white); 
+    backdrop-filter: blur(15px); /* تأثير الزجاج المغبش */
+    border-radius: 40px; padding: 45px; margin-bottom: 35px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    display: none; 
+    box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+    transform-style: preserve-3d;
+}
+
+.q-card.active { display: block; animation: zoomIn 0.5s; }
+
+.q-type { color: var(--p-pink); font-weight: 900; font-size: 1rem; margin-bottom: 12px; display: block; letter-spacing: 1px; }
+.q-text { font-size: 1.7rem; font-weight: 900; margin-bottom: 30px; line-height: 1.5; color: #1e272e; text-shadow: 1px 1px 0px white; }
+
+.opt-grid { display: grid; gap: 15px; }
+.opt-btn {
+    background: white; 
+    border: 3px solid transparent;
+    padding: 20px; border-radius: 25px; 
+    color: #2f3542; font-size: 1.3rem;
+    font-weight: 700; cursor: pointer; 
+    transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    text-align: right;
+    box-shadow: 0 8px 15px rgba(0,0,0,0.05);
+}
+
+.opt-btn:hover:not(:disabled) { 
+    background: #f1f2f6; 
+    border-color: var(--p-blue); 
+    transform: scale(1.05) translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0,210,255,0.2);
+}
+
+.correct { background: var(--p-green) !important; color: white !important; box-shadow: 0 10px 25px rgba(29, 209, 161, 0.4); border-color: white !important; }
+.wrong { background: var(--p-pink) !important; color: white !important; animation: shakeX 0.5s; box-shadow: 0 10px 25px rgba(255, 0, 122, 0.4); }
+
+.explanation {
+    margin-top: 25px; padding: 25px; border-radius: 25px;
+    background: #fff9e6; 
+    border-right: 10px solid var(--p-yellow);
+    display: none; animation: slideInUp 0.4s; color: #3d3d3d; font-weight: 600; font-size: 1.1rem;
+}
+
+.next-btn {
+    background: var(--p-yellow); color: white; border: none; padding: 18px 50px;
+    border-radius: 50px; font-weight: 900; cursor: pointer; margin-top: 35px;
+    font-size: 1.4rem; display: none; margin-right: auto;
+    box-shadow: 0 10px 25px rgba(254, 202, 87, 0.5);
+    transition: 0.3s;
+}
+.next-btn:hover { transform: rotate(3deg) scale(1.1); }
+
+/* منطقة الكود - "Dark Mode" جوه الزجاج */
+.editor-zone { 
+    background: #1e272e; 
+    border-radius: 30px; padding: 25px; 
+    border: 4px solid var(--p-blue); margin-bottom: 20px;
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+}
+
+textarea {
+    width: 100%; min-height: 140px; background: transparent; color: var(--p-green);
+    font-family: 'Fira Code', monospace; font-size: 18px; border: none; outline: none;
+    direction: ltr; text-align: left;
+}
+
+h1 { color: white; font-size: 3.5rem; text-shadow: 0 5px 15px rgba(0,0,0,0.3); margin-top: 50px; }
+
+.nav-controls { display: flex; gap: 20px; justify-content: center; margin-top: 60px; }
+.nav-btn { 
+    padding: 18px 40px; border-radius: 100px; 
+    text-decoration: none; font-weight: 900; 
+    transition: 0.4s; font-size: 1.2rem;
+}
+.btn-home { background: white; color: var(--p-blue); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+.btn-back { border: 3px solid white; color: white; background: transparent; }
+
+footer { color: white; font-weight: 900; font-size: 1.2rem; text-shadow: 0 2px 5px rgba(0,0,0,0.5); }
+    </style>
+</head>
+<body>
+
+<div class="score-box">النقاط: <span id="score">0</span> / 30</div>
+
+<div class="container">
+    <div style="text-align: center; margin-bottom: 40px;">
+        <h1 class="animate__animated animate__pulse animate__infinite">🎮 تحدي الدوال</h1>
+    </div>
+
+    <div id="quiz-container"></div>
+
+    <div id="finish-screen" style="display:none; text-align:center;" class="animate__animated animate__zoomIn">
+        <h2 style="font-size:4rem; color:var(--p-yellow);">🏆 بطل الدوال!</h2>
+        <div id="final-res" style="font-size:2rem; margin:20px;"></div>
+        <div class="nav-controls">
+            <a href="lessons_term2.html" class="nav-btn btn-home">🏠 الرئيسية</a>
+            <a href="l2_3.html" class="nav-btn btn-back">⬅️ الدرس</a>
+        </div>
+    </div>
+</div>
+
+<footer style="text-align:center; margin-top:50px; opacity:0.6;">
+    تم التصميم بواسطة <span style="color:var(--p-blue)">Ahmed Ezzat</span> 💻
+</footer>
+
+<script>
+const questions = [
+    // --- 15 سؤال اختياري ---
+    {type: "choice", q: "ما هي الكلمة المفتاحية لإنشاء دالة؟", o: ["var", "function", "let"], c: 1, e: "كلمة function هي اللي بتبني المصنع (الدالة)."},
+    {type: "choice", q: "ماذا نسمي البيانات التي نضعها بين الأقواس ( ) عند تعريف الدالة؟", o: ["Parameters", "Scope", "Return"], c: 0, e: "دي المعاملات (Parameters) اللي الدالة بتحتاجها عشان تشتغل."},
+    {type: "choice", q: "الاسم العلمي للنطاق الذي تكون فيه المتغيرات قابلة للاستخدام هو؟", o: ["Scoop", "Skunk", "Scope"], c: 2, e: "الـ Scope هو مساحة الرؤية للمتغيرات."},
+    {type: "choice", q: "كيف نستدعي دالة اسمها sayHi؟", o: ["call sayHi", "sayHi()", "run sayHi"], c: 1, e: "بنكتب اسم الدالة وجنبه الأقواس ()."},
+    {type: "choice", q: "ما هي وظيفة الأمر return؟", o: ["قفل البرنامج", "إرجاع النتيجة من الدالة", "تكرار الكود"], c: 1, e: "الـ return هي اللي بتسلم النتيجة النهائية برا الدالة."},
+    {type: "choice", q: "هل يمكن استخدام متغير let معرف داخل دالة خارجها؟", o: ["نعم", "لا", "أحياناً"], c: 1, e: "مستحيل، المتغير بيموت بمجرد قفل قوس الدالة }."},
+    {type: "choice", q: "عند تعريف دالة بدون معاملات، نكتب الأقواس كيف؟", o: ["( )", "[ ]", "{ }"], c: 0, e: "لازم الأقواس الهلالية حتى لو فاضية."},
+    {type: "choice", q: "لماذا نستخدم أسماء دوال واضحة مثل calculateTotal؟", o: ["عشان شكل الكود", "لتسهيل فهم الكود", "عشان البرنامج يشتغل أسرع"], c: 1, e: "الوضوح بيخليك إنت وغيرك تفهموا الدالة بتعمل إيه."},
+    {type: "choice", q: "أين نضع الفاصلة , عند استخدام معاملين؟", o: ["قبل المعامل الأول", "بين المعاملين", "بعد المعامل التاني"], c: 1, e: "الفاصلة بتفصل بين المدخلات عشان الكمبيوتر ميتلخبطش."},
+    {type: "choice", q: "ما هي ميزة الدوال الأساسية؟", o: ["تكرار الكود يدوياً", "كتابة الكود مرة واستخدامه كثيراً", "تغيير لون المحرر"], c: 1, e: "توفير المجهود وإعادة الاستخدام هي سر قوة الدوال."},
+    {type: "choice", q: "ماذا يحدث لو لم نضع return في دالة مفترض أن تعيد قيمة؟", o: ["ترجع undefined", "تطلع Error", "البرنامج يقفل"], c: 0, e: "الكمبيوتر مش هيلاقي حاجة يرجعها فيقولك undefined."},
+    {type: "choice", q: "ما هو الـ Parameter في: function sum(a, b)؟", o: ["sum", "a و b", "الـ { }"], c: 1, e: "a و b هما اللي هيستقبلوا الأرقام."},
+    {type: "choice", q: "أي مما يلي اسم دالة صحيح؟", o: ["123func", "get total", "divide_6"], c: 2, e: "ممنوع تبدأ برقم أو يكون فيها مسافات."},
+    {type: "choice", q: "ما الفرق بين البارامتر (Parameter) والوسيط (Argument)؟", o: ["مفيش فرق", "البارامتر عند التعريف والوسيط عند الاستدعاء", "العكس صحيح"], c: 1, e: "البارامتر هو المكان المحجوز، والوسيط هو القيمة الحقيقية اللي بتبعتها."},
+    {type: "choice", q: "هل يمكن لدالة أن تنادي على دالة تانية؟", o: ["نعم", "لا", "فقط لو في نفس السطر"], c: 0, e: "طبعاً، الدوال ممكن تتعاون مع بعضها."},
+
+    // --- 5 أسئلة صح وغلط ---
+    {type: "choice", q: "صح أم خطأ: يمكن الوصول لمتغيرات الدالة من أي مكان في الملف.", o: ["صح", "خطأ"], c: 1, e: "خطأ! المتغيرات محبوسة جوه الـ Scope بتاع الدالة."},
+    {type: "choice", q: "صح أم خطأ: الأقواس () ضرورية عند استدعاء الدالة حتى لو بدون معاملات.", o: ["صح", "خطأ"], c: 0, e: "صح، من غيرها الكمبيوتر مش هيعرف إنك بتنادي على دالة."},
+    {type: "choice", q: "صح أم خطأ: كلمة function تكتب بحروف كبيرة (FUNCTION).", o: ["صح", "خطأ"], c: 1, e: "خطأ، الجافا سكريبت حساسة للحروف ولازم تتكتب سمول."},
+    {type: "choice", q: "صح أم خطأ: الـ return تنهي تنفيذ الدالة فوراً.", o: ["صح", "خطأ"], c: 0, e: "صح، أي كود بعد الـ return مش بيتنفذ."},
+    {type: "choice", q: "صح أم خطأ: يمكن تمرير نصوص (Strings) كمعاملات للدالة.", o: ["صح", "خطأ"], c: 0, e: "صح، الدوال بتاخد أي نوع بيانات (أرقام، نصوص، إلخ)."},
+
+    // --- 10 أسئلة تطبيقية (بنفس طريقتك) ---
+    {type: "code", q: "أنشئ دالة باسم divide6 ومعامل total، واقسم total على 6 وأرجع الناتج.", target: "divide6", check: ["function", "divide6", "total", "/", "6", "return"]},
+    {type: "code", q: "أنشئ دالة باسم split5 ومعامل total، واقسم total على 5 وأرجع الناتج.", target: "split5", check: ["function", "split5", "total", "/", "5", "return"]},
+    {type: "code", q: "أنشئ دالة goodMorning بدون معاملات ترجع نص 'Good morning!'.", target: "goodMorning", check: ["function", "goodMorning", "return", "Good morning!"]},
+    {type: "code", q: "أنشئ دالة sum بمعاملين num1 و num2 ترجع مجموعهما.", target: "sum", check: ["function", "sum", "num1", "num2", "+", "return"]},
+    {type: "code", q: "أنشئ دالة باسم getArea بمعاملين w و h ترجع حاصل ضربهما (مساحة).", target: "getArea", check: ["function", "getArea", "w", "h", "*", "return"]},
+    {type: "code", q: "استدعِ دالة divide6 بالرقم 72 واطبعها في الكونسول.", target: "console", check: ["console.log", "divide6", "72"]},
+    {type: "code", q: "أنشئ دالة باسم sayWelcome ترجع 'Welcome' واطبع ناتج استدعائها.", target: "sayWelcome", check: ["function", "sayWelcome", "return", "console.log"]},
+    {type: "code", q: "أنشئ دالة باسم multiply10 ومعامل n ترجع n مضروب في 10.", target: "multiply10", check: ["function", "n", "*", "10", "return"]},
+    {type: "code", q: "أنشئ دالة باسم checkScope وحاول تعريف let x = 5 جواها.", target: "checkScope", check: ["function", "let x", "5"]},
+    {type: "code", q: "أنشئ دالة باسم lastOne بدون معاملات ترجع رقم 100.", target: "lastOne", check: ["function", "lastOne", "return", "100"]}
+];
+
+let currentQ = 0;
+let score = 0;
+
+function loadQuestion() {
+    const container = document.getElementById('quiz-container');
+    container.innerHTML = "";
+    const qData = questions[currentQ];
+    
+    const card = document.createElement('div');
+    card.className = "q-card active";
+    
+    if(qData.type === "choice") {
+        card.innerHTML = `
+            <span class="q-type">سؤال اختياري</span>
+            <div class="q-text">${qData.q}</div>
+            <div class="opt-grid">
+                ${qData.o.map((opt, i) => `<button class="opt-btn" onclick="checkChoice(${i}, this)">${opt}</button>`).join('')}
+            </div>
+        `;
+    } else {
+        card.innerHTML = `
+            <span class="q-type">تحدي تطبيقي</span>
+            <div class="q-text">${qData.q}</div>
+            <div class="editor-zone"><textarea id="code-input" placeholder="اكتب الكود هنا..."></textarea></div>
+            <button class="opt-btn" style="background:var(--p-blue); color:black" onclick="checkCode()">تحقق من الكود 🔍</button>
+        `;
+    }
+    
+    card.innerHTML += `<div id="expl" class="explanation"></div><button id="next-btn" class="next-btn" onclick="nextQuestion()">السؤال التالي ➡️</button>`;
+    container.appendChild(card);
+}
+
+function checkChoice(idx, btn) {
+    const qData = questions[currentQ];
+    const btns = document.querySelectorAll('.opt-btn');
+    const expl = document.getElementById('expl');
+    
+    btns.forEach(b => b.disabled = true);
+    if(idx === qData.c) {
+        btn.classList.add('correct');
+        score++;
+        celebrate();
+    } else {
+        btn.classList.add('wrong');
+        btns[qData.c].classList.add('correct');
+    }
+    expl.style.display = "block";
+    expl.innerHTML = `💡 <b>الشرح:</b> ${qData.e}`;
+    document.getElementById('next-btn').style.display = "block";
+    document.getElementById('score').innerText = score;
+}
+
+function checkCode() {
+    const qData = questions[currentQ];
+    const input = document.getElementById('code-input').value;
+    const expl = document.getElementById('expl');
+    let isCorrect = qData.check.every(term => input.includes(term));
+
+    if(isCorrect) {
+        expl.innerHTML = "✅ <b>عبقري!</b> الكود صحيح ومطابق للمطلوب.";
+        expl.style.color = "var(--p-green)";
+        score++;
+        celebrate();
+    } else {
+        expl.innerHTML = "❌ <b>راجع الكود:</b> تأكد من كتابة الأسماء والرموز (مثل function, return) بشكل صحيح.";
+        expl.style.color = "var(--p-pink)";
+    }
+    expl.style.display = "block";
+    document.getElementById('next-btn').style.display = "block";
+    document.getElementById('score').innerText = score;
+}
+
+function nextQuestion() {
+    currentQ++;
+    if(currentQ < questions.length) {
+        loadQuestion();
+    } else {
+        showFinish();
+    }
+}
+
+function celebrate() {
+    confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 },
+        colors: ['#00d4ff', '#ff007a', '#ffcc00']
+    });
+}
+
+function showFinish() {
+    document.getElementById('quiz-container').style.display = "none";
+    document.getElementById('finish-screen').style.display = "block";
+    document.getElementById('final-res').innerText = `لقد حصلت على ${score} من 30`;
+}
+
+loadQuestion();
+</script>
+</body>
+</html>

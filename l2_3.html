@@ -1,85 +1,195 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>رسالة من القلب | م. أحمد</title>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>موسوعة الدوال | Ahmed Ezzat</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; margin: 0; padding: 20px; color: #333; }
-        .card { background: white; padding: 40px; border-radius: 30px; box-shadow: 0 20px 50px rgba(0,0,0,0.3); max-width: 550px; width: 100%; text-align: center; position: relative; overflow: hidden; }
-        .card::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 10px; background: linear-gradient(to left, #00c6ff, #0072ff); }
-        h1 { color: #1e3c72; font-size: 28px; margin-bottom: 15px; }
-        .intro-text { font-size: 18px; color: #555; line-height: 1.8; margin-bottom: 25px; }
-        .form-box { background: #f9f9f9; padding: 20px; border-radius: 20px; text-align: right; }
-        label { font-weight: bold; display: block; margin-bottom: 10px; color: #1e3c72; }
-        input, select, textarea { width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 12px; margin-bottom: 20px; font-size: 16px; transition: 0.3s; }
-        input:focus, select:focus { border-color: #0072ff; outline: none; }
-        .btn-send { background: #25d366; color: white; border: none; padding: 18px; border-radius: 50px; cursor: pointer; font-size: 20px; font-weight: bold; width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 10px 20px rgba(37, 211, 102, 0.3); }
-        .btn-send:hover { background: #128c7e; transform: scale(1.02); }
+        :root {
+            --neon-blue: #00d4ff; --neon-pink: #ff007a; --neon-yellow: #ffcc00;
+            --neon-green: #00ff88; --bg-dark: #05050a;
+        }
+        body { font-family: 'Cairo', sans-serif; background: var(--bg-dark); color: white; line-height: 2.5; margin: 0; padding: 20px; }
+        .container { max-width: 1150px; margin: 0 auto; }
+        h1 { text-align: center; font-size: 4rem; color: var(--neon-pink); text-shadow: 0 0 25px var(--neon-pink); animation: rubberBand 1.2s; }
+        .section-card { background: rgba(255, 255, 255, 0.03); border-radius: 45px; padding: 50px; margin-bottom: 60px; border: 2px solid rgba(0, 212, 255, 0.15); backdrop-filter: blur(20px); }
+        h2 { color: var(--neon-blue); font-size: 2.8rem; border-bottom: 4px dashed var(--neon-yellow); display: inline-block; margin-bottom: 30px; }
+        .detailed-explain { background: rgba(0, 0, 0, 0.5); padding: 35px; border-radius: 30px; border-right: 15px solid var(--neon-green); margin: 30px 0; font-size: 1.4rem; text-align: justify; }
+        .detailed-explain b { color: var(--neon-yellow); font-size: 1.6rem; }
+        .example-header { background: var(--neon-pink); color: white; padding: 10px 30px; border-radius: 50px; font-weight: 900; margin-top: 40px; display: inline-block; font-size: 1.2rem; }
+        .code-box { background: #151515; border-radius: 30px; padding: 30px; margin: 25px 0; border: 1px solid #444; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        textarea { width: 100%; min-height: 200px; background: transparent; color: var(--neon-green); font-family: 'Fira Code', monospace; border: none; outline: none; font-size: 1.2rem; direction: ltr; text-align: left; resize: vertical; }
+        .run-btn { background: var(--neon-green); color: black; border: none; padding: 20px 60px; border-radius: 70px; font-weight: 900; cursor: pointer; transition: 0.3s; font-size: 1.4rem; display: block; margin: 15px auto; }
+        .run-btn:hover { transform: scale(1.1) rotate(2deg); box-shadow: 0 0 40px var(--neon-green); }
+        .output { background: #000; color: var(--neon-blue); padding: 25px; border-radius: 20px; margin-top: 20px; display: none; font-family: monospace; border-left: 8px solid var(--neon-blue); font-size: 1.2rem; }
+        .pro-note { color: var(--neon-pink); font-weight: 900; border: 1px solid var(--neon-pink); padding: 15px; border-radius: 15px; margin-top: 15px; display: block; }
     </style>
 </head>
 <body>
 
-<div class="card">
-    <h1>يا بطل.. أنت عملتها! 🏆</h1>
-    <p class="intro-text">
-        وصولك لهنا معناه إنك "وحش برمجة" حقيقي وخلصت شوط كبير. أنا حالياً بجهز لك باقي المنهج بتركيز عالي جداً.. 
-        <br><b>"الظروف ضاغطة شوية بس مكملين عشانك"</b> ❤️
-    </p>
+<div class="container">
+    <h1>📦 الموسوعة الكبرى للدوال</h1>
 
-    <div class="form-box">
-        <label>إسمك اللي هيتكتب في لوحة الشرف:</label>
-        <input type="text" id="name" placeholder="اكتب اسمك يا هندسة...">
-
-        <label>إيه رأيك في رحلتنا مع بعض؟</label>
-        <select id="opinion">
-            <option value="شرحك غير حياتي وبسط لي المستحيل">شرحك غير حياتي وبسط لي المستحيل 💎</option>
-            <option value="أنت مش مجرد مدرس، أنت قدوة لينا">أنت مش مجرد مدرس، أنت قدوة لينا 🌟</option>
-            <option value="طريقتك في البرمجة ممتعة ومختلفة عن أي حد">طريقتك في البرمجة ممتعة ومختلفة عن أي حد 🚀</option>
-            <option value="فخور إني بتعلم على إيد بشمهندس زيك">فخور إني بتعلم على إيد بشمهندس زيك 👑</option>
-        </select>
-
-        <label>كلمة منك تشجعني أخلص لك المنهج الجديد:</label>
-        <textarea id="message" rows="3" placeholder="قولي أي حاجة في سرك..."></textarea>
+    <div class="section-card">
+        <h2>💡 إيه هي الدالة؟ (شرح من أعماق الكود)</h2>
+        <div class="detailed-explain">
+            بص يا برنس، الدالة <b>(Function)</b> دي هي أهم اختراع في البرمجة. تخيل إنك شغال في مطعم برجر، كل مرة حد يطلب "ساندوتش" هل منطقي إنك تقعد تقوله "هات عيش، حط لحمة، حط جبنة، اقفل العيش" ألف مرة في اليوم؟ <b>طبعاً لأ!</b>
+            <br><br>
+            إنت هتعمل حاجة اسمها "وصفة الساندوتش" وتسميها <b>"البرجر الخطير"</b>. اهي الوصفة دي هي الدالة. 
+            <br>1️⃣ <b>التصريح (Declaration):</b> إنك توصف الأوامر اللي جوه الدالة.
+            <br>2️⃣ <b>المعاملات (Parameters):</b> دي الحاجات اللي الدالة محتاجاها عشان تشتغل (زي اللحمة والجبنة).
+            <br>3️⃣ <b>الإرجاع (Return):</b> دي النتيجة النهائية اللي بنسلمها للزبون (الساندوتش جاهز).
+            <br>4️⃣ <b>الاستدعاء (Call):</b> إنك تنادي على اسم الدالة وقت ما تحب عشان تنفذ الأوامر فوراً!
+        </div>
     </div>
 
-    <br>
-    <button class="btn-send" onclick="celebrateAndSend()">
-        إرسال ودخول لمجتمع المهندسين ✅
-    </button>
+    <div class="section-card">
+        <h2>🍕 القسم الأول: دوال "المدخل الواحد"</h2>
+        <p class="detailed-explain">هنا الدالة بتاخد منك <b>بيانات واحدة بس</b> (زي رقم) وتعمل عليها عملية حسابية وترجعلنا النتيجة. بنستخدمها لما تكون الوظيفة ثابتة بس الرقم بيتغير.</p>
+
+        <span class="example-header">مثال 1: تقطيع البيتزا (قسمة / 6)</span>
+        <div class="detailed-explain"><b>الشرح التفصيلي:</b> الدالة دي اسمها <code>divide6</code>. المعامل بتاعها اسمه <code>total</code> (ده إجمالي قطع البيتزا). جواها عرفنا متغير اسمه <code>per</code> بياخد الإجمالي ويقسمه على 6. وفي الآخر استخدمنا <code>return</code> عشان نطلع النتيجة بره الدالة ونستخدمها.</div>
+        <div class="code-box">
+            <textarea id="ed1">
+function divide6(total) {
+  let per = total / 6; 
+  return per;
+}
+// بننادي عليها بـ 72 قطعة
+console.log("نصيب الفرد من 72 قطعة بيتزا: " + divide6(72));</textarea>
+        </div>
+        <button class="run-btn" onclick="run('ed1', 'out1')">🍕 اقطع البيتزا</button>
+        <div id="out1" class="output"></div>
+
+        <span class="example-header">مثال 2: حساب فاتورة البولينج (قسمة / 5)</span>
+        <div class="detailed-explain"><b>الشرح التفصيلي:</b> لو إنت و4 صحابك (5 أفراد) لعبتوا بولينج، الدالة <code>split5</code> دي هي المحاسب بتاعكم. بتاخد المبلغ الكلي وتقسمه على 5. الـ <code>total</code> هنا هو المبلغ اللي إنت بتبعته لما بتنادي على الدالة (زي 6250).</div>
+        <div class="code-box">
+            <textarea id="ed2">
+function split5(total) {
+  let per = total / 5;
+  return per;
+}
+console.log("حساب كل واحد في البولينج: " + split5(6250) + " جنيه");</textarea>
+        </div>
+        <button class="run-btn" onclick="run('ed2', 'out2')">🎳 احسب البولينج</button>
+        <div id="out2" class="output"></div>
+
+        <span class="example-header">مثال 3: تحويل الساعات لدقائق (ضرب * 60)</span>
+        <div class="detailed-explain"><b>الشرح التفصيلي:</b> الدالة <code>toMinutes</code> بتاخد عدد الساعات (hours) وتضربه في 60 عشان تطلع لنا الدقائق. هنا العملية هي "ضرب" مش "قسمة"، وده يوريك إن الدالة ممكن تعمل أي عملية حسابية.</div>
+        <div class="code-box">
+            <textarea id="ed3">
+function toMinutes(hours) {
+  let minutes = hours * 60;
+  return minutes;
+}
+console.log("3 ساعات فيهم كام دقيقة؟ : " + toMinutes(3));</textarea>
+        </div>
+        <button class="run-btn" onclick="run('ed3', 'out3')">⏳ حول الوقت</button>
+        <div id="out3" class="output"></div>
+    </div>
+
+    <div class="section-card">
+        <h2>📢 القسم الثاني: دوال "الرسائل الثابتة" (بدون معاملات)</h2>
+        <p class="detailed-explain">أحياناً الدالة بتكون وظيفتها إنها تطلع <b>رسالة ثابتة</b> أو تنفذ أمر مش محتاج معلومات منك. في الحالة دي بنسيب الأقواس فاضية <code>()</code>.</p>
+
+        <span class="example-header">مثال 1: تحية الصباح الرسمية</span>
+        <div class="detailed-explain"><b>الشرح التفصيلي:</b> دالة <code>goodMorning</code> مش محتاجة أرقام. بمجرد ما تنادي عليها، هي عارفة شغلها: بتجهز نص "Good morning!" وترجعهولك بـ <code>return</code>.</div>
+        <div class="code-box"><textarea id="ed4">
+function goodMorning() {
+  let greeting = "Good morning!";
+  return greeting;
+}
+console.log(goodMorning());</textarea></div>
+        <button class="run-btn" onclick="run('ed4', 'out4')">☕ ألقِ التحية</button>
+        <div id="out4" class="output"></div>
+
+        <span class="example-header">مثال 2: صافرة البداية</span>
+        <div class="detailed-explain"><b>الشرح التفصيلي:</b> دالة <code>gameStart</code> وظيفتها تشجع اللاعب في بداية اللعبة. بتطبع نص ثابت "Ready.. Set.. Go! 🚀". لاحظ إننا استعملنا الـ return مباشرة للنص.</div>
+        <div class="code-box"><textarea id="ed5">
+function gameStart() {
+  return "Ready.. Set.. Go! 🚀";
+}
+console.log(gameStart());</textarea></div>
+        <button class="run-btn" onclick="run('ed5', 'out5')">🏁 ابدأ اللعبة</button>
+        <div id="out5" class="output"></div>
+
+        <span class="example-header">مثال 3: تاريخ اليوم (تخيلي)</span>
+        <div class="detailed-explain"><b>الشرح التفصيلي:</b> دالة <code>getYear</code> وظيفتها بس تقولنا إحنا في سنة كام. وظيفة بسيطة بس بنحتاجها كتير عشان منكتبش الرقم يدوياً في كل حتة.</div>
+        <div class="code-box"><textarea id="ed6">
+function getYear() {
+  return "نحن الآن في عام 2026 📅";
+}
+console.log(getYear());</textarea></div>
+        <button class="run-btn" onclick="run('ed6', 'out6')">📅 اعرف السنة</button>
+        <div id="out6" class="output"></div>
+    </div>
+
+    <div class="section-card">
+        <h2>🛠️ القسم الثالث: دوال "المدخلات المتعددة"</h2>
+        <p class="detailed-explain">لما المهمة تكون صعبة ومحتاجة <b>أكتر من معلومة</b> (زي جمع رقمين أو حساب مساحة)، بنحط كذا معامل ونفصل بينهم بفاصلة <code>,</code>.</p>
+
+        <span class="example-header">مثال 1: آلة الجمع (num1, num2)</span>
+        <div class="detailed-explain"><b>الشرح التفصيلي:</b> دالة <code>sum</code> هي الخلاط اللي بياخد برتقالة وتفاحة. هنا بتاخد <code>num1</code> و <code>num2</code>، تجمعهم، وتخزن النتيجة في <code>result</code> وبعدين ترجعها.</div>
+        <div class="code-box"><textarea id="ed7">
+function sum(num1, num2) {
+  let result = num1 + num2;
+  return result;
+}
+console.log("مجموع 100 + 200 هو: " + sum(100, 200));</textarea></div>
+        <button class="run-btn" onclick="run('ed7', 'out7')">➕ اجمـع</button>
+        <div id="out7" class="output"></div>
+
+        <span class="example-header">مثال 2: حساب مساحة الأرض (width, height)</span>
+        <div class="detailed-explain"><b>الشرح التفصيلي:</b> عشان نحسب المساحة، لازم نضرب الطول في العرض. الدالة <code>calculateArea</code> بتاخد المعلومتين دول وتضربهم <code>*</code> وترجعلنا المساحة النهائية.</div>
+        <div class="code-box"><textarea id="ed8">
+function calculateArea(width, height) {
+  return width * height;
+}
+console.log("مساحة أرض 20 متر في 30 متر هي: " + calculateArea(20, 30));</textarea></div>
+        <button class="run-btn" onclick="run('ed8', 'out8')">📐 احسب المساحة</button>
+        <div id="out8" class="output"></div>
+
+        <span class="example-header">مثال 3: صانع الملف الشخصي (name, age)</span>
+        <div class="detailed-explain"><b>الشرح التفصيلي:</b> الدوال بتدمج النصوص كمان! الدالة <code>makeBio</code> بتاخد اسمك وسنك وتعمل منهم جملة واحدة مفيدة. ده بيوريك إن المعاملات ممكن تكون أنواع مختلفة (نص ورقم).</div>
+        <div class="code-box"><textarea id="ed9">
+function makeBio(name, age) {
+  return "الاسم: " + name + " | السن: " + age + " سنة";
+}
+console.log(makeBio("أحمد عزت", 25));</textarea></div>
+        <button class="run-btn" onclick="run('ed9', 'out9')">👤 أنشئ ملف</button>
+        <div id="out9" class="output"></div>
+    </div>
+
+    <div class="section-card">
+        <h2>🛡️ حماية البيانات: لغز الـ Scope</h2>
+        <div class="detailed-explain">
+            ركز في الحتة دي عشان دي أهم تكة في المنهج التاني. المتغير اللي بيتعرف <b>جوه</b> الـ <code>{ }</code> بتاعة الدالة، بيتحبس جواها! 
+            <br>لو حاولت تستخدم <code>let per</code> بره الدالة، الكومبيوتر هيطلع لك Error ويقولك <b>"المتغير ده مش موجود"</b>. 
+            <br>النطاق ده اسمه <b>Scope</b>. 
+            <br><b>ليه بنعمل كدة؟</b> عشان نحمي بيانات كل دالة، ومفيش دالة تغير في بيانات دالة تانية بالغلظ.
+        </div>
+        
+        <span class="pro-note">💡 معلومة للمحترفين: دايماً سمي دوالك بأسماء أفعال (get, calculate, show) عشان كودك يكون مفهوم!</span>
+    </div>
+
+    <div style="text-align: center; margin-bottom: 80px;">
+        <a href="quiz_lesson_3.html" class="animate__animated animate__pulse animate__infinite" style="background: var(--neon-pink); color: white; padding: 30px 100px; border-radius: 100px; text-decoration: none; font-weight: 900; font-size: 2.8rem; display: inline-block; box-shadow: 0 0 50px var(--neon-pink);">🏆 انطلق لتحدي الـ 20 سؤال!</a>
+    </div>
+
 </div>
 
 <script>
-function celebrateAndSend() {
-    var name = document.getElementById("name").value;
-    var opinion = document.getElementById("opinion").value;
-    var msg = document.getElementById("message").value;
-
-    if (name === "") {
-        alert("اكتب اسمك يا بطل عشان أعرف مين بيكلمني!");
-        return;
+    function run(id, outId) {
+        const code = document.getElementById(id).value;
+        const out = document.getElementById(outId);
+        out.style.display = "block"; out.innerHTML = "";
+        const originalLog = console.log;
+        console.log = function(m) { out.innerHTML += "➔ " + m + "<br>"; };
+        try { eval(code); } catch(e) { out.innerHTML = "<span style='color:#ff3e3e'>❌ خطأ ميكروسكوبي: " + e.message + "</span>"; }
+        console.log = originalLog;
     }
-
-    // تشغيل القصاصات الملونة (تفاعلات بتطير)
-    confetti({
-        particleCount: 150,
-        spread: 70,
-        origin: { y: 0.6 }
-    });
-
-    // تجهيز رسالة الواتساب
-    var phone = "201003090216"; // اكتب رقمك هنا
-    var text = "يا بشمهندس أحمد.. أنا الطالب " + name + " 🔥%0a";
-    text += "خلصت الجزء اللي فات وجيت أقولك إنك " + opinion + "%0a%0a";
-    if(msg !== "") { text += "رسالتي ليك: " + msg + "%0a"; }
-    text += "%0aعارف إن الظروف ضاغطة بس مستنيين المنهج الجديد منك يا عالمي! 🚀";
-
-    // التحويل للواتساب بعد ثانية واحدة عشان يلحق يشوف الاحتفال
-    setTimeout(function() {
-        window.open("https://wa.me/" + phone + "?text=" + text, '_blank');
-    }, 1500);
-}
 </script>
 
 </body>

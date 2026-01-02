@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>تحدي المفاعل الحسابي | Ahmed Ezzat</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <style>
+        :root {
+            --neon-green: #00ff88;
+            --neon-pink: #ff007a;
+            --neon-blue: #00d4ff;
+            --glass: rgba(255, 255, 255, 0.9);
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            background-attachment: fixed;
+            margin: 0; padding: 20px; color: #fff; overflow-x: hidden;
+        }
+
+        .container { max-width: 900px; margin: 0 auto; }
+
+        .score-box {
+            position: fixed; top: 20px; left: 20px; background: white;
+            color: var(--neon-pink); padding: 10px 25px; border-radius: 50px;
+            font-weight: 900; z-index: 1000; box-shadow: 0 0 20px var(--neon-blue);
+            border: 3px solid var(--neon-pink);
+        }
+
+        .q-card {
+            background: var(--glass); backdrop-filter: blur(15px);
+            border-radius: 40px; padding: 40px; margin-bottom: 30px;
+            color: #1e272e; border: 3px solid var(--neon-blue);
+            display: none; box-shadow: 0 25px 50px rgba(0,0,0,0.4);
+        }
+        .q-card.active { display: block; animation: zoomIn 0.5s; }
+
+        .q-type { color: var(--neon-pink); font-weight: 900; font-size: 1rem; margin-bottom: 10px; display: block; }
+        .q-text { font-size: 1.6rem; font-weight: 800; margin-bottom: 25px; line-height: 1.5; }
+
+        .opt-grid { display: grid; gap: 12px; }
+        .opt-btn {
+            background: #fff; border: 2px solid #ddd; padding: 18px;
+            border-radius: 20px; color: #2d3436; font-size: 1.2rem;
+            font-weight: 700; cursor: pointer; transition: 0.3s; text-align: right;
+        }
+        .opt-btn:hover:not(:disabled) { border-color: var(--neon-blue); transform: scale(1.02); background: #f0faff; }
+        
+        .correct { background: var(--neon-green) !important; color: #000 !important; border-color: #fff !important; }
+        .wrong { background: var(--neon-pink) !important; color: #fff !important; animation: shakeX 0.5s; }
+
+        .explanation {
+            margin-top: 25px; padding: 20px; border-radius: 20px;
+            background: #fff9e6; border-right: 10px solid #feca57;
+            display: none; animation: fadeIn 0.5s; color: #333; font-weight: 600;
+        }
+
+        .next-btn {
+            background: #feca57; color: #000; border: none; padding: 15px 45px;
+            border-radius: 50px; font-weight: 900; cursor: pointer; margin-top: 30px;
+            font-size: 1.3rem; display: none; margin-right: auto; transition: 0.3s;
+        }
+        .next-btn:hover { transform: scale(1.1) rotate(2deg); }
+
+        .nav-controls { display: flex; gap: 20px; justify-content: center; margin-top: 50px; }
+        .nav-btn { padding: 15px 35px; border-radius: 50px; text-decoration: none; font-weight: 900; transition: 0.4s; }
+        .btn-home { background: #fff; color: var(--neon-blue); }
+        .btn-back { border: 3px solid #fff; color: #fff; }
+
+        footer { text-align: center; margin-top: 50px; font-weight: 900; font-size: 1.2rem; }
+    </style>
+</head>
+<body>
+
+<div class="score-box">النقاط: <span id="score">0</span> / 30</div>
+
+<div class="container">
+    <div style="text-align: center; margin-bottom: 40px;">
+        <h1 class="animate__animated animate__pulse animate__infinite" style="font-size: 3rem; text-shadow: 0 0 20px var(--neon-blue);">🌀 تحدي المفاعل الحسابي</h1>
+    </div>
+
+    <div id="quiz-container"></div>
+
+    <div id="finish-screen" style="display:none; text-align:center;">
+        <h2 style="font-size:4rem; color:#feca57;">🏆 أسطورة الحسابات!</h2>
+        <div id="final-res" style="font-size:2rem; margin:20px; color: white;"></div>
+        <div class="nav-controls">
+            <a href="lessons_term2.html" class="nav-btn btn-home">🏠 الرئيسية</a>
+            <a href="l2_4.html" class="nav-btn btn-back">⬅️ الدرس</a>
+        </div>
+    </div>
+</div>
+
+<footer>تم التصميم بواسطة <span style="color:var(--neon-blue)">Ahmed Ezzat</span> 💻 ✨</footer>
+
+<script>
+const questions = [
+    // 15 سؤال اختياري
+    {type: "choice", q: "أفضل أداة لتكرار عملية ضرب 100 مرة هي؟", o: ["if", "for", "&", "let"], c: 1, e: "الـ for هي الوحيدة اللي بتعرف تكرر العمليات الحسابية بدقة."},
+    {type: "choice", q: "ليه بنبدأ num بـ 1 مش 0 في الضرب؟", o: ["عشان أسرع", "عشان النتيجة متبقاش صفر", "لأن الصفر ممنوع", "عشان i=0 محجوز"], c: 1, e: "أي حاجة في صفر بصفر، فلو بدأنا بصفر المفاعل كله هيصفر!"},
+    {type: "choice", q: "نتيجة num بعد 3 لفات (num=num*2) والبداية 1؟", o: ["6", "4", "8", "2"], c: 2, e: "1*2=2، 2*2=4، 4*2=8.. 3 لفات بالظبط."},
+    {type: "choice", q: "لما نستخدم i جوه الحساب (num*i)، الـ i هنا بتعبر عن؟", o: ["رقم ثابت", "قيمة العداد المتغيرة", "اسم الدالة", "Error"], c: 1, e: "الـ i رقم حقيقي بيزيد كل لفة (1, 2, 3..)."},
+    {type: "choice", q: "شرط التوقف i <= 5 يعني الماكينة هتقف لما i تبقى؟", o: ["5", "6", "4", "10"], c: 1, e: "أول ما i تبقى 6، الشرط مش هيتحقق والماكينة تقفل."},
+    {type: "choice", q: "أي كود يحسب 4*4*4*4؟", o: ["num=0; num*4", "num=1; num*4", "num=1; num+4", "num=4; num+4"], c: 1, e: "لازم نبدأ بـ 1 ونكرر الضرب عشان نجيب الأسس."},
+    {type: "choice", q: "العملية num = num * i تسمى؟", o: ["جمع", "مضروب (تراكمي)", "قسمة", "طرح"], c: 1, e: "لأننا بنضرب النتيجة القديمة في العداد الجديد كل مرة."},
+    {type: "choice", q: "لو num=1 وضربنا في 3 أربع مرات، دي رياضيًا تعني؟", o: ["3+4", "3*4", "3^4 (أس 4)", "جذر 3"], c: 2, e: "الضرب المتكرر لنفس الرقم هو تعريف 'الأس' في الرياضة."},
+    {type: "choice", q: "ماذا يحدث لو حطينا console.log جوه الـ for؟", o: ["يطبع الناتج النهائي", "يطبع الخطوات لفة بلفة", "يطلع Error", "ميطبعش حاجة"], c: 1, e: "أي أمر جوه الأقواس { } بيتكرر في كل لفة."},
+    {type: "choice", q: "في الحساب i <= 10 والبداية i=1، الماكينة تلف كام مرة؟", o: ["9", "10", "11", "1"], c: 1, e: "من 1 لـ 10 شاملة الـ 10، يعني 10 مرات."},
+    {type: "choice", q: "لو i بدأت بـ 0 والشرط i < 0؟", o: ["تلف لفة", "مشتتغلش خالص", "تلف للأبد", "Error"], c: 1, e: "الشرط غلط من أول ثانية فمش هيدخل المفاعل أصلاً."},
+    {type: "choice", q: "ليه i++ مهمة في العمليات الحسابية؟", o: ["عشان تقفل الكود", "عشان العداد يزيد والشرط يتغير", "عشان تلون الكود", "ملهاش لازمة"], c: 1, e: "من غيرها العداد هيفضل ثابت والماكينة هتلف للأبد وتخرب الجهاز."},
+    {type: "choice", q: "الفرق بين num * 2 و num * i؟", o: ["مفيش فرق", "واحدة ثابتة والتانية متغيرة", "التانية غلط", "الأولى أبطأ"], c: 1, e: "الضرب في i بيخلي الحسبة ذكية وبتكبر مع كل لفة."},
+    {type: "choice", q: "نستخدم let i = 1 بدل 0 في المضروب عشان؟", o: ["الصفر بيصفر النتيجة", "الصفر أبطأ", "القانون كدة", "عشان i=1 أحلى"], c: 0, e: "صح! الضرب في صفر في أول لفة هيبوظ الحسبة كلها."},
+    {type: "choice", q: "في num = num * i الجزء اللي على الشمال هو؟", o: ["القديم", "الجديد اللي هيتخزن", "العداد", "الثابت"], c: 1, e: "دايماً الشمال في البرمجة هو 'المخزن' اللي بيستقبل النتيجة الجديدة."},
+
+    // 5 صح وغلط
+    {type: "choice", q: "صح أم خطأ: يمكن استخدام العداد i داخل المعادلات الحسابية كأنه رقم عادي.", o: ["صح", "خطأ"], c: 0, e: "طبعاً! الـ i متغير رقمي نقدر نضرب ونجمع فيه براحتنا."},
+    {type: "choice", q: "صح أم خطأ: البدء بـ let num = 0 في عملية الضرب يعطي نتيجة صحيحة.", o: ["صح", "خطأ"], c: 1, e: "خطأ! الصفر 'سم' لعمليات الضرب، بيموت النتيجة."},
+    {type: "choice", q: "صح أم خطأ: حلقة for تكرر العمليات الحسابية فقط ولا تستخدم للطباعة.", o: ["صح", "خطأ"], c: 1, e: "خطأ! الـ for بتكرر أي كود تكتبه جواها."},
+    {type: "choice", q: "صح أم خطأ: الشرط i <= 10 يعني أن الحلقة ستتوقف عند اللفة الحادية عشر.", o: ["صح", "خطأ"], c: 0, e: "صح! لأنها هتنفذ رقم 10 وتقف لما i تبقى 11."},
+    {type: "choice", q: "صح أم خطأ: يمكننا تغيير القيمة الابتدائية لـ i لتكون 100 مثلاً.", o: ["صح", "خطأ"], c: 0, e: "صح، إنت برنس الكود وتحدد البداية اللي تعجبك."},
+
+    // 10 تحديات تطبيقية
+    {type: "choice", q: "كود حساب مجموع الأرقام من 1 لـ 5 (1+2+3+4+5)؟", o: ["num=num*i", "num=num+i", "num=i", "num++"], c: 1, e: "في الجمع بنستخدم علامة + مش ضرب."},
+    {type: "choice", q: "لو عايز أضرب 5 في نفسها 3 مرات، الماكينة تكرر كام مرة؟", o: ["5", "3", "15", "1"], c: 1, e: "عدد مرات التكرار هو 'الأس'، اللي هو 3 هنا."},
+    {type: "choice", q: "الكود let num=1; for(i=1;i<3;i++){num=num*10} يطبع؟", o: ["10", "100", "1000", "0"], c: 1, e: "الماكينة هتلف مرتين (1 و 2)، يعني 10*10=100."},
+    {type: "choice", q: "في مضروب الأرقام، لو num بدأ بـ 1 و i بدأ بـ 1، اللفة التانية num بكام؟", o: ["1", "2", "3", "4"], c: 1, e: "اللفة 1 (1*1=1)، اللفة 2 (1*2=2)."},
+    {type: "choice", q: "لتنفيذ ضرب 4*4*4*4 الخطوات هي؟", o: ["num=1; i<4; num*4", "num=0; i<4; num*4", "num=1; i=4; num*4", "num=1; i<4; num+4"], c: 0, e: "نبدأ بـ 1، نلف 4 مرات، ونضرب في 4 كل مرة."},
+    {type: "choice", q: "ماذا يطبع الكود let n=1; for(i=1;i<=2;i++){n=n+i}؟", o: ["1", "3", "4", "2"], c: 2, e: "نبدأ بـ 1. لفة 1 (1+1=2). لفة 2 (2+2=4)."},
+    {type: "choice", q: "أي عداد i يخلي الماكينة تلف 10 مرات؟", o: ["i=0; i<10", "i=1; i<10", "i=0; i<=10", "i=10; i>10"], c: 0, e: "من 0 لـ 9 هما الـ 10 لفات بالظبط."},
+    {type: "choice", q: "لو num=2 وضربنا في i والـ i بدأت بـ 1، أول لفة num بكام؟", o: ["1", "2", "3", "4"], c: 1, e: "2 * 1 = 2."},
+    {type: "choice", q: "أداة لزيادة العداد 2 كل مرة؟", o: ["i++", "i += 2", "i = 2", "i + 2"], c: 1, e: "الاختصار += بيخليك تنط في العد."},
+    {type: "choice", q: "آخر سؤال: هل i++ بتتنفذ قبل ولا بعد الكود اللي جوه الـ for؟", o: ["قبل", "بعد", "في نفس الوقت", "مبتتنفذش"], c: 1, e: "بتتنفذ بعد ما يخلص الكود، عشان يجهز اللفة اللي بعدها."}
+];
+
+let currentQ = 0, score = 0;
+
+function loadQ() {
+    const container = document.getElementById('quiz-container');
+    container.innerHTML = "";
+    const d = questions[currentQ];
+    const card = document.createElement('div');
+    card.className = "q-card active";
+    card.innerHTML = `
+        <span class="q-type">${d.type === "choice" ? "سؤال ذكاء" : "تحدي تطبيق"}</span>
+        <div class="q-text">${d.q}</div>
+        <div class="opt-grid">${d.o.map((o, i) => `<button class="opt-btn" onclick="check(${i}, this)">${o}</button>`).join('')}</div>
+        <div id="expl" class="explanation"></div>
+        <button id="next" class="next-btn" onclick="next()">السؤال التالي ➡️</button>
+    `;
+    container.appendChild(card);
+}
+
+function check(idx, btn) {
+    const d = questions[currentQ];
+    const expl = document.getElementById('expl');
+    const btns = document.querySelectorAll('.opt-btn');
+    btns.forEach(b => b.disabled = true);
+    expl.style.display = "block";
+    if(idx === d.c) {
+        btn.classList.add('correct'); score++; celebrate();
+        expl.innerHTML = `✅ <b>عبقري!</b> ${d.e}`;
+    } else {
+        btn.classList.add('wrong'); btns[d.c].classList.add('correct');
+        expl.innerHTML = `❌ <b>ركز يا وحش..</b> الصح هو: ${d.o[d.c]} <br> ${d.e}`;
+    }
+    document.getElementById('score').innerText = score;
+    document.getElementById('next').style.display = "block";
+}
+
+function next() {
+    currentQ++;
+    if(currentQ < questions.length) loadQ();
+    else showFinish();
+}
+
+function celebrate() {
+    confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#ff007a', '#00d4ff', '#ffcc00'] });
+}
+
+function showFinish() {
+    document.getElementById('quiz-container').style.display = "none";
+    document.getElementById('finish-screen').style.display = "block";
+    document.getElementById('final-res').innerText = `جبت ${score} من ${questions.length} يا بطل المفاعل!`;
+}
+
+loadQ();
+</script>
+</body>
+</html>

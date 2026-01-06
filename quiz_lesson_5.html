@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>الاختبار النهائي: أسياد المصفوفات 🏆</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap');
+
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.9);
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --accent-color: #ff7675;
+            --success: #00b894;
+            --error: #d63031;
+        }
+
+        body {
+            background: #f0f2f5 url('https://www.transparenttextures.com/patterns/cubes.png');
+            font-family: 'Tajawal', sans-serif;
+            margin: 0; padding: 0;
+            color: #2d3436;
+        }
+
+        .container { max-width: 1000px; margin: 50px auto; padding: 20px; }
+
+        /* رأس الصفحة */
+        .quiz-header {
+            background: var(--primary-gradient);
+            color: white;
+            padding: 60px;
+            border-radius: 40px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            margin-bottom: 50px;
+            animation: fadeIn 1s ease;
+        }
+
+        /* كارت السؤال */
+        .q-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 40px;
+            margin-bottom: 40px;
+            border: 1px solid rgba(255,255,255,0.5);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            transform: translateY(0);
+            transition: 0.3s;
+        }
+
+        .q-card:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(0,0,0,0.1); }
+
+        .q-header { color: #636e72; font-size: 0.9rem; font-weight: bold; margin-bottom: 10px; }
+        .q-text { font-size: 1.4rem; font-weight: 700; margin-bottom: 25px; color: #2d3436; }
+        
+        .hint { background: #e1f5fe; padding: 15px; border-radius: 15px; font-size: 0.9rem; border-right: 5px solid #03a9f4; margin-bottom: 20px; }
+
+        /* خيارات الإجابة */
+        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .opt {
+            background: #fff;
+            border: 2px solid #eee;
+            padding: 15px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: bold;
+            text-align: center;
+        }
+        .opt:hover { border-color: #667eea; background: #f8faff; }
+
+        /* منطقة المقالي */
+        .essay-area { width: 100%; height: 120px; border-radius: 15px; border: 2px solid #ddd; padding: 15px; font-family: monospace; font-size: 1.1rem; margin-bottom: 15px; }
+        .feedback { font-weight: bold; margin: 10px 0; display: none; }
+
+        .btn {
+            background: var(--primary-gradient);
+            color: white; border: none; padding: 12px 30px; border-radius: 50px; cursor: pointer; font-weight: bold;
+        }
+
+        .sol-box { display: none; background: #2d3436; color: #55efc4; padding: 20px; border-radius: 15px; margin-top: 15px; direction: ltr; text-align: left; white-space: pre-wrap; }
+
+        /* أنيميشن */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="quiz-header">
+        <h1>🏆 الاختبار الشامل للمصفوفات (35 سؤال)</h1>
+        <p>ممنوع الدخول لغير المحترفين! اختبر علمك وعقلك.</p>
+    </div>
+    
+    <form id="quizForm">
+        <div id="multiple-choice-section"></div>
+
+        <div id="true-false-section"></div>
+
+        <div id="essay-section"></div>
+    </form>
+    <div class="nav-footer">
+    <div class="nav-container">
+        <a href="l2_5.html" class="nav-btn btn-lesson">
+            <span class="icon">📖</span>
+            <span class="text">الرجوع للدرس الخامس</span>
+        </a>
+
+        <a href="lessons_term2.html" class="nav-btn btn-home">
+            <span class="icon">🏠</span>
+            <span class="text">الصفحة الرئيسية</span>
+        </a>
+    </div>
+</div>
+
+<style>
+    .nav-footer {
+        margin-top: 60px;
+        padding: 40px 20px;
+        background: rgba(255, 255, 255, 0.5);
+        backdrop-filter: blur(10px);
+        border-top: 1px solid rgba(0,0,0,0.05);
+        border-radius: 40px 40px 0 0;
+    }
+
+    .nav-container {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        flex-wrap: wrap;
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+
+    .nav-btn {
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 15px 30px;
+        border-radius: 20px;
+        font-weight: bold;
+        color: white;
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+
+    /* ألوان الأزرار */
+    .btn-lesson { background: linear-gradient(135deg, #6c5ce7, #a29bfe); }
+    .btn-list { background: linear-gradient(135deg, #00b894, #55efc4); }
+    .btn-home { background: linear-gradient(135deg, #0984e3, #74b9ff); }
+
+    /* تأثيرات الحركة */
+    .nav-btn:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        filter: brightness(1.1);
+    }
+
+    .nav-btn .icon { font-size: 1.4rem; }
+    .nav-btn .text { font-size: 1.1rem; }
+
+    /* التكيف مع الموبايل */
+    @media (max-width: 600px) {
+        .nav-container { flex-direction: column; }
+        .nav-btn { justify-content: center; }
+    }
+</style>
+</div>
+
+<script>
+    // بيانات الأسئلة الاختيارية (15 سؤال)
+    const mcQuestions = [
+        { q: "ما هو الـ Index لأول عنصر في المصفوفة؟", options: ["0", "1", "-1", "لا يوجد"], correct: "0", hint: "تذكر أن البرمجة تبدأ العد من الصفر دايماً." },
+        { q: "كيف نصل لطول مصفوفة اسمها list؟", options: ["list.size", "list.length", "list.count", "list.index"], correct: "list.length", hint: "كلمة طول بالإنجليزية هي المفتاح." },
+        { q: "أي قوسين يستخدمان لتعريف المصفوفة؟", options: ["( )", "{ }", "[ ]", "< >"], correct: "[ ]", hint: "الأقواس المربعة هي بيت المصفوفة." },
+        { q: "ما ناتج [1,2][1]؟", options: ["1", "2", "undefined", "error"], correct: "2", hint: "العنصر الثاني مكانه 1." },
+        { q: "ماذا يحدث لو استدعينا index غير موجود؟", options: ["يعطي 0", "يعطي undefined", "ينفجر البرنامج", "يعطي error"], correct: "يعطي undefined", hint: "الجافا سكريبت لا تحب الـ Error هنا." },
+        { q: "كيف تضيف عنصر في مصفوفة (نظرياً)؟", options: ["push", "add", "insert", "plus"], correct: "push", hint: "تخيل أنك تدفع شيئاً للداخل." },
+        { q: "أي حلقة تكرار هي الأشهر مع المصفوفات؟", options: ["while", "for", "do while", "if"], correct: "for", hint: "المحرك الكلاسيكي." },
+        { q: "ماذا يفعل العداد i++ في حلقة الـ for؟", options: ["ينقص 1", "يزيد 1", "يضرب في 2", "لا يفعل شيء"], correct: "يزيد 1", hint: "الزيادة تجعلنا ننتقل للرف التالي." },
+        { q: "ما هي قيمة i الابتدائية لمسح مصفوفة كاملة؟", options: ["0", "1", "-1", "length"], correct: "0", hint: "نبدأ من أول رف." },
+        { q: "الدمج بين for و if يسمى؟", options: ["تكرار بسيط", "فلترة منطقية", "خطأ برمجى", "مصفوفة ثنائية"], correct: "فلترة منطقية", hint: "نحن نكرر لنبحث ونختار." },
+        { q: "لتكرار الكود بعدد عناصر المصفوفة نضع في الشرط؟", options: ["i < length", "i > length", "i = length", "i <= length"], correct: "i < length", hint: "لأن الـ index دايماً أصغر من الطول بواحد." },
+        { q: "المصفوفة يمكن أن تحتوي على؟", options: ["أرقام فقط", "نصوص فقط", "أي نوع بيانات", "صور فقط"], correct: "أي نوع بيانات", hint: "المصفوفة شنطة بتشيل أي حاجة." },
+        { q: "الكلمة المحجوزة لتعريف متغير مصفوفة؟", options: ["let", "array", "list", "var/let/const"], correct: "var/let/const", hint: "هي متغير عادي في النهاية." },
+        { q: "ناتج ['A','B'].length هو؟", options: ["1", "2", "0", "error"], correct: "2", hint: "عد العناصر كما هي." },
+        { q: "الوصول لآخر عنصر في مصفوفة arr؟", options: ["arr[length]", "arr[length-1]", "arr[1]", "arr[last]"], correct: "arr[length-1]", hint: "الطول ناقص واحد يعطيك آخر عنوان." }
+    ];
+
+    // بيانات صح وغلط (10 أسئلة)
+    const tfQuestions = [
+        { q: "المصفوفة تبدأ العد من 1.", correct: "غلط", hint: "راجع أول درس." },
+        { q: "حلقة for يمكنها العمل بدون مصفوفة.", correct: "صح", hint: "هي أداة تكرار عامة." },
+        { q: "الشرط (i < length) يمنع حدوث خطأ خارج النطاق.", correct: "صح", hint: "يحافظ على العداد داخل حدود المصفوفة." },
+        { q: "لا يمكن وضع جملة if داخل جملة for.", correct: "غلط", hint: "هذا هو أساس الذكاء البرمجى." },
+        { q: "المصفوفة [5, 10] طولها هو 2.", correct: "صح", hint: "عد العناصر." },
+        { q: "index العنصر الثالث هو 3.", correct: "غلط", hint: "0, 1, 2... الثالث هو 2." },
+        { q: "يمكن كتابة مصفوفة خالية [ ].", correct: "صح", hint: "شنطة فاضية عادي." },
+        { q: "الفواصل بين العناصر تكون ( ; ).", correct: "غلط", hint: "نستخدم الفاصلة العادية ( , )." },
+        { q: "i-- تستخدم للرجوع للخلف في المصفوفة.", correct: "صح", hint: "تنقص العداد." },
+        { q: "المصفوفات تساعد في تنظيم البيانات.", correct: "صح", hint: "هذا هو هدفها الأساسي." }
+    ];
+// بيانات المقالي المحدثة (10 أسئلة بتحديات محددة)
+    const essayQuestions = [
+        { 
+            q: "انشئ مصفوفة ثابتة اسمها 'galaxy' تحتوي على العناصر: 'Earth', 'Mars', 'Jupiter'.", 
+            keywords: ["const", "galaxy", "=", "[", "'Earth'", "'Mars'", "'Jupiter'", "]"], 
+            model: "const galaxy = ['Earth', 'Mars', 'Jupiter'];", 
+            hint: "يجب الالتزام باسم المصفوفة galaxy والعناصر بنفس الترتيب." 
+        },
+        { 
+            q: "لديك مصفوفة اسمها 'data'؛ اكتب كوداً يطبع العنصر الأخير فيها باستخدام خاصية length.", 
+            keywords: ["console.log", "data", "data.length", "-1", "]"], 
+            model: "console.log(data[data.length - 1]);", 
+            hint: "استخدام data[length-1] هو الطريقة الاحترافية للوصول للآخر." 
+        },
+        { 
+            q: "انشئ حلقة for تبدأ من i تساوي 0، وتنتهي عند i تساوي 100، وتزيد بمقدار 10 في كل لفة.", 
+            keywords: ["for", "let i = 0", "i <= 100", "i += 10"], 
+            model: "for (let i = 0; i <= 100; i += 10) { }", 
+            hint: "ركز في مقدار الزيادة، ليس i++ بل i += 10." 
+        },
+        { 
+            q: "باستخدام مصفوفة 'salaries'؛ اكتب حلقة تكرار تمر على كل العناصر واطبع القيمة فقط إذا كانت أكبر من 5000.", 
+            keywords: ["for", "salaries.length", "if", "salaries[i] > 5000", "console.log"], 
+            model: "for(let i=0; i < salaries.length; i++) {\n  if(salaries[i] > 5000) { console.log(salaries[i]); }\n}", 
+            hint: "أنت تحتاج لدمج for مع if بداخلها للفحص." 
+        },
+        { 
+            q: "أعلن عن متغير اسمه 'total' قيمته 0، ثم استخدم for لجمع قيم مصفوفة اسمها 'prices' بداخل هذا المتغير.", 
+            keywords: ["let total = 0", "for", "total +=", "prices[i]"], 
+            model: "let total = 0;\nfor(let i=0; i < prices.length; i++) {\n  total += prices[i];\n}", 
+            hint: "المتغير total يجب أن يجمع القيم باستخدام += داخل الحلقة." 
+        },
+        { 
+            q: "اكتب برنامجاً يفحص العنصر رقم [3] في مصفوفة 'scores'؛ إذا كان يساوي 100 اطبع 'Perfect Score'.", 
+            keywords: ["if", "scores[3]", "===", "100", "Perfect Score"], 
+            model: "if (scores[3] === 100) {\n  console.log('Perfect Score');\n}", 
+            hint: "المطلوب فحص عنصر محدد بالرقم (index 3) وليس المصفوفة كلها." 
+        },
+        { 
+            q: "باستخدام مصفوفة 'users'؛ اكتب حلقة for تبدأ من آخر عنصر في المصفوفة وتتحرك للخلف حتى أول عنصر (index 0).", 
+            keywords: ["for", "let i = users.length - 1", "i >= 0", "i--"], 
+            model: "for (let i = users.length - 1; i >= 0; i--) { }", 
+            hint: "هذا هو التكرار العكسي؛ نبدأ من الطول ناقص واحد وننقص العداد." 
+        },
+        { 
+            q: "لديك مصفوفة 'inventory'؛ اطبع 'Out of Stock' إذا كان طول المصفوفة يساوي 0.", 
+            keywords: ["if", "inventory.length", "===", "0", "Out of Stock"], 
+            model: "if (inventory.length === 0) {\n  console.log('Out of Stock');\n}", 
+            hint: "الفحص هنا يعتمد على خاصية الطول وليس العناصر." 
+        },
+        { 
+            q: "اكتب كوداً يمر على مصفوفة 'mixedData' ويطبع كلمة 'Found String' فقط إذا كان العنصر الحالي نوعه نصي (استخدم typeof).", 
+            keywords: ["for", "if", "typeof", "mixedData[i]", "===", "'string'"], 
+            model: "for(let i=0; i < mixedData.length; i++) {\n  if(typeof mixedData[i] === 'string') { console.log('Found String'); }\n}", 
+            hint: "استخدم typeof لفحص نوع البيانات داخل الشرط." 
+        },
+        { 
+            q: "لديك مصفوفة 'points'؛ اكتب برنامجاً يطبع 'High' إذا كان العنصر [0] أكبر من 50 و 'Low' إذا كان أصغر من أو يساوي 50.", 
+            keywords: ["if", "points[0] > 50", "else", "High", "Low"], 
+            model: "if (points[0] > 50) {\n  console.log('High');\n} else {\n  console.log('Low');\n}", 
+            hint: "استخدم if و else للفصل بين الحالتين للعنصر الأول." 
+        }
+    ];
+    // توليد الأسئلة الاختيارية
+    const mcSection = document.getElementById('multiple-choice-section');
+    mcQuestions.forEach((q, i) => {
+        mcSection.innerHTML += `
+            <div class="q-card">
+                <div class="q-header">سؤال اختياري - ${i+1} من 15</div>
+                <div class="hint">💡 شرح: ${q.hint}</div>
+                <div class="q-text">${q.q}</div>
+                <div class="options-grid">
+                    ${q.options.map(opt => `<div class="opt" onclick="checkMC(this, '${q.correct}')">${opt}</div>`).join('')}
+                </div>
+            </div>
+        `;
+    });
+
+    // توليد أسئلة صح وغلط
+    const tfSection = document.getElementById('true-false-section');
+    tfQuestions.forEach((q, i) => {
+        tfSection.innerHTML += `
+            <div class="q-card">
+                <div class="q-header">صح أم خطأ - ${i+1} من 10</div>
+                <div class="hint">💡 شرح: ${q.hint}</div>
+                <div class="q-text">${q.q}</div>
+                <div class="options-grid">
+                    <div class="opt" onclick="checkMC(this, '${q.correct}')">صح</div>
+                    <div class="opt" onclick="checkMC(this, '${q.correct}')">غلط</div>
+                </div>
+            </div>
+        `;
+    });
+
+    // توليد الأسئلة المقالية
+    const esSection = document.getElementById('essay-section');
+    essayQuestions.forEach((q, i) => {
+        esSection.innerHTML += `
+            <div class="q-card">
+                <div class="q-header">سؤال مقالي (كود) - ${i+1} من 10</div>
+                <div class="hint">💡 شرح المطلوب: ${q.hint}</div>
+                <div class="q-text">${q.q}</div>
+                <textarea class="essay-area" id="ans-${i}" placeholder="اكتب الكود هنا..."></textarea>
+                <button type="button" class="btn" onclick="checkEssay(${i})">تحقق من الحل</button>
+                <div id="feedback-${i}" class="feedback"></div>
+                <div id="sol-${i}" class="sol-box">${q.model}</div>
+            </div>
+        `;
+    });
+
+    // وظائف التحقق
+    function checkMC(el, correct) {
+        const parent = el.parentElement;
+        const options = parent.querySelectorAll('.opt');
+        options.forEach(o => o.style.pointerEvents = 'none');
+        
+        if(el.innerText === correct) {
+            el.style.background = '#00b894';
+            el.style.color = 'white';
+        } else {
+            el.style.background = '#d63031';
+            el.style.color = 'white';
+        }
+    }
+
+    function checkEssay(index) {
+        const userAns = document.getElementById(`ans-${index}`).value;
+        const feedback = document.getElementById(`feedback-${index}`);
+        const solBox = document.getElementById(`sol-${index}`);
+        const keywords = essayQuestions[index].keywords;
+        
+        let score = 0;
+        keywords.forEach(key => {
+            if(userAns.includes(key)) score++;
+        });
+
+        feedback.style.display = 'block';
+        if(score >= keywords.length / 2 && userAns.length > 5) {
+            feedback.innerHTML = "✅ إجابة جيدة! لقد فهمت المنطق.";
+            feedback.style.color = "#00b894";
+            solBox.style.display = 'block';
+        } else {
+            feedback.innerHTML = "❌ الإجابة غير دقيقة أو ناقصة. حاول مرة أخرى أو شاهد الحل.";
+            feedback.style.color = "#d63031";
+            solBox.style.display = 'block';
+        }
+    }
+</script>
+
+</body>
+</html>

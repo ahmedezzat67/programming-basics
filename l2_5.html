@@ -2,83 +2,367 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>رسالة من القلب | م. أحمد</title>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <title>الموسوعة العملاقة لهندسة المصفوفات 🚀</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; margin: 0; padding: 20px; color: #333; }
-        .card { background: white; padding: 40px; border-radius: 30px; box-shadow: 0 20px 50px rgba(0,0,0,0.3); max-width: 550px; width: 100%; text-align: center; position: relative; overflow: hidden; }
-        .card::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 10px; background: linear-gradient(to left, #00c6ff, #0072ff); }
-        h1 { color: #1e3c72; font-size: 28px; margin-bottom: 15px; }
-        .intro-text { font-size: 18px; color: #555; line-height: 1.8; margin-bottom: 25px; }
-        .form-box { background: #f9f9f9; padding: 20px; border-radius: 20px; text-align: right; }
-        label { font-weight: bold; display: block; margin-bottom: 10px; color: #1e3c72; }
-        input, select, textarea { width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 12px; margin-bottom: 20px; font-size: 16px; transition: 0.3s; }
-        input:focus, select:focus { border-color: #0072ff; outline: none; }
-        .btn-send { background: #25d366; color: white; border: none; padding: 18px; border-radius: 50px; cursor: pointer; font-size: 20px; font-weight: bold; width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 10px 20px rgba(37, 211, 102, 0.3); }
-        .btn-send:hover { background: #128c7e; transform: scale(1.02); }
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;500;700;900&display=swap');
+
+        :root {
+            --primary-blue: #0984e3;
+            --soft-blue: #e1f5fe;
+            --accent-orange: #ff7675;
+            --bg-light: #f7f9fc;
+            --card-white: #ffffff;
+            --text-gray: #636e72;
+            --text-dark: #2d3436;
+        }
+
+        body {
+            background: var(--bg-light);
+            color: var(--text-dark);
+            font-family: 'Tajawal', sans-serif;
+            margin: 0; padding: 0;
+            line-height: 2;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, var(--primary-blue), #6c5ce7);
+            color: white;
+            padding: 100px 20px;
+            text-align: center;
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+        }
+
+        .container { max-width: 1100px; margin: 0 auto; padding: 20px; }
+
+        .section-card {
+            background: var(--card-white);
+            border-radius: 30px;
+            padding: 50px;
+            margin-bottom: 50px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+            border: 1px solid #edf2f7;
+        }
+
+        h2 { color: var(--primary-blue); font-size: 2.5rem; border-bottom: 4px solid var(--soft-blue); padding-bottom: 10px; }
+        
+        .mega-explanation {
+            background: #fff;
+            border-right: 8px solid var(--primary-blue);
+            padding: 30px;
+            margin: 30px 0;
+            font-size: 1.25rem;
+            color: #444;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.02);
+        }
+
+        .code-block {
+            background: #1e272e;
+            color: #d2dae2;
+            padding: 30px;
+            border-radius: 20px;
+            direction: ltr;
+            text-align: left;
+            font-family: 'Consolas', monospace;
+            font-size: 1.15rem;
+            line-height: 1.6;
+            margin: 25px 0;
+            border-left: 10px solid var(--accent-orange);
+        }
+
+        .concept-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .concept-item {
+            background: var(--soft-blue);
+            padding: 25px;
+            border-radius: 20px;
+            border-top: 5px solid var(--primary-blue);
+        }
+
+        .example-box {
+            border: 2px solid #eee;
+            border-radius: 25px;
+            padding: 35px;
+            margin-bottom: 40px;
+            transition: 0.3s;
+        }
+
+        .example-box:hover { border-color: var(--primary-blue); background: #fcfcfc; }
+
+        .btn-action {
+            background: var(--primary-blue);
+            color: white; border: none;
+            padding: 15px 40px; border-radius: 50px;
+            font-weight: 900; cursor: pointer;
+            box-shadow: 0 10px 20px rgba(9, 132, 227, 0.2);
+        }
+
+        .btn-action:hover { transform: scale(1.05); background: #0773c5; }
+
+        .result-screen {
+            background: #2d3436;
+            color: #00ff00;
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+            font-family: monospace;
+            min-height: 40px;
+        }
+
+        footer { text-align: center; padding: 60px; color: var(--text-gray); }
+
     </style>
 </head>
 <body>
 
-<div class="card">
-    <h1>يا بطل.. أنت عملتها! 🏆</h1>
-    <p class="intro-text">
-        وصولك لهنا معناه إنك "وحش برمجة" حقيقي وخلصت شوط كبير. أنا حالياً بجهز لك باقي المنهج بتركيز عالي جداً.. 
-        <br><b>"الظروف ضاغطة شوية بس مكملين عشانك"</b> ❤️
-    </p>
+<div class="hero">
+    <h1>الموسوعة الكبرى لعلوم المصفوفات 🌀</h1>
+    <p>هنا هنشرح كل حرف.. ليه اتكتب؟ وراح فين؟ وجيه منين؟</p>
+</div>
 
-    <div class="form-box">
-        <label>إسمك اللي هيتكتب في لوحة الشرف:</label>
-        <input type="text" id="name" placeholder="اكتب اسمك يا هندسة...">
+<div class="container">
 
-        <label>إيه رأيك في رحلتنا مع بعض؟</label>
-        <select id="opinion">
-            <option value="شرحك غير حياتي وبسط لي المستحيل">شرحك غير حياتي وبسط لي المستحيل 💎</option>
-            <option value="أنت مش مجرد مدرس، أنت قدوة لينا">أنت مش مجرد مدرس، أنت قدوة لينا 🌟</option>
-            <option value="طريقتك في البرمجة ممتعة ومختلفة عن أي حد">طريقتك في البرمجة ممتعة ومختلفة عن أي حد 🚀</option>
-            <option value="فخور إني بتعلم على إيد بشمهندس زيك">فخور إني بتعلم على إيد بشمهندس زيك 👑</option>
-        </select>
+    <div class="section-card">
+        <h2>أولاً: لغز المصفوفة (The Array Mystery)</h2>
+        <div class="mega-explanation">
+            ليه بنحتاج المصفوفة أصلاً؟ تخيل إنك بتبني "صيدلية". هل هترمي كل علب الدواء في كيس واحد؟ مستحيل! لازم رفوف وكل رف ليه رقم. المصفوفة هي "رفوف الصيدلية" دي.
+            <br><br>
+            بدل ما تقول للكمبيوتر: "يا كمبيوتر احفظ لي درجة حرارة السبت في متغير، والأحد في متغير، والاتنين في متغير.." وتقعد تعمل 7 متغيرات، إنت بتعمل "شنطة واحدة" كبيرة اسمها <b>tempList</b> وتحدف فيها كل الأرقام.
+            <br><br>
+            <b>إيه اللي بيحصل في الذاكرة (الرامات)؟</b> لما بتعرف مصفوفة، الكمبيوتر بيروح يحجز "مساحة متصلة". يعني بيحط الأرقام لزق في بعض، وده بيخلي الكمبيوتر سريع جداً، لأنه لما بيعوز القيمة رقم 5، هو عارف إنها بعد البداية بـ 4 خطوات بالظبط.
+        </div>
 
-        <label>كلمة منك تشجعني أخلص لك المنهج الجديد:</label>
-        <textarea id="message" rows="3" placeholder="قولي أي حاجة في سرك..."></textarea>
+        
+
+        <div class="concept-grid">
+            <div class="concept-item">
+                <h3>📌 حكاية الـ Index (0)</h3>
+                الناس بتسأل: "ليه مش بنبدأ من 1؟". بص يا بطل، الـ Index في البرمجة معناه "المسافة من البداية". أول عنصر مكانه هو "البداية"، يعني المسافة (0). تاني عنصر بيبعد خطوة واحدة عن البداية، فبيبقى (1). وهكذا.
+            </div>
+            <div class="concept-item">
+                <h3>📌 سحر الـ .length</h3>
+                دي خاصية "قراءة فقط". الكمبيوتر بيحدثها لوحده كل ما تضيف عنصر. إحنا بنستخدمها عشان نكتب كود "ذكي" مش محتاج نعدله يدوي لو غيرنا حجم البيانات.
+            </div>
+        </div>
     </div>
 
-    <br>
-    <button class="btn-send" onclick="celebrateAndSend()">
-        إرسال ودخول لمجتمع المهندسين ✅
+    <div class="section-card">
+        <h2>ثانياً: التكرار والشرط.. الموتور والعقل ⚙️🧠</h2>
+        <div class="mega-explanation">
+            دلوقتي إحنا معانا المصفوفة (المخزن). عاوزين نعدي على كل رف ونفتش اللي جواه. 
+            <br><br>
+            1. <b>الـ For Loop:</b> هي "السير الكهربائي" أو "الموتور". وظيفتها إنها تكرر العملية بعدد مرات معين.
+            <br>
+            2. <b>المتغير i:</b> ده "العامل" اللي واقف على السير. كل مرة السير بيتحرك، i بتزيد 1، فبتشاور على الدرج اللي عليه الدور.
+            <br>
+            3. <b>الـ If Statement:</b> دي "العقل" اللي جوه العامل. هي اللي بتقول: "لو لقيت اللي في الدرج ده أكبر من 37.5.. طلع صوت إنذار".
+        </div>
+
+        
+
+        <div class="code-block">
+            // دي التركيبة السحرية اللي بتشغل أي سيستم في العالم:<br>
+            for (let i = 0; i < tempList.length; i++) { <br>
+            &nbsp;&nbsp;// الموتور بيبدأ من 0 وبيمشي لحد آخر المصفوفة<br><br>
+            &nbsp;&nbsp;if (tempList[i] >= 37.5) { <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;// التفتيش بيحصل هنا.. كل لفة بنفحص عنصر واحد<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;console.log("خطر!"); <br>
+            &nbsp;&nbsp;}<br>
+            }
+        </div>
+
+        <div class="mega-explanation">
+            <b>ليه i < tempList.length؟</b>
+            عشان لو المصفوفة فيها 5 عناصر، آخر واحد عنوانه (4). فإحنا بنقول للعداد: "افضل شغال طول ما إنت أصغر من 5"، يعني هيقف عند 4 ويخلص المهمة. لو خليتها (<=) البرنامج هيحاول يفتح درج مش موجود (رقم 5) والسيستم يضرب!
+        </div>
+    </div>
+
+    <div class="section-card">
+        <h2>ثالثاً: تطبيقات عملية (نظام 4×4) 🛠️</h2>
+        <p>هنطبق دلوقتي المنظومة دي في 4 مجالات مختلفة عشان تشوف "الرغي" ده بيتحول لفلوس وشغل إزاي:</p>
+
+        <div class="example-box">
+            <h3>1️⃣ نظام الرعاية الصحية 🏥</h3>
+            <p>الشرح: عندنا قائمة حرارة المرضى، وعاوزين نعرف مين اللي حالته حرجة فوراً.</p>
+            <div class="code-block">
+                let patients = [36.5, 39, 36.8, 38.2, 37];<br>
+                // الموتور هيلف 5 مرات<br>
+                for(let i=0; i < patients.length; i++) {<br>
+                &nbsp;&nbsp;if(patients[i] >= 38) { // لو الحرارة 38 أو أكتر<br>
+                &nbsp;&nbsp;&nbsp;&nbsp; alert("مريض رقم " + i + " حالته حرجة!");<br>
+                &nbsp;&nbsp;}<br>
+                }
+            </div>
+            <button class="btn-action" onclick="run1()">تفعيل فحص المرضى</button>
+            <div id="out1" class="result-screen"></div>
+        </div>
+
+        <div class="example-box">
+            <h3>2️⃣ نظام كاشير السوبر ماركت 🛒</h3>
+            <p>الشرح: بنلف على كل المنتجات في "العربية"، واللي سعره غالي بنقترح عليه تقسيط.</p>
+            <div class="code-block">
+                let cart = [20, 500, 150, 40, 1000];<br>
+                for(let i=0; i < cart.length; i++) {<br>
+                &nbsp;&nbsp;if(cart[i] > 300) { // أي منتج أغلى من 300 جنيه<br>
+                &nbsp;&nbsp;&nbsp;&nbsp; console.log("منتج متاح للتقسيط");<br>
+                &nbsp;&nbsp;}<br>
+                }
+            </div>
+            <button class="btn-action" onclick="run2()">حساب التقسيط</button>
+            <div id="out2" class="result-screen"></div>
+        </div>
+
+        <div class="example-box">
+            <h3>3️⃣ نظام كنترول المدارس 🎓</h3>
+            <p>الشرح: بنلف على درجات الفصل، واللي جايب ملحق (أقل من 50) بنسجل اسمه للمراجعة.</p>
+            <div class="code-block">
+                let grades = [80, 40, 95, 30, 70];<br>
+                for(let i=0; i < grades.length; i++) {<br>
+                &nbsp;&nbsp;if(grades[i] < 50) {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp; console.log("يحتاج دور ثان");<br>
+                &nbsp;&nbsp;}<br>
+                }
+            </div>
+            <button class="btn-action" onclick="run3()">بدء التصحيح</button>
+            <div id="out3" class="result-screen"></div>
+        </div>
+
+        <div class="example-box">
+            <h3>4️⃣ نظام إدارة مخازن الألعاب 👾</h3>
+            <p>الشرح: بنشوف "كمية" كل لعبة في المخزن، ولو الكمية 0 نبعت طلب شراء جديد.</p>
+            <div class="code-block">
+                let stock = [10, 0, 5, 0, 12];<br>
+                for(let i=0; i < stock.length; i++) {<br>
+                &nbsp;&nbsp;if(stock[i] === 0) {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp; console.log("اللعبة رقم " + i + " خلصت!");<br>
+                &nbsp;&nbsp;}<br>
+                }
+            </div>
+            <button class="btn-action" onclick="run4()">فحص المخازن</button>
+            <div id="out4" class="result-screen"></div>
+        </div>
+    </div>
+    <div style="text-align: center; margin: 80px 0;">
+    <button class="btn-action" id="mega-btn" onclick="toggleDeepDive()" style="background: var(--accent-orange); font-size: 1.5rem; padding: 20px 60px;">
+        ✨ اضغط هنا لشرح تفصيلي أكتر وأكتر (للمحترفين فقط) ✨
     </button>
 </div>
 
+<div id="deep-dive-section" class="section-card" style="display: none; border: 5px solid var(--primary-blue); background: #fffcf5;">
+    <h2 style="color: var(--accent-orange);">🔬 المختبر التحليلي: ليه الكود ده بيشتغل كدة؟</h2>
+    
+    <div class="mega-explanation">
+        <h3>1. المصفوفة من وجهة نظر المعالج (CPU)</h3>
+        بص يا هندسة، إنت لما بتكتب <code>let x = [10, 20]</code>، المعالج مش بيشوفها أرقام وبس. هو بيروح للذاكرة العشوائية (RAM) ويقولها: "أنا محتاج مكان لمتغير نوعه مصفوفة". الـ RAM بتديله عنوان البداية (مثلاً عنوان رقم 1000). 
+        <br>
+        لما بتيجي تنادي على <code>x[1]</code>، المعالج بيعمل عملية حسابية سريعة: <b>(عنوان البداية + (رقم الرف × حجم الداتا))</b>. 
+        <br>
+        عشان كدة المصفوفة هي أسرع وسيلة تخزين، لأن الوصول لأي عنصر فيها بياخد نفس الوقت، سواء كان العنصر رقم 1 أو رقم مليون!
+    </div>
+
+    
+
+    <div class="mega-explanation">
+        <h3>2. سيكولوجية حلقة الـ For Loop</h3>
+        ليه بنكتب التلات حاجات اللي بين الأقواس؟ 
+        <ul>
+            <li><b>الجزء الأول (Initialization):</b> ده بيشتغل "مرة واحدة بس" في العمر، أول ما الموتور يقوم.</li>
+            <li><b>الجزء الثاني (Condition):</b> ده "بوابة العبور". الكمبيوتر بيشيك عليه <b>قبل</b> ما ينفذ أي كود جوه الـ Loop. لو الشرط غلط من البداية، الموتور مش هيدور أصلاً.</li>
+            <li><b>الجزء الثالث (Final-expression):</b> ده بيشتغل "بعد" ما الكود اللي جوه يتنفذ. يعني إنت بتخلص المهمة، وبعدين تطلع تزود العداد عشان اللفة اللي بعدها.</li>
+        </ul>
+    </div>
+
+    <div class="mega-explanation">
+        <h3>3. عبقرية الـ If جوه الـ For (The Filter Logic)</h3>
+        ليه الطريقة دي هي اللي بنبني بيها برامج البحث (Search Engines)؟
+        لأنك فعلياً بتعمل "قوة غاشمة" (Brute Force) بتمسح بيها كل الاحتمالات. الـ For بتضمن إن مفيش ولا بيان هيهرب، والـ If هي "الفلتر الكيميائي" اللي بيطلع الشوائب.
+        <br><br>
+        تخيل لو بتعمل "فلترة" لصور مشبوهة على الفيسبوك؛ البرنامج بيلف على ملايين الصور (Loop) وبيدخل كل صورة على ذكاء اصطناعي (If) عشان يقرر هي مخالفة ولا لأ. هي دي نفس الفكرة بالظبط بس على صغير.
+    </div>
+
+    <div class="mega-explanation">
+        <h3>4. يعني إيه "نطاق العداد" (Scope of i)؟</h3>
+        المتغير <code>i</code> اللي بنعرفه جوه الـ For، بيموت أول ما الـ For تخلص. ده معناه إنك ممكن تستخدم نفس الاسم <code>i</code> في 100 Loop تانية في نفس الصفحة من غير ما يضربوا في بعض. الكمبيوتر بيعتبر <code>i</code> دي "موظف مؤقت" لمهمة محددة وبينتهي عقده بانتهاء المهمة.
+    </div>
+
+    <div style="text-align: center;">
+        <p><b>مبروك! إنت دلوقتي وصلت ليفل "المهندس" اللي فاهم الكود بيتنفس إزاي.</b></p>
+    </div>
+</div>
+<div style="text-align: center; margin: 100px 0; padding: 40px; background: #fff; border-radius: 30px; box-shadow: 0 -10px 30px rgba(0,0,0,0.02);">
+    <h2 style="color: var(--text-dark); margin-bottom: 20px;">جاهز تثبت إنك بقيت "وحش مصفوفات"؟ 🦁</h2>
+    <p style="color: var(--text-gray); margin-bottom: 30px; font-size: 1.2rem;">
+        بعد ما رغينا كتير وفهمنا المصفوفة والـ For والـ If.. جه وقت التحدي الحقيقي.
+    </p>
+    
+    <a href="quiz_lesson_5.html" style="text-decoration: none;">
+        <button class="btn-action" style="background: linear-gradient(135deg, #00b894, #55efc4); color: white; font-size: 1.8rem; padding: 25px 80px; border: none; border-radius: 100px; cursor: pointer; box-shadow: 0 15px 35px rgba(0, 184, 148, 0.3); transition: 0.3s; font-weight: 900;">
+            📝 ابدأ الاختبار الآن
+        </button>
+    </a>
+    
+    <p style="margin-top: 20px; color: var(--accent-pink); font-weight: bold;">
+        تنبيه: لا يدخل الاختبار إلا العباقرة! 🧠
+    </p>
+    
+<footer>
+    <p>تم بحمد الله.. مصفوفات، تكرار، وشروط. إنت الآن مبرمج فاهم مش حافظ!</p>
+</footer>
+
+</div>
+
+</div>
+
 <script>
-function celebrateAndSend() {
-    var name = document.getElementById("name").value;
-    var opinion = document.getElementById("opinion").value;
-    var msg = document.getElementById("message").value;
-
-    if (name === "") {
-        alert("اكتب اسمك يا بطل عشان أعرف مين بيكلمني!");
-        return;
+    function run1() {
+        let p = [36.5, 39, 36.8, 38.2, 37];
+        let res = "";
+        for(let i=0; i<p.length; i++) {
+            if(p[i] >= 38) res += `🚨 مريض #${i} (حرارته ${p[i]}) - استدعاء طبيب!<br>`;
+        }
+        document.getElementById('out1').innerHTML = res;
     }
-
-    // تشغيل القصاصات الملونة (تفاعلات بتطير)
-    confetti({
-        particleCount: 150,
-        spread: 70,
-        origin: { y: 0.6 }
-    });
-
-    // تجهيز رسالة الواتساب
-    var phone = "201003090216"; // اكتب رقمك هنا
-    var text = "يا بشمهندس أحمد.. أنا الطالب " + name + " 🔥%0a";
-    text += "خلصت الجزء اللي فات وجيت أقولك إنك " + opinion + "%0a%0a";
-    if(msg !== "") { text += "رسالتي ليك: " + msg + "%0a"; }
-    text += "%0aعارف إن الظروف ضاغطة بس مستنيين المنهج الجديد منك يا عالمي! 🚀";
-
-    // التحويل للواتساب بعد ثانية واحدة عشان يلحق يشوف الاحتفال
-    setTimeout(function() {
-        window.open("https://wa.me/" + phone + "?text=" + text, '_blank');
-    }, 1500);
+    function run2() {
+        let c = [20, 500, 150, 40, 1000];
+        let res = "";
+        for(let i=0; i<c.length; i++) {
+            if(c[i] > 300) res += `💳 المنتج بـ ${c[i]} جنيه.. متاح تقسيط على 12 شهر.<br>`;
+        }
+        document.getElementById('out2').innerHTML = res;
+    }
+    function run3() {
+        let g = [80, 40, 95, 30, 70];
+        let res = "";
+        for(let i=0; i<g.length; i++) {
+            if(g[i] < 50) res += `❌ درجة ${g[i]}.. الطالب راسب في الاختبار.<br>`;
+        }
+        document.getElementById('out3').innerHTML = res;
+    }
+    function run4() {
+        let s = [10, 0, 5, 0, 12];
+        let res = "";
+        for(let i=0; i<s.length; i++) {
+            if(s[i] === 0) res += `📦 الرف رقم ${i} فاضي.. محتاجين نطلب بضاعة.<br>`;
+        }
+        document.getElementById('out4').innerHTML = res;
+    }
+    function toggleDeepDive() {
+    const section = document.getElementById('deep-dive-section');
+    const btn = document.getElementById('mega-btn');
+    
+    if (section.style.display === "none") {
+        section.style.display = "block";
+        btn.innerText = "🔼 إغلاق الشرح التفصيلي";
+        // عمل انزلاق (Scroll) تلقائي لمنطقة الشرح
+        section.scrollIntoView({ behavior: 'smooth' });
+    } else {
+        section.style.display = "none";
+        btn.innerText = "✨ اضغط هنا لشرح تفصيلي أكتر وأكتر (للمحترفين فقط) ✨";
+    }
 }
 </script>
 

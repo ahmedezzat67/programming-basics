@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>الاختبار النهائي: أسياد for...of 🚀</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap");
+
+      :root {
+        --primary: #6c5ce7;
+        --secondary: #00cec9;
+        --success: #00b894;
+        --error: #d63031;
+        --bg: #f0f3f7;
+      }
+
+      body {
+        background: var(--bg);
+        font-family: "Tajawal", sans-serif;
+        margin: 0;
+        padding: 0;
+        color: #2d3436;
+      }
+
+      .container {
+        max-width: 900px;
+        margin: 40px auto;
+        padding: 20px;
+      }
+
+      .header {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: white;
+        padding: 50px 20px;
+        border-radius: 40px;
+        text-align: center;
+        margin-bottom: 40px;
+        box-shadow: 0 20px 40px rgba(108, 92, 231, 0.2);
+      }
+
+      .q-card {
+        background: white;
+        padding: 35px;
+        border-radius: 30px;
+        margin-bottom: 30px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+        border: 1px solid rgba(0, 0, 0, 0.03);
+        transition: 0.3s;
+      }
+
+      .q-header {
+        color: #636e72;
+        font-size: 0.9rem;
+        font-weight: bold;
+        margin-bottom: 15px;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 10px;
+      }
+      .q-text {
+        font-size: 1.4rem;
+        font-weight: 900;
+        margin-bottom: 25px;
+        line-height: 1.5;
+      }
+
+      .options {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+      }
+
+      .opt {
+        padding: 18px;
+        border: 2px solid #eee;
+        border-radius: 18px;
+        cursor: pointer;
+        transition: 0.3s;
+        font-weight: 700;
+        text-align: center;
+        font-size: 1.1rem;
+        background: #fff;
+      }
+
+      .opt:hover {
+        border-color: var(--primary);
+        background: #f8f8ff;
+        transform: translateY(-2px);
+      }
+
+      .explanation {
+        display: none;
+        margin-top: 25px;
+        padding: 20px;
+        border-radius: 20px;
+        line-height: 1.7;
+        font-size: 1.1rem;
+        animation: slideDown 0.4s ease forwards;
+      }
+
+      .exp-correct {
+        background: #e6f9f5;
+        border-right: 6px solid var(--success);
+        color: #006b56;
+      }
+      .exp-wrong {
+        background: #fff5f5;
+        border-right: 6px solid var(--error);
+        color: #822727;
+      }
+
+      .essay-area {
+        width: 100%;
+        height: 140px;
+        border-radius: 20px;
+        border: 2px solid #ddd;
+        padding: 15px;
+        font-family: "Consolas", monospace;
+        font-size: 1.1rem;
+        margin-top: 10px;
+        direction: ltr;
+        background: #2d3436;
+        color: #fab1a0;
+        box-sizing: border-box;
+      }
+
+      .btn {
+        background: var(--primary);
+        color: white;
+        border: none;
+        padding: 15px 30px;
+        border-radius: 50px;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 1.1rem;
+        margin-top: 20px;
+        width: 100%;
+        transition: 0.3s;
+      }
+      .btn:hover {
+        background: #5649c1;
+        box-shadow: 0 5px 15px rgba(108, 92, 231, 0.3);
+      }
+
+      .sol-box {
+        display: none;
+        background: #1e272e;
+        color: #55efc4;
+        padding: 25px;
+        border-radius: 20px;
+        margin-top: 20px;
+        direction: ltr;
+        white-space: pre-wrap;
+        font-family: "Consolas", monospace;
+        border-left: 5px solid var(--success);
+      }
+
+      .nav-container {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin-top: 50px;
+        flex-wrap: wrap;
+      }
+      .nav-btn {
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 15px 25px;
+        border-radius: 20px;
+        font-weight: bold;
+        color: white;
+        transition: 0.3s;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      }
+      .btn-lesson {
+        background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+      }
+      .btn-home {
+        background: linear-gradient(135deg, #0984e3, #74b9ff);
+      }
+      .nav-btn:hover {
+        transform: translateY(-5px);
+        filter: brightness(1.1);
+      }
+
+      @keyframes slideDown {
+        from {
+          opacity: 0;
+          transform: translateY(-15px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @media (max-width: 600px) {
+        .options {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>🏆 الاختبار الشامل للدرس السادس</h1>
+        <p>احتراف حلقات for...of والفلترة الذكية (35 سؤال)</p>
+      </div>
+
+      <div id="quiz-content"></div>
+
+      <div class="nav-container">
+        <a href="l2_6.html" class="nav-btn btn-lesson">
+          <span class="icon">📖</span>
+          <span class="text">الرجوع للدرس السادس</span>
+        </a>
+
+        <a href="lessons_term2.html" class="nav-btn btn-home">
+          <span class="icon">🏠</span>
+          <span class="text">الصفحة الرئيسية</span>
+        </a>
+      </div>
+    </div>
+
+    <script>
+      const questions = [
+        // --- 15 سؤال اختيار من متعدد (MC) ---
+        {
+          type: "mc",
+          q: "ماذا يمثل المتغير 'x' في الكود: for(let x of list)؟",
+          opts: [
+            "رقم الاندكس",
+            "القيمة الفعلية للعنصر",
+            "طول المصفوفة",
+            "اسم المصفوفة",
+          ],
+          correct: "القيمة الفعلية للعنصر",
+          exp: "الإجابة الصح هي 'القيمة الفعلية'. في حلقة for...of، المتغير x بيجيب المحتوى اللي جوه الرف علطول، مش رقم الرف.",
+        },
+        {
+          type: "mc",
+          q: "أي كلمة نستخدمها للربط بين المتغير والمصفوفة في المحرك السحري؟",
+          opts: ["in", "at", "of", "with"],
+          correct: "of",
+          exp: "بنستخدم 'of' لأنها بتعني 'من داخل'. كلمة 'in' بتستخدم لجلب الاندكس في أنواع تانية من الحلقات.",
+        },
+        {
+          type: "mc",
+          q: "إذا كانت المصفوفة فارغة []، كم مرة ستعمل حلقة for...of؟",
+          opts: ["مرة واحدة", "صفر", "عدد لا نهائي", "تعطي Error"],
+          correct: "صفر",
+          exp: "المحرك السحري ذكي جداً، لو لقى المصفوفة فاضية مش هيدخل يلف أصلاً وهيوفر وقت الجهاز.",
+        },
+        {
+          type: "mc",
+          q: "ما هو ناتج جمع مصفوفة [2, 3] باستخدام for...of؟",
+          opts: ["23", "5", "6", "Error"],
+          correct: "5",
+          exp: "صح! الحلقة بتجمع 2 + 3 والناتج الحسابي بيكون 5.",
+        },
+        {
+          type: "mc",
+          q: "لماذا نفضل for...of في عرض بيانات المستخدمين؟",
+          opts: [
+            "أسرع في البرمجة",
+            "أقل في عدد الحروف",
+            "تتجنب أخطاء الاندكس",
+            "كل ما سبق",
+          ],
+          correct: "كل ما سبق",
+          exp: "فعلاً كل المميزات دي موجودة، هي بتخلي الكود نظيف (Clean Code) وبتحميك من غلطة العد اليدوي.",
+        },
+        {
+          type: "mc",
+          q: "في الكود for(let char of 'JS')، ماذا ستكون قيمة char في أول لفة؟",
+          opts: ["J", "S", "0", "JS"],
+          correct: "J",
+          exp: "تمام، لأن for...of بتعامل الكلمات كأنها مصفوفة حروف، وبتبدأ بأول حرف اللي هو J.",
+        },
+        {
+          type: "mc",
+          q: "كيف نتوقف عن استكمال حلقة for...of عند الوصول لقيمة معينة؟",
+          opts: ["exit", "stop", "break", "end"],
+          correct: "break",
+          exp: "كلمة break هي اللي بتكسر الحلقة وتخلي البرنامج يخرج منها فوراً.",
+        },
+        {
+          type: "mc",
+          q: "أي حلقة تستخدم إذا كنت (مضطراً) لمعرفة رقم الاندكس لكل عنصر؟",
+          opts: ["for...of", "for التقليدية", "while", "لا شيء مما سبق"],
+          correct: "for التقليدية",
+          exp: "صح! لو محتاج 'رقم الرف' يبقى ترجع للـ for الكلاسيكية، لأن for...of معمولة للقيم بس.",
+        },
+        {
+          type: "mc",
+          q: "ماذا يحدث إذا كتبت const بدلاً من let في for(const x of list)؟",
+          opts: [
+            "يعطي Error",
+            "يعمل بشكل طبيعي",
+            "يطبع أول عنصر فقط",
+            "يتوقف المتصفح",
+          ],
+          correct: "يعمل بشكل طبيعي",
+          exp: "بيشتغل عادي جداً، لأن المتغير x بيتخلق من جديد في كل لفة بقيمة جديدة، وده أسلوب آمن في البرمجة.",
+        },
+        {
+          type: "mc",
+          q: "إذا كان لديك مصفوفة نصوص، كيف تطبع طول كل نص باستخدام for...of؟",
+          opts: ["x.length", "list.length", "length(x)", "x.size"],
+          correct: "x.length",
+          exp: "بما إن x هو النص نفسه، يبقى x.length هتجيب لك عدد حروفه في كل لفة.",
+        },
+        {
+          type: "mc",
+          q: "ما هي مخرجات الكود: for(let n of [1, 2]) { console.log(n + 1); }؟",
+          opts: ["1, 2", "2, 3", "3, 4", "12"],
+          correct: "2, 3",
+          exp: "بالظبط، المحرك بياخد 1 يزود عليها 1 تبقى 2، وبعدين ياخد 2 يزود عليها 1 تبقى 3.",
+        },
+        {
+          type: "mc",
+          q: "المتغير الذي نعرفه في for...of يسمى متغير:",
+          opts: ["عام", "ثابت", "محلي (مؤقت)", "عالمي"],
+          correct: "محلي (مؤقت)",
+          exp: "صح، لأنه بيعيش جوه الأقواس بتاعت الحلقة بس، وأول ما الحلقة تخلص بيموت ويتمسح من الذاكرة.",
+        },
+        {
+          type: "mc",
+          q: "أي نوع من الأقواس يستخدم لتعريف مصفوفة البيانات التي ستلف عليها الحلقة؟",
+          opts: ["( )", "{ }", "[ ]", "< >"],
+          correct: "[ ]",
+          exp: "الأقواس المربعة [ ] هي البيت الأساسي للمصفوفات في الجافا سكريبت.",
+        },
+        {
+          type: "mc",
+          q: "ما هو الترتيب الذي تتبعه for...of في المرور على العناصر؟",
+          opts: [
+            "عشوائي",
+            "من النهاية للبداية",
+            "من البداية للنهاية",
+            "حسب حجم البيانات",
+          ],
+          correct: "من البداية للنهاية",
+          exp: "بتمشي بالترتيب الطبيعي للمصفوفة، بتبدأ من أول عنصر (اندكس 0) لحد الآخر.",
+        },
+        {
+          type: "mc",
+          q: "تطبيق 'رادار الحرارة' يعتمد أساساً على دمج for...of مع:",
+          opts: ["Math.random", "if statement", "prompt", "alert"],
+          correct: "if statement",
+          exp: "الرادار يعني 'فحص'، وعشان تفحص أي قيمة محتاج جملة if الشرطية جوه الحلقة.",
+        },
+
+        // --- 10 أسئلة صح وغلط (TF) ---
+        {
+          type: "tf",
+          q: "حلقة for...of يمكنها تعديل قيم المصفوفة الأصلية مباشرة.",
+          correct: "غلط",
+          exp: "غلط! المتغير x بياخد نسخة من القيمة بس. لو غيرت x المصفوفة الأصلية بتفضل زي ما هي.",
+        },
+        {
+          type: "tf",
+          q: "يمكن استخدام for...of للمرور على حروف الكلمات (Strings).",
+          correct: "صح",
+          exp: "صح! الكلمات بتتعامل كأنها مصفوفة حروف والمحرك بيمشي عليها حرف حرف.",
+        },
+        {
+          type: "tf",
+          q: "في for...of، نحن بحاجة لكتابة مقدار الزيادة مثل i++ يدويًا.",
+          correct: "غلط",
+          exp: "غلط! ده سحر المحرك إنه بيمشي لوحده للخطوة اللي بعدها أوتوماتيك.",
+        },
+        {
+          type: "tf",
+          q: "الشرط (i < list.length) يكتب داخل أقواس for...of.",
+          correct: "غلط",
+          exp: "غلط! إحنا مبنكتبش شروط خالص في for...of، هي بتعرف لوحدها المصفوفة بتخلص فين.",
+        },
+        {
+          type: "tf",
+          q: "المتغير المؤقت في for...of يمكن تسميته بأي اسم (مثل item أو x).",
+          correct: "صح",
+          exp: "صح، سميه زي ما تحب بس خليه اسم معبر عشان تفهم كودك.",
+        },
+        {
+          type: "tf",
+          q: "حلقة for...of تعمل فقط مع المصفوفات التي تحتوي على أرقام.",
+          correct: "غلط",
+          exp: "غلط! بتشتغل مع أي حاجة: نصوص، أرقام، ألوان، أو حتى مصفوفات تانية.",
+        },
+        {
+          type: "tf",
+          q: "استخدام for...of يقلل من احتمالية حدوث Infinite Loop (حلقة لا نهائية).",
+          correct: "صح",
+          exp: "صح جداً، لأنها مرتبطة بعناصر موجودة فعلياً، فمستحيل تلف للأبد لو المصفوفة منتهية.",
+        },
+        {
+          type: "tf",
+          q: "الجملة البرمجية (of) هي المسؤولة عن جلب القيمة وليس الاندكس.",
+          correct: "صح",
+          exp: "بالظبط! كلمة 'of' هي الكوبري اللي بيعدي عليه 'المحتوى' بتاع الرف.",
+        },
+        {
+          type: "tf",
+          q: "يمكن وضع حلقة for...of داخل حلقة for...of أخرى.",
+          correct: "صح",
+          exp: "صح، وبنسميها Nested Loops وبنستخدمها لما بنحب نلف على مصفوفات جوه مصفوفات.",
+        },
+        {
+          type: "tf",
+          q: "كلمة for...of تعتبر إضافة حديثة نسبياً في لغة الجافا سكريبت (ES6).",
+          correct: "صح",
+          exp: "صح! هي من التحديثات اللي خلت الجافا سكريبت لغة متطورة وسهلة.",
+        },
+
+        // --- 10 تحديات برمجية مقالية (Essay) ---
+        {
+          type: "essay",
+          q: "لديك مصفوفة names؛ اكتب حلقة for...of تطبع كل اسم في الكونسول.",
+          model: "for(let name of names) {\n  console.log(name);\n}",
+          keys: ["for", "of", "console.log"],
+          exp: "برافو! الكود ده بيمشي على كل اسم ويطبعه.",
+        },
+        {
+          type: "essay",
+          q: "باستخدام for...of؛ اطبع 'ناجح' إذا كانت القيمة في مصفوفة grades أكبر من 50.",
+          model:
+            "for(let score of grades) {\n  if(score > 50) { console.log('ناجح'); }\n}",
+          keys: ["for", "of", "if", "> 50"],
+          exp: "ممتاز، دمجت الحلقة مع الشرط وده أساس 'الفلترة الذكية'.",
+        },
+        {
+          type: "essay",
+          q: "لديك مصفوفة nums؛ احسب مجموع عناصرها في متغير اسمه sum باستخدام for...of.",
+          model: "let sum = 0;\nfor(let n of nums) {\n  sum += n;\n}",
+          keys: ["sum = 0", "for", "of", "+="],
+          exp: "تفكير سليم! عرفت الـ sum بصفر بره، وجمعت عليه كل العناصر جوه.",
+        },
+        {
+          type: "essay",
+          q: "اكتب حلقة for...of تمر على نص 'HELLO' وتطبع كل حرف بشكل منفصل.",
+          model: "for(let char of 'HELLO') {\n  console.log(char);\n}",
+          keys: ["for", "let", "of", "console.log"],
+          exp: "صح، المحرك بيتعامل مع الحروف زي عناصر المصفوفة بالظبط.",
+        },
+        {
+          type: "essay",
+          q: "لديك مصفوفة words؛ اطبع كلمة 'طويلة' إذا كان طول الكلمة أكبر من 5 حروف.",
+          model:
+            "for(let w of words) {\n  if(w.length > 5) { console.log('طويلة'); }\n}",
+          keys: ["for", "of", "if", ".length", "> 5"],
+          exp: "تمام! استخدمت خاصية length عشان تعرف طول كل كلمة جوه اللفة.",
+        },
+        {
+          type: "essay",
+          q: "باستخدام for...of؛ اطبع كل رقم في مصفوفة مضافاً إليه علامة '%'.",
+          model: "for(let n of nums) {\n  console.log(n + '%');\n}",
+          keys: ["for", "of", "+ '%'"],
+          exp: "صح، دمجت الرقم مع النص باستخدام علامة الزائد (+) وده بنسميه Concatenation.",
+        },
+        {
+          type: "essay",
+          q: "اكتب كوداً يمر على مصفوفة salaries ويطبع القيمة مضروبة في 1.1 (زيادة 10%).",
+          model: "for(let s of salaries) {\n  console.log(s * 1.1);\n}",
+          keys: ["for", "of", "* 1.1"],
+          exp: "عملية حسابية بسيطة وسريعة جوه المحرك السحري.",
+        },
+        {
+          type: "essay",
+          q: "لديك مصفوفة Mixed؛ اطبع العنصر فقط إذا كان نوعه 'string'.",
+          model:
+            "for(let item of Mixed) {\n  if(typeof item === 'string') { console.log(item); }\n}",
+          keys: ["for", "of", "typeof", "===", "'string'"],
+          exp: "عبقري! استخدمت typeof عشان تعرف نوع البيانات وتفلترها.",
+        },
+        {
+          type: "essay",
+          q: "باستخدام for...of؛ ابحث عن رقم 7 في مصفوفة واطبع 'موجود' ثم توقف عن البحث.",
+          model:
+            "for(let n of nums) {\n  if(n === 7) {\n    console.log('موجود');\n    break;\n  }\n}",
+          keys: ["for", "of", "if", "break"],
+          exp: "استخدام break هنا احترافي جداً عشان مكملش لف عالفاضي لو لقيت الرقم.",
+        },
+        {
+          type: "essay",
+          q: "اطبع كل اسم في مصفوفة users مسبوقاً بكلمة 'السيد: '.",
+          model:
+            "for(let user of users) {\n  console.log('السيد: ' + user);\n}",
+          keys: ["for", "of", "'السيد: ' +"],
+          exp: "حلو جداً، ده كود بيستخدم فعلاً في المواقع عشان يرحب بالمستخدمين.",
+        },
+      ];
+
+      const content = document.getElementById("quiz-content");
+
+      questions.forEach((item, index) => {
+        let html = `<div class="q-card" id="q-${index}">
+            <div class="q-header">سؤال رقم ${index + 1}</div>
+            <span class="q-text">${item.q}</span>`;
+
+        if (item.type === "mc" || item.type === "tf") {
+          html += `<div class="options">`;
+          const options = item.type === "mc" ? item.opts : ["صح", "غلط"];
+          options.forEach((opt) => {
+            html += `<div class="opt" onclick="checkAnswer(${index}, '${opt}', '${item.correct}', this)">${opt}</div>`;
+          });
+          html += `</div>`;
+        } else {
+          html += `
+                <textarea class="essay-area" id="ans-${index}" placeholder="اكتب الكود هنا..."></textarea>
+                <button class="btn" onclick="checkEssay(${index})">تحقق من الكود ▶️</button>
+                <div class="sol-box" id="sol-${index}">الحل النموذجي:\n${item.model}</div>`;
+        }
+
+        html += `<div class="explanation" id="exp-${index}"></div></div>`;
+        content.innerHTML += html;
+      });
+
+      window.checkAnswer = function (idx, selected, correct, el) {
+        const expBox = document.getElementById(`exp-${idx}`);
+        const parent = el.parentElement;
+        parent.style.pointerEvents = "none";
+
+        if (selected === correct) {
+          el.style.background = "var(--success)";
+          el.style.color = "white";
+          el.style.borderColor = "var(--success)";
+          expBox.innerHTML = `<strong>✅ إجابة صحيحة!</strong><br>${questions[idx].exp}`;
+          expBox.className = "explanation exp-correct";
+        } else {
+          el.style.background = "var(--error)";
+          el.style.color = "white";
+          el.style.borderColor = "var(--error)";
+          expBox.innerHTML = `<strong>❌ إجابة غير دقيقة!</strong><br>الصح هو: <b>${correct}</b>.<br>${questions[idx].exp}`;
+          expBox.className = "explanation exp-wrong";
+        }
+        expBox.style.display = "block";
+      };
+
+      window.checkEssay = function (idx) {
+        const val = document.getElementById(`ans-${idx}`).value;
+        const sol = document.getElementById(`sol-${idx}`);
+        const expBox = document.getElementById(`exp-${idx}`);
+        const keys = questions[idx].keys;
+
+        let score = 0;
+        keys.forEach((k) => {
+          if (val.includes(k)) score++;
+        });
+
+        expBox.style.display = "block";
+        if (score >= keys.length) {
+          expBox.innerHTML =
+            "✅ كود ممتاز ومكتمل! لقد استخدمت كل العناصر المطلوبة.";
+          expBox.className = "explanation exp-correct";
+        } else {
+          expBox.innerHTML =
+            "⚠️ الكود فيه حاجة ناقصة أو مش مضبوطة. راجع الحل النموذجي عشان تتعلم الطريقة الصح.";
+          expBox.className = "explanation exp-wrong";
+        }
+        sol.style.display = "block";
+      };
+    </script>
+  </body>
+</html>

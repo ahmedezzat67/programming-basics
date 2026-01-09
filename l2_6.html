@@ -1,86 +1,745 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>رسالة من القلب | م. أحمد</title>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>الموسوعة التفاعلية للمصفوفات 🌈</title>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; margin: 0; padding: 20px; color: #333; }
-        .card { background: white; padding: 40px; border-radius: 30px; box-shadow: 0 20px 50px rgba(0,0,0,0.3); max-width: 550px; width: 100%; text-align: center; position: relative; overflow: hidden; }
-        .card::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 10px; background: linear-gradient(to left, #00c6ff, #0072ff); }
-        h1 { color: #1e3c72; font-size: 28px; margin-bottom: 15px; }
-        .intro-text { font-size: 18px; color: #555; line-height: 1.8; margin-bottom: 25px; }
-        .form-box { background: #f9f9f9; padding: 20px; border-radius: 20px; text-align: right; }
-        label { font-weight: bold; display: block; margin-bottom: 10px; color: #1e3c72; }
-        input, select, textarea { width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 12px; margin-bottom: 20px; font-size: 16px; transition: 0.3s; }
-        input:focus, select:focus { border-color: #0072ff; outline: none; }
-        .btn-send { background: #25d366; color: white; border: none; padding: 18px; border-radius: 50px; cursor: pointer; font-size: 20px; font-weight: bold; width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 10px 20px rgba(37, 211, 102, 0.3); }
-        .btn-send:hover { background: #128c7e; transform: scale(1.02); }
+      @import url("https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap");
+
+      :root {
+        --primary-color: #6c5ce7;
+        --secondary-color: #00cec9;
+        --bg-color: #f0f3f7;
+        --card-bg: #ffffff;
+        --text-main: #2d3436;
+        --pastel-blue: #e3f2fd;
+        --pastel-purple: #f3e5f5;
+        --pastel-green: #e8f5e9;
+        --pastel-orange: #fff3e0;
+      }
+
+      * {
+        box-sizing: border-box;
+        transition: all 0.3s ease;
+      }
+
+      body {
+        background-color: var(--bg-color);
+        color: var(--text-main);
+        font-family: "Tajawal", sans-serif;
+        margin: 0;
+        line-height: 1.8;
+        overflow-x: hidden;
+      }
+
+      /* تصميم الهيدر العملاق */
+      .hero-section {
+        background: linear-gradient(135deg, #a29bfe 0%, #74b9ff 100%);
+        color: white;
+        padding: 100px 20px;
+        text-align: center;
+        border-radius: 0 0 100px 100px;
+        box-shadow: 0 20px 50px rgba(108, 92, 231, 0.2);
+        margin-bottom: 60px;
+      }
+
+      .hero-section h1 {
+        font-size: 3.5rem;
+        margin-bottom: 20px;
+        font-weight: 900;
+      }
+      .hero-section p {
+        font-size: 1.5rem;
+        opacity: 0.9;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      /* الكروت الضخمة */
+      .mega-card {
+        background: var(--card-white);
+        background-color: white;
+        border-radius: 50px;
+        padding: 60px;
+        margin-bottom: 80px;
+        box-shadow: 0 25px 70px rgba(0, 0, 0, 0.05);
+        border: 2px solid rgba(108, 92, 231, 0.05);
+        position: relative;
+      }
+
+      .section-badge {
+        position: absolute;
+        top: -25px;
+        right: 60px;
+        background: var(--primary-color);
+        color: white;
+        padding: 12px 35px;
+        border-radius: 50px;
+        font-weight: bold;
+        font-size: 1.1rem;
+        box-shadow: 0 10px 20px rgba(108, 92, 231, 0.3);
+      }
+
+      h2 {
+        color: var(--primary-color);
+        font-size: 2.5rem;
+        margin-bottom: 30px;
+        font-weight: 900;
+      }
+      h3 {
+        color: var(--secondary-color);
+        font-size: 1.8rem;
+        margin-top: 40px;
+      }
+
+      /* منطقة الشرح المفصل */
+      .explanation-box {
+        background: var(--pastel-blue);
+        padding: 40px;
+        border-radius: 30px;
+        margin: 30px 0;
+        border-right: 10px solid var(--primary-color);
+        font-size: 1.25rem;
+        color: #34495e;
+      }
+
+      .explanation-box b {
+        color: var(--primary-color);
+      }
+
+      /* محرر الأكواد المتطور */
+      .editor-wrapper {
+        background: #2d3436;
+        border-radius: 30px;
+        padding: 30px;
+        margin: 40px 0;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+      }
+
+      .editor-label {
+        color: #55efc4;
+        margin-bottom: 15px;
+        font-family: monospace;
+        font-size: 0.9rem;
+        display: block;
+      }
+
+      .code-area {
+        width: 100%;
+        height: 200px;
+        background: transparent;
+        border: none;
+        color: #fab1a0;
+        font-family: "Consolas", "Monaco", monospace;
+        font-size: 1.2rem;
+        resize: vertical;
+        outline: none;
+        direction: ltr;
+        line-height: 1.6;
+      }
+
+      .run-button {
+        background: var(--secondary-color);
+        color: white;
+        border: none;
+        padding: 15px 40px;
+        border-radius: 50px;
+        font-weight: 900;
+        font-size: 1.1rem;
+        cursor: pointer;
+        margin-top: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .run-button:hover {
+        transform: scale(1.05);
+        background: #00b0ad;
+      }
+
+      .console-output {
+        background: #1e272e;
+        border-radius: 20px;
+        padding: 20px;
+        margin-top: 20px;
+        color: #00ff00;
+        font-family: "Consolas", monospace;
+        min-height: 60px;
+        border: 1px solid #3d4e5d;
+        white-space: pre-wrap;
+      }
+
+      /* تفاصيل الأمثلة */
+      .example-block {
+        background: var(--pastel-purple);
+        padding: 30px;
+        border-radius: 25px;
+        margin: 20px 0;
+        border: 1px dashed var(--primary-color);
+      }
+
+      .example-header {
+        font-weight: 900;
+        color: #6c5ce7;
+        margin-bottom: 10px;
+        display: block;
+      }
+
+      /* أنيميشن */
+      [data-aos] {
+        pointer-events: none;
+      }
+      .aos-animate {
+        pointer-events: auto;
+      }
+
+      /* Tooltip */
+      .term {
+        color: var(--primary-color);
+        border-bottom: 2px dashed var(--primary-color);
+        cursor: help;
+        font-weight: bold;
+      }
+
+      /* Footer */
+      footer {
+        text-align: center;
+        padding: 60px;
+        color: #95a5a6;
+      }
     </style>
-</head>
-<body>
-
-<div class="card">
-    <h1>يا بطل.. أنت عملتها! 🏆</h1>
-    <p class="intro-text">
-        وصولك لهنا معناه إنك "وحش برمجة" حقيقي وخلصت شوط كبير. أنا حالياً بجهز لك باقي المنهج بتركيز عالي جداً.. 
-        <br><b>"الظروف ضاغطة شوية بس مكملين عشانك"</b> ❤️
-    </p>
-
-    <div class="form-box">
-        <label>إسمك اللي هيتكتب في لوحة الشرف:</label>
-        <input type="text" id="name" placeholder="اكتب اسمك يا هندسة...">
-
-        <label>إيه رأيك في رحلتنا مع بعض؟</label>
-        <select id="opinion">
-            <option value="شرحك غير حياتي وبسط لي المستحيل">شرحك غير حياتي وبسط لي المستحيل 💎</option>
-            <option value="أنت مش مجرد مدرس، أنت قدوة لينا">أنت مش مجرد مدرس، أنت قدوة لينا 🌟</option>
-            <option value="طريقتك في البرمجة ممتعة ومختلفة عن أي حد">طريقتك في البرمجة ممتعة ومختلفة عن أي حد 🚀</option>
-            <option value="فخور إني بتعلم على إيد بشمهندس زيك">فخور إني بتعلم على إيد بشمهندس زيك 👑</option>
-        </select>
-
-        <label>كلمة منك تشجعني أخلص لك المنهج الجديد:</label>
-        <textarea id="message" rows="3" placeholder="قولي أي حاجة في سرك..."></textarea>
+  </head>
+  <body>
+    <div class="hero-section">
+      <div data-aos="zoom-in">
+        <h1>مرحلة الطفرة البرمجية ⚡</h1>
+        <p>
+          الدرس السادس: كسر الحدود التقليدية واحتراف "المحرك الذكي" for...of
+        </p>
+      </div>
     </div>
 
-    <br>
-    <button class="btn-send" onclick="celebrateAndSend()">
-        إرسال ودخول لمجتمع المهندسين ✅
-    </button>
-</div>
+    <div class="container">
+      <section class="mega-card" data-aos="fade-up">
+        <div class="section-badge">مراجعة الأساسيات</div>
+        <h2>1. استرجاع البيانات من المصفوفة (Array Indexing)</h2>
 
-<script>
-function celebrateAndSend() {
-    var name = document.getElementById("name").value;
-    var opinion = document.getElementById("opinion").value;
-    var msg = document.getElementById("message").value;
+        <div class="explanation-box">
+          <b>لماذا نراجع هذا؟</b>
+          المصفوفة هي حجر الأساس لكل شيء في البرمجة. تخيل أنها "قطار" طويل، كل
+          عربة فيه تحمل بياناً واحداً. عشان نقدر نوصل لأي بيان، لازم نعرف رقم
+          العربة.
+          <br /><br />
+          <b>الفخ الأكبر:</b> في البرمجة، القطار لا يبدأ من رقم 1، بل يبدأ من
+          رقم <b>صفر (0)</b>. هذا يعني أن العربة الأولى عنوانها 0، والثانية 1،
+          وهكذا. <br />لو عندك 7 درجات حرارة، وأردت الوصول للدرجة الرابعة، فأنت
+          تسأل عن الـ Index رقم <b>3</b>.
+        </div>
 
-    if (name === "") {
-        alert("اكتب اسمك يا بطل عشان أعرف مين بيكلمني!");
-        return;
+        <h3>🔬 شرح الكود بالتفصيل:</h3>
+        <p>
+          في المثال التالي، سنقوم بتعريف مصفوفة <code>degreeList</code> التي
+          تحتوي على درجات حرارة الأسبوع. لاحظ كيف نستخدم الأقواس المربعة
+          <code>[]</code> للوصول للعنوان.
+        </p>
+
+        <div class="editor-wrapper">
+          <span class="editor-label"
+            >// قم بتغيير الرقم 3 داخل الأقواس لتجربة عناصر أخرى</span
+          >
+          <textarea id="code1" class="code-area">
+let degreeList = [2, 1, 2, 1, 0, 1, 1];
+// الوصول للقيمة الرابعة (Index 3)
+console.log("قيمة درجة الحرارة الرابعة هي: " + degreeList[3]);</textarea
+          >
+          <button class="run-button" onclick="execute(1)">
+            تشغيل المحرر ▶️
+          </button>
+          <div id="out1" class="console-output"></div>
+        </div>
+
+        <h3>💡 3 أمثلة إضافية للمراجعة:</h3>
+
+        <div class="example-block" style="background: var(--pastel-green)">
+          <span class="example-header">مثال 1: مصفوفة الألوان الرقمية</span>
+          <p>
+            <b>الشرح:</b> سنقوم بجلب اللون "أحمر" وهو العنصر الثاني (Index 1).
+          </p>
+          <code style="background: white; padding: 5px"
+            >let colors = ["أزرق", "أحمر", "أصفر"];
+            console.log(colors[1]);</code
+          >
+        </div>
+
+        <div class="example-block" style="background: var(--pastel-orange)">
+          <span class="example-header">مثال 2: درجات الطلاب</span>
+          <p><b>الشرح:</b> الوصول لأول درجة في القائمة باستخدام Index 0.</p>
+          <code style="background: white; padding: 5px"
+            >let scores = [95, 88, 70]; console.log("أول درجة: " +
+            scores[0]);</code
+          >
+        </div>
+
+        <div class="example-block" style="background: var(--pastel-blue)">
+          <span class="example-header">مثال 3: مصفوفة أيام العمل</span>
+          <p>
+            <b>الشرح:</b> الوصول لآخر عنصر في مصفوفة مكونة من 3 أيام (Index 2).
+          </p>
+          <code style="background: white; padding: 5px"
+            >let days = ["الأحد", "الاثنين", "الثلاثاء"];
+            console.log(days[2]);</code
+          >
+        </div>
+      </section>
+
+      <section class="mega-card" data-aos="fade-left">
+        <div class="section-badge">المستوى المتقدم</div>
+        <h2>2. حلقة For وتحديد عدد المرات بـ .length</h2>
+
+        <div class="explanation-box">
+          <b>ما هو محرك الـ For؟</b>
+          هو أداة تجعل الكمبيوتر يكرر عملية معينة آلاف المرات في أجزاء من
+          الثانية. تتكون من 3 أجزاء رئيسية داخل الأقواس:
+          <ol>
+            <li>
+              <b>نقطة البداية (let i = 0):</b> نخبر الكمبيوتر أن يبدأ العد من
+              الصفر.
+            </li>
+            <li>
+              <b>شرط التوقف (i < degreeList.length):</b> أهم جزء! نخبر الكمبيوتر
+              أن يتوقف عندما يصل لنهاية المصفوفة. خاصية
+              <code>.length</code> تعطينا عدد العناصر أوتوماتيكياً.
+            </li>
+            <li>
+              <b>الخطوة (i++):</b> تعني "انتقل للعنصر التالي" بعد تنفيذ الكود.
+            </li>
+          </ol>
+        </div>
+
+        <div class="editor-wrapper">
+          <span class="editor-label"
+            >// جرب إضافة أرقام جديدة للمصفوفة وشاهد كيف سيتعرف عليها الكود
+            تلقائياً</span
+          >
+          <textarea id="code2" class="code-area">
+let degreeList = [2, 1, 2, 1, 0, 1, 1];
+
+for (let i = 0; i < degreeList.length; i++) {
+    console.log("اللفّة رقم " + i + " - القيمة: " + degreeList[i]);
+}</textarea
+          >
+          <button class="run-button" onclick="execute(2)">
+            تشغيل الموتور ▶️
+          </button>
+          <div id="out2" class="console-output"></div>
+        </div>
+
+        <h3>💡 3 أمثلة احترافية لـ For Loop:</h3>
+
+        <div class="example-block">
+          <span class="example-header">1. حساب مجموع درجات الحرارة:</span>
+          <p>
+            <b>الشرح:</b> نستخدم الـ Loop للمرور على كل درجة وإضافتها لمتغير
+            المجموع.
+          </p>
+          <div
+            class="code-area"
+            style="
+              height: auto;
+              background: #1e272e;
+              padding: 15px;
+              border-radius: 10px;
+            "
+          >
+            let sum = 0;<br />
+            for(let i=0; i < degreeList.length; i++) { sum += degreeList[i]; }
+          </div>
+        </div>
+
+        <div class="example-block">
+          <span class="example-header">2. البحث عن درجة معينة:</span>
+          <p>
+            <b>الشرح:</b> نلف على المصفوفة وإذا وجدنا رقم 0 نطبع رسالة "وجدنا
+            درجة التجمد!".
+          </p>
+        </div>
+
+        <div class="example-block">
+          <span class="example-header">3. طباعة الأسماء بترتيب عكسي:</span>
+          <p>
+            <b>الشرح:</b> نبدأ العداد من <code>length-1</code> وننقص العداد
+            <code>i--</code> لنرجع للخلف.
+          </p>
+        </div>
+      </section>
+      <section class="mega-card" data-aos="zoom-in">
+        <div class="section-badge">موضوع الدرس الأساسي</div>
+        <h2>3. احتراف for...of: الانفجار التكنولوجي في عالم المصفوفات</h2>
+
+        <div class="explanation-box">
+          <h3>🌟 ليه كل اللي فات كان "مجرد تسخين"؟</h3>
+          إحنا تعبنا في المراجعة فوق وشرحنا الـ Index والـ For التقليدية عشان
+          نوصّلك للحقيقة المرة: <b>التعامل اليدوي مع المصفوفات متعب جداً!</b> في
+          الشغل الحقيقي، المصفوفة ممكن يكون فيها 10 آلاف عنصر، هل منطقي نقعد
+          نعدهم؟ هل منطقي نغلط في رقم الـ i فنبوظ البرنامج؟ <br /><br />
+          <b>هنا بييجي "بطل الدرس":</b> جملة <code>for...of</code>. دي مش مجرد
+          كود، دي "ذكاء اصطناعي" مصغر جوه لغة الجافا سكريبت. هي اللي بتعرف
+          لوحدها المصفوفة بدأت فين وانتهت فين، وبتروح تجيب لك البيانات جاهزة على
+          طبق من ذهب. <br /><br />
+          <h3>🔬 التشريح الدقيق لمحرك الـ for...of:</h3>
+          تخيل إن الجملة دي بتتكون من 3 تروس بتلف مع بعض:
+          <ul>
+            <li>
+              <b>الترس الأول (الوعاء المؤقت):</b> لما بتكتب
+              <code>let item</code>، إنت بتخلق "كوباية" فاضية. الجافا سكريبت في
+              كل لفة بتاخد قيمة من المصفوفة وتصبها جوه الكوباية دي عشان إنت
+              تستخدمها.
+            </li>
+            <li>
+              <b>الترس الثاني (كلمة السحر "of"):</b> دي الوصلة أو الكوبري.
+              وظيفتها تقول للبرنامج "روح افتح المخزن اللي اسمه كذا، وهات اللي
+              جواه حتة حتة".
+            </li>
+            <li><b>الترس الثالث (المصدر):</b> ده اسم المصفوفة بتاعتك.</li>
+          </ul>
+          <p>
+            💡 <b>الفلسفة البرمجية:</b> في الـ For التقليدية إنت "مدير ميكرو"
+            بتدخل في كل تفصيلة (ابدأ من كذا، زود كذا). لكن في
+            <code>for...of</code> إنت "مدير تنفيذي" بتدي أوامر عامة واللغة بتنفذ
+            القرف التقني بالنيابة عنك!
+          </p>
+        </div>
+
+        <div class="editor-wrapper">
+          <span class="editor-label"
+            >// جرب تمسح الأسماء وتحط أرقام.. شوف إزاي الكود هيفضل شغال بنفس
+            الكفاءة!</span
+          >
+          <textarea id="code3" class="code-area">
+let wordList = ["apple", "banana", "orange"];
+
+// الشرح العملي: لكل (عنصر) موجود (داخل) قائمة الكلمات..
+for (let word of wordList) {
+    // الكلمة word بتتغير قيمتها أوتوماتيك في كل لفة
+    console.log("الماسح الضوئي التقط الآن: " + word);
+}</textarea
+          >
+          <button class="run-button" onclick="execute(3)">
+            تشغيل المحرك السحري ▶️
+          </button>
+          <div id="out3" class="console-output"></div>
+        </div>
+        <section class="mega-card" data-aos="zoom-in">
+          <div class="section-badge">موضوع الدرس الأساسي</div>
+          <h2>3. احتراف for...of: الانفجار التكنولوجي في عالم المصفوفات</h2>
+
+          <div class="explanation-box">
+            <h3>🌟 ليه كل اللي فات كان "مجرد تسخين"؟</h3>
+            إحنا تعبنا في المراجعة فوق وشرحنا الـ Index والـ For التقليدية عشان
+            نوصّلك للحقيقة المرة:
+            <b>التعامل اليدوي مع المصفوفات متعب جداً!</b> في الشغل الحقيقي،
+            المصفوفة ممكن يكون فيها 10 آلاف عنصر، هل منطقي نقعد نعدهم؟ هل منطقي
+            نغلط في رقم الـ i فنبوظ البرنامج؟ <br /><br />
+            <b>هنا بييجي "بطل الدرس":</b> جملة <code>for...of</code>. دي مش مجرد
+            كود، دي "ذكاء اصطناعي" مصغر جوه لغة الجافا سكريبت. هي اللي بتعرف
+            لوحدها المصفوفة بدأت فين وانتهت فين، وبتروح تجيب لك البيانات جاهزة
+            على طبق من ذهب. <br /><br />
+            <h3>🔬 التشريح الدقيق لمحرك الـ for...of:</h3>
+            تخيل إن الجملة دي بتتكون من 3 تروس بتلف مع بعض:
+            <ul>
+              <li>
+                <b>الترس الأول (الوعاء المؤقت):</b> لما بتكتب
+                <code>let item</code>، إنت بتخلق "كوباية" فاضية. الجافا سكريبت
+                في كل لفة بتاخد قيمة من المصفوفة وتصبها جوه الكوباية دي عشان إنت
+                تستخدمها.
+              </li>
+              <li>
+                <b>الترس الثاني (كلمة السحر "of"):</b> دي الوصلة أو الكوبري.
+                وظيفتها تقول للبرنامج "روح افتح المخزن اللي اسمه كذا، وهات اللي
+                جواه حتة حتة".
+              </li>
+              <li><b>الترس الثالث (المصدر):</b> ده اسم المصفوفة بتاعتك.</li>
+            </ul>
+          </div>
+
+          <h3>🚀 تطبيقات عملية وعميقة (بشرح تفصيلي ومحرر لكل تطبيق):</h3>
+
+          <div class="example-block" style="background: var(--pastel-blue)">
+            <span class="example-header"
+              >تطبيق 1: نظام الترحيب الذكي (Greeting System)</span
+            >
+            <p>
+              <b>الشرح الفلسفي:</b> تخيل إنك بتبني واجهة موقع زي فيسبوك، وعندك
+              مصفوفة فيها أسماء أصدقائك. هل هتقعد تنادي على كل واحد بـ [0] و
+              [1]؟ طبعاً لا. <br />إحنا هنا استخدمنا <code>for...of</code> عشان
+              نعدي على مصفوفة <code>users</code>. <br /><b>ليه دي عبقرية؟</b>
+              لأن الكود ده مش هيتغير لو المصفوفة فيها اسم واحد أو فيها مليون
+              اسم. هو "مرن" (Dynamic) وبيمط نفسه على قد البيانات.
+            </p>
+            <div class="editor-wrapper">
+              <span class="editor-label"
+                >// جرب تضيف اسمك في المصفوفة وشغل المحرك!</span
+              >
+              <textarea id="code-ex1" class="code-area">
+let users = ["أحمد", "منى", "زياد"];
+for(let name of users) { 
+    console.log("مرحباً بك يا " + name + " في نظامنا ✨"); 
+}</textarea
+              >
+              <button class="run-button" onclick="executeEx('ex1')">
+                تشغيل المحرك السحري ▶️
+              </button>
+              <div id="out-ex1" class="console-output"></div>
+            </div>
+          </div>
+
+          <div class="example-block" style="background: var(--pastel-green)">
+            <span class="example-header"
+              >تطبيق 2: رادار درجات الحرارة والذكاء الاصطناعي</span
+            >
+            <p>
+              <b>الشرح الفلسفي:</b> هنا إحنا بنعلم الكمبيوتر "ياخد قرار". إحنا
+              بنلف على الدرجات، وبنحط حارس (If) جوه الحلقة. <br /><b
+                >تحليل العملية:</b
+              >
+              الموتور <code>for...of</code> بيمسك أول درجة (8)، الحارس يشوفها:
+              "هل إنتي أكبر من 10؟" - "لأ" - "خلاص فكك منها". <br />يدخل على
+              الدرجة اللي بعدها (12)، الحارس يقول: "أيوة إنتي أكبر!" - "اطبع
+              إنها رقم كبير". <br /><b>الفايدة:</b> إنت عملت "فلترة" للبيانات في
+              3 سطور بس!
+            </p>
+
+            <div class="editor-wrapper">
+              <span class="editor-label"
+                >// جرب تغير شرط الـ (degree > 10) لـ (degree === 5)</span
+              >
+              <textarea id="code-ex2" class="code-area">
+let tempList = [8, 12, 5, 20];
+for (let degree of tempList) {
+    if (degree > 10) { 
+        console.log("الرقم " + degree + " استوفى شرط النجاح!"); 
     }
+}</textarea
+              >
+              <button class="run-button" onclick="executeEx('ex2')">
+                شغل الرادار الذكي ▶️
+              </button>
+              <div id="out-ex2" class="console-output"></div>
+            </div>
+          </div>
 
-    // تشغيل القصاصات الملونة (تفاعلات بتطير)
-    confetti({
-        particleCount: 150,
-        spread: 70,
-        origin: { y: 0.6 }
-    });
+          <div class="example-block" style="background: var(--pastel-orange)">
+            <span class="example-header"
+              >تطبيق 3: معمل تحويل البيانات (Data Transformer)</span
+            >
+            <p>
+              <b>الشرح الفلسفي:</b> المبرمج الشاطر هو اللي بيعرف يغير شكل
+              البيانات. هنا إحنا عندنا اختصارات تقنية صغيرة، وعايزين نخليها
+              "كبيرة" (Capitalized). <br />باستخدام
+              <code>toUpperCase()</code> جوه حلقة <code>for...of</code>، إحنا
+              بنعمل "خط إنتاج". المادة الخام بتدخل (js)، الماكينة بتشتغل عليها،
+              بتطلع منتج نهائي (JS). <br /><b>السر:</b> المتغير
+              <code>item</code> هو اللي بيشيل المادة الخام في كل لفة.
+            </p>
+            <div class="editor-wrapper">
+              <span class="editor-label"
+                >// جرب تكتب كلمات بالعربي وشوف هل الـ toUpperCase هتأثر؟</span
+              >
+              <textarea id="code-ex3" class="code-area">
+let words = ["js", "html", "css"];
+for (let item of words) {
+    console.log("التحويل للعظمة: " + item.toUpperCase());
+}</textarea
+              >
+              <button class="run-button" onclick="executeEx('ex3')">
+                بدء خط الإنتاج ▶️
+              </button>
+              <div id="out-ex3" class="console-output"></div>
+            </div>
+          </div>
 
-    // تجهيز رسالة الواتساب
-    var phone = "201003090216"; // اكتب رقمك هنا
-    var text = "يا بشمهندس أحمد.. أنا الطالب " + name + " 🔥%0a";
-    text += "خلصت الجزء اللي فات وجيت أقولك إنك " + opinion + "%0a%0a";
-    if(msg !== "") { text += "رسالتي ليك: " + msg + "%0a"; }
-    text += "%0aعارف إن الظروف ضاغطة بس مستنيين المنهج الجديد منك يا عالمي! 🚀";
+          <div
+            class="explanation-box"
+            style="
+              background: #fffcf0;
+              border-right-color: #f1c40f;
+              padding: 40px;
+              border-radius: 30px;
+            "
+          >
+            <h2 style="color: #d35400; font-size: 2rem; border: none">
+              📜 دستور المصفوفات (عصارة الدرس الكاملة):
+            </h2>
+            <p style="font-size: 1.3rem">
+              ركز في الكلام ده لأنه هو اللي هيميزك كمهندس برمجيات عن أي حد
+              "بيدب" كود وخلاص:
+            </p>
 
-    // التحويل للواتساب بعد ثانية واحدة عشان يلحق يشوف الاحتفال
-    setTimeout(function() {
-        window.open("https://wa.me/" + phone + "?text=" + text, '_blank');
-    }, 1500);
-}
-</script>
+            <ul style="font-size: 1.2rem; line-height: 2">
+              <li>
+                <b>الأصل في الحكاية:</b> المصفوفات اتعملت عشان نلم البيانات
+                التايهة في مكان واحد ونسميه اسم واحد.
+              </li>
+              <li>
+                <b>المعاناة (المراجعة):</b> إننا عشان نوصل لأي حاجة لازم نستخدم
+                الـ Index [i]. ودي طريقة "متعبة" ومعرضة للغلط (زي إنك تنسى تبدأ
+                من 0).
+              </li>
+              <li>
+                <b>القفزة التكنولوجية:</b> الـ For Loop التقليدية كانت حل وسط،
+                بتلف بـ Index بس كتابتها صعبة وطويلة (نقطة بداية، شرط توقف،
+                زيادة عداد).
+              </li>
+              <li>
+                <b>قمة التطور (موضوع الدرس):</b> جملة <code>for...of</code> جت
+                عشان تمسح كل وجع الدماغ ده. هي بتعرف طول المصفوفة لوحدها، بتبدأ
+                من 0 لوحدها، وبتقف عند آخر عنصر لوحدها.
+              </li>
+              <li>
+                <b>القاعدة الذهبية للاختيار:</b> لو إنت محتاج تعرف "رقم الرف"
+                (Index) بتاع الحاجة، استخدم الـ For التقليدية. لكن لو إنت عايز
+                "الحاجة نفسها" (القيمة) وتعرضها أو تفحصها، يبقى
+                <b>for...of</b> هي اختيارك الأول والأخير بدون منازع.
+              </li>
+            </ul>
 
-</body>
+            <p
+              style="
+                text-align: center;
+                font-weight: 900;
+                color: #6c5ce7;
+                font-size: 1.5rem;
+                margin-top: 30px;
+                border-top: 2px dashed #f1c40f;
+                padding-top: 20px;
+              "
+            >
+              مبروك! إنت دلوقتي مش بس فاهم الكود.. إنت فاهم "ليه" الكود اتكتب
+              بالشكل ده! 🎓
+            </p>
+          </div>
+        </section>
+        <div style="text-align: center; margin: 80px 0" data-aos="zoom-in">
+          <a href="quiz_lesson_6.html" style="text-decoration: none">
+            <button
+              class="btn-action"
+              style="
+                background: linear-gradient(135deg, #00b894, #55efc4);
+                color: white;
+                font-size: 2rem;
+                padding: 30px 100px;
+                border: none;
+                border-radius: 100px;
+                cursor: pointer;
+                box-shadow: 0 20px 40px rgba(16, 185, 129, 0.3);
+                transition: 0.4s;
+                font-weight: 900;
+              "
+            >
+              📝 ابدأ الاختبار الآن
+            </button>
+          </a>
+        </div>
+        <footer
+          style="
+            padding: 15px 0;
+            margin-top: 30px;
+            background: #ffffff;
+            border-top: 1px solid #f1f5f9;
+            text-align: center;
+          "
+        >
+          <p
+            style="
+              margin: 0;
+              font-size: 0.9rem;
+              color: #475569;
+              font-weight: 500;
+            "
+          >
+            تم تطوير وبرمجة هذا الدرس بواسطة
+            <span style="color: #6366f1; font-weight: 900"
+              >Engineer Ahmed Ezza</span
+            >
+            💻 ✨
+          </p>
+          <p
+            style="
+              margin: 3px 0 0 0;
+              font-size: 0.75rem;
+              color: #94a3b8;
+              text-transform: uppercase;
+              letter-spacing: 0.5px;
+            "
+          >
+            Programming Expert Edition © 2026
+          </p>
+        </footer>
+        <script>
+          function executeEx(id) {
+            const code = document.getElementById("code-" + id).value;
+            const output = document.getElementById("out-" + id);
+            output.innerHTML = "";
+
+            // التقاط مخرجات الكونسول
+            let logs = [];
+            const originalLog = console.log;
+            console.log = (m) => logs.push(m);
+
+            try {
+              eval(code);
+              output.innerHTML =
+                logs.join("\n") || "تم تنفيذ الكود بنجاح (لا توجد مخرجات)";
+              output.style.color = "#00ff00";
+            } catch (e) {
+              output.innerHTML = "❌ خطأ: " + e.message;
+              output.style.color = "#ff4757";
+            }
+
+            console.log = originalLog;
+          }
+        </script>
+      </section>
+    </div>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+      // تفعيل الأنيميشن
+      AOS.init({ duration: 1000, once: true });
+
+      // وظيفة تنفيذ الأكواد من المحررات
+      function execute(id) {
+        const code = document.getElementById("code" + id).value;
+        const output = document.getElementById("out" + id);
+        output.innerHTML = "جاري التنفيذ... ⏳\n";
+
+        // التقاط مخرجات console.log
+        let logs = [];
+        const oldLog = console.log;
+        console.log = function (m) {
+          logs.push(m);
+        };
+
+        try {
+          eval(code);
+          setTimeout(() => {
+            output.innerHTML = logs.join("\n");
+            output.style.color = "#00ff00";
+          }, 500);
+        } catch (e) {
+          output.innerHTML = "❌ خطأ برمجى: " + e.message;
+          output.style.color = "#ff4757";
+        }
+
+        console.log = oldLog; // إعادة الكونسول لوضعه الطبيعي
+      }
+    </script>
+  </body>
 </html>

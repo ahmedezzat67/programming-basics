@@ -626,27 +626,100 @@ for (let item of words) {
             </p>
           </div>
         </section>
-        <div style="text-align: center; margin: 80px 0" data-aos="zoom-in">
-          <a href="quiz_lesson_6.html" style="text-decoration: none">
-            <button
-              class="btn-action"
-              style="
-                background: linear-gradient(135deg, #00b894, #55efc4);
-                color: white;
-                font-size: 2rem;
-                padding: 30px 100px;
-                border: none;
-                border-radius: 100px;
-                cursor: pointer;
-                box-shadow: 0 20px 40px rgba(16, 185, 129, 0.3);
-                transition: 0.4s;
-                font-weight: 900;
-              "
-            >
-              📝 ابدأ الاختبار الآن
+       <div style="text-align: center; margin: 100px 0 50px 0; padding: 40px; background: #f8f9fa; border-radius: 50px;" data-aos="fade-up">
+    
+    <h2 style="color: #2d3436; margin-bottom: 30px; border: none;">🏆 لقد أتممت المهمة بنجاح! ماذا ستفعل الآن؟</h2>
+
+    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; align-items: center;">
+        
+        <a href="l2_5.html" style="text-decoration: none">
+            <button class="nav-btn secondary-btn">
+                ⬅️ العودة للدرس الخامس
             </button>
-          </a>
-        </div>
+        </a>
+
+        <a href="quiz_lesson_6.html" style="text-decoration: none">
+            <button class="nav-btn primary-btn">
+                📝 ابدأ التحدي واختبر ذكاءك
+            </button>
+        </a>
+
+        <a href="lessons_term2.html" style="text-decoration: none">
+            <button class="nav-btn ghost-btn">
+                🏠 القائمة الرئيسية
+            </button>
+        </a>
+
+    </div>
+</div>
+
+<style>
+    /* التنسيق العام للأزرار */
+    .nav-btn {
+        padding: 20px 45px;
+        font-size: 1.4rem;
+        font-weight: 900;
+        border: none;
+        border-radius: 50px;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 250px;
+    }
+
+    /* زرار الاختبار - أخضر متدرج */
+    .primary-btn {
+        background: linear-gradient(135deg, #00b894, #55efc4);
+        color: white;
+        box-shadow: 0 15px 30px rgba(0, 184, 148, 0.3);
+        font-size: 1.8rem;
+        padding: 25px 60px;
+    }
+
+    .primary-btn:hover {
+        transform: scale(1.1) translateY(-5px);
+        box-shadow: 0 20px 40px rgba(0, 184, 148, 0.5);
+    }
+
+    /* زرار الدرس السابق - أزرق */
+    .secondary-btn {
+        background: linear-gradient(135deg, #0984e3, #74b9ff);
+        color: white;
+        box-shadow: 0 10px 20px rgba(9, 132, 227, 0.2);
+    }
+
+    .secondary-btn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 15px 30px rgba(9, 132, 227, 0.4);
+    }
+
+    /* زرار القائمة الرئيسية - رمادي غامق */
+    .ghost-btn {
+        background: #dfe6e9;
+        color: #2d3436;
+        border: 2px solid #b2bec3;
+    }
+
+    .ghost-btn:hover {
+        background: #2d3436;
+        color: white;
+        transform: scale(1.05);
+    }
+
+    /* استجابة للهواتف */
+    @media (max-width: 768px) {
+        .nav-btn {
+            width: 100%;
+            font-size: 1.2rem;
+            padding: 15px 30px;
+        }
+        .primary-btn {
+            font-size: 1.4rem;
+        }
+    }
+</style>
         <footer
           style="
             padding: 15px 0;

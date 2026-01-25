@@ -2,70 +2,42 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>لوحة التحكم السرية</title>
+    <title>لوحة التحكم | إدارة المنصة</title>
     <style>
-        body { font-family: Tahoma; background: #1a1a2e; color: white; padding: 20px; }
-        table { width: 100%; border-collapse: collapse; background: #16213e; }
-        th, td { padding: 15px; border: 1px solid #0f3460; text-align: center; }
-        th { background: #0d6efd; }
-        .btn-approve { background: #28a745; color: white; border: none; padding: 10px; cursor: pointer; border-radius: 5px; }
-        .btn-del { background: #dc3545; color: white; border: none; padding: 10px; cursor: pointer; border-radius: 5px; }
+        body { font-family: 'Segoe UI', Tahoma; background: #1a1a2e; color: white; text-align: center; padding: 20px; }
+        .card { background: #16213e; padding: 30px; border-radius: 15px; display: inline-block; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 1px solid #4ecca3; }
+        .btn-sheet { background: #1d8552; color: white; padding: 15px 25px; text-decoration: none; border-radius: 8px; display: inline-block; margin-top: 20px; font-weight: bold; }
+        .pass-box { background: #0f3460; padding: 20px; border-radius: 10px; margin-top: 20px; border: 2px dashed #4ecca3; }
+        h2 { color: #4ecca3; }
+        ul { text-align: right; line-height: 2; }
     </style>
 </head>
 <body>
-    <h1>إدارة طلاب الترم الثاني 👑</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>كود الطلب</th>
-                <th>الاسم</th>
-                <th>الإيميل</th>
-                <th>الباسورد</th>
-                <th>الحالة</th>
-                <th>الإجراء</th>
-            </tr>
-        </thead>
-        <tbody id="list"></tbody>
-    </table>
 
-    <script>
-        function load() {
-            let data = JSON.parse(localStorage.getItem('studentRequests')) || [];
-            let html = "";
-            data.forEach((s, index) => {
-                html += `<tr>
-                    <td>${s.id}</td>
-                    <td>${s.name}</td>
-                    <td>${s.email}</td>
-                    <td>${s.password}</td>
-                    <td>${s.status}</td>
-                    <td>
-                        <button class="btn-approve" onclick="approve(${index})">✅ موافقة</button>
-                        <button class="btn-del" onclick="del(${index})">❌ حذف</button>
-                    </td>
-                </tr>`;
-            });
-            document.getElementById('list').innerHTML = html;
-        }
+    <div class="card">
+        <h1>لوحة تحكم البشمهندس 👑</h1>
+        <p>البيانات الآن تُحفظ مباشرة في Google Sheets</p>
 
-        function approve(i) {
-            let data = JSON.parse(localStorage.getItem('studentRequests'));
-            data[i].status = '✅ تم التفعيل'; // دي اللي بتسمح له بالدخول
-            localStorage.setItem('studentRequests', JSON.stringify(data));
-            alert("تم تفعيل حساب الطالب!");
-            load();
-        }
+        <a href="https://docs.google.com/spreadsheets/d/14FxTQDxeGWjL9F9KP7b-58WVuPM7Kw7-r_3KonIcGH4/edit" target="_blank" class="btn-sheet">
+            📊 فتح جدول الطلاب الآن
+        </a>
 
-        function del(i) {
-            if(confirm("هل أنت متأكد من حذف الطلب؟")){
-                let data = JSON.parse(localStorage.getItem('studentRequests'));
-                data.splice(i, 1);
-                localStorage.setItem('studentRequests', JSON.stringify(data));
-                load();
-            }
-        }
+        <div class="pass-box">
+            <h3>🔑 كود تفعيل الطلاب:</h3>
+            <h1 style="letter-spacing: 5px; color: #4ecca3;">PASS2026</h1>
+            <p style="font-size: 14px; color: #888;">(أعطي هذا الكود للطالب بعد التأكد من بياناته في الشيت)</p>
+        </div>
 
-        window.onload = load;
-    </script>
+        <div style="margin-top: 30px;">
+            <h3>🛠️ خطوات العمل:</h3>
+            <ul>
+                <li>يصلك إشعار واتساب من الطالب.</li>
+                <li>تفتح جدول البيانات (الشيت) للتأكد من وجود اسمه.</li>
+                <li>ترسل له كود التفعيل المكتوب أعلاه.</li>
+                <li>يدخل الطالب الكود في صفحة <b>verify.html</b> ليفتح له المنهج.</li>
+            </ul>
+        </div>
+    </div>
+
 </body>
 </html>

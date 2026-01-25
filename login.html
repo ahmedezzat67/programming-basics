@@ -2,23 +2,58 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>تسجيل الدخول</title>
+    <title>تسجيل الدخول | منصة المهندس</title>
     <style>
-        body { font-family: tahoma; background: #f0f2f5; text-align: center; padding-top: 100px; }
-        .login-card { background: white; padding: 30px; display: inline-block; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        input { display: block; width: 250px; padding: 10px; margin: 10px auto; border-radius: 5px; border: 1px solid #ddd; }
-        button { width: 100%; padding: 10px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
-        .link { margin-top: 15px; font-size: 14px; color: #555; }
+        body { font-family: 'Segoe UI', Tahoma; background: #f0f2f5; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .login-card { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 350px; text-align: center; }
+        input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
+        button { width: 100%; padding: 12px; background: #0d6efd; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 16px; }
+        .admin-trigger { position: fixed; bottom: 10px; right: 10px; width: 20px; height: 20px; cursor: pointer; opacity: 0.2; }
     </style>
 </head>
 <body>
-    <div class="login-card">
-        <h2>تسجيل الدخول 🔑</h2>
-        <input type="email" id="loginEmail" placeholder="البريد الإلكتروني">
-        <input type="password" id="loginPass" placeholder="كلمة المرور">
-        <button onclick="login()">دخول</button>
-        <div class="link">معندكش حساب؟ <a href="register.html">أنشئ حساب من هنا</a></div>
-    </div>
+
+<div class="login-card">
+    <h2>تسجيل دخول 🔑</h2>
+    <input type="email" id="email" placeholder="البريد الإلكتروني">
+    <input type="password" id="pass" placeholder="كلمة المرور">
+    <button onclick="login()">دخول للمنهج</button>
+    <p>ليس لديك حساب؟ <a href="register.html">اضغط هنا للتسجيل</a></p>
+</div>
+
+<div class="admin-trigger" onclick="goAdmin()">⚙️</div>
+
+<script>
+    function login() {
+        const email = document.getElementById('email').value;
+        const pass = document.getElementById('pass').value;
+
+        // جلب قائمة الطلاب من الذاكرة
+        let students = JSON.parse(localStorage.getItem('studentRequests')) || [];
+
+        // البحث عن الطالب بالإيميل والباسورد
+        const student = students.find(s => s.email === email && s.password === pass);
+
+        if (student) {
+            if (student.status === '✅ تم التفعيل') {
+                // لو وافقت عليه يدخل
+                localStorage.setItem("isApproved", "true");
+                window.location.href = "lessons_term2.html";
+            } else {
+                // لو لسه ما وافقتش
+                alert("حسابك قيد الانتظار.. يرجى التواصل مع البشمهندس لتفعيل الكود الخاص بك.");
+            }
+        } else {
+            alert("بيانات الدخول غير صحيحة أو الحساب غير موجود.");
+        }
+    }
+
+    function goAdmin() {
+        if (prompt("كلمة سر الإدارة:") === "ahmed/1/4") {
+            window.location.href = "admin_panel.html";
+        }
+    }
+</script>
 <div id="adminLink" onclick="accessAdmin()" style="position: fixed; bottom: 10px; right: 10px; width: 30px; height: 30px; background: rgba(0,0,0,0.05); border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 1000; color: transparent;">
     ⚙️
     <style>
@@ -36,12 +71,5 @@ function accessAdmin() {
     }
 }
 </script>
-    <script>
-        function login() {
-            // هنا السيستم بيتأكد من قاعدة البيانات (Firebase)
-            // لو الأدمن وافق (Approved == true) بيدخله
-            alert("سيتم التحقق من حسابك وموافقة البشمهندس...");
-        }
-    </script>
 </body>
 </html>

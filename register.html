@@ -2,24 +2,176 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>إنشاء حساب جديد</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إنشاء حساب جديد | منصة المهندس</title>
     <style>
-        body { font-family: tahoma; background: #f0f2f5; text-align: center; padding-top: 50px; }
-        .reg-card { background: white; padding: 30px; display: inline-block; border-radius: 15px; width: 350px; }
-        input { width: 90%; padding: 10px; margin: 10px 0; border-radius: 5px; border: 1px solid #ddd; }
-        button { width: 95%; padding: 12px; background: #28a745; color: white; border: none; cursor: pointer; }
+        :root {
+            --primary-color: #0d6efd;
+            --success-color: #25d366;
+            --dark-bg: #1a1a2e;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .reg-card {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            width: 90%;
+            max-width: 420px;
+            text-align: center;
+        }
+
+        h2 { color: var(--dark-bg); margin-bottom: 10px; }
+        p { color: #666; font-size: 14px; margin-bottom: 25px; }
+
+        .input-group { text-align: right; margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; color: #333; }
+        
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #eee;
+            border-radius: 10px;
+            box-sizing: border-box;
+            transition: 0.3s;
+            font-size: 16px;
+        }
+
+        input:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            background: #f8fbff;
+        }
+
+        .id-badge {
+            background: #e7f1ff;
+            color: var(--primary-color);
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: bold;
+            border: 1px dashed var(--primary-color);
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+
+        button {
+            background: var(--success-color);
+            color: white;
+            border: none;
+            padding: 15px;
+            width: 100%;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            transition: 0.3s;
+            box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(37, 211, 102, 0.4);
+        }
+
+        .footer-link { margin-top: 20px; font-size: 14px; }
+        .footer-link a { color: var(--primary-color); text-decoration: none; }
     </style>
 </head>
 <body>
-    <div class="reg-card">
-        <h2>طالب جديد 🧑‍🎓</h2>
-        <input type="text" id="regName" placeholder="الاسم الثلاثي">
-        <input type="email" id="regEmail" placeholder="البريد الإلكتروني">
-        <input type="tel" id="regPhone" placeholder="رقم الموبايل">
-        <input type="password" id="regPass" placeholder="اختر كلمة مرور">
-        <button onclick="signUp()">إنشاء الحساب وإرسال الطلب</button>
+
+<div class="reg-card">
+    <h2>إنشاء حساب جديد ✨</h2>
+    <p>أدخل بياناتك لتقديم طلب تفعيل الترم الثاني</p>
+    
+    <div class="id-badge" id="displayReqId">توليد كود الطلب...</div>
+
+    <div class="input-group">
+        <label>الاسم الثلاثي</label>
+        <input type="text" id="regName" placeholder="مثال: أحمد محمد علي">
     </div>
-    <div id="adminLink" onclick="accessAdmin()" style="position: fixed; bottom: 10px; right: 10px; width: 30px; height: 30px; background: rgba(0,0,0,0.05); border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 1000; color: transparent;">
+
+    <div class="input-group">
+        <label>البريد الإلكتروني</label>
+        <input type="email" id="regEmail" placeholder="name@example.com">
+    </div>
+
+    <div class="input-group">
+        <label>رقم الموبايل (واتساب)</label>
+        <input type="tel" id="regPhone" placeholder="010xxxxxxxx">
+    </div>
+
+    <div class="input-group">
+        <label>كلمة المرور (للدخول مستقبلاً)</label>
+        <input type="password" id="regPass" placeholder="أدخل كلمة مرور قوية">
+    </div>
+
+    <button onclick="handleRegistration()">إنشاء الحساب وتفعيل الواتساب 🚀</button>
+
+    <div class="footer-link">
+        لديك حساب بالفعل؟ <a href="login.html">سجل دخولك من هنا</a>
+    </div>
+</div>
+
+<script>
+    // 1. توليد كود طلب عشوائي عند تحميل الصفحة
+    const generatedId = "REQ-" + Math.floor(100000 + Math.random() * 900000);
+    document.getElementById('displayReqId').innerText = "كود طلبك: " + generatedId;
+
+    // 2. وظيفة معالجة التسجيل
+    function handleRegistration() {
+        const name = document.getElementById('regName').value.trim();
+        const email = document.getElementById('regEmail').value.trim();
+        const phone = document.getElementById('regPhone').value.trim();
+        const pass = document.getElementById('regPass').value.trim();
+
+        // التأكد من ملء البيانات
+        if (!name || !email || !phone || !pass) {
+            alert("⚠️ من فضلك أكمل جميع البيانات المطلوبة");
+            return;
+        }
+
+        // 3. حفظ البيانات في "قاعدة بيانات المتصفح" لتظهر في صفحة الأدمن
+        let allRequests = JSON.parse(localStorage.getItem('studentRequests')) || [];
+        
+        const newStudent = {
+            id: generatedId,
+            name: name,
+            email: email,
+            phone: phone,
+            password: pass, // سنحتاجها عند تسجيل الدخول لاحقاً
+            status: '⏳ انتظار',
+            date: new Date().toLocaleString('ar-EG')
+        };
+
+        allRequests.push(newStudent);
+        localStorage.setItem('studentRequests', JSON.stringify(allRequests));
+
+        // 4. تجهيز رسالة الواتساب
+        const adminNumber = "201003090216"; 
+        const message = `السلام عليكم يا بشمهندس..%0Aأنا سجلت حساب جديد ومحتاج تفعيل الترم الثاني.%0A%0A📌 تفاصيلي:%0A- الاسم: ${name}%0A- الايميل: ${email}%0A- كود الطلب: ${generatedId}%0A%0Aفي انتظار الموافقة.. شكراً لك.`;
+        
+        alert("✅ تم تسجيل بياناتك في الانتظار. سيتم فتح الواتساب الآن لإرسال كود الطلب للبشمهندس.");
+
+        // 5. فتح الواتساب ثم توجيه الطالب لصفحة الانتظار أو تسجيل الدخول
+        window.open(`https://wa.me/${adminNumber}?text=${message}`, '_blank');
+        
+        // تحويل الطالب لصفحة تسجيل الدخول بعد ثوانٍ
+        setTimeout(() => {
+            window.location.href = "login.html";
+        }, 2000);
+    }
+</script>
+<div id="adminLink" onclick="accessAdmin()" style="position: fixed; bottom: 10px; right: 10px; width: 30px; height: 30px; background: rgba(0,0,0,0.05); border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 1000; color: transparent;">
     ⚙️
     <style>
         #adminLink:hover { background: rgba(0,0,0,0.2); color: #666; }
@@ -36,13 +188,5 @@ function accessAdmin() {
     }
 }
 </script>
-    <script>
-        function signUp() {
-            const name = document.getElementById('regName').value;
-            // المنطق: البيانات بتتبعت لـ Firebase وتظهر عند الأدمن بـ "حالة: انتظار"
-            alert("تم إرسال طلبك للبشمهندس بنجاح! كلمني واتساب لتفعيل الحساب.");
-            window.location.href = "https://wa.me/201003090216";
-        }
-    </script>
 </body>
 </html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>لوحة تحكم البشمهندس 👑</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma; background: #1a1a2e; color: white; padding: 20px; }
+        .container { max-width: 1000px; margin: 0 auto; background: #16213e; padding: 20px; border-radius: 15px; box-shadow: 0 0 20px rgba(0,0,0,0.5); }
+        h1 { text-align: center; color: #4ecca3; border-bottom: 2px solid #4ecca3; padding-bottom: 10px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; background: #0f3460; }
+        th, td { padding: 15px; border: 1px solid #1a1a2e; text-align: center; }
+        th { background: #4ecca3; color: #1a1a2e; }
+        .btn-approve { background: #28a745; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; margin-left: 5px; }
+        .btn-reject { background: #e94560; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; }
+        .empty-msg { text-align: center; padding: 20px; color: #888; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>لوحة إدارة طلبات الطلاب 📊</h1>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>كود الطلب</th>
+                <th>اسم الطالب</th>
+                <th>الإيميل / الموبايل</th>
+                <th>الحالة</th>
+                <th>الإجراءات</th>
+            </tr>
+        </thead>
+        <tbody id="adminTableBody">
+            </tbody>
+    </table>
+    <div id="noRequests" class="empty-msg">لا يوجد طلبات جديدة حالياً</div>
+</div>
+
+<script>
+    // وظيفة لتحميل الطلبات من الذاكرة (Storage)
+    function loadRequests() {
+        const tableBody = document.getElementById('adminTableBody');
+        const noReqMsg = document.getElementById('noRequests');
+        
+        // جلب البيانات المخزنة
+        let requests = JSON.parse(localStorage.getItem('studentRequests')) || [];
+
+        if (requests.length === 0) {
+            tableBody.innerHTML = "";
+            noReqMsg.style.display = "block";
+            return;
+        }
+
+        noReqMsg.style.display = "none";
+        tableBody.innerHTML = requests.map((req, index) => `
+            <tr>
+                <td>${req.id}</td>
+                <td>${req.name}</td>
+                <td>${req.email} <br> ${req.phone}</td>
+                <td style="color: ${req.status === 'انتظار' ? '#f39c12' : '#2ecc71'}">${req.status}</td>
+                <td>
+                    <button class="btn-approve" onclick="actionRequest(${index}, 'موافقة')">موافقة</button>
+                    <button class="btn-reject" onclick="actionRequest(${index}, 'رفض')">حذف</button>
+                </td>
+            </tr>
+        `).join('');
+    }
+
+    function actionRequest(index, type) {
+        let requests = JSON.parse(localStorage.getItem('studentRequests'));
+        
+        if (type === 'موافقة') {
+            requests[index].status = '✅ تم التفعيل';
+            // هنا ممكن تبرمج إرسال إيميل أو تفعيل الكود برمجياً
+            alert("تم تفعيل حساب " + requests[index].name);
+        } else {
+            requests.splice(index, 1); // حذف الطلب نهائياً
+            alert("تم حذف الطلب");
+        }
+
+        localStorage.setItem('studentRequests', JSON.stringify(requests));
+        loadRequests();
+    }
+
+    // تشغيل التحميل عند فتح الصفحة
+    window.onload = loadRequests;
+</script>
+
+</body>
+</html>

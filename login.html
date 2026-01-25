@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>تسجيل الدخول</title>
+    <style>
+        body { font-family: tahoma; background: #f0f2f5; text-align: center; padding-top: 100px; }
+        .login-card { background: white; padding: 30px; display: inline-block; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        input { display: block; width: 250px; padding: 10px; margin: 10px auto; border-radius: 5px; border: 1px solid #ddd; }
+        button { width: 100%; padding: 10px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        .link { margin-top: 15px; font-size: 14px; color: #555; }
+    </style>
+</head>
+<body>
+    <div class="login-card">
+        <h2>تسجيل الدخول 🔑</h2>
+        <input type="email" id="loginEmail" placeholder="البريد الإلكتروني">
+        <input type="password" id="loginPass" placeholder="كلمة المرور">
+        <button onclick="login()">دخول</button>
+        <div class="link">معندكش حساب؟ <a href="register.html">أنشئ حساب من هنا</a></div>
+    </div>
+<div id="adminLink" onclick="accessAdmin()" style="position: fixed; bottom: 10px; right: 10px; width: 30px; height: 30px; background: rgba(0,0,0,0.05); border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 1000; color: transparent;">
+    ⚙️
+    <style>
+        #adminLink:hover { background: rgba(0,0,0,0.2); color: #666; }
+    </style>
+</div>
+
+<script>
+function accessAdmin() {
+    var pass = prompt("منطقة محظورة! أدخل كلمة مرور الإدارة:");
+    if (pass === "ahmed/1/4") {
+        window.location.href = "admin_panel.html";
+    } else if (pass !== null) {
+        alert("كلمة المرور خطأ!");
+    }
+}
+</script>
+    <script>
+        function login() {
+            // هنا السيستم بيتأكد من قاعدة البيانات (Firebase)
+            // لو الأدمن وافق (Approved == true) بيدخله
+            alert("سيتم التحقق من حسابك وموافقة البشمهندس...");
+        }
+    </script>
+</body>
+</html>

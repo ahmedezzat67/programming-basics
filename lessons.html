@@ -232,148 +232,39 @@ footer {
     </div>
     <div class="back-btn" onclick="window.location.href='index.html'">⬅️ العودة للصفحة الرئيسية</div>
     
-</div>
-<div class="back-btn" onclick="checkPassword()">📚 دروس المنهج الثاني</div>
+<div class="back-btn" onclick="handleEntry()">📚 دروس المنهج الثاني</div>
 
 <script>
-function checkPassword() {
-    var _0xsecret = "MzAwMi9kZW1oYQ==";
-    var decodedPass = atob(_0xsecret).split("").reverse().join("");
-    var password = prompt("اكتب كلمة المرور للدخول إلى منهج المستوى المتقدم:");
+function handleEntry() {
+    // التأكد هل الطالب مفعل مسبقاً في المتصفح ده؟
+    const isApproved = localStorage.getItem("student_approved");
 
-    if (password === null) return;
-
-    if (password === decodedPass) {
-
-        var style = document.createElement("style");
-        style.innerHTML = `
-            @keyframes fadeIn {from{opacity:0}to{opacity:1}}
-            @keyframes cardEnter {
-                0%{opacity:0;transform:scale(0.5) translateY(100px)}
-                70%{opacity:1;transform:scale(1.05)}
-                100%{transform:scale(1)}
-            }
-            @keyframes shake {
-                0%{transform:translate(0)}
-                20%{transform:translate(-12px,6px)}
-                40%{transform:translate(12px,-6px)}
-                60%{transform:translate(-12px,6px)}
-                80%{transform:translate(12px,-6px)}
-                100%{transform:translate(0)}
-            }
-            @keyframes glitch {
-                0%{filter:none}
-                20%{filter:contrast(200%) hue-rotate(20deg)}
-                40%{filter:invert(1)}
-                60%{filter:contrast(300%)}
-                80%{filter:hue-rotate(-30deg)}
-                100%{filter:none}
-            }
-            @keyframes explode {
-                0%{transform:scale(1);opacity:1}
-                100%{transform:scale(4);opacity:0}
-            }
-            canvas{
-                position:fixed;
-                top:0;left:0;
-                width:100%;height:100%;
-                z-index:9998;
-                pointer-events:none;
-            }
-        `;
-        document.head.appendChild(style);
-
-        var canvas = document.createElement("canvas");
-        var ctx = canvas.getContext("2d");
-        document.body.appendChild(canvas);
-
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-
-        var letters = "01ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        letters = letters.split("");
-        var fontSize = 14;
-        var columns = canvas.width / fontSize;
-        var drops = Array(Math.floor(columns)).fill(1);
-
-        function drawMatrix() {
-            ctx.fillStyle = "rgba(0,0,0,0.05)";
-            ctx.fillRect(0,0,canvas.width,canvas.height);
-            ctx.fillStyle = "#0f0";
-            ctx.font = fontSize + "px monospace";
-
-            for (var i = 0; i < drops.length; i++) {
-                var text = letters[Math.floor(Math.random() * letters.length)];
-                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975)
-                    drops[i] = 0;
-                drops[i]++;
-            }
-        }
-
-        var matrixInterval = setInterval(drawMatrix, 50);
-
-        var overlay = document.createElement("div");
-        overlay.style = "position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.9);display:flex;align-items:center;justify-content:center;z-index:9999;direction:rtl;font-family:Tahoma;animation:fadeIn 0.6s";
-
-        overlay.innerHTML = `
-            <div id="card" style="background:#fff;padding:40px;border-radius:26px;text-align:center;max-width:540px;width:92%;border:5px solid #0d6efd;box-shadow:0 25px 60px rgba(0,0,0,0.7);animation:cardEnter 1s;">
-                <h2 style="color:#0d6efd;margin-bottom:20px;font-size:26px;">⭐ رسالة خاصة ليك</h2>
-
-                <p style="font-size:19px;line-height:2;color:#111;font-weight:bold;">
-                    طول ما انت وصلت لهنا، يبقى أكيد انت تعرفني كويس.
-                </p>
-
-                <p style="font-size:18px;line-height:2;color:#333;">
-                    وأنا مش بسيب الباسورد ده لأي حد.  
-                    انت شخص غالي عليا فعلًا، وشايف فيك عقل نضيف  
-                    وتفكير برمجي أقوى من ناس كتير.
-                </p>
-
-                <p style="font-size:18px;line-height:2;color:#333;">
-                    وجودك هنا معناه إني متوقع منك نجاح حقيقي  
-                    ومراهن عليك.
-                </p>
-
-                <p style="font-size:18px;line-height:2;color:#0d6efd;font-weight:bold;">
-                    شد حيلك…  
-                    المكان ده معمول ليك.
-                </p>
-
-                <button id="entryBtn" style="margin-top:30px;padding:16px 45px;background:#198754;color:white;border:none;border-radius:50px;cursor:pointer;font-size:20px;font-weight:bold;">
-                    🚀 ادخل وابدأ
-                </button>
-            </div>
-        `;
-
-        document.body.appendChild(overlay);
-
-        document.getElementById("entryBtn").onclick = function () {
-            var card = document.getElementById("card");
-
-            card.style.animation = "shake 0.4s ease 4";
-
-            setTimeout(function () {
-                card.style.animation = "glitch 0.5s infinite";
-
-                setTimeout(function () {
-                    card.style.animation = "explode 0.6s ease forwards";
-                    clearInterval(matrixInterval);
-
-                    setTimeout(function () {
-                        window.location.href = "lessons_term2.html";
-                    }, 600);
-                }, 800);
-            }, 800);
-        };
-
+    if (isApproved === "true") {
+        // لو مفعل يدخله علطول على الدروس
+        window.location.href = "lessons_term2.html";
     } else {
-        alert("كلمة المرور غير صحيحة. الدخول ده ليه ناسه.");
+        // لو مش مفعل يحوله لصفحة التسجيل اللي هنعملها
+        window.location.href = "register.html";
     }
 }
-
 </script>
+<div id="adminLink" onclick="accessAdmin()" style="position: fixed; bottom: 10px; right: 10px; width: 30px; height: 30px; background: rgba(0,0,0,0.05); border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 1000; color: transparent;">
+    ⚙️
+    <style>
+        #adminLink:hover { background: rgba(0,0,0,0.2); color: #666; }
+    </style>
+</div>
 
+<script>
+function accessAdmin() {
+    var pass = prompt("منطقة محظورة! أدخل كلمة مرور الإدارة:");
+    if (pass === "ahmed/1/4") {
+        window.location.href = "admin_panel.html";
+    } else if (pass !== null) {
+        alert("كلمة المرور خطأ!");
+    }
+}
+</script>
 <footer>تم تصميم هذا الموقع بواسطة <strong>Ahmed Ezzat</strong> 💻</footer>
 
 <script>

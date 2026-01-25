@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>إنشاء حساب جديد</title>
+    <style>
+        body { font-family: tahoma; background: #f0f2f5; text-align: center; padding-top: 50px; }
+        .reg-card { background: white; padding: 30px; display: inline-block; border-radius: 15px; width: 350px; }
+        input { width: 90%; padding: 10px; margin: 10px 0; border-radius: 5px; border: 1px solid #ddd; }
+        button { width: 95%; padding: 12px; background: #28a745; color: white; border: none; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="reg-card">
+        <h2>طالب جديد 🧑‍🎓</h2>
+        <input type="text" id="regName" placeholder="الاسم الثلاثي">
+        <input type="email" id="regEmail" placeholder="البريد الإلكتروني">
+        <input type="tel" id="regPhone" placeholder="رقم الموبايل">
+        <input type="password" id="regPass" placeholder="اختر كلمة مرور">
+        <button onclick="signUp()">إنشاء الحساب وإرسال الطلب</button>
+    </div>
+    <div id="adminLink" onclick="accessAdmin()" style="position: fixed; bottom: 10px; right: 10px; width: 30px; height: 30px; background: rgba(0,0,0,0.05); border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 1000; color: transparent;">
+    ⚙️
+    <style>
+        #adminLink:hover { background: rgba(0,0,0,0.2); color: #666; }
+    </style>
+</div>
+
+<script>
+function accessAdmin() {
+    var pass = prompt("منطقة محظورة! أدخل كلمة مرور الإدارة:");
+    if (pass === "ahmed/1/4") {
+        window.location.href = "admin_panel.html";
+    } else if (pass !== null) {
+        alert("كلمة المرور خطأ!");
+    }
+}
+</script>
+    <script>
+        function signUp() {
+            const name = document.getElementById('regName').value;
+            // المنطق: البيانات بتتبعت لـ Firebase وتظهر عند الأدمن بـ "حالة: انتظار"
+            alert("تم إرسال طلبك للبشمهندس بنجاح! كلمني واتساب لتفعيل الحساب.");
+            window.location.href = "https://wa.me/201003090216";
+        }
+    </script>
+</body>
+</html>

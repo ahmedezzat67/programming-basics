@@ -8,8 +8,9 @@
       :root {
         --primary: #00f2ff;
         --secondary: #7000ff;
-        --bg-dark: #020305; /* خلفية سوداء أعمق لإبراز النيون */
+        --bg-dark: #020305;
         --glass: rgba(255, 255, 255, 0.03);
+        /* التوهج القوي للخلفية */
         --neon-shadow: 0 0 20px rgba(0, 242, 255, 0.2), 0 0 40px rgba(112, 0, 255, 0.1);
       }
 
@@ -32,50 +33,45 @@
         top: 0;
         left: 0;
         z-index: 0;
-        /* إزالة التعتيم لجعل الأرقام واضحة تماماً */
       }
 
       .login-container {
         position: relative;
         z-index: 1;
         background: var(--glass);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
+        backdrop-filter: blur(25px);
+        -webkit-backdrop-filter: blur(25px);
         width: 380px;
+        max-width: 85%; 
         padding: 45px;
         border-radius: 30px;
-        border: 1px solid rgba(0, 242, 255, 0.2); /* حدود منورة */
+        border: 1px solid rgba(0, 242, 255, 0.2);
         
-        /* تأثير الـ 3D الافتراضي */
+        /* تأثير الـ 3D والتوهج */
         transform: rotateX(5deg) rotateY(-2deg); 
-        box-shadow: 
-          -10px 10px 50px rgba(0, 0, 0, 0.8),
-          var(--neon-shadow);
+        box-shadow: -10px 10px 50px rgba(0, 0, 0, 0.9), var(--neon-shadow);
         
         text-align: center;
         transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
       }
 
-      .login-container:hover {
-        transform: rotateX(0deg) rotateY(0deg) scale(1.03);
+      /* التوهج بيزيد لما نلمس الكارت */
+      .login-container:hover, .login-container:active {
+        transform: rotateX(0deg) rotateY(0deg) scale(1.02);
         border-color: var(--primary);
-        box-shadow: 
-          0 0 40px rgba(0, 242, 255, 0.4),
-          0 0 80px rgba(112, 0, 255, 0.2);
+        box-shadow: 0 0 30px rgba(0, 242, 255, 0.4), 0 0 60px rgba(112, 0, 255, 0.2);
       }
 
       .login-container h2 {
         font-size: 32px;
         margin-bottom: 35px;
         font-weight: 900;
-        text-transform: uppercase;
-        letter-spacing: 2px;
         background: linear-gradient(135deg, var(--primary), #ffffff, var(--secondary));
         background-size: 200% auto;
         -webkit-background-clip: text;
         background-clip: text;
         -webkit-text-fill-color: transparent;
-        color: transparent;
+        color: var(--primary); /* Fallback */
         animation: shine 3s linear infinite;
         display: inline-block;
         width: 100%;
@@ -85,26 +81,25 @@
         to { background-position: 200% center; }
       }
 
-      /* خط فاصل أنيق تحت العنوان */
       .separator {
-        width: 50px;
+        width: 60px;
         height: 2px;
         background: var(--primary);
         margin: -25px auto 30px;
+        box-shadow: 0 0 15px var(--primary);
         border-radius: 2px;
-        box-shadow: 0 0 10px var(--primary);
       }
 
       .input-group input {
         width: 100%;
         padding: 16px;
-        background: rgba(0, 0, 0, 0.5);
+        background: rgba(0, 0, 0, 0.6);
         border: 1px solid rgba(255, 255, 255, 0.1);
         border-radius: 15px;
         outline: none;
         color: #fff;
         font-size: 16px;
-        margin-bottom: 22px;
+        margin-bottom: 20px;
         box-sizing: border-box;
         text-align: center;
         transition: 0.3s;
@@ -112,10 +107,10 @@
 
       .input-group input:focus {
         border-color: var(--primary);
-        background: rgba(0, 0, 0, 0.7);
         box-shadow: 0 0 15px rgba(0, 242, 255, 0.2);
       }
 
+      /* الزر الرئيسي المنور */
       .btn-login {
         width: 100%;
         padding: 16px;
@@ -129,39 +124,48 @@
         position: relative;
         overflow: hidden;
         transition: 0.4s;
-        box-shadow: 0 4px 15px rgba(0, 242, 255, 0.3);
+        box-shadow: 0 5px 20px rgba(0, 242, 255, 0.3);
       }
 
-      .btn-login:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 25px rgba(0, 242, 255, 0.5);
+      /* اللمعة اللي بتروح وتيجي جوه الزر */
+      .btn-login::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+        transition: 0.5s;
+      }
+
+      .btn-login:hover::before {
+        left: 100%;
       }
 
       .btn-request {
         background: transparent;
-        border: 1px solid rgba(0, 242, 255, 0.4);
+        border: 1px solid var(--primary);
         color: var(--primary);
         margin-top: 20px;
         padding: 12px 25px;
         border-radius: 50px;
         cursor: pointer;
-        font-weight: 500;
+        font-weight: 600;
         transition: 0.3s;
       }
 
       .btn-request:hover {
         background: rgba(0, 242, 255, 0.1);
-        border-color: var(--primary);
-        text-shadow: 0 0 8px var(--primary);
+        box-shadow: 0 0 15px rgba(0, 242, 255, 0.2);
       }
 
       .terminal-text {
         font-family: "Courier New", monospace;
         font-size: 11px;
-        color: #555;
+        color: #444;
         margin-top: 25px;
         letter-spacing: 1px;
-        text-transform: uppercase;
       }
     </style>
   </head>
@@ -178,113 +182,67 @@
       </div>
 
       <button class="btn-login" id="loginBtn">دخول للترم الثاني</button>
-
       <button class="btn-request" id="requestBtn">طلب كود جديد</button>
 
-      <div class="terminal-text">STATUS: SECURE_LINK_READY</div>
+      <div class="terminal-text">STATUS: ENCRYPTED_CONNECTION</div>
     </div>
 
-   <script src="./students.js"></script>
-
     <script>
-      // 1. إعدادات الـ Matrix التفاعلية
+      // بيانات الطلاب
+      const students = [
+        { email: "ahmedezzatomar6@gmail.com", code: "bqCIfxHgHg" },
+      ];
+
+      // كود الماتريكس التفاعلي
       const canvas = document.getElementById("matrix");
       const ctx = canvas.getContext("2d");
+      function res() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+      window.addEventListener('resize', res); res();
 
-      function resizeCanvas() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-      }
-      resizeCanvas();
-      window.addEventListener('resize', resizeCanvas);
-
-      const alphabet = "011010101011010101010ABCDEFHIJKLMNOPQRSTUVWXYZ";
+      const alphabet = "0110101ABCDEFHIJKLMNOPQRSTUVWXYZ";
       const fontSize = 18;
-      const columns = canvas.width / fontSize;
-      const drops = Array.from({ length: Math.floor(columns) }).fill(1);
+      const drops = Array.from({ length: Math.floor(canvas.width / fontSize) }).fill(1);
 
-      let mouseX = 0;
-      let mouseY = 0;
-      // دعم الماوس واللمس للتفاعل على التليفون
-      const updateMouse = (e) => {
-        mouseX = e.clientX || (e.touches && e.touches[0].clientX);
-        mouseY = e.clientY || (e.touches && e.touches[0].clientY);
+      let mX = 0; let mY = 0;
+      const move = (e) => {
+        mX = e.clientX || (e.touches && e.touches[0].clientX);
+        mY = e.clientY || (e.touches && e.touches[0].clientY);
       };
-      window.addEventListener('mousemove', updateMouse);
-      window.addEventListener('touchmove', updateMouse);
+      window.addEventListener('mousemove', move);
+      window.addEventListener('touchmove', move);
 
-      function drawMatrix() {
+      function draw() {
         ctx.fillStyle = "rgba(2, 3, 5, 0.15)";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
-
         for (let i = 0; i < drops.length; i++) {
           const x = i * fontSize;
           const y = drops[i] * fontSize;
-          const distance = Math.sqrt((x - mouseX) ** 2 + (y - mouseY) ** 2);
-
-          if (distance < 120) {
-            ctx.fillStyle = "#ffffff";
-            ctx.font = "bold " + (fontSize + 2) + "px monospace";
-          } else if (Math.random() > 0.98) {
-            ctx.fillStyle = "#ffffff";
-            ctx.font = fontSize + "px monospace";
-          } else {
-            ctx.fillStyle = "#00f2ff";
-            ctx.font = fontSize + "px monospace";
-          }
-
-          const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
-          ctx.fillText(text, x, y);
-
+          const d = Math.sqrt((x - mX) ** 2 + (y - mY) ** 2);
+          ctx.fillStyle = d < 120 ? "#ffffff" : "#00f2ff";
+          ctx.font = fontSize + "px monospace";
+          ctx.fillText(alphabet[Math.floor(Math.random() * alphabet.length)], x, y);
           if (y > canvas.height && Math.random() > 0.975) drops[i] = 0;
           drops[i]++;
         }
       }
-      setInterval(drawMatrix, 40);
+      setInterval(draw, 40);
 
-      // 2. وظيفة تسجيل الدخول (استخدام متغير students العالمي)
-      document.getElementById("loginBtn").onclick = function () {
-        let email = document.getElementById("email").value.trim();
-        let code = document.getElementById("code").value.trim();
-
-        if (email === "" || code === "") {
-          alert("برجاء إدخال الجيميل والكود");
-          return;
-        }
-
-        // التأكد من أن ملف students.js محمل
-        if (typeof students === 'undefined') {
-          alert("خطأ: لم يتم تحميل ملف الطلاب. تأكد من وجود ملف students.js بجانب هذه الصفحة.");
-          return;
-        }
-
-        let found = students.find((s) => s.email === email && s.code === code);
-
-        if (found) {
-          window.location.href = "lessons_term2.html";
-        } else {
-          alert("البيانات غير صحيحة، تأكد من الجيميل والكود");
-        }
+      // منطق الدخول
+      document.getElementById("loginBtn").onclick = function() {
+        const e = document.getElementById("email").value.trim();
+        const c = document.getElementById("code").value.trim();
+        const s = students.find(x => x.email === e && x.code === c);
+        if (s) { window.location.href = "lessons_term2.html"; }
+        else { alert("البيانات غير صحيحة"); }
       };
 
-      // 3. وظيفة طلب الكود
-      document.getElementById("requestBtn").onclick = function () {
-        let email = document.getElementById("email").value.trim();
-        if (email === "") {
-          alert("اكتب الجيميل بتاعك الأول عشان نبعته في الرسالة");
-          return;
-        }
-
-        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        let code = "";
-        for (let i = 0; i < 10; i++) {
-            code += chars.charAt(Math.floor(Math.random() * chars.length));
-        }
-
-        let phone = "201003090216";
-        let msg = `أنا طالب عندك وعايز حضرتك تسجلني عشان أدخل للترم الثاني.\nالجيميل بتاعي اهو: ${email}\nوالكود بتاعي اهو: ${code}`;
-        
-        window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, "_blank");
+      // طلب الكود
+      document.getElementById("requestBtn").onclick = function() {
+        const e = document.getElementById("email").value.trim();
+        if(!e) { alert("أدخل الجيميل أولاً"); return; }
+        const c = Math.random().toString(36).substring(2, 10).toUpperCase();
+        const msg = `أنا طالب عندك وعايز حضرتك تسجلني عشان أدخل للترم الثاني.\nالجيميل بتاعي اهو: ${e}\nوالكود بتاعي اهو: ${c}`;
+        window.open(`https://wa.me/201003090216?text=${encodeURIComponent(msg)}`, "_blank");
       };
     </script>
   </body>

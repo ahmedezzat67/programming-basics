@@ -82,18 +82,29 @@
         }
       }
 
+      function generateCode(length = 10) {
+        const chars =
+          "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        let code = "";
+        for (let i = 0; i < length; i++) {
+          code += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        return code;
+      }
+
       function requestCode() {
         let email = document.getElementById("email").value.trim();
-
         if (email === "") {
           alert("اكتب الإيميل عشان نبعته ليا على واتساب");
           return;
         }
 
+        let code = generateCode(10); // كود قوي 10 حروف وأرقام
+
         let phone = "201003090216"; // رقمك بالـ +20
         let msg = `يا باشمهندس أحمد، أنا طالب وعايز كود دخول للترم الثاني.
 الإيميل: ${email}
-لو سمحت ابعتلي الكود`;
+الكود: ${code}`;
 
         let url = `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
         window.open(url, "_blank");

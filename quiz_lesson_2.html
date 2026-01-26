@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ar" dir="rtl">
   <head>
     <meta charset="utf-8" />
@@ -219,6 +219,137 @@
         font-weight: 900;
         z-index: 1000;
       }
+      .navigation-hub {
+        text-align: center;
+        margin-top: 60px;
+        padding: 40px 20px;
+        background: #0f172a; /* خلفية داكنة فخمة */
+        border-radius: 40px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+      }
+
+      .hub-title {
+        color: #94a3b8;
+        font-size: 1.1rem;
+        margin-bottom: 30px;
+        letter-spacing: 1px;
+      }
+
+      .nav-controls {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 25px;
+      }
+
+      .nav-btn {
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        padding: 15px 30px;
+        border-radius: 20px;
+        min-width: 220px;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .btn-label {
+        display: flex;
+        flex-direction: column;
+        text-align: right;
+      }
+
+      .btn-label small {
+        font-size: 0.75rem;
+        opacity: 0.7;
+        font-weight: 400;
+      }
+      .btn-label span {
+        font-size: 1.1rem;
+        font-weight: 900;
+      }
+      .btn-icon {
+        font-size: 1.6rem;
+      }
+
+      /* --- زرار الدرس الثالث (برتقالي نيون) --- */
+      .btn-next {
+        background: linear-gradient(135deg, #ff9f43, #ff6b6b);
+        color: white;
+        box-shadow: 0 0 20px rgba(255, 107, 107, 0.3);
+        transform: scale(1.05);
+      }
+
+      .btn-next:hover {
+        transform: scale(1.1) translateY(-5px);
+        box-shadow: 0 0 40px rgba(255, 107, 107, 0.6);
+      }
+
+      /* --- زرار الدرس الثاني (أزرق سماوي نيون) --- */
+      .btn-review {
+        background: linear-gradient(135deg, #00d2ff, #3a7bd5);
+        color: white;
+        box-shadow: 0 0 20px rgba(0, 210, 255, 0.2);
+      }
+
+      .btn-review:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 0 35px rgba(0, 210, 255, 0.5);
+      }
+
+      /* --- زرار الرئيسية (بنفسجي نيون) --- */
+      .btn-home-neon {
+        background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+        color: white;
+        box-shadow: 0 0 20px rgba(108, 92, 231, 0.2);
+      }
+
+      .btn-home-neon:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 0 35px rgba(108, 92, 231, 0.5);
+      }
+
+      /* تأثير اللمعة السريع */
+      .shimmer-effect {
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.3),
+          transparent
+        );
+        animation: loading-shimmer 3s infinite;
+      }
+
+      @keyframes loading-shimmer {
+        0% {
+          left: -100%;
+        }
+        25% {
+          left: 100%;
+        }
+        100% {
+          left: 100%;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .nav-btn {
+          width: 100%;
+          min-width: unset;
+          transform: scale(1) !important;
+        }
+        .btn-next {
+          order: -1;
+        } /* التحدي يظهر أول واحد في الموبايل */
+      }
     </style>
   </head>
   <body>
@@ -264,9 +395,35 @@
           🏁 مبروك يا وحش!
         </h2>
         <div id="final-res" style="font-size: 2rem; margin: 20px"></div>
-        <div class="nav-controls">
-          <a href="lessons_term2.html" class="nav-btn btn-home">🏠 الرئيسية</a>
-          <a href="l2_1.html" class="nav-btn btn-back">⬅️ الدرس</a>
+        <div class="navigation-hub">
+          <h3 class="hub-title">محطة التحكم في المسار</h3>
+
+          <div class="nav-controls">
+            <a href="l2_2.html" class="nav-btn btn-review">
+              <span class="btn-icon">⬅️</span>
+              <div class="btn-label">
+                <small>السابق</small>
+                <span>الدرس الثاني</span>
+              </div>
+            </a>
+
+            <a href="l2_3.html" class="nav-btn btn-next">
+              <span class="btn-icon">🚀</span>
+              <div class="btn-label">
+                <small>التالي</small>
+                <span>الدرس الثالث</span>
+              </div>
+              <div class="shimmer-effect"></div>
+            </a>
+
+            <a href="lessons_term2.html" class="nav-btn btn-home-neon">
+              <span class="btn-icon">🏠</span>
+              <div class="btn-label">
+                <small>الذهاب إلى</small>
+                <span>الرئيسية</span>
+              </div>
+            </a>
+          </div>
         </div>
       </div>
     </div>
@@ -424,7 +581,7 @@
             ${data.o
               .map(
                 (opt, i) =>
-                  `<button class="opt-btn" onclick="checkAnswer(${i}, this)">${opt}</button>`
+                  `<button class="opt-btn" onclick="checkAnswer(${i}, this)">${opt}</button>`,
               )
               .join("")}
         </div>
@@ -509,9 +666,8 @@
       function showFinal() {
         document.getElementById("c2-card").classList.remove("active");
         document.getElementById("finish-screen").style.display = "block";
-        document.getElementById(
-          "final-res"
-        ).innerText = `درجتك النهائية: ${score} من 22`;
+        document.getElementById("final-res").innerText =
+          `درجتك النهائية: ${score} من 22`;
       }
 
       loadQ();

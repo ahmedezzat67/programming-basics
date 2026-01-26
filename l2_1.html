@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>المنهج الثاني | متعة البرمجة</title>
+  <title>المستوى الاحترافي | أكاديمية البرمجيات</title>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Fira+Code&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
   <style>
@@ -11,213 +11,437 @@
       --main-pink: #ff007a;
       --main-blue: #00d4ff;
       --main-yellow: #ffcc00;
-      --bg-light: #f0f4f8;
-      --card-white: #ffffff;
+      --text-color: #2d3436;
+      --bg-light: #f4f7f6;
     }
 
     body {
       font-family: 'Cairo', sans-serif;
       background: var(--bg-light);
-      color: #333;
-      margin: 0; padding: 20px;
-      overflow-x: hidden;
+      color: var(--text-color);
+      margin: 0; padding: 10px;
+      line-height: 1.8;
     }
 
-    /* خلفية متحركة بفقاعات ملونة */
-    .bg-bubbles {
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
-      background: linear-gradient(120deg, #e0f7fa 0%, #fce4ec 100%);
-    }
+    .container { max-width: 950px; margin: 0 auto; padding: 20px; }
 
-    .container { max-width: 1100px; margin: 0 auto; position: relative; }
+    header { text-align: center; margin-bottom: 50px; padding: 40px; background: white; border-radius: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+    h1 { font-size: 3rem; color: var(--main-pink); margin: 0; }
+    .hero-p { font-size: 1.3rem; color: #636e72; }
 
-    h1 {
-      text-align: center; font-size: 3rem; font-weight: 900; color: var(--main-pink);
-      text-shadow: 3px 3px 0px var(--main-yellow);
-      margin-bottom: 50px;
-      animation: bounceInDown 1s;
-    }
-
-    .lesson-card {
-      background: var(--card-white);
-      border-radius: 30px;
-      padding: 40px;
-      margin-bottom: 40px;
-      box-shadow: 20px 20px 60px #d1d9e6, -20px -20px 60px #ffffff;
-      border: 3px solid transparent;
-      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    .lesson-section {
+      background: white;
+      border-radius: 35px;
+      padding: 50px;
+      margin-bottom: 60px;
+      box-shadow: 0 15px 50px rgba(0,0,0,0.03);
       position: relative;
+      border-right: 15px solid var(--main-blue);
     }
 
-    .lesson-card:hover {
-      transform: scale(1.02) rotate(-1deg);
-      border-color: var(--main-blue);
+    h2 { font-size: 2.5rem; color: #0984e3; margin-top: 0; display: flex; align-items: center; gap: 15px; }
+    
+    .explanation-zone {
+      background: #fdfdfd;
+      border: 1px solid #eee;
+      padding: 30px;
+      border-radius: 20px;
+      margin: 25px 0;
     }
 
-    h2 { color: var(--main-blue); font-size: 2rem; border-bottom: 4px dashed var(--main-yellow); display: inline-block; margin-bottom: 25px; }
-
-    .story-box {
-      background: #fff9c4; padding: 20px; border-radius: 20px;
-      border-right: 8px solid var(--main-yellow); margin: 20px 0;
-      font-size: 1.1rem; line-height: 1.8; color: #555;
+    .concept-title {
+      background: var(--main-yellow);
+      display: inline-block;
+      padding: 5px 20px;
+      border-radius: 10px;
+      font-weight: 900;
+      margin-bottom: 15px;
     }
 
-    /* محرر الأكواد - مبهج */
-    .editor-wrapper {
-      background: #2d3436; border-radius: 25px; padding: 20px;
-      box-shadow: 0 15px 35px rgba(0,0,0,0.2); margin: 30px 0;
+    .deep-dive {
+      background: #eef2f7;
+      padding: 25px;
+      border-radius: 20px;
+      border-left: 8px solid var(--main-pink);
+      margin-top: 20px;
+    }
+
+    .deep-dive ul { padding-right: 20px; }
+    .deep-dive li { margin-bottom: 10px; }
+
+    /* محرر الكود */
+    .editor-container {
+      background: #1e1e1e;
+      border-radius: 25px;
+      padding: 25px;
+      margin: 35px 0;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
     }
 
     textarea.editor {
-      width: 100%; min-height: 180px; background: transparent;
-      color: #fab1a0; font-family: 'Fira Code', monospace;
-      font-size: 18px; border: none; outline: none;
-      direction: ltr; text-align: left; resize: vertical;
+      width: 100%; min-height: 220px; background: transparent;
+      color: #dcdcdc; font-family: 'Fira Code', monospace;
+      font-size: 17px; border: none; outline: none;
+      direction: ltr; text-align: left;
     }
 
-    .btn-play {
-      background: var(--main-pink); color: white; border: none;
-      padding: 15px 40px; border-radius: 50px; font-size: 1.3rem;
-      font-weight: 900; cursor: pointer; transition: 0.3s;
-      box-shadow: 0 10px 0px #b30056; display: block; margin: 0 auto;
+    .btn-run {
+      background: var(--main-pink);
+      color: white; border: none;
+      padding: 18px 60px; border-radius: 50px;
+      font-size: 1.5rem; font-weight: 900;
+      cursor: pointer; transition: 0.3s;
+      display: block; margin: 0 auto;
+    }
+    .btn-run:hover { transform: scale(1.05) translateY(-5px); box-shadow: 0 10px 20px rgba(255,0,122,0.3); }
+
+    .console-output {
+      background: #2d3436; color: #00ffcc;
+      padding: 25px; border-radius: 20px;
+      margin-top: 25px; font-family: 'Fira Code', monospace;
+      display: none; border: 2px solid #555;
     }
 
-    .btn-play:active { transform: translateY(8px); box-shadow: 0 2px 0px #b30056; }
-
-    .output-screen {
-      background: #dfe6e9; color: #2d3436; padding: 20px;
-      border-radius: 20px; margin-top: 20px; font-weight: bold;
-      border: 3px solid var(--main-blue); display: none;
-      animation: fadeInUp 0.5s;
+    .note-card {
+      background: #fff9c4;
+      padding: 20px;
+      border-radius: 15px;
+      margin-top: 20px;
+      display: flex;
+      gap: 15px;
+      align-items: center;
+      font-weight: bold;
     }
 
-    .challenge-zone {
-      background: var(--main-blue); color: white; padding: 30px;
-      border-radius: 30px; margin-top: 50px;
+    .quiz-banner {
+      background: linear-gradient(45deg, #0984e3, #00d4ff);
+      color: white; padding: 40px; text-align: center;
+      border-radius: 40px; margin-top: 80px;
     }
 
+    .quiz-btn {
+      display: inline-block; background: white; color: #0984e3;
+      padding: 20px 50px; border-radius: 50px;
+      text-decoration: none; font-weight: 900; font-size: 1.5rem;
+      margin-top: 20px; transition: 0.3s;
+    }
+    .quiz-btn:hover { background: var(--main-yellow); color: black; transform: scale(1.1); }
+    .mission-footer {
+        text-align: center;
+        margin: 100px auto 50px auto;
+        padding: 60px 30px;
+        background: #0f172a; /* خلفية داكنة عشان تبرز النيون */
+        border-radius: 50px;
+        box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+        max-width: 850px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .victory-icon { font-size: 4rem; margin-bottom: 10px; animation: pulse-icon 2s infinite; }
     
-    .quiz-link {
-    display: block;
-    width: 80%;
-    max-width: 500px;
-    margin: 60px auto;
-    padding: 20px;
-    background: linear-gradient(45deg, #ffcc00, #ff9900); /* أصفر ذهبي مبهج */
-    color: #000;
-    text-align: center;
-    font-weight: 900;
-    font-size: 1.6rem;
-    border-radius: 50px;
-    text-decoration: none;
-    box-shadow: 0 10px 25px rgba(255, 204, 0, 0.4);
-    transition: all 0.3s ease;
-    border: 3px solid #fff;
-}
+    @keyframes pulse-icon {
+        0% { transform: scale(1); filter: drop-shadow(0 0 0px var(--main-yellow)); }
+        50% { transform: scale(1.1); filter: drop-shadow(0 0 15px var(--main-yellow)); }
+        100% { transform: scale(1); filter: drop-shadow(0 0 0px var(--main-yellow)); }
+    }
 
-.quiz-link:hover {
-    transform: scale(1.1) translateY(-5px);
-    background: #00d4ff; /* بيقلب لبني لما تقرب منه */
-    color: #fff;
-    box-shadow: 0 15px 35px rgba(0, 212, 255, 0.5);
-}
+    .footer-title { color: #fff; font-size: 2.8rem; font-weight: 900; margin: 0; border: none !important; }
+    .footer-subtitle { color: #94a3b8; font-size: 1.3rem; margin-bottom: 50px; }
 
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-      100% { transform: scale(1); }
+    .nav-buttons-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 35px;
+    }
+
+    .nav-link { text-decoration: none; }
+
+    .nav-btn {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        padding: 22px 40px;
+        border: none;
+        border-radius: 25px;
+        cursor: pointer;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        min-width: 320px;
+        font-family: 'Cairo', sans-serif;
+        overflow: hidden;
+    }
+
+    .btn-text { display: flex; flex-direction: column; align-items: flex-start; text-align: right; }
+    .btn-text small { font-size: 0.85rem; opacity: 0.8; letter-spacing: 1px; }
+    .btn-text span { font-size: 1.4rem; font-weight: 900; }
+    .icon { font-size: 2.2rem; }
+
+    /* --- زرار التحدي النيون --- */
+    .btn-primary-neon {
+        background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+        color: white;
+        box-shadow: 0 0 20px rgba(79, 172, 254, 0.4);
+    }
+
+    .btn-primary-neon:hover {
+        transform: scale(1.1) translateY(-10px);
+        box-shadow: 0 0 40px rgba(0, 242, 254, 0.7);
+    }
+
+    /* --- زرار الرئيسية النيون --- */
+    .btn-secondary-neon {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        box-shadow: 0 0 20px rgba(118, 75, 162, 0.4);
+    }
+
+    .btn-secondary-neon:hover {
+        transform: scale(1.1) translateY(-10px);
+        box-shadow: 0 0 40px rgba(118, 75, 162, 0.7);
+    }
+
+    /* تأثير اللمعة السريعة (Shimmer) */
+    .btn-shimmer {
+        position: absolute;
+        top: 0; left: -100%;
+        width: 100%; height: 100%;
+        background: linear-gradient(120deg, transparent, rgba(255,255,255,0.4), transparent);
+        transition: 0.6s;
+    }
+
+    .nav-btn:hover .btn-shimmer {
+        left: 100%;
+        transition: 0.6s;
+    }
+
+    @media (max-width: 768px) {
+        .mission-footer { padding: 40px 20px; border-radius: 40px; margin: 50px 10px; }
+        .footer-title { font-size: 2rem; }
+        .nav-btn { width: 100%; min-width: unset; transform: scale(1) !important; }
     }
   </style>
 </head>
 <body>
 
-<div class="bg-bubbles"></div>
-
 <div class="container">
-  <h1>✨ المنهج الثاني: الدرس الأول ✨</h1>
+  <header class="animate__animated animate__fadeInDown">
+    <h1>🚀 كورس الجافا سكريبت - المرحلة 2</h1>
+    <p class="hero-p">الدرس الأول: كيف يقرأ المتصفح قراراتك الذكية؟</p>
+  </header>
 
-  <div class="lesson-card animate__animated animate__fadeInLeft">
-    <h2>🚪 لغز "الأوضة المقفولة" (Variable Scope)</h2>
+  <section class="lesson-section animate__animated animate__fadeIn">
+    <h2>1️⃣ مفهوم نطاق المتغيرات (Variable Scope)</h2>
     
-    <div class="story-box">
-      بص يا بطل، المتغيرات اللي بنعرفها بالـ <code>let</code> جوه الـ <code>if</code> زيها زي "سر جوه أوضة". طول ما إنت جوه الأوضة { }، السر ده معاك وتقدر تستخدمه. أول ما تخرج من باب الأوضة، بتنسى السر ده تماماً! 
-      <br><br>
-      <b>مثال من حياتنا:</b> تخيل إنت في السوبر ماركت وشفت "عرض خاص" (المتغير) جوه قسم المنظفات بس. لو خرجت من السوبر ماركت ورحت الصيدلية، مش هتقدر تستخدم العرض ده هناك!
+    <div class="explanation-zone">
+      <span class="concept-title">يعني إيه Scope؟</span>
+      <p>تخيل البرمجة كأنها <b>قصر كبير</b> فيه غرف كتير. لما بتعرف متغير بكلمة <code>let</code> جوه غرفة (يعني جوه قوسين <code>{ }</code>)، المتغير ده بيبقى "سجين" جوه الغرفة دي. العالم اللي بره الغرفة ما يعرفش عنه أي حاجة!</p>
+      
+      
+
+      <div class="deep-dive">
+        <b>لماذا نستخدم هذا النظام الصارم؟</b>
+        <ul>
+            <li><b>الأمان:</b> عشان ما نعدلش قيمة متغير بالغلط من مكان تاني في الكود.</li>
+            <li><b>نظافة الذاكرة:</b> أول ما القوس يتقفل، الـ JavaScript بتمسح المتغير من ذاكرة الكمبيوتر (RAM)، فالموقع يفضل سريع وما يهنقش.</li>
+            <li><b>منع التداخل:</b> تقدر تسمي متغير اسمه <code>x</code> جوه <code>if</code> وتسمي واحد تاني برضه <code>x</code> بره، وما يحصلش خناقة بينهم!</li>
+        </ul>
+      </div>
     </div>
 
+    <h3>🎮 تجربة "اختفاء المتغير":</h3>
+    <p>في الكود ده، هنعرف متغير اسمه <code>secret</code> جوه الـ <code>if</code>. شوف إيه اللي هيحصل لما نحاول ننده عليه بره الأقواس:</p>
     
-
-    <h3>🎮 جرب بنفسك وشوف "السر" هيختفي إمتى:</h3>
-    <div class="editor-wrapper">
+    <div class="editor-container">
       <textarea id="ed1" class="editor">
-let shopOpen = true;
+let isMember = true;
 
-if (shopOpen == true) {
-    let offer = "خصم 50%";
-    console.log("جوه المحل العرض: " + offer);
+if (isMember) {
+    let secret = "أنت بطل حقيقي! 🏆";
+    console.log("جوه الأقواس بيقول: " + secret);
 }
 
-// لو شلت العلامات من السطر اللي جاي الكود هيضرب!
-// console.log("بره المحل العرض: " + offer);
+// السطر اللي جاي هيحاول يسرق السر من جوه الأقواس..
+// المتصفح هيقوله: "أنا ماعرفش حد بالاسم ده هنا!"
+try {
+    console.log("بره الأقواس بيقول: " + secret);
+} catch(err) {
+    console.log("خطأ من المتصفح: " + err.message);
+}
       </textarea>
     </div>
-    <button class="btn-play" onclick="run('ed1', 'out1')">▶ تشغيل التجربة</button>
-    <div id="out1" class="output-screen"></div>
-  </div>
+    <button class="btn-run" onclick="run('ed1', 'out1')">▶ تشغيل المعمل</button>
+    <div id="out1" class="console-output"></div>
 
-  <div class="lesson-card animate__animated animate__fadeInRight">
-    <h2>🍔 شروط فوق بعض (Nested If)</h2>
+    <div class="note-card">
+      💡 معلومة ذهبية: لو استخدمت <code>var</code> بدل <code>let</code>، المتغير هيهرب من الأقواس ويظهر بره! وده اللي بنحاول نتجنبه في البرمجة الحديثة.
+    </div>
+  </section>
+
+  <section class="lesson-section animate__animated animate__fadeIn" style="border-right-color: var(--main-pink);">
+    <h2>2️⃣ الشروط المتداخلة (Nested If Statements)</h2>
     
-    <div class="story-box">
-      أوقات الحياة مش بتبقى "آه" أو "لأ" بس، دي بتبقى شروط مترتبة على بعض. 
-      <br><br>
-      <b>مثال الأكيل:</b> تخيل إنك رايح تشتري ساندوتش. 
-      <br>1- الأول بنسأل: "معاك فلوس؟" (If الخارجي).
-      <br>2- لو معاك، بنسأل السؤال التاني: "طب الفلوس تكفي ساندوتش كبير؟" (If الداخلي).
-      <br>لو الشرط الأول مجاش، التاني أصلاً مش هيتأمل فيه!
+    <div class="explanation-zone">
+      <span class="concept-title">اتخاذ قرارات معقدة</span>
+      <p>الـ <b>Nested If</b> هو أننا نحط شرط داخل شرط آخر. فكر فيها كأنها <b>مستويات في لعبة</b>. مش هتوصل للوحش في المستوى التاني إلا لو عديت من الوحش في المستوى الأول!</p>
+      
+      
+
+[Image of flow chart for nested if statement]
+
+
+      <div class="deep-dive">
+        <b>قواعد المرور البرمجية:</b>
+        <ul>
+            <li>لو الشرط <b>الأول (الأب)</b> طلع <code>false</code>، الكمبيوتر بيتجاهل كل اللي جواه تماماً ولا كأنه شايفه.</li>
+            <li>الشرط <b>الثاني (الابن)</b> هو تحت حماية الأب، ما بيتنفذش إلا بإذنه.</li>
+            <li>تقدر تعمل "نستد" (متداخل) لعدد لا نهائي، بس المبرمجين الشطار بيحاولوا ما يزودوش عن 3 مستويات عشان الكود ما يبقاش معقد.</li>
+        </ul>
+      </div>
     </div>
 
-    <h3>👨‍🍳 كود الطلبات المتداخلة:</h3>
-    <div class="editor-wrapper">
+    <h3>🍔 مثال "ماكينة الطلبات الذكية":</h3>
+    <div class="editor-container">
       <textarea id="ed2" class="editor">
-let money = 100;
-let hungerLevel = "high";
+let hasMoney = true;
+let price = 100;
 
-if (money >= 50) {
-    console.log("دخلنا المطعم.. ");
+if (hasMoney) {
+    console.log("الخطوة 1: العميل معاه فلوس.");
     
-    if (hungerLevel == "high") {
-        console.log("اطلب وجبة كومبو كبيرة! 🍔🍟");
+    if (price >= 100) {
+        console.log("الخطوة 2: الفلوس تكفي للوجبة الكبيرة! 🍟🍔");
     } else {
-        console.log("اطلب ساندوتش صغير كفاية.. 🌭");
+        console.log("الخطوة 2: الفلوس تكفي ساندوتش صغير بس.");
     }
 } else {
-    console.log("روح كُل في البيت يا بطل.. 🏠");
+    console.log("الخطوة 1: العميل مش معاه فلوس.. ارفض الطلب.");
 }
       </textarea>
     </div>
-    <button class="btn-play" onclick="run('ed2', 'out2')">▶ تنفيذ الطلب</button>
-    <div id="out2" class="output-screen"></div>
-  </div>
-
-  <div class="lesson-card challenge-zone animate__animated animate__zoomIn">
-    <h2 style="color: white; border-color: white;">💪 تحديات الأبطال</h2>
+    <button class="btn-run" onclick="run('ed2', 'out2')">▶ تشغيل الماكينة</button>
+    <div id="out2" class="console-output"></div>
+  </section>
+<section class="lesson-section animate__animated animate__fadeIn" style="border-right-color: var(--main-yellow); background: #2d3436; color: white;">
+    <h2 style="color: var(--main-yellow);">🏆 تحدي العباقرة (التطبيق العملي)</h2>
+    <p>لقد تعلمت النطاق (Scope) والقرارات المتداخلة (Nested If)، حان وقت بناء نظام <b>"بوابة السينما الذكية"</b>:</p>
     
-    <p><b>التحدي 1:</b> اعمل متغير اسمه <code>rank</code> واديه قيمة 1. لو الـ rank بيساوي 1، اطبع "أنت بطل المنطقة!".</p>
-    <div class="editor-wrapper"><textarea id="ed3" class="editor"></textarea></div>
-    <button class="btn-play" style="background: white; color: var(--main-blue);" onclick="run('ed3', 'out3')">فحص الحل</button>
-    <div id="out3" class="output-screen"></div>
+    <div class="explanation-zone" style="color: #333; border-right: 5px solid var(--main-pink);">
+        <b>المطلوب منك برمجته:</b><br>
+        1. عرف متغير <code>age</code> (السن) واعطيه قيمة 20، ومتغير <code>hasTicket</code> (معاه تذكرة) واعطيه قيمة <code>true</code>.<br>
+        2. استخدم <b>Nested If</b> (شرط داخل شرط): <br>
+        &nbsp;&nbsp; - <b>الشرط الأول (الأب):</b> هل معاه تذكرة؟ <br>
+        &nbsp;&nbsp; - <b>الشرط الثاني (الابن):</b> هل سنه 18 سنة أو أكبر؟ <br>
+        3. إذا تحقق الشرطان، اطبع: "اتفضل ادخل الفيلم 🎬".<br>
+        4. إذا لم يملك تذكرة، اطبع: "لازم تشتري تذكرة الأول! 🎫".
+    </div>
 
-    <p style="margin-top:40px;"><b>التحدي 2:</b> متغير <code>fishCaught</code> بـ 27. لو اصطدت 30 سمكة أو أكتر اطبع "رقم قياسي"، غير كدة اطبع "حاول تاني يا صياد".</p>
-    <div class="editor-wrapper"><textarea id="ed4" class="editor"></textarea></div>
-    <button class="btn-play" style="background: white; color: var(--main-blue);" onclick="run('ed4', 'out4')">فحص الحل</button>
-    <div id="out4" class="output-screen"></div>
-  </div>
+    
 
-<a href="quiz_lesson_1.html" class="quiz-link animate__animated animate__pulse animate__infinite">
-   🏆 جاهز لاختبار الذكاء؟ اضغط هنا! 🏆
-</a>
+    <div class="editor-container">
+      <div class="editor-header" style="color: #aaa;">// اكتب كود بوابة السينما هنا..</div>
+      <textarea id="ed3" class="editor" placeholder="let age = ..."></textarea>
+    </div>
+    
+    <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+        <button class="btn-run" style="background: var(--main-yellow); color: black; margin: 0;" onclick="run('ed3', 'out3')">🚀 فحص الكود</button>
+        
+        <button class="btn-run" style="background: transparent; border: 2px solid var(--main-yellow); color: var(--main-yellow); margin: 0;" onclick="toggleSolution()">💡 كشف الحل النموذجي</button>
+    </div>
 
+    <div id="out3" class="console-output" style="background: white; color: black; min-height: 50px;"></div>
+
+    <div id="solutionBox" style="display: none; margin-top: 30px; background: #3d4446; padding: 25px; border-radius: 20px; border: 2px dashed var(--main-yellow);">
+        <h3 style="color: var(--main-yellow); margin-top: 0;">✅ الحل الصحيح مع الشرح:</h3>
+        <pre dir="ltr" style="background: #1e1e1e; padding: 15px; border-radius: 10px; color: #9cdcfe; overflow-x: auto;">
+let age = 20;
+let hasTicket = true;
+
+if (hasTicket == true) { 
+    // لو الشرط ده صح، هيدخل يسأل السؤال اللي جوه
+    if (age >= 18) {
+        console.log("اتفضل ادخل الفيلم 🎬");
+    } else {
+        console.log("للأسف الفيلم للكبار فقط 🔞");
+    }
+} else {
+    console.log("لازم تشتري تذكرة الأول! 🎫");
+}
+        </pre>
+        <div style="margin-top: 15px; font-size: 0.95rem; line-height: 1.6;">
+            <b style="color: var(--main-blue);">شرح الحل:</b>
+            <ul>
+                <li>بدأنا بـ <code>if</code> الخارجية للتأكد من التذكرة، لأنها الأهم (لو مفيش تذكرة مش هنسأل عن السن أصلاً).</li>
+                <li>جوه الـ <code>if</code> الأولى، حطينا <code>if</code> تانية بتفحص السن (الشرط المتداخل).</li>
+                <li>لاحظ الأقواس <code>{ }</code>.. كل <code>if</code> ليها الأقواس بتاعتها اللي بتحدد الـ <b>Scope</b> بتاعها.</li>
+            </ul>
+        </div>
+    </div>
+  </section>
+
+  <script>
+    // دالة لإظهار وإخفاء الحل
+    function toggleSolution() {
+        const box = document.getElementById('solutionBox');
+        if (box.style.display === 'none') {
+            box.style.display = 'block';
+            box.scrollIntoView({ behavior: 'smooth' });
+        } else {
+            box.style.display = 'none';
+        }
+    }
+
+    // دالة تشغيل الكود (تأكد من وجودها في ملفك)
+    function run(id, outId) {
+        const code = document.getElementById(id).value;
+        const out = document.getElementById(outId);
+        out.style.display = "block";
+        out.innerHTML = "<div style='color: #888; margin-bottom: 5px; font-size: 0.8rem;'>المخرجات:</div>";
+        
+        const originalLog = console.log;
+        console.log = function(m) { 
+            out.innerHTML += "<span style='color: #2d3436; font-weight: bold;'>➔ " + m + "</span><br>"; 
+        };
+
+        try {
+            eval(code);
+        } catch(e) {
+            out.innerHTML += "<span style='color: #d63031;'>❌ خطأ: " + e.message + "</span>";
+        }
+        console.log = originalLog;
+    }
+  </script>
+<div class="mission-footer" data-aos="fade-up">
+    
+    <div class="victory-icon">✨</div>
+    <h2 class="footer-title">إنجاز رائع يا بطل!</h2>
+    <p class="footer-subtitle">أنهيت المحطة الأولى.. هل أنت مستعد للتحدي؟</p>
+
+    <div class="nav-buttons-container">
+        
+        <a href="quiz_lesson_1.html" class="nav-link">
+            <button class="nav-btn btn-primary-neon">
+                <span class="icon">📝</span>
+                <div class="btn-text">
+                    <small>اختبار القوة</small>
+                    <span>ابدأ التحدي النهائي</span>
+                </div>
+                <div class="btn-shimmer"></div>
+            </button>
+        </a>
+
+        <a href="lessons_term2.html" class="nav-link">
+            <button class="nav-btn btn-secondary-neon">
+                <span class="icon">🏠</span>
+                <div class="btn-text">
+                    <small>العودة إلى</small>
+                    <span>القائمة الرئيسية</span>
+                </div>
+            </button>
+        </a>
+
+    </div>
+</div>
 </div>
 
 <script>
@@ -225,13 +449,17 @@ if (money >= 50) {
     const code = document.getElementById(id).value;
     const out = document.getElementById(outId);
     out.style.display = "block";
-    out.innerHTML = "";
+    out.innerHTML = "<div style='color: #888; margin-bottom: 10px; border-bottom: 1px solid #444;'>مخرجات النظام:</div>";
+    
     const originalLog = console.log;
-    console.log = function(m) { out.innerHTML += "✨ " + m + "<br>"; };
+    console.log = function(m) { 
+        out.innerHTML += "<span>⭐ " + m + "</span><br>"; 
+    };
+
     try {
       eval(code);
     } catch(e) {
-      out.innerHTML = "<span style='color:red'>❌ في حاجة غلط: " + e.message + "</span>";
+      out.innerHTML += "<span style='color:#ff7675'>❌ خطأ برمجي: " + e.message + "</span>";
     }
     console.log = originalLog;
   }

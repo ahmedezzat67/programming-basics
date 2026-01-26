@@ -1,134 +1,431 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ar" dir="rtl">
-<head>
+  <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>المنهج الثاني | المبرمج البرنس</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Fira+Code&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Fira+Code&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
     <style>
-        :root {
-            --hot-pink: #ff007a;
-            --electric-blue: #00d4ff;
-            --gold: #ffcc00;
-            --neon-green: #00ff88;
-            --bg: #fdfdfd;
+      :root {
+        --hot-pink: #ff007a;
+        --electric-blue: #00d4ff;
+        --gold: #ffcc00;
+        --neon-green: #00ff88;
+        --bg: #fdfdfd;
+      }
+
+      body {
+        font-family: "Cairo", sans-serif;
+        background: var(--bg);
+        margin: 0;
+        padding: 20px;
+        color: #333;
+        line-height: 2.2;
+      }
+      .container {
+        max-width: 1100px;
+        margin: 0 auto;
+        position: relative;
+      }
+
+      h1 {
+        text-align: center;
+        font-size: 3.8rem;
+        font-weight: 900;
+        color: var(--hot-pink);
+        text-shadow: 4px 4px 0px var(--gold);
+        animation: rubberBand 1s;
+      }
+
+      .pro-card {
+        background: white;
+        border-radius: 45px;
+        padding: 45px;
+        margin-bottom: 50px;
+        box-shadow:
+          20px 20px 60px #d1d9e6,
+          -20px -20px 60px #ffffff;
+        border-right: 15px solid var(--electric-blue);
+        transition: 0.4s;
+      }
+      .pro-card:hover {
+        transform: scale(1.02);
+      }
+
+      h2 {
+        color: var(--electric-blue);
+        font-size: 2.5rem;
+        margin-top: 0;
+        text-decoration: underline wavy var(--gold);
+      }
+
+      .baladi-explain {
+        background: #f0faff;
+        padding: 30px;
+        border-radius: 25px;
+        border: 2px dashed var(--electric-blue);
+        font-size: 1.3rem;
+        color: #2d3436;
+        margin: 25px 0;
+      }
+      .baladi-explain b {
+        color: var(--hot-pink);
+        font-size: 1.5rem;
+      }
+
+      /* منطقة الأكشن والمحرر */
+      .editor-box {
+        background: #1e272e;
+        border-radius: 30px;
+        padding: 25px;
+        margin: 35px 0;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+        border: 2px solid #34495e;
+      }
+      textarea.editor {
+        width: 100%;
+        min-height: 220px;
+        background: transparent;
+        color: var(--neon-green);
+        font-family: "Fira Code", monospace;
+        font-size: 19px;
+        border: none;
+        outline: none;
+        direction: ltr;
+        text-align: left;
+        resize: vertical;
+      }
+
+      .btn-fire {
+        background: var(--hot-pink);
+        color: white;
+        border: none;
+        padding: 20px 60px;
+        border-radius: 60px;
+        font-weight: 900;
+        font-size: 1.5rem;
+        cursor: pointer;
+        display: block;
+        margin: 0 auto;
+        box-shadow: 0 10px 0px #b30056;
+        transition: 0.2s;
+      }
+      .btn-fire:active {
+        transform: translateY(8px);
+        box-shadow: none;
+      }
+
+      .output-screen {
+        background: #000;
+        color: #adff2f;
+        padding: 30px;
+        border-radius: 25px;
+        margin-top: 25px;
+        font-family: monospace;
+        border-left: 10px solid var(--neon-green);
+        display: none;
+        font-size: 1.2rem;
+      }
+
+      .step-label {
+        background: var(--gold);
+        color: #000;
+        padding: 5px 20px;
+        border-radius: 50px;
+        font-weight: 900;
+        display: inline-block;
+        margin-bottom: 15px;
+      }
+      .info-pill {
+        background: #e8f5e9;
+        color: #2e7d32;
+        padding: 10px 25px;
+        border-radius: 15px;
+        font-weight: bold;
+        margin: 10px 0;
+        display: block;
+      }
+      /* تنسيق الزرار الذهبي الكبير المعدل */
+      .quiz-teaser-premium {
+        display: block;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 30px;
+        background: linear-gradient(135deg, #ffcc00 0%, #ff9900 100%);
+        color: #000;
+        text-decoration: none;
+        border-radius: 40px;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 20px 50px rgba(255, 204, 0, 0.3);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        animation: floating 3s ease-in-out infinite;
+        border: 4px solid #fff;
+      }
+
+      .quiz-content {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+        z-index: 2;
+        position: relative;
+      }
+
+      .quiz-content .emoji {
+        font-size: 3.5rem;
+      }
+      .text-group {
+        display: flex;
+        flex-direction: column;
+        text-align: right;
+      }
+      .top-txt {
+        font-size: 1.4rem;
+        font-weight: 700;
+        opacity: 0.8;
+      }
+      .bottom-txt {
+        font-size: 2rem;
+        font-weight: 900;
+      }
+
+      /* لوحة التحكم السفلى */
+      .navigation-dashboard {
+        max-width: 850px;
+        margin: 40px auto;
+        padding: 30px;
+        background: #0f172a; /* لون داكن فخم */
+        border-radius: 50px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .nav-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: center;
+      }
+
+      .nav-item {
+        text-decoration: none;
+        padding: 18px 30px;
+        border-radius: 25px;
+        font-weight: 900;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        transition: 0.3s;
+        min-width: 200px;
+        justify-content: center;
+        font-family: "Cairo", sans-serif;
+      }
+
+      /* زرار الدرس الثالث - نيون بنفسجي */
+      .btn-next-lesson {
+        background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+        color: white;
+        box-shadow: 0 10px 20px rgba(108, 92, 231, 0.3);
+        position: relative;
+      }
+
+      .btn-next-lesson:hover {
+        transform: scale(1.05) translateY(-5px);
+        box-shadow: 0 15px 30px rgba(108, 92, 231, 0.5);
+      }
+
+      /* زرار المراجعة - زجاجي */
+      .btn-review {
+        background: rgba(255, 255, 255, 0.05);
+        color: #94a3b8;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .btn-review:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: #fff;
+      }
+
+      /* زرار الرئيسية - أزرق نيون */
+      .btn-home-glass {
+        background: linear-gradient(135deg, #0984e3, #00d2ff);
+        color: white;
+      }
+
+      /* أنيميشن */
+      @keyframes floating {
+        0%,
+        100% {
+          transform: translateY(0) scale(1);
         }
+        50% {
+          transform: translateY(-10px) scale(1.02);
+        }
+      }
 
-        body { font-family: 'Cairo', sans-serif; background: var(--bg); margin: 0; padding: 20px; color: #333; line-height: 2.2; }
-        .container { max-width: 1100px; margin: 0 auto; position: relative; }
+      .active-dot {
+        width: 10px;
+        height: 10px;
+        background: #00ffcc;
+        border-radius: 50%;
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        box-shadow: 0 0 10px #00ffcc;
+      }
 
-        h1 { text-align: center; font-size: 3.8rem; font-weight: 900; color: var(--hot-pink); text-shadow: 4px 4px 0px var(--gold); animation: rubberBand 1s; }
-
-        .pro-card { background: white; border-radius: 45px; padding: 45px; margin-bottom: 50px; box-shadow: 20px 20px 60px #d1d9e6, -20px -20px 60px #ffffff; border-right: 15px solid var(--electric-blue); transition: 0.4s; }
-        .pro-card:hover { transform: scale(1.02); }
-
-        h2 { color: var(--electric-blue); font-size: 2.5rem; margin-top: 0; text-decoration: underline wavy var(--gold); }
-
-        .baladi-explain { background: #f0faff; padding: 30px; border-radius: 25px; border: 2px dashed var(--electric-blue); font-size: 1.3rem; color: #2d3436; margin: 25px 0; }
-        .baladi-explain b { color: var(--hot-pink); font-size: 1.5rem; }
-
-        /* منطقة الأكشن والمحرر */
-        .editor-box { background: #1e272e; border-radius: 30px; padding: 25px; margin: 35px 0; box-shadow: 0 15px 35px rgba(0,0,0,0.3); border: 2px solid #34495e; }
-        textarea.editor { width: 100%; min-height: 220px; background: transparent; color: var(--neon-green); font-family: 'Fira Code', monospace; font-size: 19px; border: none; outline: none; direction: ltr; text-align: left; resize: vertical; }
-
-        .btn-fire { background: var(--hot-pink); color: white; border: none; padding: 20px 60px; border-radius: 60px; font-weight: 900; font-size: 1.5rem; cursor: pointer; display: block; margin: 0 auto; box-shadow: 0 10px 0px #b30056; transition: 0.2s; }
-        .btn-fire:active { transform: translateY(8px); box-shadow: none; }
-
-        .output-screen { background: #000; color: #adff2f; padding: 30px; border-radius: 25px; margin-top: 25px; font-family: monospace; border-left: 10px solid var(--neon-green); display: none; font-size: 1.2rem; }
-
-        .step-label { background: var(--gold); color: #000; padding: 5px 20px; border-radius: 50px; font-weight: 900; display: inline-block; margin-bottom: 15px; }
-        .info-pill { background: #e8f5e9; color: #2e7d32; padding: 10px 25px; border-radius: 15px; font-weight: bold; margin: 10px 0; display: block; }
+      /* الموبايل */
+      @media (max-width: 768px) {
+        .bottom-txt {
+          font-size: 1.4rem;
+        }
+        .quiz-content .emoji {
+          font-size: 2.5rem;
+        }
+        .nav-item {
+          width: 100%;
+        }
+        .navigation-dashboard {
+          border-radius: 30px;
+          margin: 20px 10px;
+        }
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
+    <div class="container">
+      <h1>🌟 الدرس التاني: سحر الحلقات (For Loop) 🌟</h1>
 
-<div class="container">
-    <h1>🌟 الدرس التاني: سحر الحلقات (For Loop) 🌟</h1>
-
-    <div class="pro-card">
+      <div class="pro-card">
         <h2>🛠️ يعني إيه حلقة أصلاً؟ وليه بنستخدمها؟</h2>
         <div class="baladi-explain">
-            بص يا برنس، تخيل إنك شغال في "فرن عيش" ومعاك 1000 رغيف عايز تحط عليهم "سمسم". هل بالعقل هتقعد تمسك رغيف رغيف وتقول لنفسك: "يلا يا واد حط سمسم على الرغيف ده.. يلا الرغيف اللي بعده.." لحد ما تخلص الألف؟ <b>طبعاً لأ، إنت كدة هتتعب وتنسى العد!</b>
-            <br><br>
-            إنت هتعمل إيه؟ هتظبط "ماكينة" تقولهالها كدة: <b>"يا ماكينة، ابدأي من الرغيف رقم 1، وكل ما تخلصي رغيف زودي واحد، وافضلي شغالة طول ما إنتِ مخلصتيش الـ 1000".</b>
-            <br><br>
-            اهو الـ <b>for</b> هي الماكينة دي. بنستخدمها لما بنحب نكرر حاجة <b>عدد محدد من المرات</b>. بتوفر مجهود، بتمنع الغلط، وبتخلي الكود بتاعك شيك وقليل.
+          بص يا برنس، تخيل إنك شغال في "فرن عيش" ومعاك 1000 رغيف عايز تحط عليهم
+          "سمسم". هل بالعقل هتقعد تمسك رغيف رغيف وتقول لنفسك: "يلا يا واد حط
+          سمسم على الرغيف ده.. يلا الرغيف اللي بعده.." لحد ما تخلص الألف؟
+          <b>طبعاً لأ، إنت كدة هتتعب وتنسى العد!</b> <br /><br />
+          إنت هتعمل إيه؟ هتظبط "ماكينة" تقولهالها كدة:
+          <b
+            >"يا ماكينة، ابدأي من الرغيف رقم 1، وكل ما تخلصي رغيف زودي واحد،
+            وافضلي شغالة طول ما إنتِ مخلصتيش الـ 1000".</b
+          >
+          <br /><br />
+          اهو الـ <b>for</b> هي الماكينة دي. بنستخدمها لما بنحب نكرر حاجة
+          <b>عدد محدد من المرات</b>. بتوفر مجهود، بتمنع الغلط، وبتخلي الكود
+          بتاعك شيك وقليل.
         </div>
-        
-        <div class="baladi-explain" style="background: #fff9e6; border-color: var(--gold);">
-            <b>أمثلة من دنيتنا:</b>
-            <ul>
-                <li><b>عداد الماية:</b> بيفضل يلف يلف (تكرار) طول ما الحنفية مفتوحة.</li>
-                <li><b>المنبه:</b> لما يفضل "يزن" كل شوية (تكرار) لحد ما تزهق وتصحى.</li>
-                <li><b>الغسالة:</b> بتلف الحلة (تكرار) 500 لفة في الدقيقة عشان تنضف الهدوم.</li>
-                <li><b>تمرين البطن:</b> لما المدرب يقولك "اعمل 20 عدة"، إنت بتعمل حركة واحدة بس بتكررها 20 مرة.</li>
-            </ul>
-        </div>
-    </div>
 
-    <div class="pro-card">
+        <div
+          class="baladi-explain"
+          style="background: #fff9e6; border-color: var(--gold)"
+        >
+          <b>أمثلة من دنيتنا:</b>
+          <ul>
+            <li>
+              <b>عداد الماية:</b> بيفضل يلف يلف (تكرار) طول ما الحنفية مفتوحة.
+            </li>
+            <li>
+              <b>المنبه:</b> لما يفضل "يزن" كل شوية (تكرار) لحد ما تزهق وتصحى.
+            </li>
+            <li>
+              <b>الغسالة:</b> بتلف الحلة (تكرار) 500 لفة في الدقيقة عشان تنضف
+              الهدوم.
+            </li>
+            <li>
+              <b>تمرين البطن:</b> لما المدرب يقولك "اعمل 20 عدة"، إنت بتعمل حركة
+              واحدة بس بتكررها 20 مرة.
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="pro-card">
         <h2>🏗️ تشريح الماكينة (بتروح فين وتيجي منين؟)</h2>
         <div class="baladi-explain">
-            الـ <b>for</b> دي بتتكتب في سطر واحد، بس السطر ده متقسم 3 حتت جوه القوسين <code>( )</code>، وكل حتة منهم ليها وظيفة "مقدسة":
-            <br><br>
-            <b>1️⃣ الحتة الأولى <code>let i = 0</code> (البداية):</b>
-            <br>هنا بنعرف "العداد" بتاعنا. بنقول للكمبيوتر "يا باشا ابدأ العد من الصفر". الـ <code>i</code> دي هي العداد، وممكن تسميها أي اسم تاني بس المبرمجين بيحبوا <code>i</code> (اختصار لـ index).
-            <br><br>
-            <b>2️⃣ الحتة التانية <code>i < 5</code> (الفرامل):</b>
-            <br>ده الشرط اللي بيخلي الماكينة تقف. طول ما الـ <code>i</code> أصغر من 5، الماكينة شغالة "زي الفل". أول ما توصل لـ 5، الماكينة هتقول "خلاص كدة كفاية" وتقفل.
-            <br><br>
-            <b>3️⃣ الحتة التالتة <code>i++</code> (الزقة):</b>
-            <br>دي اللي بتزق العداد لقدام. بعد كل لفة، بنزود العداد واحد. لو نسينا دي، العداد هيفضل صفر للأبد والماكينة مش هتقف (ودي بنسميها Infinite Loop وبتهنج الجهاز!).
+          الـ <b>for</b> دي بتتكتب في سطر واحد، بس السطر ده متقسم 3 حتت جوه
+          القوسين <code>( )</code>، وكل حتة منهم ليها وظيفة "مقدسة":
+          <br /><br />
+          <b>1️⃣ الحتة الأولى <code>let i = 0</code> (البداية):</b>
+          <br />هنا بنعرف "العداد" بتاعنا. بنقول للكمبيوتر "يا باشا ابدأ العد من
+          الصفر". الـ <code>i</code> دي هي العداد، وممكن تسميها أي اسم تاني بس
+          المبرمجين بيحبوا <code>i</code> (اختصار لـ index). <br /><br />
+          <b>2️⃣ الحتة التانية <code>i < 5</code> (الفرامل):</b>
+          <br />ده الشرط اللي بيخلي الماكينة تقف. طول ما الـ <code>i</code> أصغر
+          من 5، الماكينة شغالة "زي الفل". أول ما توصل لـ 5، الماكينة هتقول "خلاص
+          كدة كفاية" وتقفل. <br /><br />
+          <b>3️⃣ الحتة التالتة <code>i++</code> (الزقة):</b>
+          <br />دي اللي بتزق العداد لقدام. بعد كل لفة، بنزود العداد واحد. لو
+          نسينا دي، العداد هيفضل صفر للأبد والماكينة مش هتقف (ودي بنسميها
+          Infinite Loop وبتهنج الجهاز!).
         </div>
-
-        
 
         <span class="step-label">💡 تجربة النطاق (Scope):</span>
         <div class="baladi-explain">
-            ركز في الحتة دي عشان دي اللي بتوقع المبرمجين! الـ <code>i</code> اللي اتعرفت جوه القوسين <code>( )</code> هي <b>"بنت"</b> الـ loop دي بس. طول ما إنت جوه الأقواس المتعرجة <code>{ }</code> هي معاك. أول ما تخرج، الـ <code>i</code> بتتبخر والكمبيوتر بيمسحها من ذاكرته.
+          ركز في الحتة دي عشان دي اللي بتوقع المبرمجين! الـ <code>i</code> اللي
+          اتعرفت جوه القوسين <code>( )</code> هي <b>"بنت"</b> الـ loop دي بس.
+          طول ما إنت جوه الأقواس المتعرجة <code>{ }</code> هي معاك. أول ما تخرج،
+          الـ <code>i</code> بتتبخر والكمبيوتر بيمسحها من ذاكرته.
         </div>
 
         <div class="editor-box">
-            <textarea id="ed1" class="editor">
+          <textarea id="ed1" class="editor">
 for (let i = 0; i < 3; i++) {
     console.log("الرغيف رقم: " + i);
 }
 
 // جرب تشيل التعليق عن السطر الجاي وشوف القفلة اللي هتحصل!
 // console.log(i); 
-            </textarea>
+            </textarea
+          >
         </div>
-        <button class="btn-fire" onclick="run('ed1', 'out1')">▶ شغل وشوف العداد بيتحبس إزاي</button>
+        <button class="btn-fire" onclick="run('ed1', 'out1')">
+          ▶ شغل وشوف العداد بيتحبس إزاي
+        </button>
         <div id="out1" class="output-screen"></div>
-    </div>
+      </div>
 
-    <div class="pro-card">
+      <div class="pro-card">
         <h2>🔥 لما الـ If تدخل جوه الـ For (التفكير الذكي)</h2>
         <div class="baladi-explain">
-            بص بقى يا معلم، الـ <b>for</b> لوحدها "غبية"، بتنفذ وخلاص. لكن لو حطينا جواها <b>if</b>، إنت كدة بتدي للماكينة "عقل". 
-            بتقولها "افضلي شغالة تكرار، بس <b>لو</b> حصل حاجة معينة في لفة من اللفات، اعملي أكشن مختلف".
+          بص بقى يا معلم، الـ <b>for</b> لوحدها "غبية"، بتنفذ وخلاص. لكن لو
+          حطينا جواها <b>if</b>، إنت كدة بتدي للماكينة "عقل". بتقولها "افضلي
+          شغالة تكرار، بس <b>لو</b> حصل حاجة معينة في لفة من اللفات، اعملي أكشن
+          مختلف".
         </div>
 
         <span class="step-label">المثال الأول: تمرين الجيم</span>
-        <p class="info-pill">هنعمل 5 عدات، بس في العدة التالتة (i == 2) هنقول "خد نفس".</p>
+        <p class="info-pill">
+          هنعمل 5 عدات، بس في العدة التالتة (i == 2) هنقول "خد نفس".
+        </p>
         <div class="editor-box">
-            <textarea id="ed2" class="editor">
+          <textarea id="ed2" class="editor">
 for (let i = 0; i < 5; i++) {
     console.log("عدة ضغط.. 🏋️");
     if (i == 2) {
         console.log(">>> [ 🛑 وقف خد نفس واشرب مية ]");
     }
 }
-            </textarea>
+            </textarea
+          >
         </div>
-        <button class="btn-fire" onclick="run('ed2', 'out2')">▶ ابدأ تمرين الضغط</button>
+        <button class="btn-fire" onclick="run('ed2', 'out2')">
+          ▶ ابدأ تمرين الضغط
+        </button>
         <div id="out2" class="output-screen"></div>
 
         <span class="step-label">المثال التاني: فحص القماش</span>
-        <p class="info-pill">تخيل ماكينة بتفحص 10 أمتار قماش، ولو لقت في المتر رقم 7 "خرم" (defect)، تدي إنذار.</p>
+        <p class="info-pill">
+          تخيل ماكينة بتفحص 10 أمتار قماش، ولو لقت في المتر رقم 7 "خرم"
+          (defect)، تدي إنذار.
+        </p>
         <div class="editor-box">
-            <textarea id="ed3" class="editor">
+          <textarea id="ed3" class="editor">
 for (let meter = 1; meter <= 10; meter++) {
     if (meter == 7) {
         console.log("⚠️ إنذار! المتر رقم " + meter + " فيه عيب صناعة!");
@@ -136,57 +433,97 @@ for (let meter = 1; meter <= 10; meter++) {
         console.log("المتر رقم " + meter + " سليم 10/10 ✅");
     }
 }
-            </textarea>
+            </textarea
+          >
         </div>
-        <button class="btn-fire" onclick="run('ed3', 'out3')">▶ ابدأ فحص القماش</button>
+        <button class="btn-fire" onclick="run('ed3', 'out3')">
+          ▶ ابدأ فحص القماش
+        </button>
         <div id="out3" class="output-screen"></div>
-    </div>
+      </div>
 
-    <div class="pro-card" style="border-right-color: var(--gold);">
+      <div class="pro-card" style="border-right-color: var(--gold)">
         <h2>⚡ سكة المحترفين (الاختصارات اللي بتخلص)</h2>
         <div class="baladi-explain">
-            المبرمجين "البرنسات" مبيحبوش يكتبوا كتير. بدل ما يكتب <code>i = i + 1</code>، بيكتب <code>i++</code> وخلاص.
-            <br>طيب لو عايز "ينط" في العد؟ يعني مثلاً عايز يعد 10، 20، 30.. 
-            <br>بيستخدم الاختصار الجبار <b>+=</b>. 
-            <br><code>i += 10</code> معناها: "يا عداد، خد قيمتك القديمة وزود عليها 10 واركب الأسانسير".
+          المبرمجين "البرنسات" مبيحبوش يكتبوا كتير. بدل ما يكتب
+          <code>i = i + 1</code>، بيكتب <code>i++</code> وخلاص. <br />طيب لو
+          عايز "ينط" في العد؟ يعني مثلاً عايز يعد 10، 20، 30.. <br />بيستخدم
+          الاختصار الجبار <b>+=</b>. <br /><code>i += 10</code> معناها: "يا
+          عداد، خد قيمتك القديمة وزود عليها 10 واركب الأسانسير".
         </div>
 
         <span class="step-label">المثال التالت: شحن الرصيد</span>
-        <p class="info-pill">الرصيد بيبدأ بـ 0 وبيزيد 20 كل مرة لحد ما يوصل 100.</p>
+        <p class="info-pill">
+          الرصيد بيبدأ بـ 0 وبيزيد 20 كل مرة لحد ما يوصل 100.
+        </p>
         <div class="editor-box">
-            <textarea id="ed4" class="editor">
+          <textarea id="ed4" class="editor">
 for (let credit = 0; credit <= 100; credit += 20) {
     console.log("الرصيد دلوقتي: " + credit + " جنيه");
     if (credit == 100) {
         console.log("💳 مبروك! وصلت للحد الأقصى.");
     }
 }
-            </textarea>
+            </textarea
+          >
         </div>
-        <button class="btn-fire" onclick="run('ed4', 'out4')">▶ ابدأ شحن الرصيد</button>
+        <button class="btn-fire" onclick="run('ed4', 'out4')">
+          ▶ ابدأ شحن الرصيد
+        </button>
         <div id="out4" class="output-screen"></div>
+      </div>
+      <div class="lesson-end-zone" style="margin-top: 80px">
+        <a href="quiz_lesson_2.html" class="quiz-teaser-premium">
+          <div class="quiz-content">
+            <span class="emoji">🏁</span>
+            <div class="text-group">
+              <span class="top-txt">فهمت الحدوتة؟</span>
+              <span class="bottom-txt">يلا بينا على الـ 20 سؤال! 🏆</span>
+            </div>
+          </div>
+          <div class="glow-wrap"></div>
+        </a>
+
+        <div class="navigation-dashboard">
+          <div class="nav-grid">
+            <a href="l2_2.html" class="nav-item btn-review">
+              <span class="nav-icon">📖</span>
+              <span>مراجعة الدرس</span>
+            </a>
+
+            <a href="l2_3.html" class="nav-item btn-next-lesson">
+              <span>الدرس الثالث</span>
+              <span class="nav-icon">🚀</span>
+              <div class="active-dot"></div>
+            </a>
+
+            <a href="lessons_term2.html" class="nav-item btn-home-glass">
+              <span class="nav-icon">🏠</span>
+              <span>الرئيسية</span>
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <a href="quiz_lesson_2.html" class="quiz-teaser" style="display:block; text-align:center; padding:35px; background:var(--gold); color:#000; font-weight:900; font-size:2.2rem; border-radius:70px; text-decoration:none; margin-top:60px; box-shadow: 0 15px 40px rgba(255,204,0,0.4); animation: pulse 2s infinite;">🏁 فهمت الحدوتة؟ يلا بينا على الـ 20 سؤال! 🏆</a>
-
-</div>
-
-<script>
-    function run(id, outId) {
+    <script>
+      function run(id, outId) {
         const code = document.getElementById(id).value;
         const out = document.getElementById(outId);
         out.style.display = "block";
         out.innerHTML = "";
         const originalLog = console.log;
-        console.log = function(m) { out.innerHTML += "✨ " + m + "<br>"; };
+        console.log = function (m) {
+          out.innerHTML += "✨ " + m + "<br>";
+        };
         try {
-            eval(code);
-        } catch(e) {
-            out.innerHTML = "<span style='color:#ff3e3e; font-weight:900;'>❌ قفشة (Scope Error)!<br>بص يا برنس، إنت بتنادي على العداد بره الأوضة بتاعته، وده في البرمجة اسمه 'تهور'!</span>";
+          eval(code);
+        } catch (e) {
+          out.innerHTML =
+            "<span style='color:#ff3e3e; font-weight:900;'>❌ قفشة (Scope Error)!<br>بص يا برنس، إنت بتنادي على العداد بره الأوضة بتاعته، وده في البرمجة اسمه 'تهور'!</span>";
         }
         console.log = originalLog;
-    }
-</script>
-
-</body>
+      }
+    </script>
+  </body>
 </html>

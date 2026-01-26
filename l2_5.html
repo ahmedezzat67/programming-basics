@@ -114,7 +114,168 @@
         }
 
         footer { text-align: center; padding: 60px; color: var(--text-gray); }
+        
+    /* إزالة أي نصوص أو أيقونات قديمة متبقية */
+    .mission-control-panel .victory-icon, 
+    .mission-control-panel .footer-title, 
+    .mission-control-panel .footer-subtitle,
+    .mission-control-panel .nav-hint {
+        display: none !important;
+    }
 
+    :root {
+        --neon-pink: #ff007a;
+        --neon-blue: #00d2ff;
+        --neon-purple: #6c5ce7;
+        --neon-gold: #f1c40f;
+        --glass-bg: #0f172a;
+    }
+
+    /* الزرار الوردي الكبير */
+    .hero-quiz-button {
+        display: inline-flex;
+        align-items: center;
+        gap: 20px;
+        padding: 22px 55px;
+        background: linear-gradient(45deg, var(--neon-pink), #ff4d97);
+        color: white !important;
+        text-decoration: none !important;
+        border-radius: 100px;
+        font-size: 2rem;
+        font-weight: 900;
+        box-shadow: 0 0 40px rgba(255, 0, 122, 0.4);
+        position: relative;
+        transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        overflow: hidden;
+    }
+
+    .hero-quiz-button:hover {
+        transform: scale(1.05) translateY(-5px);
+        box-shadow: 0 0 60px rgba(255, 0, 122, 0.7);
+    }
+
+    /* لوحة التحكم الزجاجية */
+    .navigation-glass-card {
+        max-width: 850px;
+        margin: 0 auto;
+        padding: 25px;
+        background: var(--glass-bg);
+        border-radius: 35px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+    }
+
+    .action-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+
+    /* أزرار الكبسولة */
+    .capsule-btn {
+        text-decoration: none !important;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 22px;
+        border-radius: 18px;
+        min-width: 200px;
+        transition: all 0.3s ease;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .cap-text { display: flex; flex-direction: column; text-align: right; }
+    .cap-text small { font-size: 0.7rem; color: rgba(255,255,255,0.6); }
+    .cap-text span { font-size: 1rem; font-weight: 800; color: white; }
+    .cap-icon { font-size: 1.3rem; }
+
+    /* ألوان الأزرار */
+    .btn-blue { background: rgba(0, 210, 255, 0.1); }
+    .btn-blue:hover { background: var(--neon-blue); box-shadow: 0 0 30px rgba(0, 210, 255, 0.4); transform: translateY(-5px); }
+
+    .btn-next-gold { background: rgba(241, 196, 15, 0.15); border-color: var(--neon-gold); }
+    .btn-next-gold:hover { background: var(--neon-gold); box-shadow: 0 0 30px rgba(241, 196, 15, 0.5); transform: scale(1.05) translateY(-5px); }
+    .btn-next-gold:hover span, .btn-next-gold:hover small { color: #000; }
+
+    .btn-purple { background: rgba(108, 92, 231, 0.1); }
+    .btn-purple:hover { background: var(--neon-purple); box-shadow: 0 0 30px rgba(108, 92, 231, 0.4); transform: translateY(-5px); }
+
+    /* أنيميشن اللمعة */
+    .shimmer-fast {
+        position: absolute;
+        top: 0; left: -100%;
+        width: 100%; height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+        animation: loading-shm 3s infinite;
+    }
+
+    @keyframes loading-shm { 0% { left: -100%; } 40% { left: 100%; } 100% { left: 100%; } }
+
+    @media (max-width: 768px) {
+        .hero-quiz-button { font-size: 1.3rem; width: 95%; padding: 18px; }
+        .capsule-btn { width: 100%; }
+        .btn-next-gold { order: -1; }
+    }
+    .main-footer {
+        margin-top: 80px;
+        padding: 40px 20px;
+        background: #0f172a; /* نفس لون خلفية الأزرار للتوحيد */
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+        text-align: center;
+        border-radius: 40px 40px 0 0; /* انحناء علوي شيك */
+    }
+
+    .congrats-text {
+        color: #94a3b8;
+        font-size: 1.1rem;
+        margin-bottom: 20px;
+        font-weight: 500;
+        opacity: 0.9;
+    }
+
+    .signature {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .design-by {
+        color: #64748b;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+    }
+
+    .engineer-name {
+        color: #fff;
+        font-family: 'Poppins', sans-serif; /* يفضل استخدام خط إنجليزي فخم */
+        font-size: 1.4rem;
+        font-weight: 800;
+        letter-spacing: 1px;
+        text-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+        position: relative;
+    }
+
+    /* خط تحت الاسم يعطي لمسة جمالية */
+    .engineer-name::after {
+        content: '';
+        display: block;
+        width: 40px;
+        height: 3px;
+        background: linear-gradient(90deg, #ff007a, #00d2ff);
+        margin: 8px auto 0;
+        border-radius: 10px;
+    }
+
+    @media (max-width: 768px) {
+        .congrats-text { font-size: 1rem; }
+        .engineer-name { font-size: 1.2rem; }
+    }
     </style>
 </head>
 <body>
@@ -293,26 +454,55 @@
         <p><b>مبروك! إنت دلوقتي وصلت ليفل "المهندس" اللي فاهم الكود بيتنفس إزاي.</b></p>
     </div>
 </div>
-<div style="text-align: center; margin: 100px 0; padding: 40px; background: #fff; border-radius: 30px; box-shadow: 0 -10px 30px rgba(0,0,0,0.02);">
-    <h2 style="color: var(--text-dark); margin-bottom: 20px;">جاهز تثبت إنك بقيت "وحش مصفوفات"؟ 🦁</h2>
-    <p style="color: var(--text-gray); margin-bottom: 30px; font-size: 1.2rem;">
-        بعد ما رغينا كتير وفهمنا المصفوفة والـ For والـ If.. جه وقت التحدي الحقيقي.
-    </p>
-    
-    <a href="quiz_lesson_5.html" style="text-decoration: none;">
-        <button class="btn-action" style="background: linear-gradient(135deg, #00b894, #55efc4); color: white; font-size: 1.8rem; padding: 25px 80px; border: none; border-radius: 100px; cursor: pointer; box-shadow: 0 15px 35px rgba(0, 184, 148, 0.3); transition: 0.3s; font-weight: 900;">
-            📝 ابدأ الاختبار الآن
-        </button>
-    </a>
-    
-    <p style="margin-top: 20px; color: var(--accent-pink); font-weight: bold;">
-        تنبيه: لا يدخل الاختبار إلا العباقرة! 🧠
-    </p>
-    
-<footer>
-    <p>تم بحمد الله.. مصفوفات، تكرار، وشروط. إنت الآن مبرمج فاهم مش حافظ!</p>
-</footer>
+<div class="mission-control-panel" style="margin-top: 50px; text-align: center;">
 
+    <div style="margin-bottom: 40px;">
+        <a href="quiz_lesson_5.html" class="hero-quiz-button">
+            <span class="btn-label">انطلق لتحدي الـ 20 سؤال!</span>
+            <span class="btn-trophy">🏆</span>
+            <div class="button-glow"></div>
+        </a>
+    </div>
+
+    <div class="navigation-glass-card">
+        <div class="action-buttons">
+            
+            <a href="l2_4.html" class="capsule-btn btn-blue">
+                <span class="cap-icon">⏪</span>
+                <div class="cap-text">
+                    <small>السابق</small>
+                    <span>الدرس الرابع</span>
+                </div>
+            </a>
+
+            <a href="l2_6.html" class="capsule-btn btn-next-gold">
+                <span class="cap-icon">🚀</span>
+                <div class="cap-text">
+                    <small>التالي</small>
+                    <span>الدرس السادس</span>
+                </div>
+                <div class="shimmer-fast"></div>
+            </a>
+
+            <a href="lessons_term2.html" class="capsule-btn btn-purple">
+                <span class="cap-icon">🏠</span>
+                <div class="cap-text">
+                    <small>الذهاب إلى</small>
+                    <span>الرئيسية</span>
+                </div>
+            </a>
+
+        </div>
+    </div>
+</div>
+<footer class="main-footer">
+    <div class="footer-content">
+        <div class="signature">
+           <span class="design-by">تم التصميم والتطوير بواسطة</span>
+            <span class="engineer-name">Eng. Ahmed Ezzat</span>
+        </div>
+    </div>
+</footer>
 </div>
 
 </div>

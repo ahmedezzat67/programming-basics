@@ -214,6 +214,123 @@
         padding: 60px;
         color: #95a5a6;
       }
+      
+    :root {
+        --neon-pink: #ff007a;
+        --neon-blue: #00d2ff;
+        --neon-purple: #6c5ce7;
+        --neon-gold: #f1c40f;
+        --glass-bg: #0f172a;
+    }
+
+    /* الزرار الوردي الكبير */
+    .hero-quiz-button {
+        display: inline-flex;
+        align-items: center;
+        gap: 20px;
+        padding: 22px 55px;
+        background: linear-gradient(45deg, var(--neon-pink), #ff4d97);
+        color: white !important;
+        text-decoration: none !important;
+        border-radius: 100px;
+        font-size: 2rem;
+        font-weight: 900;
+        box-shadow: 0 0 40px rgba(255, 0, 122, 0.4);
+        position: relative;
+        transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        overflow: hidden;
+    }
+
+    .hero-quiz-button:hover {
+        transform: scale(1.05) translateY(-5px);
+        box-shadow: 0 0 60px rgba(255, 0, 122, 0.7);
+    }
+
+    /* لوحة التحكم الزجاجية */
+    .navigation-glass-card {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 25px;
+        background: var(--glass-bg);
+        border-radius: 35px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+    }
+
+    .action-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        flex-wrap: wrap;
+    }
+
+    /* أزرار الكبسولة */
+    .capsule-btn {
+        text-decoration: none !important;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 22px;
+        border-radius: 18px;
+        min-width: 210px;
+        transition: all 0.3s ease;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .cap-text { display: flex; flex-direction: column; text-align: right; }
+    .cap-text small { font-size: 0.7rem; color: rgba(255,255,255,0.6); }
+    .cap-text span { font-size: 1rem; font-weight: 800; color: white; }
+    .cap-icon { font-size: 1.3rem; }
+
+    /* الألوان */
+    .btn-blue { background: rgba(0, 210, 255, 0.1); }
+    .btn-blue:hover { background: var(--neon-blue); box-shadow: 0 0 30px rgba(0, 210, 255, 0.4); transform: translateY(-5px); }
+
+    .btn-next-gold { background: rgba(241, 196, 15, 0.15); border-color: var(--neon-gold); }
+    .btn-next-gold:hover { background: var(--neon-gold); box-shadow: 0 0 30px rgba(241, 196, 15, 0.5); transform: scale(1.05) translateY(-5px); }
+    .btn-next-gold:hover span, .btn-next-gold:hover small { color: #000; }
+
+    .btn-purple { background: rgba(108, 92, 231, 0.1); }
+    .btn-purple:hover { background: var(--neon-purple); box-shadow: 0 0 30px rgba(108, 92, 231, 0.4); transform: translateY(-5px); }
+
+    /* فوتر البشمهندس */
+    .main-footer {
+        margin-top: 80px;
+        padding: 50px 20px;
+        background: #0f172a;
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+        text-align: center;
+        border-radius: 50px 50px 0 0;
+    }
+
+    .congrats-text { color: #94a3b8; font-size: 1.1rem; margin-bottom: 25px; font-weight: 600; }
+    .signature { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+    .design-by { color: #64748b; font-size: 0.9rem; }
+    .engineer-name { color: #ffffff; font-family: 'Poppins', sans-serif; font-size: 1.5rem; font-weight: 800; }
+    .engineer-name::after {
+        content: ''; display: block; width: 60px; height: 3px;
+        background: linear-gradient(90deg, #ff007a, #00d2ff);
+        margin: 10px auto 0; border-radius: 10px;
+    }
+
+    /* أنيميشن اللمعة */
+    .shimmer-fast {
+        position: absolute;
+        top: 0; left: -100%;
+        width: 100%; height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+        animation: loading-shm 3s infinite;
+    }
+    @keyframes loading-shm { 0% { left: -100%; } 40% { left: 100%; } 100% { left: 100%; } }
+
+    @media (max-width: 768px) {
+        .hero-quiz-button { font-size: 1.3rem; width: 95%; padding: 18px; }
+        .capsule-btn { width: 100%; }
+        .btn-next-gold { order: -1; }
+    }
     </style>
   </head>
   <body>
@@ -626,135 +743,57 @@ for (let item of words) {
             </p>
           </div>
         </section>
-       <div style="text-align: center; margin: 100px 0 50px 0; padding: 40px; background: #f8f9fa; border-radius: 50px;" data-aos="fade-up">
-    
-    <h2 style="color: #2d3436; margin-bottom: 30px; border: none;">🏆 لقد أتممت المهمة بنجاح! ماذا ستفعل الآن؟</h2>
+       <div class="mission-control-panel" style="margin-top: 80px; text-align: center;">
 
-    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; align-items: center;">
-        
-        <a href="l2_5.html" style="text-decoration: none">
-            <button class="nav-btn secondary-btn">
-                ⬅️ العودة للدرس الخامس
-            </button>
+    <div style="margin-bottom: 50px;">
+        <a href="quiz_lesson_6.html" class="hero-quiz-button">
+            <span class="btn-label">ابدأ التحدي واختبر ذكاءك!</span>
+            <span class="btn-trophy">📝</span>
+            <div class="button-glow"></div>
         </a>
+    </div>
 
-        <a href="quiz_lesson_6.html" style="text-decoration: none">
-            <button class="nav-btn primary-btn">
-                📝 ابدأ التحدي واختبر ذكاءك
-            </button>
-        </a>
+    <div class="navigation-glass-card">
+        <div class="action-buttons">
+            
+            <a href="l2_5.html" class="capsule-btn btn-blue">
+                <span class="cap-icon">⏪</span>
+                <div class="cap-text">
+                    <small>السابق</small>
+                    <span>الدرس الخامس</span>
+                </div>
+            </a>
 
-        <a href="lessons_term2.html" style="text-decoration: none">
-            <button class="nav-btn ghost-btn">
-                🏠 القائمة الرئيسية
-            </button>
-        </a>
+            <a href="l2_7.html" class="capsule-btn btn-next-gold">
+                <span class="cap-icon">🚀</span>
+                <div class="cap-text">
+                    <small>التالي</small>
+                    <span>الدرس السابع</span>
+                </div>
+                <div class="shimmer-fast"></div>
+            </a>
 
+            <a href="lessons_term2.html" class="capsule-btn btn-purple">
+                <span class="cap-icon">🏠</span>
+                <div class="cap-text">
+                    <small>الذهاب إلى</small>
+                    <span>الرئيسية</span>
+                </div>
+            </a>
+
+        </div>
     </div>
 </div>
 
-<style>
-    /* التنسيق العام للأزرار */
-    .nav-btn {
-        padding: 20px 45px;
-        font-size: 1.4rem;
-        font-weight: 900;
-        border: none;
-        border-radius: 50px;
-        cursor: pointer;
-        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        min-width: 250px;
-    }
+<footer class="main-footer">
+    <div class="footer-content">
+        <div class="signature">
+            <span class="design-by">تم التصميم والتطوير بواسطة</span>
+            <span class="engineer-name">Eng. Ahmed Ezzat</span>
+        </div>
+    </div>
+</footer>
 
-    /* زرار الاختبار - أخضر متدرج */
-    .primary-btn {
-        background: linear-gradient(135deg, #00b894, #55efc4);
-        color: white;
-        box-shadow: 0 15px 30px rgba(0, 184, 148, 0.3);
-        font-size: 1.8rem;
-        padding: 25px 60px;
-    }
-
-    .primary-btn:hover {
-        transform: scale(1.1) translateY(-5px);
-        box-shadow: 0 20px 40px rgba(0, 184, 148, 0.5);
-    }
-
-    /* زرار الدرس السابق - أزرق */
-    .secondary-btn {
-        background: linear-gradient(135deg, #0984e3, #74b9ff);
-        color: white;
-        box-shadow: 0 10px 20px rgba(9, 132, 227, 0.2);
-    }
-
-    .secondary-btn:hover {
-        transform: scale(1.05);
-        box-shadow: 0 15px 30px rgba(9, 132, 227, 0.4);
-    }
-
-    /* زرار القائمة الرئيسية - رمادي غامق */
-    .ghost-btn {
-        background: #dfe6e9;
-        color: #2d3436;
-        border: 2px solid #b2bec3;
-    }
-
-    .ghost-btn:hover {
-        background: #2d3436;
-        color: white;
-        transform: scale(1.05);
-    }
-
-    /* استجابة للهواتف */
-    @media (max-width: 768px) {
-        .nav-btn {
-            width: 100%;
-            font-size: 1.2rem;
-            padding: 15px 30px;
-        }
-        .primary-btn {
-            font-size: 1.4rem;
-        }
-    }
-</style>
-        <footer
-          style="
-            padding: 15px 0;
-            margin-top: 30px;
-            background: #ffffff;
-            border-top: 1px solid #f1f5f9;
-            text-align: center;
-          "
-        >
-          <p
-            style="
-              margin: 0;
-              font-size: 0.9rem;
-              color: #475569;
-              font-weight: 500;
-            "
-          >
-            تم تطوير وبرمجة هذا الدرس بواسطة
-            <span style="color: #6366f1; font-weight: 900"
-              >Engineer Ahmed Ezza</span
-            >
-            💻 ✨
-          </p>
-          <p
-            style="
-              margin: 3px 0 0 0;
-              font-size: 0.75rem;
-              color: #94a3b8;
-              text-transform: uppercase;
-              letter-spacing: 0.5px;
-            "
-          >
-            Programming Expert Edition © 2026
-          </p>
-        </footer>
         <script>
           function executeEx(id) {
             const code = document.getElementById("code-" + id).value;

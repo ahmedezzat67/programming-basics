@@ -210,8 +210,162 @@ console.log("النتيجة النهائية العملاقة لضرب 10 أرق
         </div>
     </div>
 
-    <a href="quiz_lesson_4.html" class="quiz-teaser animate__animated animate__pulse animate__infinite">🏁 المفاعل جاهز.. انطلق للاختبار! 🚀</a>
+   <div class="reactor-control-zone" style="margin-top: 100px; text-align: center;">
+    
+    <div style="margin-bottom: 60px;">
+        <a href="quiz_lesson_4.html" class="reactor-btn animate__animated animate__pulse animate__infinite">
+            <div class="reactor-core"></div>
+            <span class="btn-text">🏁 المفاعل جاهز.. انطلق للاختبار! 🚀</span>
+        </a>
+    </div>
 
+    <div class="energy-nav-card">
+        <p class="energy-status">⚡ حالة المسار: مكتمل بنسبة 100% - حدد وجهتك القادمة</p>
+        
+        <div class="control-buttons">
+            
+            <a href="l2_3.html" class="energy-btn btn-prev-energy">
+                <span class="eng-icon">⏪</span>
+                <div class="eng-txt">
+                    <small>النظام السابق</small>
+                    <span>الدرس الثالث</span>
+                </div>
+            </a>
+
+            <a href="l2_5.html" class="energy-btn btn-next-energy">
+                <span class="eng-icon">☢️</span>
+                <div class="eng-txt">
+                    <small>النظام القادم</small>
+                    <span>الدرس الخامس</span>
+                </div>
+                <div class="energy-pulse"></div>
+            </a>
+
+            <a href="lessons_term2.html" class="energy-btn btn-home-energy">
+                <span class="eng-icon">🏠</span>
+                <div class="eng-txt">
+                    <small>المقر</small>
+                    <span>الرئيسية</span>
+                </div>
+            </a>
+
+        </div>
+    </div>
+</div>
+
+<style>
+    :root {
+        --reactor-cyan: #00f2fe;
+        --reactor-green: #00ffcc;
+        --reactor-bg: #0b0f1a;
+    }
+
+    /* زرار المفاعل الرئيسي */
+    .reactor-btn {
+        display: inline-flex;
+        align-items: center;
+        padding: 25px 60px;
+        background: linear-gradient(135deg, #00d2ff, #3a7bd5);
+        color: white;
+        text-decoration: none;
+        border-radius: 50px;
+        font-size: 2.2rem;
+        font-weight: 900;
+        box-shadow: 0 0 50px rgba(0, 210, 255, 0.5), inset 0 0 20px rgba(255,255,255,0.3);
+        position: relative;
+        border: 3px solid var(--reactor-cyan);
+        transition: 0.4s;
+        z-index: 1;
+    }
+
+    .reactor-btn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 80px var(--reactor-cyan);
+        color: #fff;
+    }
+
+    /* لوحة التحكم (Dark Sci-Fi Design) */
+    .energy-nav-card {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 40px;
+        background: var(--reactor-bg);
+        border-radius: 40px;
+        border: 2px solid #1e293b;
+        box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+        position: relative;
+    }
+
+    .energy-status {
+        color: var(--reactor-green);
+        font-family: 'Courier New', monospace;
+        margin-bottom: 30px;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .control-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        flex-wrap: wrap;
+    }
+
+    /* أزرار الطاقة */
+    .energy-btn {
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 15px 30px;
+        border-radius: 20px;
+        min-width: 220px;
+        background: #161e2e;
+        border: 1px solid #334155;
+        transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .eng-txt { display: flex; flex-direction: column; text-align: right; }
+    .eng-txt small { font-size: 0.75rem; color: #94a3b8; }
+    .eng-txt span { font-size: 1.1rem; font-weight: 800; color: #fff; }
+    .eng-icon { font-size: 1.5rem; }
+
+    /* تأثيرات الـ Hover */
+    .btn-prev-energy:hover { border-color: #3b82f6; background: rgba(59, 130, 246, 0.1); }
+    
+    .btn-next-energy { border-color: var(--reactor-green); }
+    .btn-next-energy:hover { 
+        background: rgba(0, 255, 204, 0.1); 
+        box-shadow: 0 0 20px rgba(0, 255, 204, 0.2);
+        transform: translateY(-5px);
+    }
+
+    .btn-home-energy:hover { border-color: #6366f1; background: rgba(99, 102, 241, 0.1); }
+
+    /* أنيميشن نبض الطاقة للدرس الخامس */
+    .energy-pulse {
+        position: absolute;
+        bottom: 0; left: 0;
+        width: 100%; height: 2px;
+        background: var(--reactor-green);
+        box-shadow: 0 0 10px var(--reactor-green);
+        animation: slide-energy 2s infinite;
+    }
+
+    @keyframes slide-energy {
+        0% { transform: translateX(-100%); }
+        100% { transform: translateX(100%); }
+    }
+
+    @media (max-width: 768px) {
+        .reactor-btn { font-size: 1.4rem; padding: 20px; width: 95%; }
+        .energy-btn { width: 100%; }
+        .btn-next-energy { order: -1; }
+    }
+</style>
 </div>
 
 <script>

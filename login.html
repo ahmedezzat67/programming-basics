@@ -10,7 +10,6 @@
         --secondary: #7000ff;
         --bg-dark: #020305;
         --glass: rgba(255, 255, 255, 0.03);
-        /* التوهج القوي للخلفية */
         --neon-shadow: 0 0 20px rgba(0, 242, 255, 0.2), 0 0 40px rgba(112, 0, 255, 0.1);
       }
 
@@ -20,8 +19,8 @@
         font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
         background-color: var(--bg-dark);
         color: white;
-        height: 100vh;
-        overflow: hidden;
+        min-height: 100vh;
+        overflow: auto;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -41,21 +40,17 @@
         background: var(--glass);
         backdrop-filter: blur(25px);
         -webkit-backdrop-filter: blur(25px);
-        width: 380px;
-        max-width: 85%; 
-        padding: 45px;
+        width: 100%;
+        max-width: 380px; 
+        padding: 35px 25px;
         border-radius: 30px;
         border: 1px solid rgba(0, 242, 255, 0.2);
-        
-        /* تأثير الـ 3D والتوهج */
         transform: rotateX(5deg) rotateY(-2deg); 
         box-shadow: -10px 10px 50px rgba(0, 0, 0, 0.9), var(--neon-shadow);
-        
         text-align: center;
         transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
       }
 
-      /* التوهج بيزيد لما نلمس الكارت */
       .login-container:hover, .login-container:active {
         transform: rotateX(0deg) rotateY(0deg) scale(1.02);
         border-color: var(--primary);
@@ -71,7 +66,7 @@
         -webkit-background-clip: text;
         background-clip: text;
         -webkit-text-fill-color: transparent;
-        color: var(--primary); /* Fallback */
+        color: var(--primary);
         animation: shine 3s linear infinite;
         display: inline-block;
         width: 100%;
@@ -110,7 +105,6 @@
         box-shadow: 0 0 15px rgba(0, 242, 255, 0.2);
       }
 
-      /* الزر الرئيسي المنور */
       .btn-login {
         width: 100%;
         padding: 16px;
@@ -127,7 +121,6 @@
         box-shadow: 0 5px 20px rgba(0, 242, 255, 0.3);
       }
 
-      /* اللمعة اللي بتروح وتيجي جوه الزر */
       .btn-login::before {
         content: '';
         position: absolute;
@@ -188,12 +181,10 @@
     </div>
 
     <script>
-      // بيانات الطلاب
       const students = [
         { email: "ahmedezzatomar6@gmail.com", code: "bqCIfxHgHg" },
       ];
 
-      // كود الماتريكس التفاعلي
       const canvas = document.getElementById("matrix");
       const ctx = canvas.getContext("2d");
       function res() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
@@ -225,9 +216,12 @@
           drops[i]++;
         }
       }
-      setInterval(draw, 40);
 
-      // منطق الدخول
+      // تشغيل الماتريكس فقط على اللاب
+      if (!(/Android|iPhone|iPad|iPod/i.test(navigator.userAgent))) {
+        setInterval(draw, 80);
+      }
+
       document.getElementById("loginBtn").onclick = function() {
         const e = document.getElementById("email").value.trim();
         const c = document.getElementById("code").value.trim();
@@ -236,7 +230,6 @@
         else { alert("البيانات غير صحيحة"); }
       };
 
-      // طلب الكود
       document.getElementById("requestBtn").onclick = function() {
         const e = document.getElementById("email").value.trim();
         if(!e) { alert("أدخل الجيميل أولاً"); return; }

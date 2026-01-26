@@ -101,4 +101,3 @@ const students = [
   { email: "", code: "" }, // 100
 ];
 
-export default students;

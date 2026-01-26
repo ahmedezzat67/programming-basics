@@ -1,75 +1,103 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <title>تسجيل الدخول | منصة المهندس</title>
+  <head>
+    <meta charset="UTF-8" />
+    <title>تسجيل الدخول</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma; background: #f0f2f5; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        .login-card { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 350px; text-align: center; }
-        input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
-        button { width: 100%; padding: 12px; background: #0d6efd; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 16px; }
-        .admin-trigger { position: fixed; bottom: 10px; right: 10px; width: 20px; height: 20px; cursor: pointer; opacity: 0.2; }
+      body {
+        margin: 0;
+        font-family: Tahoma;
+        background: linear-gradient(135deg, #0d6efd, #6610f2);
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .box {
+        background: #fff;
+        width: 360px;
+        padding: 30px;
+        border-radius: 18px;
+        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4);
+        text-align: center;
+      }
+      .box h2 {
+        color: #0d6efd;
+        margin-bottom: 20px;
+      }
+      .box input {
+        width: 100%;
+        padding: 14px;
+        margin-bottom: 15px;
+        border-radius: 12px;
+        border: 1px solid #ccc;
+        font-size: 16px;
+      }
+      .box button {
+        width: 100%;
+        padding: 14px;
+        border: none;
+        border-radius: 30px;
+        background: #0d6efd;
+        color: #fff;
+        font-size: 18px;
+        font-weight: bold;
+        cursor: pointer;
+      }
+      .box button:hover {
+        background: #0b5ed7;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
+    <div class="box">
+      <h2>🔐 تسجيل الدخول</h2>
 
-<div class="login-card">
-    <h2>تسجيل دخول 🔑</h2>
-    <input type="email" id="email" placeholder="البريد الإلكتروني">
-    <input type="password" id="pass" placeholder="كلمة المرور">
-    <button onclick="login()">دخول للمنهج</button>
-    <p>ليس لديك حساب؟ <a href="register.html">اضغط هنا للتسجيل</a></p>
-</div>
+      <input type="email" id="email" placeholder="الإيميل" />
+      <input type="text" id="code" placeholder="كود الدخول" />
 
-<div class="admin-trigger" onclick="goAdmin()">⚙️</div>
+      <button onclick="login()">دخول الترم الثاني</button>
+      <br /><br />
+      <button onclick="requestCode()">طلب كود</button>
+    </div>
 
-<script>
-    function login() {
-        const email = document.getElementById('email').value;
-        const pass = document.getElementById('pass').value;
+    <script src="students.js"></script>
 
-        // جلب قائمة الطلاب من الذاكرة
-        let students = JSON.parse(localStorage.getItem('studentRequests')) || [];
+    <script>
+      function login() {
+        let email = document.getElementById("email").value.trim();
+        let code = document.getElementById("code").value.trim();
 
-        // البحث عن الطالب بالإيميل والباسورد
-        const student = students.find(s => s.email === email && s.password === pass);
+        if (email === "" || code === "") {
+          alert("اكتب الإيميل والكود");
+          return;
+        }
 
-        if (student) {
-            if (student.status === '✅ تم التفعيل') {
-                // لو وافقت عليه يدخل
-                localStorage.setItem("isApproved", "true");
-                window.location.href = "lessons_term2.html";
-            } else {
-                // لو لسه ما وافقتش
-                alert("حسابك قيد الانتظار.. يرجى التواصل مع البشمهندس لتفعيل الكود الخاص بك.");
-            }
+        let found = students.find((s) => s.email === email && s.code === code);
+
+        if (found) {
+          window.location.href = "lessons_term2.html";
         } else {
-            alert("بيانات الدخول غير صحيحة أو الحساب غير موجود.");
+          alert("بيانات غير صحيحة");
         }
-    }
+      }
 
-    function goAdmin() {
-        if (prompt("كلمة سر الإدارة:") === "ahmed/1/4") {
-            window.location.href = "admin_panel.html";
+      function requestCode() {
+        let email = document.getElementById("email").value.trim();
+
+        if (email === "") {
+          alert("اكتب الإيميل عشان نبعته ليا على واتساب");
+          return;
         }
-    }
-</script>
-<div id="adminLink" onclick="accessAdmin()" style="position: fixed; bottom: 10px; right: 10px; width: 30px; height: 30px; background: rgba(0,0,0,0.05); border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 1000; color: transparent;">
-    ⚙️
-    <style>
-        #adminLink:hover { background: rgba(0,0,0,0.2); color: #666; }
-    </style>
-</div>
 
-<script>
-function accessAdmin() {
-    var pass = prompt("منطقة محظورة! أدخل كلمة مرور الإدارة:");
-    if (pass === "ahmed/1/4") {
-        window.location.href = "admin_panel.html";
-    } else if (pass !== null) {
-        alert("كلمة المرور خطأ!");
-    }
-}
-</script>
-</body>
+        let phone = "201003090216"; // رقمك بالـ +20
+        let msg = `يا باشمهندس أحمد، أنا طالب وعايز كود دخول للترم الثاني.
+الإيميل: ${email}
+لو سمحت ابعتلي الكود`;
+
+        let url = `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
+        window.open(url, "_blank");
+      }
+    </script>
+  </body>
 </html>

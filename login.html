@@ -184,50 +184,52 @@
       <div class="terminal-text">STATUS: SECURE_LINK_READY</div>
     </div>
 
-    <script type="module">
-      import students from "./students.js";
+   <script src="./students.js"></script>
 
-      // إعدادات الـ Matrix التفاعلية والمحسنة
+    <script>
+      // 1. إعدادات الـ Matrix التفاعلية
       const canvas = document.getElementById("matrix");
       const ctx = canvas.getContext("2d");
 
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+      resizeCanvas();
+      window.addEventListener('resize', resizeCanvas);
 
-      // أرقام وحروف برمجية متنوعة
       const alphabet = "011010101011010101010ABCDEFHIJKLMNOPQRSTUVWXYZ";
       const fontSize = 18;
       const columns = canvas.width / fontSize;
       const drops = Array.from({ length: Math.floor(columns) }).fill(1);
 
-      // تتبع مكان الماوس للتفاعل
       let mouseX = 0;
       let mouseY = 0;
-      window.addEventListener('mousemove', (e) => {
-          mouseX = e.clientX;
-          mouseY = e.clientY;
-      });
+      // دعم الماوس واللمس للتفاعل على التليفون
+      const updateMouse = (e) => {
+        mouseX = e.clientX || (e.touches && e.touches[0].clientX);
+        mouseY = e.clientY || (e.touches && e.touches[0].clientY);
+      };
+      window.addEventListener('mousemove', updateMouse);
+      window.addEventListener('touchmove', updateMouse);
 
       function drawMatrix() {
-        // خلفية شبه شفافة لخلق تأثير ذيل الأرقام (Trail)
         ctx.fillStyle = "rgba(2, 3, 5, 0.15)";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
         for (let i = 0; i < drops.length; i++) {
           const x = i * fontSize;
           const y = drops[i] * fontSize;
-
-          // حساب المسافة عن الماوس
           const distance = Math.sqrt((x - mouseX) ** 2 + (y - mouseY) ** 2);
 
           if (distance < 120) {
-            ctx.fillStyle = "#ffffff"; // يبيض عند اقتراب الماوس
+            ctx.fillStyle = "#ffffff";
             ctx.font = "bold " + (fontSize + 2) + "px monospace";
           } else if (Math.random() > 0.98) {
-            ctx.fillStyle = "#ffffff"; // ومضات عشوائية
+            ctx.fillStyle = "#ffffff";
             ctx.font = fontSize + "px monospace";
           } else {
-            ctx.fillStyle = "#00f2ff"; // اللون الأساسي (واضح ومنور)
+            ctx.fillStyle = "#00f2ff";
             ctx.font = fontSize + "px monospace";
           }
 
@@ -238,22 +240,21 @@
           drops[i]++;
         }
       }
-
-      // سرعة تحديث الفريمات
       setInterval(drawMatrix, 40);
 
-      window.onresize = () => {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-      };
-
-      // وظيفة تسجيل الدخول
+      // 2. وظيفة تسجيل الدخول (استخدام متغير students العالمي)
       document.getElementById("loginBtn").onclick = function () {
         let email = document.getElementById("email").value.trim();
         let code = document.getElementById("code").value.trim();
 
         if (email === "" || code === "") {
           alert("برجاء إدخال الجيميل والكود");
+          return;
+        }
+
+        // التأكد من أن ملف students.js محمل
+        if (typeof students === 'undefined') {
+          alert("خطأ: لم يتم تحميل ملف الطلاب. تأكد من وجود ملف students.js بجانب هذه الصفحة.");
           return;
         }
 
@@ -266,7 +267,7 @@
         }
       };
 
-      // وظيفة طلب الكود (بالصيغة المصرية المطلوبة)
+      // 3. وظيفة طلب الكود
       document.getElementById("requestBtn").onclick = function () {
         let email = document.getElementById("email").value.trim();
         if (email === "") {
@@ -274,8 +275,7 @@
           return;
         }
 
-        // توليد كود عشوائي احترافي
-        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         let code = "";
         for (let i = 0; i < 10; i++) {
             code += chars.charAt(Math.floor(Math.random() * chars.length));
@@ -284,8 +284,7 @@
         let phone = "201003090216";
         let msg = `أنا طالب عندك وعايز حضرتك تسجلني عشان أدخل للترم الثاني.\nالجيميل بتاعي اهو: ${email}\nوالكود بتاعي اهو: ${code}`;
         
-        let url = `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
-        window.open(url, "_blank");
+        window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, "_blank");
       };
     </script>
   </body>

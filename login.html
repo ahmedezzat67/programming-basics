@@ -2,74 +2,258 @@
 <html lang="ar" dir="rtl">
   <head>
     <meta charset="UTF-8" />
-    <title>تسجيل الدخول</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>بوابة المهندس - تسجيل الدخول</title>
     <style>
+      :root {
+        --primary: #00f2ff;
+        --secondary: #7000ff;
+        --bg-dark: #020305; /* خلفية سوداء أعمق لإبراز النيون */
+        --glass: rgba(255, 255, 255, 0.03);
+        --neon-shadow: 0 0 20px rgba(0, 242, 255, 0.2), 0 0 40px rgba(112, 0, 255, 0.1);
+      }
+
       body {
         margin: 0;
-        font-family: Tahoma;
-        background: linear-gradient(135deg, #0d6efd, #6610f2);
+        padding: 0;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: var(--bg-dark);
+        color: white;
         height: 100vh;
+        overflow: hidden;
         display: flex;
         align-items: center;
         justify-content: center;
+        perspective: 1200px; 
       }
-      .box {
-        background: #fff;
-        width: 360px;
-        padding: 30px;
-        border-radius: 18px;
-        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4);
-        text-align: center;
+
+      canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 0;
+        /* إزالة التعتيم لجعل الأرقام واضحة تماماً */
       }
-      .box h2 {
-        color: #0d6efd;
-        margin-bottom: 20px;
-      }
-      .box input {
-        width: 100%;
-        padding: 14px;
-        margin-bottom: 15px;
-        border-radius: 12px;
-        border: 1px solid #ccc;
-        font-size: 16px;
-      }
-      .box button {
-        width: 100%;
-        padding: 14px;
-        border: none;
+
+      .login-container {
+        position: relative;
+        z-index: 1;
+        background: var(--glass);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        width: 380px;
+        padding: 45px;
         border-radius: 30px;
-        background: #0d6efd;
+        border: 1px solid rgba(0, 242, 255, 0.2); /* حدود منورة */
+        
+        /* تأثير الـ 3D الافتراضي */
+        transform: rotateX(5deg) rotateY(-2deg); 
+        box-shadow: 
+          -10px 10px 50px rgba(0, 0, 0, 0.8),
+          var(--neon-shadow);
+        
+        text-align: center;
+        transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+      }
+
+      .login-container:hover {
+        transform: rotateX(0deg) rotateY(0deg) scale(1.03);
+        border-color: var(--primary);
+        box-shadow: 
+          0 0 40px rgba(0, 242, 255, 0.4),
+          0 0 80px rgba(112, 0, 255, 0.2);
+      }
+
+      .login-container h2 {
+        font-size: 32px;
+        margin-bottom: 35px;
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        background: linear-gradient(135deg, var(--primary), #ffffff, var(--secondary));
+        background-size: 200% auto;
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        color: transparent;
+        animation: shine 3s linear infinite;
+        display: inline-block;
+        width: 100%;
+      }
+
+      @keyframes shine {
+        to { background-position: 200% center; }
+      }
+
+      /* خط فاصل أنيق تحت العنوان */
+      .separator {
+        width: 50px;
+        height: 2px;
+        background: var(--primary);
+        margin: -25px auto 30px;
+        border-radius: 2px;
+        box-shadow: 0 0 10px var(--primary);
+      }
+
+      .input-group input {
+        width: 100%;
+        padding: 16px;
+        background: rgba(0, 0, 0, 0.5);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 15px;
+        outline: none;
         color: #fff;
+        font-size: 16px;
+        margin-bottom: 22px;
+        box-sizing: border-box;
+        text-align: center;
+        transition: 0.3s;
+      }
+
+      .input-group input:focus {
+        border-color: var(--primary);
+        background: rgba(0, 0, 0, 0.7);
+        box-shadow: 0 0 15px rgba(0, 242, 255, 0.2);
+      }
+
+      .btn-login {
+        width: 100%;
+        padding: 16px;
+        background: linear-gradient(45deg, var(--primary), var(--secondary));
+        border: none;
+        border-radius: 15px;
+        color: white;
         font-size: 18px;
         font-weight: bold;
         cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        transition: 0.4s;
+        box-shadow: 0 4px 15px rgba(0, 242, 255, 0.3);
       }
-      .box button:hover {
-        background: #0b5ed7;
+
+      .btn-login:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 242, 255, 0.5);
+      }
+
+      .btn-request {
+        background: transparent;
+        border: 1px solid rgba(0, 242, 255, 0.4);
+        color: var(--primary);
+        margin-top: 20px;
+        padding: 12px 25px;
+        border-radius: 50px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: 0.3s;
+      }
+
+      .btn-request:hover {
+        background: rgba(0, 242, 255, 0.1);
+        border-color: var(--primary);
+        text-shadow: 0 0 8px var(--primary);
+      }
+
+      .terminal-text {
+        font-family: "Courier New", monospace;
+        font-size: 11px;
+        color: #555;
+        margin-top: 25px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
       }
     </style>
   </head>
   <body>
-    <div class="box">
-      <h2>🔐 تسجيل الدخول</h2>
+    <canvas id="matrix"></canvas>
 
-      <input type="email" id="email" placeholder="الإيميل" />
-      <input type="text" id="code" placeholder="كود الدخول" />
+    <div class="login-container">
+      <h2>&lt; LOGIN /&gt;</h2>
+      <div class="separator"></div>
 
-      <button onclick="login()">دخول الترم الثاني</button>
-      <br /><br />
-      <button onclick="requestCode()">طلب كود</button>
+      <div class="input-group">
+        <input type="email" id="email" placeholder="الجيميل (Gmail)" />
+        <input type="text" id="code" placeholder="كود الدخول" />
+      </div>
+
+      <button class="btn-login" id="loginBtn">دخول للترم الثاني</button>
+
+      <button class="btn-request" id="requestBtn">طلب كود جديد</button>
+
+      <div class="terminal-text">STATUS: SECURE_LINK_READY</div>
     </div>
 
-    <script src="students.js"></script>
+    <script type="module">
+      import students from "./students.js";
 
-    <script>
-      function login() {
+      // إعدادات الـ Matrix التفاعلية والمحسنة
+      const canvas = document.getElementById("matrix");
+      const ctx = canvas.getContext("2d");
+
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      // أرقام وحروف برمجية متنوعة
+      const alphabet = "011010101011010101010ABCDEFHIJKLMNOPQRSTUVWXYZ";
+      const fontSize = 18;
+      const columns = canvas.width / fontSize;
+      const drops = Array.from({ length: Math.floor(columns) }).fill(1);
+
+      // تتبع مكان الماوس للتفاعل
+      let mouseX = 0;
+      let mouseY = 0;
+      window.addEventListener('mousemove', (e) => {
+          mouseX = e.clientX;
+          mouseY = e.clientY;
+      });
+
+      function drawMatrix() {
+        // خلفية شبه شفافة لخلق تأثير ذيل الأرقام (Trail)
+        ctx.fillStyle = "rgba(2, 3, 5, 0.15)";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        for (let i = 0; i < drops.length; i++) {
+          const x = i * fontSize;
+          const y = drops[i] * fontSize;
+
+          // حساب المسافة عن الماوس
+          const distance = Math.sqrt((x - mouseX) ** 2 + (y - mouseY) ** 2);
+
+          if (distance < 120) {
+            ctx.fillStyle = "#ffffff"; // يبيض عند اقتراب الماوس
+            ctx.font = "bold " + (fontSize + 2) + "px monospace";
+          } else if (Math.random() > 0.98) {
+            ctx.fillStyle = "#ffffff"; // ومضات عشوائية
+            ctx.font = fontSize + "px monospace";
+          } else {
+            ctx.fillStyle = "#00f2ff"; // اللون الأساسي (واضح ومنور)
+            ctx.font = fontSize + "px monospace";
+          }
+
+          const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
+          ctx.fillText(text, x, y);
+
+          if (y > canvas.height && Math.random() > 0.975) drops[i] = 0;
+          drops[i]++;
+        }
+      }
+
+      // سرعة تحديث الفريمات
+      setInterval(drawMatrix, 40);
+
+      window.onresize = () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      };
+
+      // وظيفة تسجيل الدخول
+      document.getElementById("loginBtn").onclick = function () {
         let email = document.getElementById("email").value.trim();
         let code = document.getElementById("code").value.trim();
 
         if (email === "" || code === "") {
-          alert("اكتب الإيميل والكود");
+          alert("برجاء إدخال الجيميل والكود");
           return;
         }
 
@@ -78,37 +262,31 @@
         if (found) {
           window.location.href = "lessons_term2.html";
         } else {
-          alert("بيانات غير صحيحة");
+          alert("البيانات غير صحيحة، تأكد من الجيميل والكود");
         }
-      }
+      };
 
-      function generateCode(length = 10) {
-        const chars =
-          "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-        let code = "";
-        for (let i = 0; i < length; i++) {
-          code += chars.charAt(Math.floor(Math.random() * chars.length));
-        }
-        return code;
-      }
-
-      function requestCode() {
+      // وظيفة طلب الكود (بالصيغة المصرية المطلوبة)
+      document.getElementById("requestBtn").onclick = function () {
         let email = document.getElementById("email").value.trim();
         if (email === "") {
-          alert("اكتب الإيميل عشان نبعته ليا على واتساب");
+          alert("اكتب الجيميل بتاعك الأول عشان نبعته في الرسالة");
           return;
         }
 
-        let code = generateCode(10); // كود قوي 10 حروف وأرقام
+        // توليد كود عشوائي احترافي
+        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        let code = "";
+        for (let i = 0; i < 10; i++) {
+            code += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
 
-        let phone = "201003090216"; // رقمك بالـ +20
-        let msg = `يا باشمهندس أحمد، أنا طالب وعايز كود دخول للترم الثاني.
-الإيميل: ${email}
-الكود: ${code}`;
-
+        let phone = "201003090216";
+        let msg = `أنا طالب عندك وعايز حضرتك تسجلني عشان أدخل للترم الثاني.\nالجيميل بتاعي اهو: ${email}\nوالكود بتاعي اهو: ${code}`;
+        
         let url = `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
         window.open(url, "_blank");
-      }
+      };
     </script>
   </body>
 </html>

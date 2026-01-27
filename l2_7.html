@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ar" dir="rtl">
   <head>
     <meta charset="UTF-8" />
@@ -43,9 +43,17 @@
         margin-bottom: 60px;
       }
 
-      .hero-section h1 { font-size: 3.5rem; margin-bottom: 20px; font-weight: 900; }
+      .hero-section h1 {
+        font-size: 3.5rem;
+        margin-bottom: 20px;
+        font-weight: 900;
+      }
 
-      .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+      }
 
       .mega-card {
         background: white;
@@ -68,8 +76,17 @@
         font-weight: bold;
       }
 
-      h2 { color: var(--primary-color); font-size: 2.5rem; margin-bottom: 30px; font-weight: 900; }
-      h3 { color: #0984e3; font-size: 1.8rem; margin-top: 40px; }
+      h2 {
+        color: var(--primary-color);
+        font-size: 2.5rem;
+        margin-bottom: 30px;
+        font-weight: 900;
+      }
+      h3 {
+        color: #0984e3;
+        font-size: 1.8rem;
+        margin-top: 40px;
+      }
 
       .explanation-box {
         background: var(--pastel-blue);
@@ -89,7 +106,12 @@
         box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
       }
 
-      .editor-label { color: #55efc4; margin-bottom: 15px; font-family: monospace; display: block; }
+      .editor-label {
+        color: #55efc4;
+        margin-bottom: 15px;
+        font-family: monospace;
+        display: block;
+      }
 
       .code-area {
         width: 100%;
@@ -125,9 +147,153 @@
         white-space: pre-wrap;
       }
 
-      .example-header { font-weight: 900; color: var(--primary-color); display: block; margin-bottom: 10px; }
-      
-      footer { text-align: center; padding: 40px; color: #636e72; background: white; border-top: 1px solid #eee; }
+      .matrix-end-section {
+        text-align: center;
+        margin: 60px 0;
+        padding: 40px;
+        background: rgba(2, 6, 23, 0.85);
+        border: 2px solid rgba(0, 255, 136, 0.3);
+        border-radius: 40px;
+        backdrop-filter: blur(15px);
+        box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+      }
+
+      /* منطقة الاختبار العلوية */
+      .quiz-highlight-area {
+        margin-bottom: 50px;
+        display: flex;
+        justify-content: center;
+      }
+
+      .end-title {
+        color: #fff;
+        font-family: "Cairo", sans-serif;
+        font-weight: 900;
+        margin-bottom: 40px;
+        font-size: 2rem;
+        text-shadow: 0 0 20px rgba(0, 255, 136, 0.6);
+      }
+
+      .matrix-btn-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+      }
+
+      .matrix-nav-link {
+        text-decoration: none;
+      }
+
+      .matrix-nav-btn {
+        position: relative;
+        padding: 20px 30px;
+        font-family: "Cairo", sans-serif;
+        font-weight: 800;
+        border-radius: 20px;
+        cursor: pointer;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-width: 260px;
+        border: 3px solid transparent;
+      }
+
+      /* ألوان مشبعة جداً (Saturated Neon) */
+
+      /* زر الاختبار (أخضر فسفوري صارخ) */
+      .primary-matrix {
+        background: #00ff00; /* لون مشبع جداً */
+        color: #000;
+        box-shadow: 0 0 40px rgba(0, 255, 0, 0.6);
+        min-width: 400px; /* أكبر عشان هو اللي فوق */
+      }
+      .primary-matrix .btn-text {
+        font-size: 1.6rem;
+      }
+      .primary-matrix:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 70px #00ff00;
+        background: #05ff05;
+      }
+
+      /* زر الدرس الثامن (برتقالي نيون مشبع) */
+      .next-matrix {
+        background: rgba(255, 102, 0, 0.1);
+        color: #ff6600;
+        border-color: #ff6600;
+        box-shadow: 0 0 20px rgba(255, 102, 0, 0.3);
+      }
+      .next-matrix:hover {
+        background: #ff6600;
+        color: #fff;
+        box-shadow: 0 0 50px #ff6600;
+        transform: translateY(-10px);
+      }
+
+      /* زر العودة (أزرق إلكتريك مشبع) */
+      .secondary-matrix {
+        background: rgba(0, 102, 255, 0.1);
+        color: #0066ff;
+        border-color: #0066ff;
+      }
+      .secondary-matrix:hover {
+        background: #0066ff;
+        color: #fff;
+        box-shadow: 0 0 50px #0066ff;
+        transform: translateY(-10px);
+      }
+
+      /* زر القائمة الرئيسية (بنفسجي نيون) */
+      .ghost-matrix {
+        background: rgba(204, 0, 255, 0.1);
+        color: #cc00ff;
+        border-color: #cc00ff;
+      }
+      .ghost-matrix:hover {
+        background: #cc00ff;
+        color: #fff;
+        box-shadow: 0 0 50px #cc00ff;
+        transform: translateY(-10px);
+      }
+
+      .btn-text {
+        font-size: 1.2rem;
+        margin: 5px 0;
+      }
+      .btn-icon {
+        font-size: 1.8rem;
+      }
+      .btn-subtext {
+        font-size: 0.8rem;
+        opacity: 0.8;
+        font-weight: 400;
+      }
+
+      @media (max-width: 768px) {
+        .matrix-nav-btn {
+          width: 100%;
+          min-width: auto;
+        }
+        .primary-matrix {
+          min-width: 100%;
+        }
+      }
+      .example-header {
+        font-weight: 900;
+        color: var(--primary-color);
+        display: block;
+        margin-bottom: 10px;
+      }
+
+      footer {
+        text-align: center;
+        padding: 40px;
+        color: #636e72;
+        background: white;
+        border-top: 1px solid #eee;
+      }
     </style>
   </head>
   <body>
@@ -144,10 +310,15 @@
         <h2>1. فن الـ (if...else) والتفرع الثلاثي</h2>
 
         <div class="explanation-box">
-          <b>لماذا نحتاج هذا؟</b> في البرمجة، الكود ليس مجرد سطور تنفذ خلف بعضها، بل هو كائن يحتاج لاتخاذ قرارات. <br><br>
-          <b>الشرح الممل والممتع:</b> تخيل أن <code>if</code> هي "فلتر" أو "منخل". البيانات تمر، فإذا كانت الدرجة (100)، تمر من الفتحة الأولى وتأخذ جائزة "Steak". <br>
-          وإذا فشلت في ذلك، تذهب لـ <code>else if</code> وهي الفتحة الثانية (80 أو أكثر) لتأخذ "Cake". <br>
-          وإذا سقطت من كل الفتحات، تقع في <code>else</code> وهي "سلة المهملات" أو الحل الأخير الذي ينفذ حين تفشل كل الاحتمالات.
+          <b>لماذا نحتاج هذا؟</b> في البرمجة، الكود ليس مجرد سطور تنفذ خلف
+          بعضها، بل هو كائن يحتاج لاتخاذ قرارات. <br /><br />
+          <b>الشرح الممل والممتع:</b> تخيل أن <code>if</code> هي "فلتر" أو
+          "منخل". البيانات تمر، فإذا كانت الدرجة (100)، تمر من الفتحة الأولى
+          وتأخذ جائزة "Steak". <br />
+          وإذا فشلت في ذلك، تذهب لـ <code>else if</code> وهي الفتحة الثانية (80
+          أو أكثر) لتأخذ "Cake". <br />
+          وإذا سقطت من كل الفتحات، تقع في <code>else</code> وهي "سلة المهملات"
+          أو الحل الأخير الذي ينفذ حين تفشل كل الاحتمالات.
         </div>
 
         <h3>🔬 أمثلة عملية مع المحرك (جربها بنفسك):</h3>
@@ -155,7 +326,9 @@
         <div class="example-block">
           <span class="example-header">مثال 1: نظام المكافآت الذهبي</span>
           <div class="editor-wrapper">
-            <span class="editor-label">// قم بتعديل قيمة score لـ 100 أو 85 أو 50</span>
+            <span class="editor-label"
+              >// قم بتعديل قيمة score لـ 100 أو 85 أو 50</span
+            >
             <textarea id="code1" class="code-area">
 let score = 100;
 if (score == 100) {
@@ -164,8 +337,11 @@ if (score == 100) {
     console.log("Reward is cake 🍰");
 } else {
     console.log("No games for a week 🚫");
-}</textarea>
-            <button class="run-button" onclick="execute(1)">تشغيل المحلل ▶️</button>
+}</textarea
+            >
+            <button class="run-button" onclick="execute(1)">
+              تشغيل المحلل ▶️
+            </button>
             <div id="out1" class="console-output"></div>
           </div>
         </div>
@@ -182,8 +358,11 @@ if (light == "green") {
     console.log("استعد للتوقف ⚠️");
 } else {
     console.log("قف فوراً! 🛑");
-}</textarea>
-            <button class="run-button" onclick="execute(2)">اختبر الإشارة ▶️</button>
+}</textarea
+            >
+            <button class="run-button" onclick="execute(2)">
+              اختبر الإشارة ▶️
+            </button>
             <div id="out2" class="console-output"></div>
           </div>
         </div>
@@ -197,8 +376,11 @@ if (mood == "happy") {
     console.log("اضحك الدنيا تضحك لك 😄");
 } else {
     console.log("ابتسم، كل شيء سيكون بخير ✨");
-}</textarea>
-            <button class="run-button" onclick="execute(3)">تحليل الحالة ▶️</button>
+}</textarea
+            >
+            <button class="run-button" onclick="execute(3)">
+              تحليل الحالة ▶️
+            </button>
             <div id="out3" class="console-output"></div>
           </div>
         </div>
@@ -209,8 +391,13 @@ if (mood == "happy") {
         <h2>2. الحسابات داخل الشرط (صيد البيانات)</h2>
 
         <div class="explanation-box">
-          <b>الفلسفة العميقة:</b> البرامج لا "تتكلم" فقط بل "تفعل". عندما تضع عملية حسابية مثل <code>count = count + 1</code> داخل الـ <code>if</code>، فأنت تجعل البرنامج "يتذكر" الحدث. <br><br>
-          <b>مثال الصيد:</b> تخيل أنك مبرمج للعبة صيد. كلما اصطاد اللاعب سمكة، الكود يسأل: "هل هي كبيرة؟". إذا كانت الإجابة نعم، لا يكتفي الكود بقول "مبروك"، بل يذهب للمخزن (Variable) ويزيد عداد السمك الكبير بواحد. <br>
+          <b>الفلسفة العميقة:</b> البرامج لا "تتكلم" فقط بل "تفعل". عندما تضع
+          عملية حسابية مثل <code>count = count + 1</code> داخل الـ
+          <code>if</code>، فأنت تجعل البرنامج "يتذكر" الحدث. <br /><br />
+          <b>مثال الصيد:</b> تخيل أنك مبرمج للعبة صيد. كلما اصطاد اللاعب سمكة،
+          الكود يسأل: "هل هي كبيرة؟". إذا كانت الإجابة نعم، لا يكتفي الكود بقول
+          "مبروك"، بل يذهب للمخزن (Variable) ويزيد عداد السمك الكبير بواحد.
+          <br />
           هكذا تتحول البيانات من مجرد "نصوص" إلى "إحصائيات وحقائق".
         </div>
 
@@ -227,8 +414,11 @@ if (fishLength > 100) {
     console.log("Super big catch! 🐳");
     bigFishCounter = bigFishCounter + 1;
     console.log("عدد العمالقة الآن: " + bigFishCounter);
-}</textarea>
-            <button class="run-button" onclick="execute(4)">تشغيل الرادار ▶️</button>
+}</textarea
+            >
+            <button class="run-button" onclick="execute(4)">
+              تشغيل الرادار ▶️
+            </button>
             <div id="out4" class="console-output"></div>
           </div>
         </div>
@@ -244,50 +434,95 @@ if (wallet >= itemPrice) {
     console.log("تم الشراء بنجاح! ✅");
     wallet = wallet - itemPrice;
     console.log("المتبقي في محفظتك: $" + wallet);
-}</textarea>
-            <button class="run-button" onclick="execute(5)">تنفيذ العملية ▶️</button>
+}</textarea
+            >
+            <button class="run-button" onclick="execute(5)">
+              تنفيذ العملية ▶️
+            </button>
             <div id="out5" class="console-output"></div>
           </div>
         </div>
       </section>
-<section class="mega-card" data-aos="zoom-in-up">
+      <section class="mega-card" data-aos="zoom-in-up">
         <div class="section-badge">جوهرة الدرس الكبرى 💎</div>
         <h2>3. احتراف الـ Nested If: بناء "العقل" المتعدد الطبقات</h2>
 
-        <div class="explanation-box" style="background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%); border-right: 12px solid #6c5ce7; border-radius: 40px; box-shadow: inset 0 0 20px rgba(0,0,0,0.02);">
-          <h3 style="color: #6c5ce7; font-size: 2.2rem; margin-top: 0;">🚀 لماذا هذا هو "الانفجار التكنولوجي" الحقيقي في عقلك؟</h3>
-          <p style="font-size: 1.3rem; line-height: 1.9; color: #2d3436;">
-            بص يا بطل.. المبرمج العادي بيكتب كود بيمشي في خط مستقيم، لكن <b>المبرمج العبقري</b> (اللي هو أنت دلوقتي) بيبني "متاهة ذكية". 
-            الـ <b>Nested If</b> مش مجرد كود جوه كود، دي عبارة عن <b>"بوابات منطقية"</b> معتمدة على بعضها. 
+        <div
+          class="explanation-box"
+          style="
+            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            border-right: 12px solid #6c5ce7;
+            border-radius: 40px;
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.02);
+          "
+        >
+          <h3 style="color: #6c5ce7; font-size: 2.2rem; margin-top: 0">
+            🚀 لماذا هذا هو "الانفجار التكنولوجي" الحقيقي في عقلك؟
+          </h3>
+          <p style="font-size: 1.3rem; line-height: 1.9; color: #2d3436">
+            بص يا بطل.. المبرمج العادي بيكتب كود بيمشي في خط مستقيم، لكن
+            <b>المبرمج العبقري</b> (اللي هو أنت دلوقتي) بيبني "متاهة ذكية". الـ
+            <b>Nested If</b> مش مجرد كود جوه كود، دي عبارة عن
+            <b>"بوابات منطقية"</b> معتمدة على بعضها.
           </p>
 
-          
-          
-          <div style="background: #ffffff; padding: 25px; border-radius: 20px; margin: 20px 0; border: 1px solid #e0e0e0;">
-            <h4 style="color: #e67e22; margin-top: 0;">🧐 إيه اللي بيحصل تحت غطاء المحرك (Under the Hood)؟</h4>
+          <div
+            style="
+              background: #ffffff;
+              padding: 25px;
+              border-radius: 20px;
+              margin: 20px 0;
+              border: 1px solid #e0e0e0;
+            "
+          >
+            <h4 style="color: #e67e22; margin-top: 0">
+              🧐 إيه اللي بيحصل تحت غطاء المحرك (Under the Hood)؟
+            </h4>
             <p>
-              تخيل إنك عندك <b>صندوق مقفول</b> (الـ If الأولى)، وجوه الصندوق ده فيه <b>مفتاح لغرفة سرية</b> (الـ If الثانية). 
-              لو الصندوق أصلاً مقفول ومافتحتوش، هل هتعرف توصل للغرفة السرية؟ <b>مستحيل!</b>
+              تخيل إنك عندك <b>صندوق مقفول</b> (الـ If الأولى)، وجوه الصندوق ده
+              فيه <b>مفتاح لغرفة سرية</b> (الـ If الثانية). لو الصندوق أصلاً
+              مقفول ومافتحتوش، هل هتعرف توصل للغرفة السرية؟ <b>مستحيل!</b>
             </p>
             <p>
-              ده اللي الجافا سكريبت بتعمله بالظبط: هي بتوفر طاقتها ومجهودها، لو الشرط الأول (الأب) طلع <code>false</code>، هي بتعمل <b>Skip</b> (تطنيش) لكل الكود اللي جوه، وكأنه مش موجود أصلاً! ده بيخلي برنامجك سريع ودقيق جداً.
+              ده اللي الجافا سكريبت بتعمله بالظبط: هي بتوفر طاقتها ومجهودها، لو
+              الشرط الأول (الأب) طلع <code>false</code>، هي بتعمل
+              <b>Skip</b> (تطنيش) لكل الكود اللي جوه، وكأنه مش موجود أصلاً! ده
+              بيخلي برنامجك سريع ودقيق جداً.
             </p>
           </div>
 
-          <p style="font-size: 1.25rem; font-weight: bold; color: #27ae60;">
+          <p style="font-size: 1.25rem; font-weight: bold; color: #27ae60">
             ✅ أنت دلوقتي مش بتكتب أوامر.. أنت بتصمم "طريقة تفكير" للكمبيوتر!
           </p>
         </div>
 
-        <h3 style="text-align: center; color: #d35400; margin: 50px 0 30px;">🛠️ معمل التجارب: ابنِ أنظمتك الذكية الآن</h3>
+        <h3 style="text-align: center; color: #d35400; margin: 50px 0 30px">
+          🛠️ معمل التجارب: ابنِ أنظمتك الذكية الآن
+        </h3>
 
-        <div class="example-block" style="border-left: 8px solid #e74c3c; background: #fff5f5; padding: 20px; border-radius: 20px; margin-bottom: 30px;">
-          <span class="example-header" style="font-size: 1.5rem; color: #e74c3c; font-weight: 900;">🚨 المثال الأول: نظام أمان المفاعل النووي</span>
-          <p style="font-size: 1.1rem; color: #444;">
-            تخيل إنك مبرمج في محطة طاقة. مش هنفتح صمامات التبريد إلا لو <b>الحرارة عالية</b> وكمان <b>نظام الطوارئ شغال</b>.
+        <div
+          class="example-block"
+          style="
+            border-left: 8px solid #e74c3c;
+            background: #fff5f5;
+            padding: 20px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+          "
+        >
+          <span
+            class="example-header"
+            style="font-size: 1.5rem; color: #e74c3c; font-weight: 900"
+            >🚨 المثال الأول: نظام أمان المفاعل النووي</span
+          >
+          <p style="font-size: 1.1rem; color: #444">
+            تخيل إنك مبرمج في محطة طاقة. مش هنفتح صمامات التبريد إلا لو
+            <b>الحرارة عالية</b> وكمان <b>نظام الطوارئ شغال</b>.
           </p>
           <div class="editor-wrapper">
-            <span class="editor-label" style="color: #fab1a0;">// جرب تغير temperature لـ 50 وشوف هيحصل إيه</span>
+            <span class="editor-label" style="color: #fab1a0"
+              >// جرب تغير temperature لـ 50 وشوف هيحصل إيه</span
+            >
             <textarea id="code-n1" class="code-area">
 let temperature = 120; 
 let emergencySystem = "ACTIVE"; 
@@ -302,16 +537,37 @@ if (temperature > 100) {
     }
 } else {
     console.log("🟢 المفاعل في حالة مستقرة.. يوم سعيد مهندسنا.");
-}</textarea>
-            <button class="run-button" style="background: #e74c3c;" onclick="runSmartCode('n1')">تشغيل نظام الأمان 🛡️</button>
+}</textarea
+            >
+            <button
+              class="run-button"
+              style="background: #e74c3c"
+              onclick="runSmartCode('n1')"
+            >
+              تشغيل نظام الأمان 🛡️
+            </button>
             <div id="out-n1" class="console-output"></div>
           </div>
         </div>
 
-        <div class="example-block" style="border-left: 8px solid #f1c40f; background: #fffdf2; padding: 20px; border-radius: 20px; margin-bottom: 30px;">
-          <span class="example-header" style="font-size: 1.5rem; color: #d4ac0d; font-weight: 900;">🏴‍☠️ المثال الثاني: خريطة الكنز المفقود</span>
-          <p style="font-size: 1.1rem; color: #444;">
-            لازم يكون معاك <b>الخريطة</b> وكمان واصل لـ <b>المستوى 10</b> عشان تفتح الصندوق.
+        <div
+          class="example-block"
+          style="
+            border-left: 8px solid #f1c40f;
+            background: #fffdf2;
+            padding: 20px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+          "
+        >
+          <span
+            class="example-header"
+            style="font-size: 1.5rem; color: #d4ac0d; font-weight: 900"
+            >🏴‍☠️ المثال الثاني: خريطة الكنز المفقود</span
+          >
+          <p style="font-size: 1.1rem; color: #444">
+            لازم يكون معاك <b>الخريطة</b> وكمان واصل لـ <b>المستوى 10</b> عشان
+            تفتح الصندوق.
           </p>
           <div class="editor-wrapper">
             <textarea id="code-n2" class="code-area">
@@ -328,15 +584,35 @@ if (hasMap == true) {
     }
 } else {
     console.log("أنت تائه في الغابة.. ابحث عن الخريطة أولاً! 🌲");
-}</textarea>
-            <button class="run-button" style="background: #f1c40f; color: #000;" onclick="runSmartCode('n2')">فتح الصندوق 📦</button>
+}</textarea
+            >
+            <button
+              class="run-button"
+              style="background: #f1c40f; color: #000"
+              onclick="runSmartCode('n2')"
+            >
+              فتح الصندوق 📦
+            </button>
             <div id="out-n2" class="console-output"></div>
           </div>
         </div>
 
-        <div class="example-block" style="border-left: 8px solid #2ecc71; background: #f4fff7; padding: 20px; border-radius: 20px; margin-bottom: 30px;">
-          <span class="example-header" style="font-size: 1.5rem; color: #27ae60; font-weight: 900;">🛒 المثال الثالث: نظام خصومات VIP</span>
-          <p style="font-size: 1.1rem; color: #444;">
+        <div
+          class="example-block"
+          style="
+            border-left: 8px solid #2ecc71;
+            background: #f4fff7;
+            padding: 20px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+          "
+        >
+          <span
+            class="example-header"
+            style="font-size: 1.5rem; color: #27ae60; font-weight: 900"
+            >🛒 المثال الثالث: نظام خصومات VIP</span
+          >
+          <p style="font-size: 1.1rem; color: #444">
             لو الزبون <b>VIP</b> واشترى <b>بأكثر من 500 ج</b>، بياخد الخصم.
           </p>
           <div class="editor-wrapper">
@@ -354,8 +630,15 @@ if (isVip == true) {
     }
 } else {
     console.log("انضم لنظام الـ VIP لتحصل على عروض حصرية! ✨");
-}</textarea>
-            <button class="run-button" style="background: #2ecc71;" onclick="runSmartCode('n3')">حساب الخصم 💸</button>
+}</textarea
+            >
+            <button
+              class="run-button"
+              style="background: #2ecc71"
+              onclick="runSmartCode('n3')"
+            >
+              حساب الخصم 💸
+            </button>
             <div id="out-n3" class="console-output"></div>
           </div>
         </div>
@@ -384,104 +667,49 @@ if (isVip == true) {
           }
         </script>
       </section>
-      <div style="text-align: center; margin: 100px 0 50px 0; padding: 40px; background: #f8f9fa; border-radius: 50px;" data-aos="fade-up">
-    
-    <h2 style="color: #2d3436; margin-bottom: 30px; border: none;">🏆 لقد أتممت المهمة بنجاح! ماذا ستفعل الآن؟</h2>
+      <div class="matrix-end-section" data-aos="fade-up">
+        <div class="quiz-highlight-area">
+          <a href="quiz_lesson_7.html" class="matrix-nav-link">
+            <div class="matrix-nav-btn primary-matrix">
+              <span class="btn-icon">📝</span>
+              <span class="btn-text">ابدأ التحدي واختبر ذكاءك</span>
+              <span class="btn-subtext">تحدي مهارات الدرس السابع</span>
+            </div>
+          </a>
+        </div>
 
-    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; align-items: center;">
-        
-        <a href="l2_6.html" style="text-decoration: none">
-            <button class="nav-btn secondary-btn">
-                ⬅️ العودة للدرس السادس
-            </button>
-        </a>
+        <h2 class="end-title">🏆 استعد للخطوة القادمة</h2>
 
-        <a href="quiz_lesson_7.html" style="text-decoration: none">
-            <button class="nav-btn primary-btn">
-                📝 ابدأ التحدي واختبر ذكاءك
-            </button>
-        </a>
+        <div class="matrix-btn-container">
+          <a href="l2_6.html" class="matrix-nav-link">
+            <div class="matrix-nav-btn secondary-matrix">
+              <span class="btn-icon">⬅️</span>
+              <span class="btn-text">العودة للدرس السابق</span>
+            </div>
+          </a>
 
-        <a href="lessons_term2.html" style="text-decoration: none">
-            <button class="nav-btn ghost-btn">
-                🏠 القائمة الرئيسية
-            </button>
-        </a>
+          <a href="l2_8.html" class="matrix-nav-link">
+            <div class="matrix-nav-btn next-matrix">
+              <span class="btn-icon">🚀</span>
+              <span class="btn-text">الانتقال للدرس الثامن</span>
+            </div>
+          </a>
 
-    </div>
-</div>
-
-<style>
-    /* التنسيق العام للأزرار */
-    .nav-btn {
-        padding: 20px 45px;
-        font-size: 1.4rem;
-        font-weight: 900;
-        border: none;
-        border-radius: 50px;
-        cursor: pointer;
-        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        min-width: 250px;
-    }
-
-    /* زرار الاختبار - أخضر متدرج */
-    .primary-btn {
-        background: linear-gradient(135deg, #00b894, #55efc4);
-        color: white;
-        box-shadow: 0 15px 30px rgba(0, 184, 148, 0.3);
-        font-size: 1.8rem;
-        padding: 25px 60px;
-    }
-
-    .primary-btn:hover {
-        transform: scale(1.1) translateY(-5px);
-        box-shadow: 0 20px 40px rgba(0, 184, 148, 0.5);
-    }
-
-    /* زرار الدرس السابق - أزرق */
-    .secondary-btn {
-        background: linear-gradient(135deg, #0984e3, #74b9ff);
-        color: white;
-        box-shadow: 0 10px 20px rgba(9, 132, 227, 0.2);
-    }
-
-    .secondary-btn:hover {
-        transform: scale(1.05);
-        box-shadow: 0 15px 30px rgba(9, 132, 227, 0.4);
-    }
-
-    /* زرار القائمة الرئيسية - رمادي غامق */
-    .ghost-btn {
-        background: #dfe6e9;
-        color: #2d3436;
-        border: 2px solid #b2bec3;
-    }
-
-    .ghost-btn:hover {
-        background: #2d3436;
-        color: white;
-        transform: scale(1.05);
-    }
-
-    /* استجابة للهواتف */
-    @media (max-width: 768px) {
-        .nav-btn {
-            width: 100%;
-            font-size: 1.2rem;
-            padding: 15px 30px;
-        }
-        .primary-btn {
-            font-size: 1.4rem;
-        }
-    }
-</style>
+          <a href="lessons_term2.html" class="matrix-nav-link">
+            <div class="matrix-nav-btn ghost-matrix">
+              <span class="btn-icon">🏠</span>
+              <span class="btn-text">القائمة الرئيسية</span>
+            </div>
+          </a>
+        </div>
+      </div>
     </div>
 
     <footer>
-        <p>تم تطوير وبرمجة هذا الدرس العملاق بواسطة <b>Engineer Ahmed Ezza</b> © 2026</p>
+      <p>
+        تم تطوير وبرمجة هذا الدرس العملاق بواسطة <b>Engineer Ahmed Ezza</b> ©
+        2026
+      </p>
     </footer>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>

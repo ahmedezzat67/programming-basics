@@ -1,325 +1,394 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ar" dir="rtl">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>المنهج الثاني - الاحتراف</title>
+    <title>Eng. Ahmed Ezzat | The Ultimate Matrix</title>
     <link
-      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Fira+Code:wght@400;700&display=swap"
       rel="stylesheet"
     />
     <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
       :root {
-        --primary-neon: #00ff88; /* أخضر زمردي نيون */
-        --secondary-neon: #60efff; /* لبني كريستال */
-        --bg-deep: #050505;
-        --card-bg: rgba(255, 255, 255, 0.03);
+        --neon: #00ff88;
+        --dark: #020617;
+        --shadow: rgba(0, 255, 136, 0.3);
       }
 
       body {
+        background-color: var(--dark);
         font-family: "Cairo", sans-serif;
-        background-color: var(--bg-deep);
         color: white;
-        margin: 0;
         overflow-x: hidden;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
         min-height: 100vh;
       }
 
-      /* تأثير الضوء المتحرك في الخلفية */
-      .cursor-glow {
+      /* خلفية الماتريكس المطورة */
+      #matrix-canvas {
         position: fixed;
-        width: 400px;
-        height: 400px;
-        background: radial-gradient(
-          circle,
-          rgba(0, 255, 136, 0.15),
-          transparent 70%
-        );
-        border-radius: 50%;
+        top: 0;
+        left: 0;
+        z-index: 1;
+        opacity: 0.25;
         pointer-events: none;
-        transform: translate(-50%, -50%);
-        z-index: 0;
-        transition: 0.1s;
       }
 
       .main-content {
         position: relative;
-        z-index: 1;
-        width: 100%;
-        max-width: 1200px;
-        padding: 50px 20px;
+        z-index: 10;
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 80px 20px;
         text-align: center;
       }
-
       h1 {
-        font-size: 3.5rem;
+        font-size: clamp(2.5rem, 8vw, 5rem);
         font-weight: 900;
-        margin-bottom: 60px;
-        background: linear-gradient(to bottom, #fff, var(--primary-neon));
+        margin-bottom: 20px;
+        /* التعديل هنا: استخدمنا color بدل text-fill-color لضمان التوافق */
+        color: transparent;
+        background: linear-gradient(180deg, #fff 30%, var(--neon));
         background-clip: text;
         -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        text-shadow: 0 10px 30px rgba(0, 255, 136, 0.3);
+        /* تحسين الظل ليعمل مع النص الشفاف */
+        filter: drop-shadow(0 0 15px rgba(0, 255, 136, 0.5));
+        position: relative;
+        z-index: 20;
+      }
+
+      .subtitle {
+        font-family: "Fira Code", monospace;
+        color: var(--neon);
+        margin-bottom: 80px;
+        letter-spacing: 5px;
+        opacity: 0.8;
       }
 
       .lessons-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 35px;
-      }
+    display: grid;
+    /* سيقوم المتصفح تلقائياً بوضع 3 أو 4 أزرار في الصف حسب مساحة الشاشة */
+    grid-template-columns: repeat(auto-fit, minmax(350px, 10fr)); 
+    gap: 30px;
+    padding: 20px;
+    width: 100%;
+}
 
-      /* كارت الدرس بتصميم "الكريستال نيون" */
+      /* --- تصميم الزرار الأسطوري (The Power Module) --- */
       .lesson-card {
         position: relative;
-        background: var(--card-bg);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 25px;
-        padding: 40px 20px;
+        background: rgba(255, 255, 255, 0.02);
+        border-radius: 20px;
+        height: 220px;
         cursor: pointer;
-        transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-        overflow: hidden;
+        transition: all 0.5s ease;
         display: flex;
-        flex-direction: column;
         align-items: center;
-        backdrop-filter: blur(10px);
+        justify-content: center;
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        transform-style: preserve-3d;
+        perspective: 1000px;
       }
 
-      /* خط النيون الذي يظهر عند التحويم */
-      .lesson-card::after {
-        content: "";
+      /* رموز برمجية كأنها ملصقات ثابتة وبتتحرك */
+      .sticker {
         position: absolute;
-        inset: 0;
-        border-radius: 25px;
-        padding: 2px; /* سمك الإطار */
-        background: linear-gradient(
-          45deg,
-          transparent,
-          var(--primary-neon),
-          transparent
-        );
-        -webkit-mask: linear-gradient(#fff 0 0) content-box,
-          linear-gradient(#fff 0 0);
-        mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-        -webkit-mask-composite: xor;
-        mask-composite: exclude;
-        opacity: 0;
+        font-family: "Fira Code", monospace;
+        font-weight: bold;
+        color: var(--neon);
+        opacity: 0.1;
+        pointer-events: none;
         transition: 0.5s;
       }
 
-      .lesson-card:hover {
-        transform: translateY(-15px) rotateX(10deg);
-        background: rgba(255, 255, 255, 0.07);
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6),
-          0 0 20px rgba(0, 255, 136, 0.2);
+      /* تأثير النبض الكهربائي حول الزرار */
+      /* التصحيح النهائي للإطار المضيء */
+      .card-border {
+        position: absolute;
+        inset: 0;
+        border-radius: 20px;
+        padding: 7px; /* زيادة السمك شوية عشان يبان */
+        background: conic-gradient(
+          from var(--angle),
+          transparent 90%,
+          var(--neon)
+        );
+
+        /* الصيغة المتوافقة مع كل المتصفحات للمسح */
+        -webkit-mask:
+          linear-gradient(#fff 0 0) content-box,
+          linear-gradient(#fff 0 0);
+        mask:
+          linear-gradient(#fff 0 0) content-box,
+          linear-gradient(#fff 0 0);
+
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+
+        opacity: 0;
+        transition: opacity 0.5s;
       }
 
-      .lesson-card:hover::after {
+      /* تعريف الزاوية عشان الانيميشن يكون أسلس */
+      @property --angle {
+        syntax: "<angle>";
+        initial-value: 0deg;
+        inherits: false;
+      }
+
+      @keyframes rotateBorder {
+        to {
+          --angle: 360deg;
+        }
+      }
+
+      /* تحديث الـ Hover عشان يشغل الانيميشن */
+      .lesson-card:hover .card-border {
         opacity: 1;
-        animation: rotateGradient 2s linear infinite;
+        animation: rotateBorder 2s linear infinite;
+      }
+
+      @keyframes rotateBorder {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* محتوى الزرار الداخلي */
+      .card-content {
+        z-index: 5;
+        text-align: center;
+        pointer-events: none;
       }
 
       .lesson-num {
-        font-size: 1.2rem;
-        color: var(--primary-neon);
-        font-weight: bold;
-        text-transform: uppercase;
-        letter-spacing: 2px;
+        display: block;
+        font-family: "Fira Code", monospace;
+        font-size: 0.8rem;
+        color: var(--neon);
         margin-bottom: 10px;
+        background: rgba(0, 255, 136, 0.1);
+        padding: 2px 10px;
+        border-radius: 5px;
       }
 
       .lesson-title {
-        font-size: 1.8rem;
-        font-weight: 700;
+        font-size: 2rem;
+        font-weight: 800;
+        color: #fff;
+        text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      }
+
+      /* --- تأثير الـ Hover (الدخول لـ Dimension تاني) --- */
+      .lesson-card:hover {
+        background: var(--neon);
+        box-shadow:
+          0 0 60px var(--shadow),
+          inset 0 0 20px rgba(255, 255, 255, 0.5);
+        border-color: #fff;
+      }
+
+      .lesson-card:hover .card-border {
+        opacity: 1;
+      }
+
+      .lesson-card:hover .sticker {
+        opacity: 0.4;
+        color: #000;
+        animation: jitter 0.2s infinite;
+      }
+
+      .lesson-card:hover .lesson-title {
+        color: #000;
+        transform: translateZ(50px);
+      }
+      .lesson-card:hover .lesson-num {
+        background: rgba(0, 0, 0, 0.8);
         color: #fff;
       }
 
-      /* تأثير "اللمعة" التي تمر على الكارت */
-      .shimmer {
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 50%;
-        height: 100%;
-        background: linear-gradient(
-          90deg,
-          transparent,
-          rgba(255, 255, 255, 0.1),
-          transparent
-        );
-        transition: 0.5s;
-      }
-      .lesson-card:hover .shimmer {
-        left: 200%;
-        transition: 0.8s;
+      @keyframes jitter {
+        0% {
+          transform: translate(0, 0);
+        }
+        50% {
+          transform: translate(2px, -2px);
+        }
+        100% {
+          transform: translate(-2px, 2px);
+        }
       }
 
-      /* أزرار التحكم السفلى */
-      .controls {
-        margin-top: 60px;
-        display: flex;
-        gap: 20px;
-        justify-content: center;
-      }
-
-      .btn {
-        padding: 15px 35px;
-        border-radius: 15px;
-        border: none;
-        font-weight: 900;
-        cursor: pointer;
-        transition: 0.3s;
-        font-size: 1.1rem;
-      }
-
+      /* زر الرئيسية الضخم */
       .btn-main {
-        background: var(--primary-neon);
-        color: var(--bg-deep);
-        box-shadow: 0 0 20px var(--primary-neon);
+        margin-top: 100px;
+        padding: 25px 80px;
+        background: transparent;
+        border: 3px solid var(--neon);
+        color: var(--neon);
+        font-size: 1.5rem;
+        font-weight: 900;
+        border-radius: 15px;
+        cursor: pointer;
+        transition: 0.4s;
+        text-transform: uppercase;
+        font-family: "Fira Code", monospace;
       }
 
       .btn-main:hover {
-        transform: scale(1.1);
-        box-shadow: 0 0 40px var(--primary-neon);
-      }
-
-      @keyframes rotateGradient {
-        0% {
-          filter: hue-rotate(0deg);
-        }
-        100% {
-          filter: hue-rotate(360deg);
-        }
+        background: var(--neon);
+        color: #000;
+        box-shadow: 0 0 80px var(--neon);
+        transform: translateY(-10px) scale(1.05);
       }
 
       footer {
-        margin-top: 50px;
-        padding: 30px;
-        opacity: 0.6;
-        font-size: 0.9rem;
+        margin-top: 150px;
+        padding: 60px;
+        background: #000;
+        border-top: 2px solid var(--neon);
+        text-align: center;
+      }
+      .footer-text {
+        font-family: "Fira Code", monospace;
+        font-size: 1.5rem;
+        font-weight: 900;
+        background: linear-gradient(90deg, #fff, var(--neon));
+        /* الترتيب الصحيح والكامل للخاصية */
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        color: var(--neon); /* Fallback في حالة المتصفحات القديمة */
       }
     </style>
   </head>
   <body>
-    <div class="cursor-glow" id="glow"></div>
+    <canvas id="matrix-canvas"></canvas>
 
     <div class="main-content">
-      <h1>✨ المنهج الثاني: مرحلة الإتقان</h1>
+      <h1>المنهج الاحترافي</h1>
+      <p class="subtitle">>_ INITIALIZING_EXPERTISE_LEVEL_2</p>
 
       <div class="lessons-grid">
-        <div class="lesson-card" onclick="location.href='l2_1.html'">
-          <div class="shimmer"></div>
-          <div class="lesson-num">Lesson 01</div>
-          <div class="lesson-title">الدرس الأول 📚</div>
-        </div>
+        <script>
+          const lessons = [
+            "الدرس الأول 📚",
+            "الدرس الثاني 📚",
+            "الدرس الثالث 📚",
+            "الدرس الرابع 📚",
+            "الدرس الخامس 📚",
+            "الدرس السادس 📚",
+            "الدرس السابع 📚",
+            "الدرس الثامن 📚",
+            "الدرس التاسع 📚",
+            "الدرس العاشر 📚",
+            "الدرس الحادي عشر 📚",
+            "الدرس الثاني عشر 📚",
+            "الدرس الثالث عشر 📚",
+            "الدرس الرابع عشر 📚",
+            "الدرس الخامس عشر 📚",
+          ];
 
-        <div class="lesson-card" onclick="location.href='l2_2.html'">
-          <div class="shimmer"></div>
-          <div class="lesson-num">Lesson 02</div>
-          <div class="lesson-title">الدرس الثاني 📚</div>
-        </div>
+          // ملصقات برمجية إضافية لتغطية الـ 15 درس
+          const stickers = [
+            "{ }",
+            "</>",
+            "IF",
+            "FOR",
+            "VOID",
+            "NULL",
+            "=>",
+            "[]",
+            "&&",
+            "++",
+            "??",
+            "==",
+            "DATA",
+            "OBJ",
+            "API",
+          ];
 
-        <div class="lesson-card" onclick="location.href='l2_3.html'">
-          <div class="shimmer"></div>
-          <div class="lesson-num">Lesson 03</div>
-          <div class="lesson-title">الدرس الثالث 📚</div>
-        </div>
+          lessons.forEach((title, i) => {
+            document.write(`
+        <div class="lesson-card" onclick="location.href='l5_${i + 1}.html'">
+            <div class="card-border"></div>
+            
+            <span class="sticker" style="top:10%; left:10%">${stickers[i]}</span>
+            <span class="sticker" style="bottom:10%; right:15%; font-size:1.8rem;">${stickers[(i + 4) % 15]}</span>
+            <span class="sticker" style="top:40%; left:80%; opacity:0.08">0x${(i + 10).toString(16)}</span>
 
-        <div class="lesson-card" onclick="location.href='l2_4.html'">
-          <div class="shimmer"></div>
-          <div class="lesson-num">Lesson 04</div>
-          <div class="lesson-title">الدرس الرابع 📚</div>
+            <div class="card-content">
+                <span class="lesson-num">TERMINAL_UNIT_0${i + 1}</span>
+                <h3 class="lesson-title">${title}</h3>
+            </div>
         </div>
-
-        <div class="lesson-card" onclick="location.href='l2_5.html'">
-          <div class="shimmer"></div>
-          <div class="lesson-num">Lesson 05</div>
-          <div class="lesson-title">الدرس الخامس 📚</div>
-        </div>
-
-        <div class="lesson-card" onclick="location.href='l2_6.html'">
-          <div class="shimmer"></div>
-          <div class="lesson-num">Lesson 06</div>
-          <div class="lesson-title">الدرس السادس 📚</div>
-        </div>
-        <div class="lesson-card" onclick="location.href='l2_7.html'">
-          <div class="shimmer"></div>
-          <div class="lesson-num">Lesson 07</div>
-          <div class="lesson-title">الدرس السابع 📚</div>
-        </div>
-
-        <div class="lesson-card" onclick="location.href='l2_8.html'">
-          <div class="shimmer"></div>
-          <div class="lesson-num">Lesson 08</div>
-          <div class="lesson-title">الدرس الثامن 📚</div>
-        </div>
-
-        <div class="lesson-card" onclick="location.href='l2_9.html'">
-          <div class="shimmer"></div>
-          <div class="lesson-num">Lesson 09</div>
-          <div class="lesson-title">الدرس التاسع 📚</div>
-        </div>
-
-        <div class="lesson-card" onclick="location.href='l2_10.html'">
-          <div class="shimmer"></div>
-          <div class="lesson-num">Lesson 10</div>
-          <div class="lesson-title">الدرس العاشر 📚</div>
-        </div>
-
-        <div class="lesson-card" onclick="location.href='l2_11.html'">
-          <div class="shimmer"></div>
-          <div class="lesson-num">Lesson 11</div>
-          <div class="lesson-title">الدرس الحادي عشر 📚</div>
-        </div>
-
-        <div class="lesson-card" onclick="location.href='l2_12.html'">
-          <div class="shimmer"></div>
-          <div class="lesson-num">Lesson 12</div>
-          <div class="lesson-title">الدرس الثاني عشر 📚</div>
-        </div>
+    `);
+          });
+        </script>
       </div>
 
-      <div class="controls">
-        <button class="btn btn-main" onclick="location.href='index.html'">
-          🏠 العودة للرئيسية
-        </button>
-      </div>
+      <button class="btn-main" onclick="location.href = 'index.html'">
+        SYSTEM.EXIT(); // HOME
+      </button>
     </div>
 
-    <footer>تم التطوير بكل حب بواسطة <strong>Ahmed Ezzat</strong></footer>
+    <footer>
+      <div class="footer-text">ENG. AHMED EZZAT // CHIEF ARCHITECT</div>
+    </footer>
 
     <script>
-      // كود تتبع الماوس للإضاءة الخلفية
-      const glow = document.getElementById("glow");
-      window.addEventListener("mousemove", (e) => {
-        glow.style.left = e.clientX + "px";
-        glow.style.top = e.clientY + "px";
+      // Matrix Rain
+      const canvas = document.getElementById("matrix-canvas");
+      const ctx = canvas.getContext("2d");
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      const alphabet = "0101010101010101";
+      const fontSize = 16;
+      const columns = canvas.width / fontSize;
+      const rainDrops = Array.from({ length: columns }).fill(1);
+
+      const draw = () => {
+        ctx.fillStyle = "rgba(2, 6, 23, 0.1)";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "#00ff88";
+        ctx.font = fontSize + "px monospace";
+        for (let i = 0; i < rainDrops.length; i++) {
+          const text = alphabet.charAt(
+            Math.floor(Math.random() * alphabet.length),
+          );
+          ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
+          if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975)
+            rainDrops[i] = 0;
+          rainDrops[i]++;
+        }
+      };
+      setInterval(draw, 30);
+
+      // 3D Tilt Effect
+      document.querySelectorAll(".lesson-card").forEach((card) => {
+        card.addEventListener("mousemove", (e) => {
+          let rect = card.getBoundingClientRect();
+          let x = e.clientX - rect.left;
+          let y = e.clientY - rect.top;
+          let dx = (x - rect.width / 2) / (rect.width / 2);
+          let dy = (y - rect.height / 2) / (rect.height / 2);
+          card.style.transform = `rotateY(${dx * 20}deg) rotateX(${dy * -20}deg) translateY(-10px)`;
+        });
+        card.addEventListener("mouseleave", () => {
+          card.style.transform = `rotateY(0deg) rotateX(0deg) translateY(0px)`;
+        });
       });
 
-      // تأثير الإمالة 3D الاحترافي
-      const cards = document.querySelectorAll(".lesson-card");
-      cards.forEach((card) => {
-        card.addEventListener("mousemove", (e) => {
-          const rect = card.getBoundingClientRect();
-          const x = e.clientX - rect.left;
-          const y = e.clientY - rect.top;
-
-          const xc = rect.width / 2;
-          const yc = rect.height / 2;
-
-          const dx = x - xc;
-          const dy = y - yc;
-
-          card.style.transform = `perspective(1000px) rotateY(${
-            dx / 10
-          }deg) rotateX(${-dy / 10}deg) translateY(-15px)`;
-        });
-
-        card.addEventListener("mouseleave", () => {
-          card.style.transform = `perspective(1000px) rotateY(0deg) rotateX(0deg) translateY(0)`;
-        });
+      window.addEventListener("resize", () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
       });
     </script>
   </body>

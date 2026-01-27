@@ -3,24 +3,23 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Eng. Ahmed Ezzat | The Ultimate Matrix</title>
+    <title>Eng. Ahmed Ezzat | Pro Platform</title>
     <link
       href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Fira+Code:wght@400;700&display=swap"
       rel="stylesheet"
     />
     <style>
+      /* كل تنسيقات الـ CSS اللي عجبتك محتفظين بيها هنا */
       * {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
       }
-
       :root {
         --neon: #00ff88;
         --dark: #020617;
         --shadow: rgba(0, 255, 136, 0.3);
       }
-
       body {
         background-color: var(--dark);
         font-family: "Cairo", sans-serif;
@@ -29,7 +28,6 @@
         min-height: 100vh;
       }
 
-      /* خلفية الماتريكس المطورة */
       #matrix-canvas {
         position: fixed;
         top: 0;
@@ -47,19 +45,16 @@
         padding: 80px 20px;
         text-align: center;
       }
+
       h1 {
         font-size: clamp(2.5rem, 8vw, 5rem);
         font-weight: 900;
         margin-bottom: 20px;
-        /* التعديل هنا: استخدمنا color بدل text-fill-color لضمان التوافق */
         color: transparent;
         background: linear-gradient(180deg, #fff 30%, var(--neon));
         background-clip: text;
         -webkit-background-clip: text;
-        /* تحسين الظل ليعمل مع النص الشفاف */
         filter: drop-shadow(0 0 15px rgba(0, 255, 136, 0.5));
-        position: relative;
-        z-index: 20;
       }
 
       .subtitle {
@@ -71,15 +66,12 @@
       }
 
       .lessons-grid {
-    display: grid;
-    /* سيقوم المتصفح تلقائياً بوضع 3 أو 4 أزرار في الصف حسب مساحة الشاشة */
-    grid-template-columns: repeat(auto-fit, minmax(350px, 10fr)); 
-    gap: 30px;
-    padding: 20px;
-    width: 100%;
-}
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 30px;
+        padding: 20px;
+      }
 
-      /* --- تصميم الزرار الأسطوري (The Power Module) --- */
       .lesson-card {
         position: relative;
         background: rgba(255, 255, 255, 0.02);
@@ -96,7 +88,6 @@
         perspective: 1000px;
       }
 
-      /* رموز برمجية كأنها ملصقات ثابتة وبتتحرك */
       .sticker {
         position: absolute;
         font-family: "Fira Code", monospace;
@@ -107,48 +98,42 @@
         transition: 0.5s;
       }
 
-      /* تأثير النبض الكهربائي حول الزرار */
-      /* التصحيح النهائي للإطار المضيء */
       .card-border {
         position: absolute;
         inset: 0;
         border-radius: 20px;
-        padding: 7px; /* زيادة السمك شوية عشان يبان */
-        background: conic-gradient(
-          from var(--angle),
-          transparent 90%,
-          var(--neon)
-        );
-
-        /* الصيغة المتوافقة مع كل المتصفحات للمسح */
-        -webkit-mask:
-          linear-gradient(#fff 0 0) content-box,
-          linear-gradient(#fff 0 0);
-        mask:
-          linear-gradient(#fff 0 0) content-box,
-          linear-gradient(#fff 0 0);
-
+        /* استخدام padding بسيط لإنشاء مساحة للإطار */
+        padding: 2px; 
+        /* الترتيب الصحيح للخلفية مع استخدام ماسك متوافق */
+        background: conic-gradient(from var(--angle), transparent 70%, var(--neon));
+        
+        -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        
         -webkit-mask-composite: xor;
         mask-composite: exclude;
-
+        
         opacity: 0;
         transition: opacity 0.5s;
+        pointer-events: none;
       }
 
-      /* تعريف الزاوية عشان الانيميشن يكون أسلس */
+      /* إضافة هذا التعريف لضمان عمل الـ Variable الخاص بالزاوية */
       @property --angle {
-        syntax: "<angle>";
+        syntax: '<angle>';
         initial-value: 0deg;
         inherits: false;
       }
 
       @keyframes rotateBorder {
-        to {
-          --angle: 360deg;
-        }
+        to { --angle: 360deg; }
       }
 
-      /* تحديث الـ Hover عشان يشغل الانيميشن */
+      .lesson-card:hover .card-border {
+        opacity: 1;
+        animation: rotateBorder 2s linear infinite;
+      }
+
       .lesson-card:hover .card-border {
         opacity: 1;
         animation: rotateBorder 2s linear infinite;
@@ -160,13 +145,11 @@
         }
       }
 
-      /* محتوى الزرار الداخلي */
       .card-content {
         z-index: 5;
         text-align: center;
         pointer-events: none;
       }
-
       .lesson-num {
         display: block;
         font-family: "Fira Code", monospace;
@@ -177,7 +160,6 @@
         padding: 2px 10px;
         border-radius: 5px;
       }
-
       .lesson-title {
         font-size: 2rem;
         font-weight: 800;
@@ -185,7 +167,6 @@
         text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
       }
 
-      /* --- تأثير الـ Hover (الدخول لـ Dimension تاني) --- */
       .lesson-card:hover {
         background: var(--neon);
         box-shadow:
@@ -193,17 +174,11 @@
           inset 0 0 20px rgba(255, 255, 255, 0.5);
         border-color: #fff;
       }
-
-      .lesson-card:hover .card-border {
-        opacity: 1;
-      }
-
       .lesson-card:hover .sticker {
         opacity: 0.4;
         color: #000;
         animation: jitter 0.2s infinite;
       }
-
       .lesson-card:hover .lesson-title {
         color: #000;
         transform: translateZ(50px);
@@ -225,7 +200,6 @@
         }
       }
 
-      /* زر الرئيسية الضخم */
       .btn-main {
         margin-top: 100px;
         padding: 25px 80px;
@@ -237,10 +211,8 @@
         border-radius: 15px;
         cursor: pointer;
         transition: 0.4s;
-        text-transform: uppercase;
         font-family: "Fira Code", monospace;
       }
-
       .btn-main:hover {
         background: var(--neon);
         color: #000;
@@ -260,11 +232,10 @@
         font-size: 1.5rem;
         font-weight: 900;
         background: linear-gradient(90deg, #fff, var(--neon));
-        /* الترتيب الصحيح والكامل للخاصية */
         background-clip: text;
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-        color: var(--neon); /* Fallback في حالة المتصفحات القديمة */
+        color: var(--neon);
       }
     </style>
   </head>
@@ -295,7 +266,6 @@
             "الدرس الخامس عشر 📚",
           ];
 
-          // ملصقات برمجية إضافية لتغطية الـ 15 درس
           const stickers = [
             "{ }",
             "</>",
@@ -315,20 +285,26 @@
           ];
 
           lessons.forEach((title, i) => {
-            document.write(`
-        <div class="lesson-card" onclick="location.href='l5_${i + 1}.html'">
-            <div class="card-border"></div>
-            
-            <span class="sticker" style="top:10%; left:10%">${stickers[i]}</span>
-            <span class="sticker" style="bottom:10%; right:15%; font-size:1.8rem;">${stickers[(i + 4) % 15]}</span>
-            <span class="sticker" style="top:40%; left:80%; opacity:0.08">0x${(i + 10).toString(16)}</span>
+            let lessonNum = i + 1;
+            // البرمجة الذكية للروابط (Logic)
+            // إذا كان الدرس من 1 لـ 12 الرابط يكون l2
+            // إذا كان الدرس 13 لـ 15 الرابط يكون l5
+            let link =
+              lessonNum <= 12 ? `l2_${lessonNum}.html` : `l5_${lessonNum}.html`;
 
-            <div class="card-content">
-                <span class="lesson-num">TERMINAL_UNIT_0${i + 1}</span>
-                <h3 class="lesson-title">${title}</h3>
-            </div>
-        </div>
-    `);
+            document.write(`
+                        <div class="lesson-card" onclick="location.href='${link}'">
+                            <div class="card-border"></div>
+                            <span class="sticker" style="top:10%; left:10%">${stickers[i]}</span>
+                            <span class="sticker" style="bottom:10%; right:15%; font-size:1.8rem;">${stickers[(i + 4) % 15]}</span>
+                            <span class="sticker" style="top:40%; left:80%; opacity:0.08">0x${(i + 10).toString(16).toUpperCase()}</span>
+
+                            <div class="card-content">
+                                <span class="lesson-num">Lesson ${lessonNum < 10 ? "0" + lessonNum : lessonNum}</span>
+                                <h3 class="lesson-title">${title}</h3>
+                            </div>
+                        </div>
+                    `);
           });
         </script>
       </div>
@@ -343,13 +319,12 @@
     </footer>
 
     <script>
-      // Matrix Rain
+      // كود الـ Matrix والـ 3D Tilt شغالين هنا تمام
       const canvas = document.getElementById("matrix-canvas");
       const ctx = canvas.getContext("2d");
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
-
-      const alphabet = "0101010101010101";
+      const alphabet = "01";
       const fontSize = 16;
       const columns = canvas.width / fontSize;
       const rainDrops = Array.from({ length: columns }).fill(1);
@@ -371,24 +346,16 @@
       };
       setInterval(draw, 30);
 
-      // 3D Tilt Effect
       document.querySelectorAll(".lesson-card").forEach((card) => {
         card.addEventListener("mousemove", (e) => {
           let rect = card.getBoundingClientRect();
-          let x = e.clientX - rect.left;
-          let y = e.clientY - rect.top;
-          let dx = (x - rect.width / 2) / (rect.width / 2);
-          let dy = (y - rect.height / 2) / (rect.height / 2);
-          card.style.transform = `rotateY(${dx * 20}deg) rotateX(${dy * -20}deg) translateY(-10px)`;
+          let dx = (e.clientX - rect.left - rect.width / 2) / (rect.width / 2);
+          let dy = (e.clientY - rect.top - rect.height / 2) / (rect.height / 2);
+          card.style.transform = `rotateY(${dx * 15}deg) rotateX(${dy * -15}deg) translateY(-10px)`;
         });
         card.addEventListener("mouseleave", () => {
           card.style.transform = `rotateY(0deg) rotateX(0deg) translateY(0px)`;
         });
-      });
-
-      window.addEventListener("resize", () => {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
       });
     </script>
   </body>

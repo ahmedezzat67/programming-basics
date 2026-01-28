@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>رسالة من القلب | م. أحمد</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; margin: 0; padding: 20px; color: #333; }
+        .card { background: white; padding: 40px; border-radius: 30px; box-shadow: 0 20px 50px rgba(0,0,0,0.3); max-width: 550px; width: 100%; text-align: center; position: relative; overflow: hidden; }
+        .card::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 10px; background: linear-gradient(to left, #00c6ff, #0072ff); }
+        h1 { color: #1e3c72; font-size: 28px; margin-bottom: 15px; }
+        .intro-text { font-size: 18px; color: #555; line-height: 1.8; margin-bottom: 25px; }
+        .form-box { background: #f9f9f9; padding: 20px; border-radius: 20px; text-align: right; }
+        label { font-weight: bold; display: block; margin-bottom: 10px; color: #1e3c72; }
+        input, select, textarea { width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 12px; margin-bottom: 20px; font-size: 16px; transition: 0.3s; }
+        input:focus, select:focus { border-color: #0072ff; outline: none; }
+        .btn-send { background: #25d366; color: white; border: none; padding: 18px; border-radius: 50px; cursor: pointer; font-size: 20px; font-weight: bold; width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 10px 20px rgba(37, 211, 102, 0.3); }
+        .btn-send:hover { background: #128c7e; transform: scale(1.02); }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h1>يا بطل.. أنت عملتها! 🏆</h1>
+    <p class="intro-text">
+        وصولك لهنا معناه إنك "وحش برمجة" حقيقي وخلصت شوط كبير. أنا حالياً بجهز لك باقي المنهج بتركيز عالي جداً.. 
+        <br><b>"الظروف ضاغطة شوية بس مكملين عشانك"</b> ❤️
+    </p>
+
+    <div class="form-box">
+        <label>إسمك اللي هيتكتب في لوحة الشرف:</label>
+        <input type="text" id="name" placeholder="اكتب اسمك يا هندسة...">
+
+        <label>إيه رأيك في رحلتنا مع بعض؟</label>
+        <select id="opinion">
+            <option value="شرحك غير حياتي وبسط لي المستحيل">شرحك غير حياتي وبسط لي المستحيل 💎</option>
+            <option value="أنت مش مجرد مدرس، أنت قدوة لينا">أنت مش مجرد مدرس، أنت قدوة لينا 🌟</option>
+            <option value="طريقتك في البرمجة ممتعة ومختلفة عن أي حد">طريقتك في البرمجة ممتعة ومختلفة عن أي حد 🚀</option>
+            <option value="فخور إني بتعلم على إيد بشمهندس زيك">فخور إني بتعلم على إيد بشمهندس زيك 👑</option>
+        </select>
+
+        <label>كلمة منك تشجعني أخلص لك المنهج الجديد:</label>
+        <textarea id="message" rows="3" placeholder="قولي أي حاجة في سرك..."></textarea>
+    </div>
+
+    <br>
+    <button class="btn-send" onclick="celebrateAndSend()">
+        إرسال ودخول لمجتمع المهندسين ✅
+    </button>
+</div>
+
+<script>
+function celebrateAndSend() {
+    var name = document.getElementById("name").value;
+    var opinion = document.getElementById("opinion").value;
+    var msg = document.getElementById("message").value;
+
+    if (name === "") {
+        alert("اكتب اسمك يا بطل عشان أعرف مين بيكلمني!");
+        return;
+    }
+
+    // تشغيل القصاصات الملونة (تفاعلات بتطير)
+    confetti({
+        particleCount: 150,
+        spread: 70,
+        origin: { y: 0.6 }
+    });
+
+    // تجهيز رسالة الواتساب
+    var phone = "201003090216"; // اكتب رقمك هنا
+    var text = "يا بشمهندس أحمد.. أنا الطالب " + name + " 🔥%0a";
+    text += "خلصت الجزء اللي فات وجيت أقولك إنك " + opinion + "%0a%0a";
+    if(msg !== "") { text += "رسالتي ليك: " + msg + "%0a"; }
+    text += "%0aعارف إن الظروف ضاغطة بس مستنيين المنهج الجديد منك يا عالمي! 🚀";
+
+    // التحويل للواتساب بعد ثانية واحدة عشان يلحق يشوف الاحتفال
+    setTimeout(function() {
+        window.open("https://wa.me/" + phone + "?text=" + text, '_blank');
+    }, 1500);
+}
+</script>
+
+</body>
+</html>

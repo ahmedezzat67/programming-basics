@@ -3,84 +3,819 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>رسالة من القلب | م. أحمد</title>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <title>موسوعة البرمجة | الدرس الثامن: الدوال الذكية</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; margin: 0; padding: 20px; color: #333; }
-        .card { background: white; padding: 40px; border-radius: 30px; box-shadow: 0 20px 50px rgba(0,0,0,0.3); max-width: 550px; width: 100%; text-align: center; position: relative; overflow: hidden; }
-        .card::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 10px; background: linear-gradient(to left, #00c6ff, #0072ff); }
-        h1 { color: #1e3c72; font-size: 28px; margin-bottom: 15px; }
-        .intro-text { font-size: 18px; color: #555; line-height: 1.8; margin-bottom: 25px; }
-        .form-box { background: #f9f9f9; padding: 20px; border-radius: 20px; text-align: right; }
-        label { font-weight: bold; display: block; margin-bottom: 10px; color: #1e3c72; }
-        input, select, textarea { width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 12px; margin-bottom: 20px; font-size: 16px; transition: 0.3s; }
-        input:focus, select:focus { border-color: #0072ff; outline: none; }
-        .btn-send { background: #25d366; color: white; border: none; padding: 18px; border-radius: 50px; cursor: pointer; font-size: 20px; font-weight: bold; width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 10px 20px rgba(37, 211, 102, 0.3); }
-        .btn-send:hover { background: #128c7e; transform: scale(1.02); }
+       /* --- إعدادات الخطوط والألوان الأساسية --- */
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Cairo', sans-serif;
+}
+
+body {
+    /* التدرج السماوي */
+    background: radial-gradient(circle at center, #87CEEB 0%, #4FA4FF 100%);
+    background-attachment: fixed;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* السماح بالسكرول الخارجي عشان السكاشن تبان ورا بعضها */
+    overflow-y: auto; 
+    padding: 40px 0;
+}
+
+/* حاوية النجوم الخلفية */
+#stars-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* خلف كل شيء */
+    perspective: 500px;
+    pointer-events: none;
+}
+
+/* --- النجوم المتلألئة والطائرة --- */
+.star-twinkle {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 0 15px 3px rgba(255, 255, 255, 0.9),
+                0 0 30px 5px rgba(135, 206, 235, 0.5); 
+    animation: twinkle var(--duration) infinite ease-in-out;
+}
+
+.star-fly {
+    position: absolute;
+    background: #fff;
+    border-radius: 50%;
+    bottom: -50px;
+    opacity: 0;
+    box-shadow: 0 0 20px 4px rgba(255, 255, 255, 1);
+    animation: flyAcross var(--duration) linear infinite;
+}
+
+@keyframes twinkle {
+    0%, 100% { opacity: 0.3; transform: scale(0.8); }
+    50% { opacity: 1; transform: scale(1.2); }
+}
+
+@keyframes flyAcross {
+    0% { transform: translateX(0) translateY(0) scale(0.5); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { transform: translateX(120vw) translateY(-120vh) scale(1.2); opacity: 0; }
+}
+
+/* --- الحاوية الرئيسية (مرنة لتظهر السكاشن تحت بعض) --- */
+.main-container {
+    position: relative;
+    z-index: 10;
+    width: 90%;
+    max-width: 900px;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 40px;
+    padding: 40px;
+    box-shadow: 0 25px 45px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px; /* مسافة بين الحاوية وأي عناصر تانية */
+}
+
+header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+header h1 {
+    font-size: 3rem;
+    font-weight: 900;
+    color: #fff;
+    text-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+header p {
+    color: #fff;
+    font-size: 1.2rem;
+    margin-top: 10px;
+}
+
+/* --- تنسيق السكاشن (ورا بعضها) --- */
+.mega-section {
+    margin-top: 60px;
+    padding-top: 40px;
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.section-title-box {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 30px;
+    color: #fff;
+}
+
+.number {
+    background: #fff;
+    color: #4FA4FF;
+    width: 50px;
+    height: 50px;
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 900;
+    font-size: 1.5rem;
+}
+
+/* --- الكروت الخاصة بالأمثلة --- */
+.example-box {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 30px;
+    border-radius: 30px;
+    margin-bottom: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #fff;
+    transition: transform 0.3s ease;
+}
+
+.example-box:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.ex-header {
+    font-weight: 900;
+    font-size: 1.4rem;
+    margin-bottom: 15px;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+    padding-bottom: 10px;
+}
+
+.code-area {
+    width: 100%;
+    height: 140px;
+    background: rgba(0, 0, 0, 0.4);
+    color: #00ffcc;
+    border: none;
+    border-radius: 15px;
+    padding: 20px;
+    font-family: 'Courier New', monospace;
+    font-size: 1rem;
+    margin: 15px 0;
+    direction: ltr;
+}
+
+/* --- الأزرار --- */
+button {
+    width: 100%;
+    padding: 15px;
+    background: #fff;
+    color: #4FA4FF;
+    border: none;
+    border-radius: 15px;
+    font-weight: 900;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #00BFFF;
+    color: #fff;
+    box-shadow: 0 10px 20px rgba(0, 191, 255, 0.4);
+}
+
+.console {
+    margin-top: 15px;
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    font-family: monospace;
+    min-height: 40px;
+}
+
+/* --- أزرار التنقل السفلية --- */
+.navigation-buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 50px;
+    width: 100%;
+}
+
+.nav-btn {
+    padding: 15px 40px;
+    background: #fff;
+    color: #4FA4FF;
+    text-decoration: none;
+    border-radius: 20px;
+    font-weight: 900;
+    transition: 0.3s;
+}
+
+.nav-btn:hover {
+    transform: scale(1.1);
+    background: #00BFFF;
+    color: white;
+}
+/* حاوية الزرار عشان نضمن مكانه */
+.quiz-container {
+    padding: 20px;
+    perspective: 1000px;
+}
+
+/* زرار المفاعل الكهربائي */
+.quiz-electric {
+    position: relative;
+    padding: 4px !important; /* مسافة للبرق اللي بيلف */
+    background: linear-gradient(90deg, #00d2ff, #92fe9d, #00d2ff);
+    background-size: 400%;
+    border-radius: 50px !important;
+    border: none !important;
+    cursor: pointer;
+    z-index: 1;
+    animation: gradient-flow 3s linear infinite;
+    box-shadow: 0 0 20px rgba(0, 210, 255, 0.6);
+}
+
+/* الجزء الداخلي للزرار */
+.quiz-electric span {
+    display: block;
+    padding: 15px 45px;
+    background: #020111; /* سواد الفضاء */
+    color: #fff;
+    border-radius: 46px;
+    font-size: 1.5rem;
+    font-weight: 900;
+    transition: 0.3s;
+    position: relative;
+    z-index: 2;
+    letter-spacing: 2px;
+}
+
+/* تأثير "شرر البرق" العشوائي */
+.quiz-electric::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    border-radius: 50px;
+    background: transparent;
+    z-index: -1;
+    box-shadow: 0 0 40px #00d2ff, 0 0 80px #00d2ff;
+    opacity: 0;
+    transition: 0.3s;
+}
+
+/* أنيميشن تدفق الكهرباء في الخلفية */
+@keyframes gradient-flow {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 400% 50%; }
+}
+
+/* الشعاع المتحرك (البرق الخاطف) */
+.quiz-electric::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
+    transition: 0.5s;
+    z-index: 3;
+}
+
+/* الأكشن لما الماوس ييجي عليه */
+.quiz-electric:hover {
+    transform: scale(1.1) rotate(1deg);
+}
+
+.quiz-electric:hover::before {
+    opacity: 1;
+    animation: flash 0.2s infinite; /* رعشة الكهرباء */
+}
+
+.quiz-electric:hover span {
+    background: transparent;
+    text-shadow: 0 0 10px #fff, 0 0 20px #00d2ff;
+}
+
+.quiz-electric:hover::after {
+    left: 100%;
+    transition: 0.4s;
+}
+
+/* أنيميشن الرعشة الكهربائية */
+@keyframes flash {
+    0%, 100% { opacity: 0.8; filter: hue-rotate(0deg); }
+    50% { opacity: 1; filter: hue-rotate(20deg) brightness(1.5); }
+}
     </style>
 </head>
 <body>
+    <div id="stars-container"></div>
 
-<div class="card">
-    <h1>يا بطل.. أنت عملتها! 🏆</h1>
-    <p class="intro-text">
-        وصولك لهنا معناه إنك "وحش برمجة" حقيقي وخلصت شوط كبير. أنا حالياً بجهز لك باقي المنهج بتركيز عالي جداً.. 
-        <br><b>"الظروف ضاغطة شوية بس مكملين عشانك"</b> ❤️
-    </p>
+    <div class="main-container">
+        <header class="main-header">
+            <div class="badge">الفصل الثامن: هندسة الدوال المتطورة</div>
+            <h1>موسوعة المحركات البرمجية الذكية 🧠</h1>
+            <div class="grand-intro">
+                <h3>يعني إيه دالة (Function) بجد؟ وليه بنحتاج نبعت لها بيانات؟</h3>
+                <p>بص يا سيدي، تخيل إنك عندك "خلاط" في المطبخ. الخلاط ده في حد ذاته دالة.. هو عارف وظيفته (الفرم والخلط)، لكن هل ينفع يشتغل من غير ما تحط فيه (فواكه) و (لبن)؟ أكيد لأ! الفواكه واللبن دول في البرمجة اسمهم <b>Parameters</b> أو "المعاملات".</p>
+                <p>في الدرس ده، إحنا بنتعلم إزاي نبني "الخلاطات الذكية" دي. إحنا مش بس بنقول للدالة "اشتغلي"، إحنا بنفتح لها بوابات تستقبل منها البيانات، وبنعلمها إزاي تاخد البيانات دي وتعمل عليها عمليات حسابية أو منطقية عشان في الآخر تطلع لنا "العصير" أو النتيجة النهائية اللي إحنا مستنيينها.</p>
+                <p><b>رحلة البيانات جوه الكود:</b> لما بتنادي الدالة وبتبعت لها أرقام أو نصوص، القيم دي بتمشي في "مواسير" برمجية لحد ما تدخل جوه جسم الدالة. هناك، الدالة بتستخدم أسامي وهمية (زي x و y) عشان تتعامل مع القيم الحقيقية اللي إنت بعتها. ده بيخلي الكود بتاعك مرن جداً ويشتغل مع أي داتا في أي وقت.</p>
+            </div>
+        </header>
 
-    <div class="form-box">
-        <label>إسمك اللي هيتكتب في لوحة الشرف:</label>
-        <input type="text" id="name" placeholder="اكتب اسمك يا هندسة...">
+        <main class="content-area">
+            
+            <section class="mega-section">
+                <div class="section-intro">
+                    <div class="section-title-box">
+                        <span class="number">01</span>
+                        <h2>المحركات الثنائية: إزاي تدمج معلومتين في كود واحد</h2>
+                    </div>
+                    <div class="long-explanation">
+                        <p>في السيكشن ده، هنركز على الدوال اللي بتحتاج "معلومتين" بس عشان تشتغل. دي أكتر أنواع الدوال استخداماً لأن أغلب العمليات المنطقية في الدنيا بتقوم على طرفين؛ زي (الطول والعرض)، (الاسم والباسورد)، (السعر والخصم).</p>
+                        <p>هنشوف دلوقتي 5 أمثلة حقيقية، كل مثال فيه شرح "حكاية الكود" عشان تفهم كل سطر وظيفته إيه والبيانات بتتحرك فيه إزاي.</p>
+                    </div>
+                </div>
 
-        <label>إيه رأيك في رحلتنا مع بعض؟</label>
-        <select id="opinion">
-            <option value="شرحك غير حياتي وبسط لي المستحيل">شرحك غير حياتي وبسط لي المستحيل 💎</option>
-            <option value="أنت مش مجرد مدرس، أنت قدوة لينا">أنت مش مجرد مدرس، أنت قدوة لينا 🌟</option>
-            <option value="طريقتك في البرمجة ممتعة ومختلفة عن أي حد">طريقتك في البرمجة ممتعة ومختلفة عن أي حد 🚀</option>
-            <option value="فخور إني بتعلم على إيد بشمهندس زيك">فخور إني بتعلم على إيد بشمهندس زيك 👑</option>
-        </select>
+                
 
-        <label>كلمة منك تشجعني أخلص لك المنهج الجديد:</label>
-        <textarea id="message" rows="3" placeholder="قولي أي حاجة في سرك..."></textarea>
+                <div class="examples-grid">
+                    
+                    <div class="example-box full-width">
+                        <div class="ex-header">1. محرك حساب مساحة الأراضي والمباني 📐</div>
+                        <div class="detailed-prose">
+                            <p><b>الحكاية:</b> تخيل إنك بتبني سيستم لشركة عقارات. محتاجين دالة تحسب مساحة الشقة بمجرد ما المهندس يدخل الطول والعرض.</p>
+                            <p><b>إيه اللي بيحصل؟</b> الدالة هنا عندها بوابتين: <code>width</code> و <code>height</code>. لما بنناديها وبنديها (10 و 5)، الـ 10 بتدخل في بوابة الطول والـ 5 في بوابة العرض. الكود جوه بيضربهم في بعض وبخزن النتيجة في متغير اسمه <code>areaSize</code>، وفي الآخر بيطلع لك رسالة شيك فيها النتيجة. الكود ده بيعلمك إزاي تعمل عملية حسابية بسيطة بين معاملين.</p>
+                        </div>
+                        <textarea id="code1" class="code-area">
+function calculateArea(width, height) {
+    // 1. بنضرب الطول في العرض ونخزنهم في مخزن مؤقت
+    let areaSize = width * height;
+    
+    // 2. بنرجع النتيجة في شكل جملة مفهومة
+    return "مساحة المكان ده هي: " + areaSize + " متر مربع";
+}
+
+// هنا بنشغل الدالة وبنبعت لها الطول 10 والعرض 5
+console.log(calculateArea(10, 5));</textarea>
+                        <button onclick="run(1)">شغل المحرك 🚀</button>
+                        <div id="out1" class="console"></div>
+                    </div>
+
+                    <div class="example-box full-width">
+                        <div class="ex-header">2. محرك دمج الأسماء وصناعة الترحيب 👤</div>
+                        <div class="detailed-prose">
+                            <p><b>الحكاية:</b> في أي موقع، أول ما بتسجل، الموقع بياخد اسمك الأول واسم عيلتك ويجمعهم عشان يرحب بيك. إحنا هنعمل "الماكينة" اللي بتعمل كده.</p>
+                            <p><b>إيه اللي بيحصل؟</b> الدالة دي بتستقبل نصين (Strings). الأول <code>fName</code> والتاني <code>lName</code>. وظيفة الدالة هنا مش حسابية، وظيفتها "ربط" أو (Concatenation). بتاخد الاسم الأول وتحط جنبه مسافة وبعدين الاسم التاني، وترجع لك "الهوية الكاملة". ده بيفهمك إن الـ Parameters مش لازم تكون أرقام بس، ممكن تكون نصوص كمان.</p>
+                        </div>
+                        <textarea id="code2" class="code-area">
+function createFullName(fName, lName) {
+    // بنربط النصين ببعض وبنحط مسافة " " في النص عشان ميبقوش لازقين
+    let fullName = fName + " " + lName;
+    
+    return "تم تسجيل المستخدم بنجاح: " + fullName;
+}
+
+console.log(createFullName("ياسين", "التهامي"));</textarea>
+                        <button onclick="run(2)">شغل المحرك 🚀</button>
+                        <div id="out2" class="console"></div>
+                    </div>
+
+                    <div class="example-box full-width">
+                        <div class="ex-header">3. ماكينة فحص الصلاحية والدخول 🔞</div>
+                        <div class="detailed-prose">
+                            <p><b>الحكاية:</b> عايزين نعمل دالة تقرر هل الشخص ده مسموح له يدخل المكان ولا لأ، بناءً على سنه والسن المطلوب للدخول.</p>
+                            <p><b>إيه اللي بيحصل؟</b> الدالة بتاخد (سن الشخص) و (السن المسموح بيه). جوه بقى بنستخدم "ميزان" اللي هو الـ <code>if</code>. بنقارن السنين ببعض؛ لو سن الشخص أكبر أو بيساوي السن المطلوب، الدالة بتمشي في سكة "الموافقة"، لو أصغر بتمشي في سكة "الرفض". هنا بنتعلم إزاي نخلي الدالة تاخد قرار بناءً على مقارنة بين معلومتين.</p>
+                        </div>
+                        <textarea id="code3" class="code-area">
+function accessCheck(userAge, minAge) {
+    if (userAge >= minAge) {
+        return "اتفضل ادخل، سنك مناسب ✅";
+    } else {
+        let diff = minAge - userAge;
+        return "ممنوع الدخول، محتاج " + diff + " سنة كمان ❌";
+    }
+}
+
+console.log(accessCheck(16, 18)); // واحد عنده 16 سنة والمطلوب 18</textarea>
+                        <button onclick="run(3)">شغل المحرك 🚀</button>
+                        <div id="out3" class="console"></div>
+                    </div>
+
+                    <div class="example-box full-width">
+                        <div class="ex-header">4. محرك تحويل العملات اللحظي 💵</div>
+                        <div class="detailed-prose">
+                            <p><b>الحكاية:</b> تخيل إنك بتعمل تطبيق بورصة. محتاج دالة تحول أي مبلغ من دولار لجنيه مصري بناءً على سعر الصرف اللي بيتغير كل شوية.</p>
+                            <p><b>إيه اللي بيحصل؟</b> الدالة دي بتاخد (المبلغ بالدولار) و (سعر الدولار النهاردة). العملية هنا هي ضرب بسيط. الميزة هنا إنك لو غيرت سعر الصرف بس، الدالة هتطلع نتايج تانية خالص. ده بيعلمك إزاي المعاملات (Parameters) بتخلي الكود "ديناميكي" وشغال مع أي سعر صرف جديد.</p>
+                        </div>
+                        <textarea id="code4" class="code-area">
+function currencyConverter(dollars, rate) {
+    let egpAmount = dollars * rate;
+    
+    return dollars + "$ يساووا حالياً " + egpAmount + " جنيه مصري";
+}
+
+console.log(currencyConverter(100, 48.5)); // 100 دولار بسعر صرف 48.5</textarea>
+                        <button onclick="run(4)">شغل المحرك 🚀</button>
+                        <div id="out4" class="console"></div>
+                    </div>
+
+                    <div class="example-box full-width">
+                        <div class="ex-header">5. محرك حساب نقاط الألعاب (Score System) 🎮</div>
+                        <div class="detailed-prose">
+                            <p><b>الحكاية:</b> في الألعاب، اللاعب بياخد نقاط لما بيكسب ونقاط تانية لما بيجمع جواهر. عايزين دالة تحسب "الإجمالي".</p>
+                            <p><b>إيه اللي بيحصل؟</b> الدالة بتستقبل (عدد الانتصارات) و (عدد الجواهر). إحنا بنحدد إن المكسب بـ 100 نقطة والجوهرة بـ 10. الدالة بتضرب كل حاجة في قيمتها وتجمعهم. ده مثال بيفهمك إزاي نستخدم المعاملات في معادلة "متعددة الخطوات" عشان نطلع نتيجة نهائية معقدة شوية.</p>
+                        </div>
+                        <textarea id="code5" class="code-area">
+function calculateScore(wins, gems) {
+    let winPoints = wins * 100;
+    let gemPoints = gems * 10;
+    let totalScore = winPoints + gemPoints;
+    
+    return "عاش يا بطل! مجموع نقاطك هو: " + totalScore;
+}
+
+console.log(calculateScore(3, 12)); // لاعب كسب 3 مرات وجمع 12 جوهرة</textarea>
+                        <button onclick="run(5)">شغل المحرك 🚀</button>
+                        <div id="out5" class="console"></div>
+                    </div>
+
+                </div>
+            </section>
+            <section class="mega-section">
+    <div class="section-intro">
+        <div class="section-title-box">
+            <span class="number">02</span>
+            <h2>المحركات الثلاثية: الدقة والسيطرة الكاملة</h2>
+        </div>
+        <div class="long-explanation">
+            <h3>ليه 3 مدخلات مش 2؟</h3>
+            <p>بص يا سيدي، في السيكشن اللي فات اتعلمنا إزاي ندمج معلومتين، بس الحياة العملية ساعات بتبقى أعقد من كده. تخيل إنك بتعمل نظام لرحلات طيران، هل ينفع تطلب (الوجهة) و(عدد الأفراد) وتسكت؟ طب ما هو ممكن يكون الشخص ده (VIP) ومحتاج معاملة خاصة أو خصم معين! هنا بقى الـ 3 معاملات بيخلوا الدالة "أذكى" بكتير.</p>
+            <p><b>قانون الترتيب الصارم:</b> لما تفتح 3 بوابات للدالة <code>(p1, p2, p3)</code>، لازم وأنت بتناديها تبعت القيم بنفس الترتيب. أول قيمة هتروح لأول بوابة، والتانية للتانية، والتالتة للتالتة. لو بدلت حاجة مكان حاجة، الماكينة هتطلع نتايج ملخبطة. في الـ 5 أمثلة الجايين، هنشوف إزاي الـ 3 معلومات دول بيتحولوا لقرارات ذكية جداً.</p>
+        </div>
     </div>
 
-    <br>
-    <button class="btn-send" onclick="celebrateAndSend()">
-        إرسال ودخول لمجتمع المهندسين ✅
+    
+
+    <div class="examples-grid">
+        
+        <div class="example-box full-width">
+            <div class="ex-header">1. محرك حساب تكاليف الشحن الدولي الذكي 🚢</div>
+            <div class="detailed-prose">
+                <p><b>الحكاية:</b> تخيل إنك شغال في شركة شحن زي "أرامكس". محتاجين دالة تحسب التكلفة بناءً على (وزن الطرد)، (المسافة)، و(نوع الشحن: سريع ولا عادي؟).</p>
+                <p><b>إيه اللي بيحصل؟</b> الدالة دي بتستقبل الـ 3 معلومات. بتضرب الوزن في المسافة عشان تطلع السعر الأساسي. وبعدين بتبص على المعلومة التالتة (نوع الشحن)؛ لو لقت إن المستخدم بعت كلمة "fast"، بتضيف 100 جنيه "ضريبة استعجال". شوف إزاي معلومة واحدة تالتة غيرت الحسبة كلها!</p>
+            </div>
+            <textarea id="code16" class="code-area">
+function calculateShipping(weight, distance, type) {
+    // 1. حساب السعر الأساسي بناءً على الوزن والمسافة
+    let cost = weight * distance * 0.1;
+
+    // 2. التحقق من النوع (المعامل الثالث)
+    if (type == "fast") {
+        cost = cost + 100; // إضافة مبلغ إضافي للشحن السريع
+        return "شحن سريع: التكلفة النهائية هي " + cost + " جنيه";
+    } else {
+        return "شحن عادي: التكلفة النهائية هي " + cost + " جنيه";
+    }
+}
+
+console.log(calculateShipping(10, 500, "fast")); // طرد 10 كيلو لمسافة 500 كم شحن سريع</textarea>
+            <button onclick="run(16)">حساب التكلفة 🚀</button>
+            <div id="out16" class="console"></div>
+        </div>
+
+        <div class="example-box full-width">
+            <div class="ex-header">2. نظام تقييم الشهادة الدراسية (المعدل التراكمي) 🎓</div>
+            <div class="detailed-prose">
+                <p><b>الحكاية:</b> مفيش طالب بيتقيم بمادة واحدة. الدالة دي بتمثل "كنترول المدرسة"، محتاجة (درجة الميدترم)، (درجة الفاينال)، و(أعمال السنة).</p>
+                <p><b>إيه اللي بيحصل؟</b> الدالة بتجمع الـ 3 درجات مع بعض الأول عشان تطلع "المجموع الكلي". وبعدين بنستخدم المجموع ده عشان نحدد التقدير (امتياز، جيد، إلخ). هنا الـ 3 معاملات ساعدونا نجمع داتا من مصادر مختلفة عشان نطلع قرار واحد نهائي في الآخر.</p>
+            </div>
+            <textarea id="code17" class="code-area">
+function studentEvaluator(midterm, final, activities) {
+    // جمع الثلاث معاملات للخروج بنتيجة واحدة
+    let totalScore = midterm + final + activities;
+
+    if (totalScore >= 90) {
+        return "المجموع: " + totalScore + " | التقدير: امتياز 🌟";
+    } else if (totalScore >= 50) {
+        return "المجموع: " + totalScore + " | التقدير: ناجح ✅";
+    } else {
+        return "المجموع: " + totalScore + " | التقدير: راسب ❌";
+    }
+}
+
+console.log(studentEvaluator(15, 65, 10)); // مجموعهم 90</textarea>
+            <button onclick="run(17)">تحليل النتيجة 🚀</button>
+            <div id="out17" class="console"></div>
+        </div>
+
+        <div class="example-box full-width">
+            <div class="ex-header">3. ماكينة تصنيع الألوان الرقمية (RGB Mixer) 🎨</div>
+            <div class="detailed-prose">
+                <p><b>الحكاية:</b> شاشة الكمبيوتر بتعرض الألوان عن طريق دمج 3 ألوان أساسية: الأحمر، الأخضر، والأزرق. إحنا هنعمل دالة "رسامة" بتاخد درجة كل لون وتطلع لنا الكود النهائي.</p>
+                <p><b>إيه اللي بيحصل؟</b> الدالة بتستقبل 3 أرقام (كل رقم من 0 لـ 255). وظيفتها إنها تحطهم جوه قالب نصي (String) عشان تطلع لك الصيغة اللي بيفهمها المتصفح. ده مثال ممتاز لدمج 3 قيم نصية ورقمية مع بعض.</p>
+            </div>
+            <textarea id="code18" class="code-area">
+function createRGBColor(red, green, blue) {
+    // دمج الثلاث أرقام في نص واحد بصيغة RGB
+    let color = "rgb(" + red + "," + green + "," + blue + ")";
+    
+    return "اللون الناتج هو: " + color + " (جاهز للاستخدام في CSS)";
+}
+
+console.log(createRGBColor(255, 165, 0)); // لون برتقالي</textarea>
+            <button onclick="run(18)">مزج الألوان 🚀</button>
+            <div id="out18" class="console"></div>
+        </div>
+
+        <div class="example-box full-width">
+            <div class="ex-header">4. سيستم حجز الغرف الفندقية (فاتورة كاملة) 🏨</div>
+            <div class="detailed-prose">
+                <p><b>الحكاية:</b> تخيل إنك بتبني صفحة حجز فنادق. الدالة هنا محتاجة تعرف (اسم الفندق)، (عدد الليالي)، و(هل الزبون عايز فطار ولا لأ؟).</p>
+                <p><b>إيه اللي بيحصل؟</b> الدالة بتضرب عدد الليالي في سعر ثابت (500 جنيه مثلاً). وبعدين بتشوف المعامل التالت (withBreakfast)؛ لو كان <code>true</code> بتزود تكلفة الفطار على الحساب. في الآخر بترجع لك فاتورة كاملة فيها اسم الفندق والسعر النهائي.</p>
+            </div>
+            <textarea id="code19" class="code-area">
+function hotelInvoice(hotel, nights, withBreakfast) {
+    let pricePerNight = 500;
+    let total = nights * pricePerNight;
+
+    if (withBreakfast == true) {
+        total = total + (nights * 100); // إضافة 100 جنيه فطار عن كل ليلة
+    }
+
+    return "فندق: " + hotel + " | المدة: " + nights + " ليالي | الإجمالي: " + total + " ج.م";
+}
+
+console.log(hotelInvoice("فلسطين جراند", 4, true));</textarea>
+            <button onclick="run(19)">تأكيد الحجز 🚀</button>
+            <div id="out19" class="console"></div>
+        </div>
+
+        <div class="example-box full-width">
+            <div class="ex-header">5. محرك الموافقة التلقائية على القروض البنكية 💳</div>
+            <div class="detailed-prose">
+                <p><b>الحكاية:</b> ده مثال "تقيل" بيوريك إزاي الشركات بتاخد قرارات. الدالة بتستقبل (راتب الموظف)، (المبلغ اللي عايزه)، و(عمره).</p>
+                <p><b>إيه اللي بيحصل؟</b> الدالة بتختبر الـ 3 معلومات مع بعض باستخدام <code>&&</code> (و). لازم الراتب يكون أكبر من 5000، والسن أكبر من 21، ومبلغ القرض ميكونش أكبر من 10 أضعاف الراتب. لو الـ 3 شروط اتحققوا، السيستم بيوافق فوراً. لو شرط واحد باظ، السيستم بيرفض.</p>
+            </div>
+            <textarea id="code20" class="code-area">
+function loanDecision(salary, amount, age) {
+    // فحص الثلاث شروط مع بعض لضمان الأمان
+    if (salary >= 5000 && age >= 21 && amount <= (salary * 10)) {
+        return "مبروك! تم الموافقة على قرض بقيمة " + amount + " ج.م ✅";
+    } else {
+        return "للأسف، لا تطبق عليك شروط القرض حالياً ❌";
+    }
+}
+
+console.log(loanDecision(7000, 30000, 25)); // موظف مثالي، هيوافق عليه</textarea>
+            <button onclick="run(20)">فحص الطلب 🚀</button>
+            <div id="out20" class="console"></div>
+        </div>
+
+    </div>
+</section>
+<section class="mega-section">
+    <div class="section-intro">
+        <div class="section-title-box">
+            <span class="number">03</span>
+            <h2>قوة المتغيرات: إزاي تخلي محركك يستقبل بيانات حقيقية</h2>
+        </div>
+        <div class="long-explanation">
+            <h3>ليه بنبعت متغيرات مش أرقام؟</h3>
+            <p>بص يا بطل، في الأمثلة اللي فاتت كنا بنكتب <code>console.log(area(5, 10))</code>، ودي أرقام ثابتة (Hard-coded). لكن في الحقيقة، البيانات بتيجي من "مخازن" أو متغيرات. ممكن تكون جاية من "Input" المستخدم كتبه، أو من قاعدة بيانات.</p>
+            <p><b>الفكرة عبقرية ليه؟</b> لأنك لو عندك متغير اسمه <code>userPrice</code> وقيمته اتغيرت في أي وقت، الدالة هتشتغل أوتوماتيك على القيمة الجديدة من غير ما تعدل في الكود بتاعها. إحنا هنا بنتعلم إزاي "نربط" المخازن بالمحركات، ودي أعلى درجات الاحتراف في بناء البرامج.</p>
+        </div>
+    </div>
+
+    
+
+    <div class="examples-grid">
+        
+        <div class="example-box full-width">
+            <div class="ex-header">1. محرك سحب الرصيد البنكي 💳</div>
+            <div class="detailed-prose">
+                <p><b>الحكاية:</b> تخيل إن عندك مخزن فيه "رصيدك الحالي". الدالة وظيفتها تحسب الباقي بعد ما تسحب مبلغ معين.</p>
+                <p><b>إيه اللي بيحصل؟</b> إحنا بنعرف متغير <code>myBalance</code> بره الدالة، وبعدين بنمرره للدالة كـ "معامل". الدالة بتطرح منه المبلغ اللي عايز تسحبه وترجع لك النتيجة. لو رصيدك اتغير بره، الدالة هتحسب النتيجة الجديدة فوراً.</p>
+            </div>
+            <textarea id="code21" class="code-area">
+let myBalance = 5000; // مخزن الرصيد بره الدالة
+let withdraw = 1200;  // المبلغ المراد سحبه
+
+function atm(balance, amount) {
+    let remaining = balance - amount;
+    return "تم السحب! رصيدك المتبقي الآن هو: " + remaining + " ج.م";
+}
+
+// بنمرر المتغيرات (الأسماء) مش الأرقام
+console.log(atm(myBalance, withdraw));</textarea>
+            <button onclick="run(21)">تنفيذ السحب 🚀</button>
+            <div id="out21" class="console"></div>
+        </div>
+
+        <div class="example-box full-width">
+            <div class="ex-header">2. نظام تحديث مستويات اللاعبين (Level Up) 🎮</div>
+            <div class="detailed-prose">
+                <p><b>الحكاية:</b> في الألعاب، الـ Score بتاعك بيزيد كل شوية. الدالة دي بتراقب المتغير بتاع النقط وتقرر إنت في ليفل كام.</p>
+                <p><b>إيه اللي بيحصل؟</b> بنبعت للدالة متغير الـ <code>currentXP</code>. لو المتغير ده زاد عن 1000، الدالة بترجع لك "برو"، لو أقل بتقولك "مبتدئ". ده بيوريك إزاي الدالة بتتعامل مع بيانات "متغيرة" باستمرار.</p>
+            </div>
+            <textarea id="code22" class="code-area">
+let playerXP = 1250; 
+
+function checkLevel(points) {
+    if (points > 1000) {
+        return "المستوى الحالي: محترف (Pro) 😎";
+    } else {
+        return "المستوى الحالي: لسه بيبدأ (Noob) 🌱";
+    }
+}
+
+console.log(checkLevel(playerXP));</textarea>
+            <button onclick="run(22)">فحص المستوى 🚀</button>
+            <div id="out22" class="console"></div>
+        </div>
+
+        <div class="example-box full-width">
+            <div class="ex-header">3. حاسبة فاتورة المطعم مع ضريبة متغيرة 🍽️</div>
+            <div class="detailed-prose">
+                <p><b>الحكاية:</b> سعر الوجبة ثابت، بس الضريبة بتغير من بلد للتانية. إحنا هنمرر سعر الوجبة والضريبة كمتغيرات.</p>
+                <p><b>إيه اللي بيحصل؟</b> الدالة بتضرب سعر الوجبة في نسبة الضريبة المتغيرة. لو النسبة اتغيرت في المتغير اللي بره، الفاتورة كلها بتتحسب بالجديد من غير ما نلمس جسم الدالة.</p>
+            </div>
+            <textarea id="code23" class="code-area">
+let mealPrice = 250;
+let taxRate = 0.14; // ضريبة 14%
+
+function calculateBill(price, tax) {
+    let total = price + (price * tax);
+    return "إجمالي الفاتورة شامل الضريبة: " + total + " ج.م";
+}
+
+console.log(calculateBill(mealPrice, taxRate));</textarea>
+            <button onclick="run(23)">احسب الفاتورة 🚀</button>
+            <div id="out23" class="console"></div>
+        </div>
+
+        <div class="example-box full-width">
+            <div class="ex-header">4. محرك الرسائل الجماعية (Bulk SMS) ✉️</div>
+            <div class="detailed-prose">
+                <p><b>الحكاية:</b> عايز تبعت رسالة لكل الموظفين بس كل واحد باسمه. الدالة بتاخد الاسم والرسالة كمتغيرات وتطبعهم.</p>
+                <p><b>إيه اللي بيحصل؟</b> بنمرر متغير فيه الاسم <code>empName</code> ومتغير فيه نص الرسالة. الدالة بتدمجهم وتطلع رسالة مخصصة. دي فكرة عمل أنظمة الإشعارات في فيسبوك وواتساب.</p>
+            </div>
+            <textarea id="code24" class="code-area">
+let user = "باشمهندس أحمد";
+let msg = "تم قبول طلبك بنجاح";
+
+function sendNotification(name, message) {
+    return "إلى: " + name + " | نص الرسالة: " + message;
+}
+
+console.log(sendNotification(user, msg));</textarea>
+            <button onclick="run(24)">إرسال الإشعار 🚀</button>
+            <div id="out24" class="console"></div>
+        </div>
+
+        <div class="example-box full-width">
+            <div class="ex-header">5. محول درجات الحرارة الذكي 🌡️</div>
+            <div class="detailed-prose">
+                <p><b>الحكاية:</b> بنحول من سيليزيوس لفهرنهايت باستخدام متغير جاي من حساس حرارة (Sensor).</p>
+                <p><b>إيه اللي بيحصل؟</b> المتغير <code>celsiusValue</code> بيشيل القيمة، والدالة بتاخدها وتعمل المعادلة الرياضية وترجع النتيجة. لو الجو حر والقيمة زادت، الدالة هتديك القيمة الجديدة فوراً.</p>
+            </div>
+            <textarea id="code25" class="code-area">
+let currentTemp = 30; // درجة الحرارة دلوقتي
+
+function toFahrenheit(celsius) {
+    let f = (celsius * 9/5) + 32;
+    return "درجة الحرارة بالفهرنهايت هي: " + f;
+}
+
+console.log(toFahrenheit(currentTemp));</textarea>
+            <button onclick="run(25)">تحويل الحرارة 🚀</button>
+            <div id="out25" class="console"></div>
+        </div>
+
+    </div>
+</section>
+<div class="quiz-container">
+    <button class="nav-btn quiz-electric" onclick="location.href='quiz_lesson_8.html'">
+        <span>⚡ مـفاعل الاختبار الذري ⚡</span>
     </button>
 </div>
 
+    <div class="navigation-buttons">
+        <button class="nav-btn prev" onclick="location.href='l2_7.html'">⬅️ الدرس السابق</button>
+        <button class="nav-btn home" onclick="location.href='lessons_term2.html'">🏠 القائمة الرئيسية</button>
+        <button class="nav-btn next" onclick="location.href='l2_9.html'">الدرس القادم ➡️</button>
+    </div>
+</div>
+        </main>
+    </div>
+    
 <script>
-function celebrateAndSend() {
-    var name = document.getElementById("name").value;
-    var opinion = document.getElementById("opinion").value;
-    var msg = document.getElementById("message").value;
+    document.addEventListener('DOMContentLoaded', () => {
+    const container = document.getElementById('stars-container');
 
-    if (name === "") {
-        alert("اكتب اسمك يا بطل عشان أعرف مين بيكلمني!");
-        return;
+    // --- 1. وظيفة إنشاء النجوم الثابتة المتلألئة ---
+    function createTwinklingStars(count) {
+        for (let i = 0; i < count; i++) {
+            const star = document.createElement('div');
+            star.className = 'star-twinkle';
+            
+            // مقاسات عشوائية
+            const size = Math.random() * 4 + 2 + 'px';
+            star.style.width = size;
+            star.style.height = size;
+            
+            // أماكن عشوائية
+            star.style.top = Math.random() * 100 + '%';
+            star.style.left = Math.random() * 100 + '%';
+            
+            // مدة وميض مختلفة
+            star.style.setProperty('--duration', (Math.random() * 3 + 2) + 's');
+            
+            container.appendChild(star);
+        }
     }
 
-    // تشغيل القصاصات الملونة (تفاعلات بتطير)
-    confetti({
-        particleCount: 150,
-        spread: 70,
-        origin: { y: 0.6 }
-    });
+    // --- 2. وظيفة إنشاء النجوم الطائرة (التي طلبتها) ---
+    function createFlyingStars(count) {
+        for (let i = 0; i < count; i++) {
+            const star = document.createElement('div');
+            star.className = 'star-fly';
+            
+            const size = Math.random() * 3 + 2 + 'px';
+            star.style.width = size;
+            star.style.height = size;
+            
+            // تبدأ من أماكن عشوائية أفقياً
+            star.style.left = Math.random() * 100 + '%';
+            
+            // سرعات طيران مختلفة (بين 10 و 25 ثانية)
+            const duration = Math.random() * 15 + 10 + 's';
+            star.style.setProperty('--duration', duration);
+            
+            // تأخير عشوائي في البداية عشان ميبدأوش كلهم مع بعض
+            star.style.animationDelay = Math.random() * 20 + 's';
 
-    // تجهيز رسالة الواتساب
-    var phone = "201003090216"; // اكتب رقمك هنا
-    var text = "يا بشمهندس أحمد.. أنا الطالب " + name + " 🔥%0a";
-    text += "خلصت الجزء اللي فات وجيت أقولك إنك " + opinion + "%0a%0a";
-    if(msg !== "") { text += "رسالتي ليك: " + msg + "%0a"; }
-    text += "%0aعارف إن الظروف ضاغطة بس مستنيين المنهج الجديد منك يا عالمي! 🚀";
+            container.appendChild(star);
+        }
+    }
 
-    // التحويل للواتساب بعد ثانية واحدة عشان يلحق يشوف الاحتفال
-    setTimeout(function() {
-        window.open("https://wa.me/" + phone + "?text=" + text, '_blank');
-    }, 1500);
+    // تشغيل النجوم فور تحميل الصفحة
+    createTwinklingStars(150); 
+    createFlyingStars(40);
+});
+
+// --- 3. محرك تشغيل أمثلة الأكواد (Compiler) ---
+function run(id) {
+    const codeArea = document.getElementById('code' + id);
+    const outputDiv = document.getElementById('out' + id);
+    
+    if (!codeArea || !outputDiv) return;
+
+    const code = codeArea.value;
+    outputDiv.innerHTML = "جاري المعالجة... 🚀";
+    outputDiv.style.color = "white";
+
+    // مصفوفة لتجميع نتايج الـ console.log
+    let logs = [];
+    const originalLog = console.log;
+    
+    // تحويل console.log عشان يكتب جوه الـ Div بتاعنا
+    console.log = (msg) => {
+        logs.push(msg);
+    };
+
+    try {
+        // تنفيذ الكود المكتوب في الـ Textarea
+        eval(code);
+        
+        // عرض النتائج
+        setTimeout(() => {
+            if (logs.length > 0) {
+                outputDiv.innerHTML = logs.join('<br>');
+            } else {
+                outputDiv.innerHTML = "تم التنفيذ بنجاح ✅";
+            }
+            outputDiv.style.color = "#00ffcc"; // لون أخضر فسفوري للنتايج الصح
+        }, 200);
+
+    } catch (error) {
+        outputDiv.innerHTML = "❌ خطأ: " + error.message;
+        outputDiv.style.color = "#ff4757"; // لون أحمر للغلط
+    }
+
+    // إرجاع الـ console.log لحالته الطبيعية
+    console.log = originalLog;
 }
 </script>
-
 </body>
 </html>

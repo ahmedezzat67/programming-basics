@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تحدي الـ 20 سؤال | الدرس التاسع 🚀</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --main-purple: #6c5ce7;
+            --main-pink: #ff4757;
+            --main-cyan: #00cec9;
+            --dark-gray: #2d3436;
+            --soft-bg: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 50%, #fbc2eb 100%);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
+        
+        body {
+            background: var(--soft-bg);
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex; align-items: center; justify-content: center;
+            padding: 20px; color: #2d3436; overflow-x: hidden;
+        }
+
+        #stars-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
+
+        .quiz-card {
+            width: 100%; max-width: 750px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            border-radius: 40px;
+            padding: 35px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.1);
+            text-align: center;
+            position: relative;
+        }
+
+        .progress-container {
+            width: 100%; height: 12px; background: #dfe6e9;
+            border-radius: 20px; margin-bottom: 25px; overflow: hidden;
+        }
+        .progress-bar {
+            width: 0%; height: 100%; background: linear-gradient(90deg, var(--main-purple), var(--main-pink));
+            transition: 0.6s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+        }
+
+        .question-number { color: var(--main-purple); font-weight: 900; font-size: 1.1rem; margin-bottom: 15px; }
+        .question-text { font-size: 1.5rem; font-weight: 800; margin-bottom: 25px; line-height: 1.6; }
+
+        .code-box {
+            direction: ltr; text-align: left;
+            background: var(--dark-gray); color: #a29bfe;
+            padding: 20px; border-radius: 15px;
+            margin-bottom: 25px; white-space: pre-wrap;
+            font-family: 'Fira Code', monospace; font-size: 1rem;
+            border-left: 6px solid var(--main-purple);
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+        }
+
+        .options-list { display: flex; flex-direction: column; gap: 12px; }
+        
+        .option {
+            background: #ffffff; padding: 16px; border-radius: 18px;
+            cursor: pointer; transition: 0.3s; font-size: 1.15rem;
+            border: 2px solid #edeff2; font-weight: 700;
+        }
+        
+        .option:hover { background: #f8f9ff; border-color: var(--main-purple); transform: scale(1.02); }
+        .option.correct { background: #d1fae5 !important; color: #065f46 !important; border-color: #34d399 !important; }
+        .option.wrong { background: #fee2e2 !important; color: #991b1b !important; border-color: #f87171 !important; }
+
+        /* شاشة النهاية مخفية افتراضياً */
+        #result-screen { display: none; }
+
+        .score-circle {
+            width: 140px; height: 140px; border-radius: 50%;
+            background: linear-gradient(135deg, var(--main-purple), var(--main-pink));
+            color: white; display: flex; align-items: center; justify-content: center;
+            font-size: 3.5rem; font-weight: 900; margin: 0 auto 25px;
+            border: 5px solid white; box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .final-btns { display: flex; flex-direction: column; gap: 12px; margin-top: 25px; }
+        .nav-btn {
+            text-decoration: none; padding: 16px; border-radius: 20px;
+            font-weight: 800; font-size: 1.1rem; transition: 0.3s;
+            border: none; cursor: pointer; color: white; display: block;
+        }
+        .primary-btn { background: var(--main-purple); }
+        .secondary-btn { background: var(--main-pink); }
+
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes twinkle { 0%, 100% { opacity: 0.3; transform: scale(0.8); } 50% { opacity: 1; transform: scale(1.2); } }
+    </style>
+</head>
+<body>
+
+    <div id="stars-container"></div>
+
+    <div class="quiz-card">
+        <div id="quiz-box">
+            <div class="progress-container"><div class="progress-bar" id="progress-bar"></div></div>
+            <div class="question-number" id="q-num">السؤال 1 من 20</div>
+            <div class="question-text" id="q-text">جاري تحميل السؤال...</div>
+            <div class="options-list" id="options-list"></div>
+        </div>
+
+        <div id="result-screen">
+            <div class="score-circle" id="final-score">0</div>
+            <h2 id="final-msg">أحسنتِ يا بطلة!</h2>
+            <p id="final-submsg" style="margin: 15px 0; font-size: 1.2rem;"></p>
+            <div class="final-btns">
+                <a href="l2_10.html" class="nav-btn secondary-btn">الدرس العاشر (القادم) ➡️</a>
+                <a href="l2_9.html" class="nav-btn" style="background: #00cec9;">مراجعة شرح الدرس التاسع 📖</a>
+                <button onclick="location.reload()" class="nav-btn" style="background:#636e72;">إعادة الاختبار 🔄</button>
+                <a href="lessons_term2.html" class="nav-btn primary-btn">العودة للرئيسية 🏠</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    const questions = [
+
+        // --- الأسئلة اللي إنت بعتها مع خياراتها وشرحها ---
+
+        {
+
+            q: "بصي للكود ده، إيه التعبير المناسب عشان نعرض الدرجات بالترتيب؟",
+
+            code: "let scoreList = [70, 80, 66, 88, 92];\nfor (  ) {\n  console.log(score);\n}",
+
+            a: ["let score of scoreList", "of score in scoreList", "score of scoreList", "let score in scoreList"],
+
+            c: 0,
+
+            explanation: "الصح هو 'let score of scoreList' لأننا بنستخدم 'of' مع المصفوفات عشان نعدي على القيم (Values) واحدة واحدة."
+
+        },
+
+        {
+
+            q: "يرجى اختيار ناتج الإخراج الصحيح للبرنامج أدناه:",
+
+            code: "let scoreList = [70, 80, 66, 88, 92];\nfor (let score of scoreList) {\n  if (score >= 80) {\n    console.log(score);\n  }\n}",
+
+            a: ["70 66", "92", "70 80 66 88 92", "80 88 92"],
+
+            c: 3,
+
+            explanation: "البرنامج بيعرض بس الأرقام اللي أكبر من أو تساوي 80، وهي (80، 88، 92)."
+
+        },
+
+        {
+
+            q: "إيه الكود اللي يعرض القيم من heightList اللي تساوي أو تزيد عن 150؟",
+
+            code: "let heightList = [154, 138, 140, 180, 170];",
+
+            a: ["if (height >= 150)", "if (height == 150)", "if (height < 150)", "if (height > 180)"],
+
+            c: 0,
+
+            explanation: "بما إننا عايزين 'تساوي أو تزيد'، بنستخدم علامة الأكبر من وجنبها اليساوي (>=)."
+
+        },
+
+        {
+
+            q: "لو كانت إجابة (الطول 140 أو أكثر) هي 'نعم'، وإجابة (العمر 12 أو أكثر) هي 'لا'.. إيه اللي يحصل؟",
+
+            a: ["يركب بمفرده", "لا يمكنه الركوب أبداً", "يركب إذا كان برفقة شخص يبلغ 18 سنة أو أكثر", "الكمبيوتر يطلّع Error"],
+
+            c: 2,
+
+            explanation: "حسب المخطط، لو الطول تمام بس السن صغير، الملاهي بتسمح بالركوب بشرط وجود مرافق بالغ (18 سنة)."
+
+        },
+
+        {
+
+            q: "لو إجابة الشرط الأول (الطول 140 سم أو أكثر) كانت 'لا' (False).. هل البرنامج هيشوف شرط العمر؟",
+
+            a: ["أيوة هيشوفه", "لا، مش هيشوفه وهيرفض الركوب فوراً", "هيسأل الأب والأم", "هيعمل Loop"],
+
+            c: 1,
+
+            explanation: "في الـ Nested If، لو الشرط الخارجي غلط (False)، الكمبيوتر بيتجاهل كل اللي جواه وبيروح لـ else الأخيرة."
+
+        },
+
+
+
+        // --- أسئلة مشابهة (خمس أسئلة إضافية بنفس الفكرة) ---
+
+        {
+
+            q: "لو عندنا دالة بتضرب 3 أرقام، إزاي نمرر لها الوسائط 3 و 5 و 10؟",
+
+            a: ["calculation3(3, 5, 10)", "calculation3(3 + 5 + 10)", "calculation3(3; 5; 10)", "calculation3 3, 5, 10"],
+
+            c: 0,
+
+            explanation: "الوسائط في الدالة بنفصل بينها بفاصلة عادية (,) وبنحطها بين قوسين."
+
+        },
+
+        {
+
+            q: "إزاي نعلن عن متغير num2 ونخزن فيه ناتج دالة بمدخلات (4, 4, 4)؟",
+
+            a: ["let num2 = calculation3(4, 4, 4);", "num2 == calculation3(4, 4, 4);", "let num2 : calculation3", "const num2 = (4,4,4)"],
+
+            c: 0,
+
+            explanation: "بنستخدم 'let' للإعلان، وعلامة '=' واحدة للإسناد، ونستدعي الدالة باسمها."
+
+        },
+
+        {
+
+            q: "في الكود ده، كلمة 'result' بتعمل إيه؟",
+
+            code: "function calculation3(a, b, c) {\n  let result = a * b * c;\n  return result;\n}",
+
+            a: ["بتطبع الناتج", "بتخزن ناتج الضرب مؤقتاً", "بتمسح الكود", "بتكرر العملية"],
+
+            c: 1,
+
+            explanation: "المتغير 'result' هنا وظيفته يشيل نتيجة العملية الحسابية عشان نرجعها بـ return."
+
+        },
+
+        {
+
+            q: "يعني إيه جملة 'return' في الدالة؟",
+
+            a: ["إعادة تشغيل الدالة", "إرجاع قيمة معينة كناتج للدالة", "الخروج من البرنامج", "تلوين الكود"],
+
+            c: 1,
+
+            explanation: "بدون return، الدالة هتنفذ الحسابات بس مش هتعرف تدينا الناتج نستخدمه بره."
+
+        },
+
+        {
+
+            q: "لو غيرنا الكود ليكون (height >= 140) و (age < 12)، ده معناه إيه؟",
+
+            a: ["طويل وكبير", "طويل بس سنه صغير", "قصير وكبير", "قصير وصغير"],
+
+            c: 1,
+
+            explanation: "العلامة (>=) يعني 140 فأكثر، والعلامة (<) يعني أقل من 12."
+
+        },
+
+
+
+        // --- بقية الـ 20 سؤال (أسئلة الدرس العامة) ---
+
+        { q: "في المخطط الانسيابي، إيه الشكل اللي بيمثل 'البداية والنهاية'؟", a: ["المعين", "المستطيل", "الشكل البيضاوي"], c: 2, explanation: "الشكل البيضاوي هو دايماً نقطة الانطلاق والوصول." },
+
+        { q: "إيه وظيفة العداد (Counter) في الكود؟", a: ["تغيير ألوان الصفحة", "عد مرات حدوث شرط معين", "مسح البيانات"], c: 1, explanation: "العداد وظيفته يراقب كام مرة الحاجة حصلت (زي عدد الطلاب الناجحين)." },
+
+        { q: "لما نكتب count++، ده معناه إيه؟", a: ["زود العداد 2", "نقص العداد 1", "زود العداد 1"], c: 2, explanation: "دي طريقة مختصرة لزيادة المتغير بمقدار 1." },
+
+        { q: "يعني إيه Nested If؟", a: ["شرط داخل شرط", "حذف الكود", "تكرار الكود للأبد"], c: 0, explanation: "زي ما شرحنا، هي شروط متداخلة معتمدة على بعضها." },
+
+        { q: "في المخطط الانسيابي، 'المعين' بيعبر عن إيه؟", a: ["عملية حسابية", "اتخاذ قرار (If)", "طباعة نص"], c: 1, explanation: "المعين هو اللي بنخرج منه بسهمين (نعم/لا) لاتخاذ القرار." },
+
+        { q: "لو الشرط الأول في الـ Nested If طلع False، هل التاني هيشتغل؟", a: ["أيوة طبعاً", "مستحيل يوصله أصلاً", "هيشتغل نص نص"], c: 1, explanation: "البرنامج بيقف عند أول بوابة مقفولة ومبيدخلش جوه." },
+
+        { q: "إيه هو الشكل اللي بنرسم فيه العمليات الحسابية (Process)؟", a: ["المستطيل", "المعين", "المثلث"], c: 0, explanation: "المستطيل للأفعال والعمليات الحسابية المباشرة." },
+
+        { q: "لو count كان 5 وعملنا count++، هيبقى كام؟", a: ["4", "6", "10"], c: 1, explanation: "بسيطة! 5 + 1 يساوي 6." },
+
+        { q: "ليه بنستخدم المخطط الانسيابي قبل الكود؟", a: ["عشان نتوه نفسنا", "عشان نرتب أفكارنا", "عشان البرنامج يبقى تقيل"], c: 1, explanation: "عشان نوفر وقت ونرسم خارطة طريق واضحة للمنطق." },
+
+        { q: "أهم حاجة اتعلمتيها في الدرس التاسع هي؟", a: ["التفكير المنطقي قبل الكود", "حفظ الكود صم", "تلوين الشاشة"], c: 0, explanation: "البرمجة مش حفظ، البرمجة هي فهم المنطق وكيفية حل المشكلات." }
+
+    ];
+
+
+    let currentQ = 0;
+    let score = 0;
+
+    function loadQuestion() {
+        const q = questions[currentQ];
+        document.getElementById('q-num').innerText = `السؤال ${currentQ + 1} من ${questions.length}`;
+        document.getElementById('q-text').innerText = q.q;
+        document.getElementById('progress-bar').style.width = `${(currentQ / questions.length) * 100}%`;
+        
+        const optionsBox = document.getElementById('options-list');
+        optionsBox.innerHTML = '';
+
+        if (q.code) {
+            const codeDiv = document.createElement('div');
+            codeDiv.className = 'code-box';
+            codeDiv.innerText = q.code;
+            optionsBox.appendChild(codeDiv);
+        }
+
+        q.a.forEach((opt, i) => {
+            const btn = document.createElement('div');
+            btn.className = 'option';
+            btn.innerText = opt;
+            btn.onclick = () => checkAnswer(i);
+            optionsBox.appendChild(btn);
+        });
+        
+        const oldFeedback = document.getElementById('feedback');
+        if(oldFeedback) oldFeedback.remove();
+    }
+
+    function checkAnswer(selected) {
+        const q = questions[currentQ];
+        const correct = q.c;
+        const options = document.querySelectorAll('.option');
+        options.forEach(opt => opt.style.pointerEvents = 'none');
+
+        const feedbackDiv = document.createElement('div');
+        feedbackDiv.id = 'feedback';
+        feedbackDiv.style.cssText = "margin-top:20px; padding:20px; border-radius:20px; font-weight:bold; line-height:1.8; animation: slideUp 0.5s ease-out;";
+
+        if(selected === correct) {
+            options[selected].classList.add('correct');
+            score++;
+            feedbackDiv.style.background = "#d1fae5";
+            feedbackDiv.style.color = "#065f46";
+            feedbackDiv.innerHTML = "✅ برافو عليكي! <br>" + q.explanation;
+        } else {
+            options[selected].classList.add('wrong');
+            options[correct].classList.add('correct');
+            feedbackDiv.style.background = "#fee2e2";
+            feedbackDiv.style.color = "#991b1b";
+            feedbackDiv.innerHTML = "❌ محتاجة تركيز.. <br>الصح هو: " + q.a[correct] + "<br>" + q.explanation;
+        }
+
+        document.getElementById('options-list').appendChild(feedbackDiv);
+
+        setTimeout(() => {
+            currentQ++;
+            if(currentQ < questions.length) {
+                loadQuestion();
+            } else {
+                showFinalResult();
+            }
+        }, 5000); 
+    }
+
+    function showFinalResult() {
+        document.getElementById('quiz-box').style.display = 'none';
+        document.getElementById('result-screen').style.display = 'block';
+        document.getElementById('progress-bar').style.width = '100%';
+        document.getElementById('final-score').innerText = score;
+        
+        let msg = score >= 15 ? "إنتِ أسطورة! 👑" : "محاولة جيدة! 💪";
+        let sub = score >= 15 ? "قفلتِ الامتحان يا برنسيسة البرمجة!" : "راجعي الدرس التاسع تاني وهتكوني أحسن!";
+        document.getElementById('final-msg').innerText = msg;
+        document.getElementById('final-submsg').innerText = sub;
+    }
+
+    // كود النجوم الأصلي (1000 نجمة وألوان عشوائية)
+    const container = document.getElementById('stars-container');
+    for (let i = 0; i < 1000; i++) {
+        const star = document.createElement('div');
+        const size = Math.random() * 4 + 1 + 'px';
+        star.style.position = 'absolute';
+        star.style.width = size; star.style.height = size;
+        star.style.background = ['#fff', '#e0f7fa', '#fce4ec'][Math.floor(Math.random()*3)];
+        star.style.borderRadius = '50%';
+        star.style.top = Math.random() * 100 + '%';
+        star.style.left = Math.random() * 100 + '%';
+        star.style.animation = `twinkle ${Math.random()*3 + 2}s infinite ease-in-out`;
+        star.style.boxShadow = '0 0 10px white';
+        container.appendChild(star);
+    }
+
+    loadQuestion();
+    </script>
+</body>
+</html>

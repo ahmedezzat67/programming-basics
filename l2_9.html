@@ -3,84 +3,357 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>رسالة من القلب | م. أحمد</title>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <title>موسوعة البرمجة | الدرس التاسع</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; margin: 0; padding: 20px; color: #333; }
-        .card { background: white; padding: 40px; border-radius: 30px; box-shadow: 0 20px 50px rgba(0,0,0,0.3); max-width: 550px; width: 100%; text-align: center; position: relative; overflow: hidden; }
-        .card::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 10px; background: linear-gradient(to left, #00c6ff, #0072ff); }
-        h1 { color: #1e3c72; font-size: 28px; margin-bottom: 15px; }
-        .intro-text { font-size: 18px; color: #555; line-height: 1.8; margin-bottom: 25px; }
-        .form-box { background: #f9f9f9; padding: 20px; border-radius: 20px; text-align: right; }
-        label { font-weight: bold; display: block; margin-bottom: 10px; color: #1e3c72; }
-        input, select, textarea { width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 12px; margin-bottom: 20px; font-size: 16px; transition: 0.3s; }
-        input:focus, select:focus { border-color: #0072ff; outline: none; }
-        .btn-send { background: #25d366; color: white; border: none; padding: 18px; border-radius: 50px; cursor: pointer; font-size: 20px; font-weight: bold; width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 10px 20px rgba(37, 211, 102, 0.3); }
-        .btn-send:hover { background: #128c7e; transform: scale(1.02); }
+        /* --- التصميم السماوي الوردي الفاخر --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
+        
+        body {
+            background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 50%, #fbc2eb 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            padding: 40px 0;
+            color: #2d3436;
+        }
+
+        #stars-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
+
+        .main-wrapper {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(30px);
+            border-radius: 60px;
+            padding: 60px;
+            box-shadow: 0 40px 100px rgba(0,0,0,0.1);
+            border: 2px solid rgba(255, 255, 255, 0.8);
+        }
+
+        header h1 { font-size: 4rem; font-weight: 900; color: #6c5ce7; text-align: center; margin-bottom: 10px; }
+        header p { text-align: center; font-size: 1.6rem; color: #ff4757; font-weight: 700; margin-bottom: 50px; }
+
+        /* ستايل الرغي الممتع */
+        .story-box {
+            background: white;
+            padding: 40px;
+            border-radius: 40px;
+            margin: 30px 0;
+            border-right: 15px solid #6c5ce7;
+            box-shadow: 10px 10px 30px rgba(108, 92, 231, 0.1);
+            font-size: 1.4rem;
+            line-height: 2.2;
+            position: relative;
+        }
+
+        .story-box::before {
+            content: "💡 فكر عالي";
+            position: absolute;
+            top: -20px; right: 40px;
+            background: #6c5ce7; color: white;
+            padding: 5px 20px; border-radius: 20px; font-size: 1rem;
+        }
+
+        .highlight { color: #6c5ce7; font-weight: 900; background: #eeeafb; padding: 2px 10px; border-radius: 10px; }
+
+        /* محرر كود "شيك جداً" */
+        .modern-editor {
+            background: #2d3436;
+            border-radius: 30px;
+            margin: 40px 0;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            border: 8px solid #dfe6e9;
+            overflow: hidden;
+        }
+
+        .editor-header {
+            background: #1e272e;
+            padding: 15px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .dots { display: flex; gap: 8px; }
+        .dot { width: 15px; height: 15px; border-radius: 50%; }
+        .red { background: #ff5f56; } .yellow { background: #ffbd2e; } .green { background: #27c93f; }
+
+        .editor-textarea {
+            width: 100%; height: 220px;
+            background: #2d3436; color: #a29bfe;
+            padding: 25px; border: none; outline: none;
+            font-family: 'Fira Code', monospace; font-size: 1.2rem;
+            line-height: 1.6; direction: ltr; text-align: left;
+            resize: none;
+        }
+
+        .run-btn {
+            background: linear-gradient(45deg, #6c5ce7, #a29bfe);
+            color: white; border: none; padding: 12px 35px;
+            border-radius: 20px; cursor: pointer; font-weight: 900;
+            font-size: 1.1rem; transition: 0.3s;
+        }
+
+        .run-btn:hover { transform: scale(1.05); filter: brightness(1.2); }
+
+        .output-panel {
+            background: #1e272e; color: #55efc4;
+            padding: 20px 30px; font-family: 'Fira Code', monospace;
+            border-top: 1px solid #485e6b; min-height: 80px;
+            font-size: 1.1rem; display: flex; align-items: center;
+        }
+
+        /* أزرار التحكم السفلى */
+        .bottom-nav {
+            display: flex; justify-content: space-between; margin-top: 60px;
+            flex-wrap: wrap; gap: 20px;
+        }
+
+        .nav-card {
+            background: white; padding: 20px 40px; border-radius: 25px;
+            text-decoration: none; color: #6c5ce7; font-weight: 900;
+            font-size: 1.2rem; transition: 0.3s; box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            border: 2px solid transparent;
+        }
+
+        .nav-card:hover { border-color: #6c5ce7; transform: translateY(-5px); }
+
+        .quiz-giant-btn {
+            display: block; width: 100%; background: #ff4757;
+            color: white; text-align: center; padding: 30px;
+            border-radius: 40px; font-size: 2rem; font-weight: 900;
+            text-decoration: none; margin-top: 40px;
+            box-shadow: 0 20px 40px rgba(255, 71, 87, 0.3);
+            transition: 0.5s;
+        }
+
+        .quiz-giant-btn:hover { background: #ff6b81; letter-spacing: 2px; }
+
     </style>
 </head>
 <body>
 
-<div class="card">
-    <h1>يا بطل.. أنت عملتها! 🏆</h1>
-    <p class="intro-text">
-        وصولك لهنا معناه إنك "وحش برمجة" حقيقي وخلصت شوط كبير. أنا حالياً بجهز لك باقي المنهج بتركيز عالي جداً.. 
-        <br><b>"الظروف ضاغطة شوية بس مكملين عشانك"</b> ❤️
-    </p>
+    <div id="stars-container"></div>
 
-    <div class="form-box">
-        <label>إسمك اللي هيتكتب في لوحة الشرف:</label>
-        <input type="text" id="name" placeholder="اكتب اسمك يا هندسة...">
+    <div class="main-wrapper">
+     <header>
+            <h1>الدرس التاسع: المخططات والذكاء المنطقي 🧠</h1>
+            <p>إزاي نخطط زي المحترفين ونعدّ زي الكمبيوتر بالملّي!</p>
+        </header>
 
-        <label>إيه رأيك في رحلتنا مع بعض؟</label>
-        <select id="opinion">
-            <option value="شرحك غير حياتي وبسط لي المستحيل">شرحك غير حياتي وبسط لي المستحيل 💎</option>
-            <option value="أنت مش مجرد مدرس، أنت قدوة لينا">أنت مش مجرد مدرس، أنت قدوة لينا 🌟</option>
-            <option value="طريقتك في البرمجة ممتعة ومختلفة عن أي حد">طريقتك في البرمجة ممتعة ومختلفة عن أي حد 🚀</option>
-            <option value="فخور إني بتعلم على إيد بشمهندس زيك">فخور إني بتعلم على إيد بشمهندس زيك 👑</option>
-        </select>
+        <div class="story-box">
+            بصي يا ستي، إحنا النهاردة مش بنتعلم كود وبس، إحنا بنتعلم "هندسة تفكير". 
+            عارفة يعني إيه <span class="highlight">مخطط انسيابي (Flowchart)</span>؟ 
+            تخيلي يا قمر إنك قررتي فجأة تنظمي "خروجة" كبيرة ليكي ولصحباتك الـ 15، وعايزة تروحي مكان معين بس فيه شروط كتير (لازم المكان يكون هادي، ولازم يكون فيه أكل بتحبوه، ولازم السعر يكون مناسب، ولازم الكل يوافق).
+            <br><br>
+            هل هتروحي تحجزي وتكلمي البنات وتقولي يلا بينا من غير ما ترتبي في دماغك "لو حصل كذا هنعمل كذا؟" أكيد لأ! هتقعدي تمسكي ورقة وقلم وتعملي "خريطة" للخروجة. المخطط الانسيابي ده بقى هو "الخريطة" اللي بنرسمها للكود قبل ما نكتبه.
+            <br><br>
+            <h3 style="color: #6c5ce7; margin-top: 20px;">🎀 ليه المخطط ده هو "صديقك الصدوق" في البرمجة؟</h3>
+            تخيلي لو بتعملي برنامج بيحدد للبنت "تحط ميك أب إيه" على حسب المناسبة. 
+            لو المناسبة (فرح) هتمشي في طريق، ولو المناسبة (جامعة) هتمشي في طريق تاني خالص، ولو (خروجة عادية) طريق تالت. 
+            المخطط بيخليكي تشوفي الطرق دي قدام عينيكي مرسومة، عشان ما تجيش في نص الكود وتتلخبطي وتخلي البنت تروح الجامعة بميك أب سواريه! 
+            <br><br>
+            <h3 style="color: #6c5ce7; margin-top: 20px;">🔶 بطل الحكاية: "المعين" (القرار الصعب)</h3>
+            المخطط ده بيستخدم أشكال هندسية، بس بطلنا النهاردة هو <span class="highlight">المعين</span>. المعين ده هو اللحظة اللي الكمبيوتر بيفكر فيها زينا بالظبط. 
+            هو "مفترق الطرق" (الـ **IF**). 
+            <br>
+            تخيلي المعين ده هو سؤال: **"هل الشنطة دي لايقة على الطقم؟"**
+            - لو الإجابة **"أيوة" (True)**: الكود بيمشي في طريق (اشتري الشنطة).
+            - لو الإجابة **"لأ" (False)**: الكود بيمشي في طريق تاني خالص (دوري على محل تاني).
+            <br><br>
+            <h3 style="color: #ff4757;">🚪 يعني إيه Nested IF؟ (شرط جوه شرط)</h3>
+            ده بقى عامل زي لما تكوني بتدوري على "روج" معين في شنطتك الكبيرة. 
+            **الشرط الأول:** هل لقيتي الشنطة؟ (لو أيوة، ادخلي جوه).
+            **الشرط الثاني:** هل الروج اللي لقيتيه لونه أحمر؟ (لو أيوة، استخدميه).
+            <br>
+            شفتي؟ إنتِ مش هتدوري على اللون غير لما تلاقي الشنطة الأول! المخطط الانسيابي بيوريكي الأبواب دي وهي بتفتح لبعضها، فمستحيل تتوهي أو تفتحي باب قبل باب. ده بيخليكي تتخيلي الـ <b>Nested IF</b> وتعرفي كل طريق آخره فين من غير ما دماغك تسيح في الأكواد الكتير.
+            <br><br>
+            المخطط بيخلينا نرتب أفكارنا، وبدل ما الكود يكون "شخبطة" وداخل في بعضه، بيبقى منظم وشيك زي تسريحتك بالظبط!
+        </div>
+<hr style="border: 2px dashed #a29bfe; margin: 50px 0;">
 
-        <label>كلمة منك تشجعني أخلص لك المنهج الجديد:</label>
-        <textarea id="message" rows="3" placeholder="قولي أي حاجة في سرك..."></textarea>
+        <div class="story-box">
+            <b>المثال الأول: حكايتنا مع الـ Counter (جهاز العد السحري) 🔢</b>
+            <br><br>
+            بصي يا ستي، تخيلي إنك النهاردة "المنظمة" (The Organizer) بتاعة حفلة عيد ميلاد صاحبتك. ومعاكي قائمة طويلة فيها أسماء كل البنات اللي معزومين. إنتِ محتاجة تعرفي بالظبط هتحجزي كام كرسي؟ فبتسألي كل واحدة: "إنتِ جاهزة وجاية (Ready) ولا لأ؟".
+            <br><br>
+            في البرمجة، إحنا مش هنعد بعينينا، إحنا بنعمل حاجة ذكية جداً. بنجيب "علبة فاضية" ونسميها <span class="highlight">count</span> ونحط فيها رقم (0). وبعدين بنقول للكود: "لف يا بطل على اسم اسم في القائمة دي".
+            <br>
+            أول ما تلاقي كلمة **"Ready"**، إعمل عملية <span class="highlight">count++</span>. 
+            <br><br>
+            <b>يعني إيه count++ دي بالملّي؟</b>
+            دي معناها "يا عداد، القيمة اللي جواك زود عليها 1". يعني لو كان فيها 0 تبقى 1، ولو 1 تبقى 2.. وهكذا. في آخر اللفة، العداد ده هيكون فيه "الخلاصة"، يعني عدد البنات اللي أكدوا الحضور فعلاً. شفتي السهولة؟ بدل ما تعدي 100 اسم، الكود بيخلصها في ثانية!
+        </div>
+
+        <div class="modern-editor animate__animated animate__fadeIn">
+            <div class="editor-header">
+                <div class="dots"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div>
+                <button class="run-btn" onclick="execute(1)">تجربة الكود السحرية ▶</button>
+            </div>
+            <textarea id="ed1" class="editor-textarea">
+let girls = ["Ready", "No", "Ready", "Ready", "No", "Ready"];
+let count = 0; // العلبة بتبدأ فاضية
+
+for (let girl of girls) {
+    if (girl == "Ready") {
+        count++; // زود 1 لو لقيت البنت جاهزة
+    }
+}
+console.log("إجمالي الكراسي المطلوبة: " + count);</textarea>
+            <div id="out1" class="output-panel">النتيجة هتظهر هنا...</div>
+        </div>
+
+        <div class="story-box">
+            <b>المثال الثاني: لغة الأرقام (مين اللي شرفونا ونجحوا؟) 🎓</b>
+            <br><br>
+            الكمبيوتر مش بس بيفهم كلام زي "Ready"، ده أستاذ ورئيس قسم في الأرقام والمقارنات. تخيلي إن دي قائمة درجات امتحان "البرمجة" للبنات. إحنا عايزين نعرف كام بنت "بطلة" قدرت تعدي حاجز الـ 50 درجة وتنجح.
+            <br><br>
+            هنا بقى بنستخدم الـ <span class="highlight">Comparison Operators</span> (علامات المقارنة). بنقول للكود: "شوف لي كل درجة، هل هي (أكبر من أو تساوي 50)؟". 
+            لو الشرط ده <span class="highlight">True</span>، العداد بتاع الناجحات (winners) هينط لفوق ويتحرك. 
+            <br><br>
+            <b>فائدة الحركة دي إيه؟</b> 
+            تخيلي لو عندك 1000 طالبة، هل هتقعدي تمسكي ورقة وقلم وتعدي؟ طبعاً لأ! الكود ده بيعمل "فلترة" (Filter) سريعة جداً وبيديكي الصافي في لحظة. وده اللي بيحصل في نتيجتك في المدرسة بالظبط!
+        </div>
+
+        <div class="modern-editor animate__animated animate__fadeIn">
+            <div class="editor-header">
+                <div class="dots"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div>
+                <button class="run-btn" onclick="execute(2)">تشغيل عداد النجاح ▶</button>
+            </div>
+            <textarea id="ed2" class="editor-textarea">
+let grades = [40, 55, 90, 30, 85, 100, 48];
+let winners = 0; // عداد الناجحات
+
+for (let g of grades) {
+    if (g >= 50) {
+        winners++; // لو الدرجة 50 أو أكتر، زود العداد
+    }
+}
+console.log("عدد البنات الناجحات: " + winners);</textarea>
+            <div id="out2" class="output-panel">النتيجة هتظهر هنا...</div>
+        </div>
+
+        <div class="story-box">
+            <b>المثال الثالث: الـ Nested If (متاهة القرارات الذكية) 👗🛍️</b>
+            <br><br>
+            دلوقتي بقى هنلعب تقيل! تخيلي إنك في "براند" غالي جداً في المول، وشفتي فستان يجنن. بس المحل ده عنده قوانين صارمة شوية. 
+            <br><br>
+            <b>أول باب (الشرط الأول):</b> لازم يكون معاكي "فيزا كارد" عشان تدخل قسم الفساتين السواريه.
+            <br>
+            <b>تاني باب (الشرط الثاني):</b> لو معاكي الفيزا، لازم نتأكد إن "الرصيد" اللي فيها أكتر من 500 جنيه عشان تقدري تدفعي.
+            <br><br>
+            شفتي اللي حصل؟ إنتِ محبوسة جوه "قرارين". لو الأول باظ (معاكيش فيزا)، مش هتبصي أصلاً على الرصيد! 
+            وده اللي بنسميه في البرمجة <span class="highlight">Nested If</span> أو "If المتداخلة". 
+            <br><br>
+            المخطط الانسيابي هنا هو اللي "بينور" ليكي الطريق. بيوريكي إن فيه "معين" (قرار) جوه "معين" تاني. لو تفتحي الباب الأول، تلاقي نفسك قدام الباب التاني. لو فتحتيه، مبروك الفستان عليكي! 
+            ده بيعلمنا إزاي نبني أنظمة معقدة زي (تسجيل الدخول، الدفع الإلكتروني، أو حتى ألعاب الفيديو).
+        </div>
+        
+
+        <div class="modern-editor animate__animated animate__fadeIn">
+            <div class="editor-header">
+                <div class="dots"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div>
+                <button class="run-btn" onclick="execute(3)">فحص الفيزا والرصيد ▶</button>
+            </div>
+            <textarea id="ed3" class="editor-textarea">
+let hasVisa = true; // هل معاكي فيزا؟
+let balance = 1000; // رصيدك كام؟
+
+if (hasVisa == true) {
+    // الباب الأول اتفتح!
+    if (balance > 500) {
+        // الباب التاني اتفتح!
+        console.log("تمت العملية بنجاح! الفستان ليكي 👗✨");
+    } else {
+        console.log("للأسف، الفيزا موجودة بس الرصيد خلصان 💸");
+    }
+} else {
+    console.log("لازم تطلعي فيزا كارد الأول يا فنانة 💳");
+}</textarea>
+            <div id="out3" class="output-panel">النتيجة هتظهر هنا...</div>
+        </div>
+
+        <a href="quiz_lesson_9.html" class="quiz-giant-btn">🚀 يلا بينا على الاختبار!</a>
+
+        <div class="bottom-nav">
+            <a href="l2_8.html" class="nav-card">⬅️ الدرس الثامن</a>
+            <a href="lessons_term2.html" class="nav-card">🏠 الصفحة الرئيسية</a>
+            <a href="l2_10.html" class="nav-card">الدرس العاشر ➡️</a>
+        </div>
     </div>
 
-    <br>
-    <button class="btn-send" onclick="celebrateAndSend()">
-        إرسال ودخول لمجتمع المهندسين ✅
-    </button>
-</div>
+    <script>
+       // سحر النجوم المتلألئة المطور - المجرة الكاملة 🌌
+const starsContainer = document.getElementById('stars-container');
 
-<script>
-function celebrateAndSend() {
-    var name = document.getElementById("name").value;
-    var opinion = document.getElementById("opinion").value;
-    var msg = document.getElementById("message").value;
+// دالة لإنشاء النجوم بأحجام وأنواع مختلفة
+function createGalaxy() {
+    const starCount = 100; // قللنا العدد شوية عشان الأداء وزودنا الجودة والأحجام
 
-    if (name === "") {
-        alert("اكتب اسمك يا بطل عشان أعرف مين بيكلمني!");
-        return;
+    for (let i = 0; i < starCount; i++) {
+        const star = document.createElement('div');
+        
+        // أحجام عشوائية: فيه نجوم صغيرة (نقط) ونجوم كبيرة (كأنها كواكب)
+        const size = Math.random() * 8 + 1 + 'px'; 
+        
+        star.style.position = 'absolute';
+        star.style.width = size;
+        star.style.height = size;
+        
+        // ألوان سماوية ناعمة (أبيض، لبني فاتح، وردي هادي)
+        const colors = ['#ffffff', '#e0f7fa', '#fce4ec', '#fff9c4'];
+        star.style.background = colors[Math.floor(Math.random() * colors.length)];
+        
+        star.style.borderRadius = '50%';
+        
+        // توزيع عشوائي في كل الصفحة
+        star.style.top = Math.random() * 100 + '%';
+        star.style.left = Math.random() * 100 + '%';
+        
+        // تأثير التوهج (Shadow) بيخلي النجمة منورة بجد
+        const glow = Math.random() * 15 + 5 + 'px';
+        star.style.boxShadow = `0 0 ${glow} ${star.style.background}`;
+        
+        // إضافة أنيميشن "النبض" عشان النجوم تنور وتطفي
+        const duration = Math.random() * 3 + 2 + 's';
+        const delay = Math.random() * 5 + 's';
+        
+        star.style.animation = `twinkle ${duration} infinite ease-in-out ${delay}`;
+        
+        starsContainer.appendChild(star);
     }
-
-    // تشغيل القصاصات الملونة (تفاعلات بتطير)
-    confetti({
-        particleCount: 150,
-        spread: 70,
-        origin: { y: 0.6 }
-    });
-
-    // تجهيز رسالة الواتساب
-    var phone = "201003090216"; // اكتب رقمك هنا
-    var text = "يا بشمهندس أحمد.. أنا الطالب " + name + " 🔥%0a";
-    text += "خلصت الجزء اللي فات وجيت أقولك إنك " + opinion + "%0a%0a";
-    if(msg !== "") { text += "رسالتي ليك: " + msg + "%0a"; }
-    text += "%0aعارف إن الظروف ضاغطة بس مستنيين المنهج الجديد منك يا عالمي! 🚀";
-
-    // التحويل للواتساب بعد ثانية واحدة عشان يلحق يشوف الاحتفال
-    setTimeout(function() {
-        window.open("https://wa.me/" + phone + "?text=" + text, '_blank');
-    }, 1500);
 }
-</script>
 
+// إضافة ستايل الأنيميشن في الـ CSS برضه عشان يشتغل
+const style = document.createElement('style');
+style.innerHTML = `
+    @keyframes twinkle {
+        0%, 100% { opacity: 0.3; transform: scale(0.8); }
+        50% { opacity: 1; transform: scale(1.2); }
+    }
+`;
+document.head.appendChild(style);
+
+createGalaxy();
+
+        // دالة تشغيل الكود السحرية
+        function execute(id) {
+            const code = document.getElementById('ed' + id).value;
+            const output = document.getElementById('out' + id);
+            let logs = [];
+            const oldLog = console.log;
+            console.log = (m) => logs.push(m);
+            
+            try {
+                eval(code);
+                output.innerHTML = "💻 النتيجة: " + logs.join("<br>");
+                output.style.color = "#55efc4";
+            } catch (e) {
+                output.innerHTML = "❌ غلطة بسيطة: " + e.message;
+                output.style.color = "#ff7675";
+            }
+            console.log = oldLog;
+        }
+    </script>
 </body>
 </html>
